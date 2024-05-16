@@ -1,0 +1,19 @@
+package kr.pandadong2024.babya.login
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kr.pandadong2024.babya.proto.UserRepository
+import kotlinx.coroutines.launch
+
+
+class LoginViewModel(private val repository: UserRepository): ViewModel() {
+    val flow = repository.flow
+
+    fun setUserData(accessToken : String, refreshToken : String){
+        viewModelScope.launch { repository.updateUserData(accessToken, refreshToken) }
+    }
+
+    fun clearUserData(){
+        viewModelScope.launch { repository.clearUserData() }
+    }
+}

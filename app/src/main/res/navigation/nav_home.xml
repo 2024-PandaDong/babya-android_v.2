@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_home"
+    app:startDestination="@id/mainFragment">
+    <fragment
+        android:id="@+id/findCompanyFragment"
+        android:name="kr.pandadong2024.babya.home.find_company.FindCompanyFragment"
+        android:label="d"
+        tools:layout="@layout/fragment_find_company" />
+    <fragment
+        android:id="@+id/dashBoardFragment"
+        android:name="kr.pandadong2024.babya.home.dash_board.DashBoardFragment"
+        android:label="a"
+        tools:layout="@layout/fragment_dash_board" />
+    <fragment
+        android:id="@+id/diaryFragment"
+        android:name="kr.pandadong2024.babya.home.diary.DiaryFragment"
+        android:label="s"
+        tools:layout="@layout/fragment_diary" />
+
+    <fragment
+        android:id="@+id/todoListFragment"
+        android:name="kr.pandadong2024.babya.home.todo_list.TodoListFragment"
+        android:label="g"
+        tools:layout="@layout/fragment_todo_list" />
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="kr.pandadong2024.babya.home.profile.ProfileFragment"
+        android:label="f"
+        tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="kr.pandadong2024.babya.home.main.MainFragment"
+        android:label="fragment_main"
+        tools:layout="@layout/fragment_main" />
+
+</navigation>

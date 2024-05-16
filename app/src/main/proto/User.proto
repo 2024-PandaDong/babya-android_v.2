@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+option java_package = "com.example.babya_android.datastore";
+option java_multiple_files = true;
+
+message User{
+  string accessToken = 1;
+  string refreshToken = 2;
+}
