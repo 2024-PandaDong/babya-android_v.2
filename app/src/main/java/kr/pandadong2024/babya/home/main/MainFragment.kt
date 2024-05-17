@@ -21,11 +21,8 @@ class MainFragment : Fragment() {
 
         val txtHello = binding.titleText
         val text = "Hello World!"
-//        val purple = ContextCompat.getColor(requireContext(), R.color.yellow)
-//        val teal = ContextCompat.getColor(requireContext(), R.color.blue)
-        val spannable = text.toSpannable()
-//        spannable[0..text.length] = LinearGradient(0.0f,0.0f,0.0f,0.0f, teal, purple, Shader.TileMode.CLAMP)
-        txtHello.text = spannable
+        binding.radioGroup.check(binding.maternityInfo.id)
+
         return binding.root
     }
 }

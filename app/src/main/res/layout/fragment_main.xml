@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".home.main.MainFragment">
+    tools:context=".home.main.MainFragment"
+    android:background="@color/white">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/app_bar"
@@ -36,28 +37,63 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/app_bar"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintBottom_toBottomOf="parent"
+        >
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <RadioGroup
+                android:checkedButton="@id/maternity_info"
                 android:id="@+id/radioGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginTop="14dp"
                 android:layout_marginStart="20dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:foregroundGravity="center"
+                >
 
                 <RadioButton
+                    android:id="@+id/maternity_info"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/selector_main_underbar"
+                    android:button="@null"
+                    android:text="임산부"
+                    android:paddingHorizontal="3dp"
+                    android:fontFamily="@font/pretendard_bold"
+                    android:gravity="bottom"
+                    android:textSize="16sp"
+
+                    android:checked="true"
+                    />
                 <RadioButton
+                    android:id="@+id/locale_info"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+
+                    android:background="@drawable/selector_main_underbar"
+                    android:button="@null"
+                    android:text="지역별"
+                    android:paddingHorizontal="3dp"
+                    android:fontFamily="@font/pretendard_bold"
+                    android:gravity="bottom"
+                    android:textSize="16sp"
+
+                    android:checked="false"/>
 
             </RadioGroup>
+<!--            <ImageView-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="200dp"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/radioGroup"-->
+<!--                -->
+
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

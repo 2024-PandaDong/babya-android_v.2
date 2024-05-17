@@ -2,11 +2,11 @@ package kr.pandadong2024.babya.server.responses
 
 import com.google.gson.annotations.SerializedName
 
-data class SignupResponse(
+data class BaseResponse<T>(
     @field:SerializedName("status")
     val status: Int,
     @field:SerializedName("message")
     val message: String,
     @field:SerializedName("data")
-    val data: TokenData,
+    val data: T,
 )
