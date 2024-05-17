@@ -62,6 +62,7 @@ protobuf {
 dependencies {
 
     implementation(libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.circleimageview)
 
     implementation(libs.firebase.firestore.ktx)
     implementation(libs.androidx.activity.v190)
