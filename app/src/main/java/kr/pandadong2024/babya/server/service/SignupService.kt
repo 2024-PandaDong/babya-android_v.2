@@ -2,9 +2,7 @@ package kr.pandadong2024.babya.server.service
 
 import kr.pandadong2024.babya.server.request.SignUpRequest
 import kr.pandadong2024.babya.server.responses.BaseResponse
-import kr.pandadong2024.babya.server.responses.EmailResponse
-import kr.pandadong2024.babya.server.responses.SignupResponse
-import kr.pandadong2024.babya.server.responses.TokenData
+import kr.pandadong2024.babya.server.responses.TokenDataResponses
 import retrofit2.http.Body
 import retrofit2.http.POST
 import retrofit2.http.Query
@@ -13,7 +11,7 @@ interface SignupService {
     @POST("/auth/join")
     suspend fun postSignup(
         @Body body: SignUpRequest
-    ): BaseResponse<TokenData>
+    ): BaseResponse<TokenDataResponses>
 
     @POST("/auth/email-send")
     suspend fun postEmailSend(

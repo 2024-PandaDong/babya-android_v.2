@@ -8,5 +8,5 @@ data class SignupResponse(
     @field:SerializedName("message")
     val message: String,
     @field:SerializedName("data")
-    val data: TokenData,
+    val data: TokenDataResponses,
 )
