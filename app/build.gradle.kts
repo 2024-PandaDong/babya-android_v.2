@@ -60,6 +60,7 @@ protobuf {
 }
 
 dependencies {
+    implementation(libs.coil)
 
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.circleimageview)
