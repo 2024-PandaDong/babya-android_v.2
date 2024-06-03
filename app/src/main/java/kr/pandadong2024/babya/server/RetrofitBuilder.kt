@@ -1,12 +1,23 @@
 package kr.pandadong2024.babya.server
 
+import android.util.Log
 import com.babya.server.service.LoginService
-import kr.pandadong2024.babya.server.service.SignupService
+import kr.pandadong2024.babya.server.remote.service.SignupService
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import kr.pandadong2024.babya.server.service.MainService
+import kr.pandadong2024.babya.server.local.BabyaDB
+import kr.pandadong2024.babya.server.local.TokenDAO
+import kr.pandadong2024.babya.server.remote.interceptor.TokenInterceptor
+import kr.pandadong2024.babya.server.remote.service.MainService
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.security.SecureRandom
+import java.security.cert.X509Certificate
+import javax.net.ssl.SSLContext
+import javax.net.ssl.TrustManager
+import javax.net.ssl.X509TrustManager
 
 class RetrofitBuilder {
     companion object{
@@ -15,12 +26,15 @@ class RetrofitBuilder {
         private var loginService: LoginService? = null
         private var signupService: SignupService? = null
         private var mainService: MainService? = null
+        private var httpClient : OkHttpClient? = null
+        private var tokenDao: TokenDAO? = null
 
         @Synchronized
         fun getGson(): Gson? {
             if (gson == null) {
                 gson = GsonBuilder().setLenient().create()
             }
+
             return gson
         }
 
@@ -33,6 +47,100 @@ class RetrofitBuilder {
                     .build()
             }
             return retrofit!!
+        }
+        @Synchronized
+        fun getHttpRetrofit(): Retrofit {
+            Log.d("test", "in get")
+            if (retrofit == null) {
+                retrofit = Retrofit.Builder()
+                    .baseUrl(Url.serverUrl)
+                    .client(getOhHttpClient())
+                    .addConverterFactory(GsonConverterFactory.create(getGson()!!))
+                    .build()
+            }
+            return retrofit!!
+        }
+
+        @Synchronized
+        fun getHttpTokenRetrofit(): Retrofit {
+            if (retrofit == null) {
+                retrofit = Retrofit.Builder()
+                    .baseUrl(Url.serverUrl)
+                    .client(getTokenOkHttpClient())
+                    .addConverterFactory(GsonConverterFactory.create(getGson()!!))
+                    .build()
+            }
+            return retrofit!!
+        }
+
+        @Synchronized
+        fun getOhHttpClient(): OkHttpClient {
+            val interceptor = HttpLoggingInterceptor().apply {
+                level = HttpLoggingInterceptor.Level.BODY
+            }
+            tokenDao = BabyaDB.getInstanceOrNull()?.tokenDao()
+//            val okhttpBuilder = OkHttpClient().newBuilder()
+//                .addInterceptor(interceptor)
+//                .apply {
+//                    addInterceptor { chain ->
+//                    val request = chain.request().newBuilder().addHeader(
+//                        "Authorization",
+//                        tokenDao?.getMembers()!!.accessToken
+//                    ).build()
+//                    Log.i("TAG", "${chain.request()}")
+//                    chain.proceed(request)
+//                    }
+//                }
+            val httpClient = OkHttpClient.Builder().apply {
+                addNetworkInterceptor { chain ->
+                    Log.i("TAG", "${chain.request()}")
+                    tokenDao?.getMembers()?.let {
+                        val request = chain.request().newBuilder().addHeader(
+                            "Authorization",
+                            "Bearer ${it.accessToken}"
+                        ).build()
+                        chain.proceed(request)
+                    } ?: chain.proceed(chain.request())
+                }
+            }
+//            httpClient.addNetworkInterceptor()
+            return httpClient.build()
+        }
+
+        @Synchronized // 로그인 일회용
+        fun getTokenOkHttpClient(): OkHttpClient {
+            val interceptor = HttpLoggingInterceptor()
+            interceptor.level = HttpLoggingInterceptor.Level.BODY
+            val okhttpBuilder = OkHttpClient().newBuilder()
+                .addInterceptor(interceptor)
+                .addInterceptor(TokenInterceptor())
+
+
+            val trustAllCerts = arrayOf<TrustManager>(object : X509TrustManager {
+                override fun checkClientTrusted(
+                    chain: Array<out X509Certificate>?,
+                    authType: String?
+                ) {
+                }
+                override fun checkServerTrusted(
+                    chain: Array<out X509Certificate>?,
+                    authType: String?
+                ) {
+                }
+
+                override fun getAcceptedIssuers(): Array<X509Certificate> {
+                    return arrayOf()
+                }
+            })
+
+            val sslContext = SSLContext.getInstance("SSL")
+            sslContext.init(null, trustAllCerts, SecureRandom())
+
+            val sslSocketFactory = sslContext.socketFactory
+
+            okhttpBuilder.sslSocketFactory(sslSocketFactory, trustAllCerts[0] as X509TrustManager)
+            okhttpBuilder.hostnameVerifier { hostname, session -> true }
+            return okhttpBuilder.build()
         }
 
         fun getLoginService(): LoginService{
@@ -48,9 +156,9 @@ class RetrofitBuilder {
             }
             return signupService!!
         }
-        fun getMainService() : MainService{
+        fun getMainService() : MainService {
             if (mainService == null){
-                mainService = getRetrofit().create(MainService::class.java)
+                mainService = getHttpRetrofit().create(MainService::class.java)
             }
             return mainService!!
         }

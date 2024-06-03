@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_gravity="center"
+    >
+    <androidx.cardview.widget.CardView
+        android:id="@+id/rank_card_view"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_gravity="center"
+        app:cardCornerRadius="10dp"
+        android:outlineProvider="none">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/sp_item_background">
+            <ImageView
+                android:id="@+id/company_image"
+                android:src="@mipmap/ic_launcher"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/companyText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/rank_card_view"
+        app:layout_constraintStart_toStartOf="@id/rank_card_view"
+        app:layout_constraintEnd_toEndOf="@id/rank_card_view"
+        android:text="대충 이름"
+        android:fontFamily="@font/pretendard_bold"
+        android:layout_marginTop="6dp"
+        android:autoSizeTextType="uniform"
+        android:autoSizeMaxTextSize="15dp"
+        android:autoSizeMinTextSize="3dp"
+
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

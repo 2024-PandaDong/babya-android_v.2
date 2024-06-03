@@ -1,17 +1,43 @@
 package kr.pandadong2024.babya.home.main
 
+import android.content.Context
+import android.content.Intent
+import android.graphics.drawable.BitmapDrawable
+import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
+import coil.ComponentRegistry
+import coil.ImageLoader
+import coil.decode.SvgDecoder
+import coil.load
+import coil.request.ImageRequest
 import kr.pandadong2024.babya.databinding.ItemBanerCardBinding
-import kr.pandadong2024.babya.server.responses.BannerResponses
+import kr.pandadong2024.babya.server.remote.responses.BannerResponses
 
-class BannerAdapter : RecyclerView.Adapter<BannerAdapter.PagerViewHolder>() {
+
+class BannerAdapter(val context: Context) : RecyclerView.Adapter<BannerAdapter.PagerViewHolder>() {
     inner class PagerViewHolder(private val binding : ItemBanerCardBinding): RecyclerView.ViewHolder(binding.root){
-        fun bind(bannerData : BannerResponses){
-            binding.itemImage
-            binding.typeText.text = bannerData.type
-            binding.sourceText.text = bannerData.title
+        fun bind(bannerData : BannerResponses, context: Context){
+            if(bannerData.image.extension.uppercase() == "SVG"){
+                binding.itemImage.loadImageFromUrl(bannerData.image.url)
+            }
+            else{
+                binding.itemImage.load(bannerData.image.url)
+            }
+
+            binding.typeText.text = bannerData.subTitle
+            binding.sourceText.text = bannerData.source
+            binding.root.setOnClickListener{
+                val intent = Intent(Intent.ACTION_VIEW)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+                intent.setPackage("com.android.chrome")
+                intent.data = Uri.parse(bannerData.url)
+                context.startActivity(intent)
+            }
         }
 
     }
@@ -28,11 +54,31 @@ class BannerAdapter : RecyclerView.Adapter<BannerAdapter.PagerViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: PagerViewHolder, position: Int) {
-        if(position == 0){
-            holder.bind(bannerList[position])
+        var p : Int = position
+        if(position != 0){
+            p %= bannerList.size
         }
-        else {
-            holder.bind(bannerList[position % bannerList.size])
-        }
+        holder.bind(bannerList[p], context)
+    }
+    fun ImageView.loadImageFromUrl(imageUrl: String) {
+        val imageLoader = ImageLoader.Builder(this.context)
+            .components {
+                add(SvgDecoder.Factory()) // 버그고쳐둠 -좀비-
+            }
+            .build()
+
+        val imageRequest = ImageRequest.Builder(this.context)
+            .crossfade(true)
+            .crossfade(300)
+            .data(imageUrl)
+            .target(
+                onSuccess = { result ->
+                    val bitmap = (result as BitmapDrawable).bitmap
+                    this.setImageBitmap(bitmap)
+                },
+            )
+            .build()
+
+        imageLoader.enqueue(imageRequest)
     }
 }

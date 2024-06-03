@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".login.LoginFragment"
+    tools:context=".start.login.LoginFragment"
     android:background="#F5F5F5">
 
     <androidx.core.widget.NestedScrollView
@@ -114,7 +114,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="이메일"
-                    android:text="dongchan070316@gmail.com"
+                    android:text="jinsic4568@gmail.com"
                     android:inputType="textEmailAddress" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -147,7 +147,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="비밀번호"
-                    android:text="123456789"
+                    android:text="jinsic4568*"
                     android:inputType="textPassword" />
                 <!-- text-->
 
