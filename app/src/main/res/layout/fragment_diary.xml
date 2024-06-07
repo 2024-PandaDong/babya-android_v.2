@@ -1,13 +1,133 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".home.diary.DiaryFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".home.diary.DiaryFragment"
+    >
 
-    <TextView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="diaty" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-</FrameLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/diaryToolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+
+                android:subtitle="title"
+                android:title="test"
+                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="test"
+                    android:textSize="19sp"
+                    android:fontFamily="@font/pretendard_bold"/>
+                <ImageButton
+                    android:id="@+id/diaryBackButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:src="@drawable/ic_arrow_14"
+                    android:background="@null"
+                    />
+                <ImageButton
+                    android:id="@+id/diaryReloadButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:src="@drawable/ic_reload"
+                    android:background="@null"
+                    android:layout_marginEnd="15dp"
+                    />
+                <ImageButton
+                    android:id="@+id/diaryHomeButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:src="@drawable/ic_home"
+                    android:background="@null"
+                    android:layout_marginEnd="15dp"
+
+                    />
+
+            </androidx.appcompat.widget.Toolbar>
+
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/diaryBannerViewPager"
+                android:layout_width="0dp"
+                android:layout_height="130dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/diaryToolbar" />
+
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="-15dp"
+                android:checkedButton="@id/allRadio"
+                android:foregroundGravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/diaryBannerViewPager">
+
+                <RadioButton
+                    android:id="@+id/allRadio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@null"
+                    android:checked="true"
+                    android:fontFamily="@font/pretendard_bold"
+                    android:gravity="bottom"
+                    android:paddingHorizontal="3dp"
+                    android:text="전체"
+
+                    android:textSize="16sp" />
+
+                <RadioButton
+                    android:id="@+id/myRadio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@null"
+                    android:checked="false"
+                    android:fontFamily="@font/pretendard_bold"
+                    android:gravity="bottom"
+                    android:paddingHorizontal="3dp"
+                    android:text="나의 일기"
+                    android:textSize="16sp" />
+
+            </RadioGroup>
+
+            <GridView
+                android:id="@+id/DiaryGridView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="20dp"
+                android:numColumns="2"
+                app:layout_constraintTop_toBottomOf="@+id/radioGroup"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

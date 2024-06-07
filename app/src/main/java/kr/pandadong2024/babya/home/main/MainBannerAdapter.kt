@@ -4,13 +4,10 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
-import coil.ComponentRegistry
 import coil.ImageLoader
 import coil.decode.SvgDecoder
 import coil.load
@@ -19,7 +16,10 @@ import kr.pandadong2024.babya.databinding.ItemBanerCardBinding
 import kr.pandadong2024.babya.server.remote.responses.BannerResponses
 
 
-class BannerAdapter(val context: Context) : RecyclerView.Adapter<BannerAdapter.PagerViewHolder>() {
+class MainBannerAdapter(
+    private val context: Context,
+    private val bannerList: List<BannerResponses>
+) : RecyclerView.Adapter<MainBannerAdapter.PagerViewHolder>() {
     inner class PagerViewHolder(private val binding : ItemBanerCardBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(bannerData : BannerResponses, context: Context){
             if(bannerData.image.extension.uppercase() == "SVG"){
@@ -41,7 +41,6 @@ class BannerAdapter(val context: Context) : RecyclerView.Adapter<BannerAdapter.P
         }
 
     }
-    private var bannerList = mutableListOf<BannerResponses>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PagerViewHolder {
         val binding = ItemBanerCardBinding.inflate(LayoutInflater.from(parent.context),parent,false)
@@ -49,9 +48,6 @@ class BannerAdapter(val context: Context) : RecyclerView.Adapter<BannerAdapter.P
     }
 
     override fun getItemCount(): Int = Int.MAX_VALUE
-    fun setList(list: List<BannerResponses>){
-        bannerList = list.toMutableList()
-    }
 
     override fun onBindViewHolder(holder: PagerViewHolder, position: Int) {
         var p : Int = position
@@ -63,7 +59,7 @@ class BannerAdapter(val context: Context) : RecyclerView.Adapter<BannerAdapter.P
     fun ImageView.loadImageFromUrl(imageUrl: String) {
         val imageLoader = ImageLoader.Builder(this.context)
             .components {
-                add(SvgDecoder.Factory()) // 버그고쳐둠 -좀비-
+                add(SvgDecoder.Factory())
             }
             .build()
 

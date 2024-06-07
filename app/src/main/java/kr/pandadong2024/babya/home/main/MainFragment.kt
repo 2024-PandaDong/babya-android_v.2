@@ -13,27 +13,29 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.time.delay
-import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentMainBinding
 import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.server.local.BabyaDB
 import kr.pandadong2024.babya.server.local.TokenDAO
-import kr.pandadong2024.babya.server.remote.responses.BannerImageResponses
 import kr.pandadong2024.babya.server.remote.responses.BannerResponses
+import kr.pandadong2024.babya.server.remote.responses.CompanyDataResponses
 import java.time.Duration
 import kotlin.math.ceil
 
 class MainFragment : Fragment() {
     val TAG = "MainFragment"
     private lateinit var bannerList : List<BannerResponses>
-    private lateinit var bannerAdapter : BannerAdapter
+    private lateinit var bannerAdapter : MainBannerAdapter
     private lateinit var rankAdapter : CompanyRankAdapter
 
     private lateinit var tokenDao: TokenDAO
     private lateinit var statusAdapter : StatusAdapter
     private var _binding: FragmentMainBinding? = null
     private var bannerPosition = 0
+    private lateinit var companyList : List<CompanyDataResponses>
     private val binding get() = _binding!!
+
+
 
     private suspend fun getBanner() : List<BannerResponses>{
         Log.d(TAG, "in func")
@@ -67,13 +69,15 @@ class MainFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        getBannerData()
         _binding = FragmentMainBinding.inflate(inflater, container, false)
+        tokenDao = BabyaDB.getInstance(requireContext().applicationContext)?.tokenDao()!!
 
         initStatusViewPager()
-        initCompanyRecyclerView()
+        getCompanyList()
+        getBannerData()
+//        initCompanyRecyclerView()
 
-        binding.radioGroup.check(binding.maternityInfo.id)
+        binding.radioGroup.check(binding.maternityInfoRadioButton.id)
         binding.bannerViewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
             override fun onPageSelected(position: Int) {  //사용자가 스크롤 했을때 position 수정
                 super.onPageSelected(position)
@@ -104,23 +108,28 @@ class MainFragment : Fragment() {
         with(binding) {
             statusViewPager.adapter = statusAdapter
             statusViewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
-//            ciIndicator.setViewPager(bannerAdapter)
+            ciIndicator.setViewPager(statusViewPager)
         }
     }
 
     private fun initBannerViewPager(){
-        bannerAdapter = BannerAdapter(requireContext())
-        bannerAdapter.setList(bannerList)
+        bannerAdapter = MainBannerAdapter(
+            context = requireContext(),
+            bannerList = bannerList
+        )
         bannerAdapter.notifyItemRemoved(0)
         with(binding) {
             bannerViewPager.adapter = bannerAdapter
             bannerViewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
-//            ciIndicator.setViewPager(bannerAdapter)
+            bannerIndicator
         }
     }
     private fun initCompanyRecyclerView(){
-        rankAdapter = CompanyRankAdapter()
-        rankAdapter.setCompanyList(mutableListOf("test1", "test2", "test3"))
+        rankAdapter = CompanyRankAdapter({
+            position ->
+            //TODO 프레그먼트로 띄우게 하기
+        })
+        rankAdapter.setCompanyList(companyList)
         rankAdapter.notifyItemRemoved(0)
         with(binding){
             companyRankRecyclerView.adapter = rankAdapter
@@ -133,7 +142,6 @@ class MainFragment : Fragment() {
     private fun getBannerData(){
         lifecycleScope.launch(Dispatchers.IO){
             kotlin.runCatching {
-                tokenDao = BabyaDB.getInstance(requireContext().applicationContext)?.tokenDao()!!
                 Log.d(TAG, "token : ${tokenDao.getMembers().accessToken}")
                 bannerList = getBanner()
 
@@ -147,17 +155,26 @@ class MainFragment : Fragment() {
                     e -> Log.e(TAG, "$e")
                 e.stackTrace
                 Log.e(TAG,  e.message!!)
-                val test = "https://dszw1qtcnsa5e.cloudfront.net/community/20240425/6ef4f9e2-505d-4c14-8a54-f72beb794512/BAGS%EC%A0%9C%ED%9C%B4%EC%BB%A4%EB%AE%A4%EB%8B%88%ED%8B%B0%EB%A9%94%EC%9D%B8MO750x522.png"
-                bannerList = mutableListOf(
-                    BannerResponses( "ㅁ?ㄹ",test,"서울", BannerImageResponses("point", 1, "test", 1000, "https://www.netflix.com/kr/")),
-                )
                 launch(Dispatchers.Main) {
                     bannerPosition = Int.MAX_VALUE / 2 - ceil(bannerList.size.toDouble() / 2).toInt()
                     initBannerViewPager()
                 }
             }
-
         }
-
     }
+
+    private fun getCompanyList(){
+        lifecycleScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                companyList =  RetrofitBuilder.getMainService().getCompanyData(0, 0).data
+            }.onSuccess {
+                initCompanyRecyclerView()
+            }.onFailure {
+                companyList = listOf()
+                it.stackTrace
+                Log.e(TAG, it.message.toString())
+            }
+        }
+    }
+
 }

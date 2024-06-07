@@ -5,12 +5,15 @@
 
     <color name="fontGray">#CBCBCB</color>
     <color name="gray">#D9D9D9</color>
+    <color name="bottom_bar_gray">#757575</color>
+
     <color name="rad">#FF5C5C</color>
     <color name="green">#00FF0A</color>
     <color name="blue">#7896FF</color>
     <color name="yellow">#FFCB29</color>
     <color name="bottom_nav_gray">#F5F5F5</color>
     <color name="indigo">#181047</color>
+    <color name="invisible">#00FFFFFF</color>
 
 
 </resources>

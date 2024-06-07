@@ -2,6 +2,7 @@
 activityVersion = "1.9.0"
 agp = "8.3.1"
 circleimageview = "3.1.0"
+circleindicator = "2.1.6"
 coil = "2.5.0"
 coilSvg = "2.5.0" # 주영: 버전이 너무 옛날이라서 없었음
 converterGson = "2.9.0"
@@ -41,6 +42,7 @@ androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomRunt
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
 androidx-room-runtime-v250 = { module = "androidx.room:room-runtime", version.ref = "roomRuntimeVersion" }
 circleimageview = { module = "de.hdodenhof:circleimageview", version.ref = "circleimageview" }
+circleindicator = { module = "me.relex:circleindicator", version.ref = "circleindicator" }
 coil = { module = "io.coil-kt:coil", version.ref = "coil" }
 coil-svg = { module = "io.coil-kt:coil-svg", version.ref = "coilSvg" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
