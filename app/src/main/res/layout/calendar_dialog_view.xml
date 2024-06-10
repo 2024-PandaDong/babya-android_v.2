@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/yyyy"
+            android:layout_width="63dp"
+            android:layout_height="30dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="15dp"
+            android:text="년도"
+            android:textColor="@color/black"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:fontFamily="@font/pretendard_variable"
+            />
+
+        <TextView
+            android:id="@+id/mm"
+            android:layout_width="63dp"
+            android:layout_height="30dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/yearDatePicker"
+            app:layout_constraintEnd_toEndOf="@id/dayDatePicker"
+            android:text="년도"
+            android:textColor="@color/black"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:fontFamily="@font/pretendard_variable"
+            />
+
+        <TextView
+            android:id="@+id/dd"
+            android:layout_width="63dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="15dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="날짜"
+            android:textColor="@color/black"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:fontFamily="@font/pretendard_variable"
+            />
+
+        <NumberPicker
+            android:id="@+id/yearDatePicker"
+            android:layout_width="63dp"
+            android:layout_height="124dp"
+            android:layout_marginStart="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/yyyy"
+            android:theme="@style/Base.Theme.Babya"/>
+
+        <NumberPicker
+            android:id="@+id/monthDatePicker"
+            android:layout_width="63dp"
+            android:layout_height="124dp"
+            app:layout_constraintStart_toStartOf="@+id/yearDatePicker"
+            app:layout_constraintEnd_toEndOf="@id/dayDatePicker"
+            app:layout_constraintTop_toBottomOf="@+id/mm"
+            android:theme="@style/Base.Theme.Babya"/>
+
+        <NumberPicker
+            android:id="@+id/dayDatePicker"
+            android:layout_width="63dp"
+            android:layout_height="124dp"
+            android:layout_marginEnd="15dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dd"
+            android:theme="@style/Base.Theme.Babya"/>
+
+        <Button
+            android:id="@+id/saveBtn"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/yellow"
+            android:text="선택"
+            android:textColor="#ffffff"
+            app:layout_constraintStart_toEndOf="@id/cancelBtn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/yearDatePicker" />
+
+        <Button
+            android:id="@+id/cancelBtn"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/gray"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/saveBtn"
+            android:text="취소"
+            android:textColor="#ffffff"
+            app:layout_constraintTop_toBottomOf="@+id/yearDatePicker" />
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
+
