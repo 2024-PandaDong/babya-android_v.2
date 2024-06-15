@@ -8,10 +8,13 @@ import coil.load
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.ItemDiaryBannerBinding
 
-class DiaryBannerAdapter(val diaryBannerDataList : List<String>, val context: Context) : RecyclerView.Adapter<DiaryBannerAdapter.BannerViewHolder>() {
+class DiaryBannerAdapter(
+    val diaryBannerDataList : List<String>,
+    val context: Context
+) : RecyclerView.Adapter<DiaryBannerAdapter.BannerViewHolder>() {
     inner class BannerViewHolder(private val binding : ItemDiaryBannerBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(diaryBannerData : String){
-            binding.diaryBannerImage.load(R.drawable.banner_test)
+            binding.diaryBannerImage.load(R.drawable.img_banner_test)
         }
     }
 

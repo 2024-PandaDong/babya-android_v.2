@@ -22,8 +22,8 @@ class MainBannerAdapter(
 ) : RecyclerView.Adapter<MainBannerAdapter.PagerViewHolder>() {
     inner class PagerViewHolder(private val binding : ItemBanerCardBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(bannerData : BannerResponses, context: Context){
-            if(bannerData.image.extension.uppercase() == "SVG"){
-                binding.itemImage.loadImageFromUrl(bannerData.image.url)
+            if(bannerData.image!!.extension!!.uppercase() == "SVG"){
+                bannerData.image.url?.let { binding.itemImage.loadImageFromUrl(it) }
             }
             else{
                 binding.itemImage.load(bannerData.image.url)
@@ -50,11 +50,13 @@ class MainBannerAdapter(
     override fun getItemCount(): Int = Int.MAX_VALUE
 
     override fun onBindViewHolder(holder: PagerViewHolder, position: Int) {
-        var p : Int = position
-        if(position != 0){
-            p %= bannerList.size
+        if (bannerList.isNotEmpty()) {
+            var p: Int = position
+            if (position != 0) {
+                p %= bannerList.size
+            }
+            holder.bind(bannerList[p], context)
         }
-        holder.bind(bannerList[p], context)
     }
     fun ImageView.loadImageFromUrl(imageUrl: String) {
         val imageLoader = ImageLoader.Builder(this.context)

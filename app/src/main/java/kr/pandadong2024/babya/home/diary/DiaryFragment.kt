@@ -1,48 +1,65 @@
 package kr.pandadong2024.babya.home.diary
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
+import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentDiaryBinding
 import kr.pandadong2024.babya.home.diary.diaryviewmodle.DiaryViewModel
-import kr.pandadong2024.babya.home.main.MainBannerAdapter
 import kr.pandadong2024.babya.server.RetrofitBuilder
-import kr.pandadong2024.babya.server.remote.responses.diary.Diary
 import kr.pandadong2024.babya.server.remote.responses.diary.DiaryData
+import kr.pandadong2024.babya.server.remote.responses.diary.DiaryPostData
 import kr.pandadong2024.babya.server.remote.responses.diary.DiaryFile
 import kr.pandadong2024.babya.server.remote.responses.diary.DiaryStatus
+import kr.pandadong2024.babya.util.BottomControllable
 
 class DiaryFragment : Fragment() {
-    private var _binding:FragmentDiaryBinding? = null
+    private var _binding: FragmentDiaryBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewmodel : DiaryViewModel
+    private lateinit var viewmodel: DiaryViewModel
 
-    private lateinit var diaryMainGridViewAdapter : DiaryMainGridViewAdapter
+    private lateinit var diaryMainGridViewAdapter: DiaryMainGridViewAdapter
     private lateinit var diaryBannerAdapter: DiaryBannerAdapter
 
+    private val TAG = "DiaryFragment"
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
-        // Inflate the layout for this fragment
         _binding = FragmentDiaryBinding.inflate(inflater, container, false)
-        initDiaryViewpagerView()
+        (requireActivity() as BottomControllable).setBottomNavVisibility(false)
+        initDiaryBannerView()
+
+        Log.d(TAG, getAllDiaryData(1, 1).toString())
+        initDiaryGridView(getAllDiaryData(1, 1))
+
+        binding.diaryEditFloatingActionButton.setOnClickListener{
+            findNavController().navigate(R.id.action_diaryFragment_to_editDiaryFragment)
+        }
+        binding.diaryBackButton.setOnClickListener {
+            findNavController().navigate(R.id.action_diaryFragment_to_mainFragment)
+        }
+        binding.radioGroup.check(R.id.diaryAllRadio)
         binding.radioGroup.setOnCheckedChangeListener { radioGroup, checkId ->
-            when(checkId){
-                binding.allRadio.id ->{
+            Log.d(TAG, "in setOnCheckedChangeListener")
+            when (checkId) {
+                binding.diaryAllRadio.id -> {
+                    binding.diaryDisclosureButton.visibility = View.GONE
                     initDiaryGridView(getAllDiaryData(1, 1))
                 }
-                binding.myRadio.id -> {
-                    getMyDiaryData(1, 1)
 
+                binding.diaryMyRadio.id -> {
+                    binding.diaryDisclosureButton.visibility = View.VISIBLE
+                    initDiaryGridView(getAllDiaryData(1, 1))
                 }
-
             }
         }
         return binding.root
@@ -53,12 +70,22 @@ class DiaryFragment : Fragment() {
         _binding = null
     }
 
-    fun initDiaryGridView(diaryDataList : DiaryStatus){
-        diaryMainGridViewAdapter = DiaryMainGridViewAdapter(diaryDataList)
+    override fun onPause() {
+        super.onPause()
+        (requireActivity() as BottomControllable).setBottomNavVisibility(true)
+    }
+
+    fun initDiaryGridView(diaryDataList: DiaryStatus) {
+        diaryMainGridViewAdapter = DiaryMainGridViewAdapter(diaryDataList) { data ->
+            Log.d("TAG", "in data")
+            findNavController().navigate(R.id.action_diaryFragment_to_detailPublicFragment)
+        }
+        diaryMainGridViewAdapter.notifyDataSetChanged()
+
         binding.DiaryGridView.adapter = diaryMainGridViewAdapter
     }
 
-    fun initDiaryViewpagerView(){
+    fun initDiaryBannerView() {
         diaryBannerAdapter = DiaryBannerAdapter(listOf(""), requireContext())
         diaryBannerAdapter.notifyItemRemoved(0)
         with(binding) {
@@ -69,49 +96,71 @@ class DiaryFragment : Fragment() {
 
 
     fun getMyDiaryData(
-         page : Int,
-         size : Int
-    ) : DiaryStatus{
-        var diaryList : List<DiaryData>? = null
-        var statuse : Boolean = false
-        lifecycleScope.launch (Dispatchers.IO){
+        page: Int,
+        size: Int,
+    ): DiaryStatus = runBlocking {
+        var diaryList: List<DiaryPostData>? = null
+        var statuse: Boolean = false
+        withContext(Dispatchers.IO) {
             kotlin.runCatching {
-                diaryList =  RetrofitBuilder.getMainService().getMyDiaryData(page=page, size=size).data
+                diaryList =
+                    RetrofitBuilder.getHttpMainService().getMyDiaryData(page = page, size = size).data
             }.onSuccess {
                 statuse = true
             }.onFailure {
                 statuse = false
-                diaryList = listOf(DiaryData(Diary(), listOf(DiaryFile())))
+                diaryList = listOf(
+                    DiaryPostData(DiaryData(), listOf(DiaryFile())),
+                    DiaryPostData(DiaryData(), listOf(DiaryFile()))
+                )
             }
         }
 
-        return DiaryStatus(
+        return@runBlocking DiaryStatus(
             status = statuse,
             data = diaryList
         )
     }
 
     fun getAllDiaryData(
-        page : Int,
-        size : Int
-    ) : DiaryStatus {
-        var diaryList : List<DiaryData>? = null
-        var statuse : Boolean = false
-        lifecycleScope.launch (Dispatchers.IO){
+        page: Int,
+        size: Int,
+    ): DiaryStatus = runBlocking {
+        var diaryList: List<DiaryPostData>? = null
+        var status: Boolean = false
+
+        withContext(Dispatchers.IO) {
             kotlin.runCatching {
-                diaryList =  RetrofitBuilder.getMainService().getAllDiaryData(page=page, size=size).data
+                diaryList =
+                    RetrofitBuilder.getHttpMainService().getAllDiaryData(page = page, size = size).data
             }.onSuccess {
-                statuse = true
+                status = true
             }.onFailure {
-                statuse = false
+                status = false
+                diaryList = listOf(
+                    DiaryPostData(DiaryData(title = "titledesu"), listOf(DiaryFile())),
+                    DiaryPostData(DiaryData(), listOf(DiaryFile())),
+                    DiaryPostData(DiaryData(), listOf(DiaryFile())),
+                    DiaryPostData(DiaryData(), listOf(DiaryFile())),
+                    DiaryPostData(DiaryData(), listOf(DiaryFile())),
+                    DiaryPostData(DiaryData(), listOf(DiaryFile())),
+                    DiaryPostData(DiaryData(), listOf(DiaryFile())),
+                    DiaryPostData(DiaryData(), listOf(DiaryFile())),
+                    DiaryPostData(DiaryData(), listOf(DiaryFile())),
+                    DiaryPostData(DiaryData(), listOf(DiaryFile())),
+                    DiaryPostData(DiaryData(), listOf(DiaryFile())),
+                    DiaryPostData(DiaryData(), listOf(DiaryFile())),
+                    DiaryPostData(DiaryData(), listOf(DiaryFile())),
+                    DiaryPostData(DiaryData(), listOf(DiaryFile())),
+                    DiaryPostData(DiaryData(), listOf(DiaryFile()))
+                )
             }
         }
 
-        return DiaryStatus(
-            status = statuse,
+        return@runBlocking DiaryStatus(
+            status = status,
             data = diaryList
         )
-
     }
 
 

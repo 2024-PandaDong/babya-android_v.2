@@ -4,13 +4,13 @@ import com.google.gson.annotations.SerializedName
 
 data class BannerImageResponses(
     @field:SerializedName("extension")
-    val extension: String, //확장자
+    val extension: String?="", //확장자
     @field:SerializedName("fileId")
-    val fileId: Int, //id
+    val fileId: Int?=0, //id
     @field:SerializedName("name")
-    val name: String, //
+    val name: String?="", //
     @field:SerializedName("size")
-    val size: Int, //
+    val size: Int?=0, //
     @field:SerializedName("url")
-    val url: String // 이미지 url
+    val url: String?="" // 이미지 url
 )

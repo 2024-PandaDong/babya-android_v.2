@@ -6,4 +6,8 @@
         <!-- 선택된 아이템 아이콘 색상 변경 -->
         <item name="itemIconTint">@color/bottom_bar_gray</item>
     </style>
+    <style name="diaryActionButton">
+        <item name="cornerFamily">rounded</item>
+
+    </style>
 </resources>

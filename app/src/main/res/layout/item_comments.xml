@@ -46,7 +46,7 @@
             />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/contentTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="2dp"
@@ -57,6 +57,22 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/commentNameText"
             app:layout_constraintTop_toBottomOf="@id/commentNameText" />
+        <TextView
+            android:id="@+id/makeCommentText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="답글달기"
+            app:layout_constraintTop_toBottomOf="@id/contentTextView"
+            app:layout_constraintStart_toStartOf="@id/contentTextView"
+            />
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/makeCommentText"
+            app:layout_constraintTop_toBottomOf="@id/makeCommentText"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="gone"
+            />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <View

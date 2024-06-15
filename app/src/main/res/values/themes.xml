@@ -6,4 +6,10 @@
     </style>
 
     <style name="Theme.BabyaAndroid" parent="Base.Theme.BabyaAndroid" />
+    <style name="Theme.BabyaAndroid.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="Theme.BabyaAndroid.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.BabyaAndroid.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

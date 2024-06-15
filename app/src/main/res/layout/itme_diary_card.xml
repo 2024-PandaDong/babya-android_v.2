@@ -9,6 +9,8 @@
         android:layout_height="100dp"
         app:cardCornerRadius="10dp"
         android:id="@+id/imageCardView"
+        android:elevation="@null"
+        android:outlineProvider="none"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

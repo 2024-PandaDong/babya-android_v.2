@@ -6,14 +6,153 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".home.diary.detil.DetailWriterFragment">
 
-    <Toolbar
-        android:id="@+id/detailWriterToolbar"
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/detailPublicToolbar"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/mainImage"
+                android:layout_width="0dp"
+                android:layout_height="200dp"
+                android:layout_margin="18dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+            <TextView
+                android:id="@+id/opinionText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@id/mainImage"
+                app:layout_constraintTop_toBottomOf="@id/mainImage"
+                android:text="태아소견"
+                android:textSize="16sp"
+                android:fontFamily="@font/pretendard_bold"
+                android:layout_marginTop="25dp"
+                android:layout_marginStart="3dp"
+                />
+            <TextView
+                android:id="@+id/contentTitleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@id/mainImage"
+                app:layout_constraintTop_toBottomOf="@id/mainImage"
+                android:text="태아소견"
+                android:textSize="16sp"
+                android:fontFamily="@font/pretendard_bold"
+                android:layout_marginTop="25dp"
+                android:layout_marginStart="3dp"
+                />
+            <TextView
+                android:id="@+id/contentText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="text"
+                app:layout_constraintTop_toBottomOf="@id/opinionText"
+                app:layout_constraintStart_toStartOf="@+id/opinionText"
+                android:layout_marginStart="3dp"
+                android:layout_marginTop="3dp"
+                android:textSize="13sp"
+                android:fontFamily="@font/pretendard_semibold"
+                />
+            <TextView
+                android:id="@+id/mainTitleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@id/opinionText"
+                app:layout_constraintTop_toBottomOf="@id/contentText"
+                android:text="본문"
+                android:textSize="16sp"
+                android:fontFamily="@font/pretendard_bold"
+                android:layout_marginTop="25dp"
+
+                />
+            <TextView
+                android:id="@+id/mainText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="text"
+                app:layout_constraintTop_toBottomOf="@id/mainTitleText"
+                app:layout_constraintStart_toStartOf="@+id/opinionText"
+                android:layout_marginStart="3dp"
+                android:layout_marginTop="3dp"
+                android:textSize="13sp"
+                android:fontFamily="@font/pretendard_semibold"
+                />
+            <TextView
+                android:id="@+id/dateText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/mainText"
+                android:layout_marginEnd="18dp"
+                android:layout_marginTop="27dp"
+                android:text="2014/04/09"/>
+            <View
+                android:id="@+id/slicingLineView"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                app:layout_constraintTop_toBottomOf="@id/dateText"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_margin="10dp"
+                android:background="@color/gray"
+                />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/commentRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/slicingLineView"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="10dp"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/detailPublicToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        />
+
+        android:subtitle="title"
+        android:title="test"
+        style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="test"
+            android:textSize="19sp"
+            android:fontFamily="@font/pretendard_bold"/>
+        <ImageButton
+            android:id="@+id/backButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:src="@drawable/ic_arrow_14"
+            android:background="@null"
+            />
+
+    </androidx.appcompat.widget.Toolbar>
+
+
+
 
 
 

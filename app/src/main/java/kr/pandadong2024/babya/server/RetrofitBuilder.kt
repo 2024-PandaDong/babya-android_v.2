@@ -79,18 +79,6 @@ class RetrofitBuilder {
                 level = HttpLoggingInterceptor.Level.BODY
             }
             tokenDao = BabyaDB.getInstanceOrNull()?.tokenDao()
-//            val okhttpBuilder = OkHttpClient().newBuilder()
-//                .addInterceptor(interceptor)
-//                .apply {
-//                    addInterceptor { chain ->
-//                    val request = chain.request().newBuilder().addHeader(
-//                        "Authorization",
-//                        tokenDao?.getMembers()!!.accessToken
-//                    ).build()
-//                    Log.i("TAG", "${chain.request()}")
-//                    chain.proceed(request)
-//                    }
-//                }
             val httpClient = OkHttpClient.Builder().apply {
                 addNetworkInterceptor { chain ->
                     Log.i("TAG", "${chain.request()}")
@@ -156,9 +144,15 @@ class RetrofitBuilder {
             }
             return signupService!!
         }
-        fun getMainService() : MainService {
+        fun getHttpMainService() : MainService {
             if (mainService == null){
                 mainService = getHttpRetrofit().create(MainService::class.java)
+            }
+            return mainService!!
+        }
+        fun getMainService() : MainService {
+            if (mainService == null){
+                mainService = getRetrofit().create(MainService::class.java)
             }
             return mainService!!
         }

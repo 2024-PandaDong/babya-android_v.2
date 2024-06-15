@@ -6,12 +6,12 @@ import java.time.LocalDate
 data class BannerResponses(
 
     @field:SerializedName("url")
-    val url: String,// 웹 사이트
+    val url: String? = "",// 웹 사이트
     @field:SerializedName("subTitle")
-    val subTitle: String, // 정책 이름
+    val subTitle: String?="", // 정책 이름
     @field:SerializedName("source")
-    val source: String, // 출처
+    val source: String?="", // 출처
     @field:SerializedName("image")
-    val image: BannerImageResponses
+    val image: BannerImageResponses?=BannerImageResponses()
 
 )

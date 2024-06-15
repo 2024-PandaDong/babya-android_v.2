@@ -4,35 +4,35 @@ import com.google.gson.annotations.SerializedName
 
 data class CompanyDataResponses(
     @field:SerializedName("companyId")
-    val companyId: Int,
+    val companyId: Int? = -1,
     @field:SerializedName("description")
-    val description: String,
+    val description: String? = "",
     @field:SerializedName("intro")
-    val intro: String,
+    val intro: String? = "",
     @field:SerializedName("link")
-    val link: String,
+    val link: String? ="",
     @field:SerializedName("mtrLvIsSalary")
-    val mtrLvIsSalary: String,
+    val mtrLvIsSalary: String? = "",
     @field:SerializedName("mtrLvPeriod")
-    val mtrLvPeriod: Int,
+    val mtrLvPeriod: Int? = -1,
     @field:SerializedName("mtrLvSalary")
-    val mtrLvSalary: Int,
+    val mtrLvSalary: Int? = -1,
     @field:SerializedName("mtrSupCondition")
-    val mtrSupCondition: String,
+    val mtrSupCondition: String? = "",
     @field:SerializedName("mtrSupMoney")
-    val mtrSupMoney: Int,
+    val mtrSupMoney: Int? = -1,
     @field:SerializedName("name")
-    val name: String,
+    val name: String? = "",
     @field:SerializedName("state")
-    val state: String,
+    val state: String? = "",
     @field:SerializedName("subsdMoney")
-    val subsdMoney: Int,
+    val subsdMoney: Int? = -1,
     @field:SerializedName("subsdType")
-    val subsdType: String,
+    val subsdType: String? = "",
     @field:SerializedName("telComDays")
-    val telComDays: Int,
+    val telComDays: Int? = -1,
     @field:SerializedName("telComIsCan")
-    val telComIsCan: String,
+    val telComIsCan: String? = "",
     @field:SerializedName("telComTime")
-    val telComTime: Int
+    val telComTime: Int? = -1
 )

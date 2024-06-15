@@ -18,13 +18,17 @@ import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.server.local.BabyaDB
 import kr.pandadong2024.babya.server.local.TokenDAO
 import kr.pandadong2024.babya.server.remote.responses.BannerResponses
+import kr.pandadong2024.babya.server.remote.responses.BaseResponse
 import kr.pandadong2024.babya.server.remote.responses.CompanyDataResponses
+import kr.pandadong2024.babya.server.remote.responses.PageRequest
 import java.time.Duration
 import kotlin.math.ceil
 
 class MainFragment : Fragment() {
     val TAG = "MainFragment"
     private lateinit var bannerList : List<BannerResponses>
+    private lateinit var companyList : List<CompanyDataResponses>
+    private lateinit var companyData : BaseResponse<List<CompanyDataResponses>>
     private lateinit var bannerAdapter : MainBannerAdapter
     private lateinit var rankAdapter : CompanyRankAdapter
 
@@ -32,17 +36,21 @@ class MainFragment : Fragment() {
     private lateinit var statusAdapter : StatusAdapter
     private var _binding: FragmentMainBinding? = null
     private var bannerPosition = 0
-    private lateinit var companyList : List<CompanyDataResponses>
     private val binding get() = _binding!!
+    private var form = 1 // 임산부인지 지역별인지
 
 
 
     private suspend fun getBanner() : List<BannerResponses>{
-        Log.d(TAG, "in func")
+        Log.d(TAG, "mainBanner : $form")
         val db = BabyaDB.getInstance(requireContext().applicationContext)?.tokenDao()
-        val response = RetrofitBuilder.getMainService().getBanner("Bearer ${db?.getMembers()?.accessToken}", lc ="my", "출산 전")
-        Log.d(TAG, "${response.data}")
-        Log.d(TAG, response.status.toString())
+        val response = RetrofitBuilder.getHttpMainService().getBanner(
+            accessToken = "Bearer ${db?.getMembers()?.accessToken}",
+            lc ="my",
+            type = "$form")
+        Log.d(TAG, "mainBanner : ${response.data}")
+        Log.d(TAG, "mainBanner : ${response.status}")
+        Log.d(TAG, "mainBanner : ${response.message}")
         return response.data
     }
     lateinit var job : Job
@@ -72,10 +80,23 @@ class MainFragment : Fragment() {
         _binding = FragmentMainBinding.inflate(inflater, container, false)
         tokenDao = BabyaDB.getInstance(requireContext().applicationContext)?.tokenDao()!!
 
+        binding.radioGroup.setOnCheckedChangeListener { radioGroup, checkId ->
+            Log.d(TAG, "in setOnCheckedChangeListener")
+            when (checkId) {
+                binding.LocaleInfoRadioButton.id -> {
+                    form = 2
+                    initBannerData()
+                }
+
+                binding.maternityInfoRadioButton.id -> {
+                    form = 1
+                    initBannerData()
+                }
+            }
+        }
         initStatusViewPager()
-        getCompanyList()
-        getBannerData()
-//        initCompanyRecyclerView()
+//        initCompanyList()
+        initBannerData()
 
         binding.radioGroup.check(binding.maternityInfoRadioButton.id)
         binding.bannerViewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
@@ -112,7 +133,7 @@ class MainFragment : Fragment() {
         }
     }
 
-    private fun initBannerViewPager(){
+    private fun setBannerViewPager(){
         bannerAdapter = MainBannerAdapter(
             context = requireContext(),
             bannerList = bannerList
@@ -124,7 +145,7 @@ class MainFragment : Fragment() {
             bannerIndicator
         }
     }
-    private fun initCompanyRecyclerView(){
+    private fun setCompanyRecyclerView(){
         rankAdapter = CompanyRankAdapter({
             position ->
             //TODO 프레그먼트로 띄우게 하기
@@ -139,7 +160,7 @@ class MainFragment : Fragment() {
 
     }
 
-    private fun getBannerData(){
+    private fun initBannerData(){
         lifecycleScope.launch(Dispatchers.IO){
             kotlin.runCatching {
                 Log.d(TAG, "token : ${tokenDao.getMembers().accessToken}")
@@ -149,30 +170,35 @@ class MainFragment : Fragment() {
                 Log.d(TAG, "succeed")
                 launch(Dispatchers.Main) {
                     bannerPosition = Int.MAX_VALUE / 2 - ceil(bannerList.size.toDouble() / 2).toInt()
-                    initBannerViewPager()
+                    setBannerViewPager()
                 }
             }.onFailure {
                     e -> Log.e(TAG, "$e")
                 e.stackTrace
                 Log.e(TAG,  e.message!!)
                 launch(Dispatchers.Main) {
-                    bannerPosition = Int.MAX_VALUE / 2 - ceil(bannerList.size.toDouble() / 2).toInt()
-                    initBannerViewPager()
+                    bannerList = listOf(BannerResponses())
+                    bannerPosition = 0
+                    setBannerViewPager()
                 }
             }
         }
     }
 
-    private fun getCompanyList(){
+    private fun initCompanyList() {
         lifecycleScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                companyList =  RetrofitBuilder.getMainService().getCompanyData(0, 0).data
+                companyData = RetrofitBuilder.getMainService().getCompanyData(PageRequest(0, 3))
+                Log.e(TAG, "initCompanyRecyclerView: ${companyData.status}")
+                Log.e(TAG, "initCompanyRecyclerView: ${companyData.message}")
+                companyList = companyData.data
             }.onSuccess {
-                initCompanyRecyclerView()
+                setCompanyRecyclerView()
             }.onFailure {
-                companyList = listOf()
                 it.stackTrace
-                Log.e(TAG, it.message.toString())
+                companyList = listOf()
+                Log.e(TAG, "initCompanyRecyclerView: ${it.message.toString()}")
+                setCompanyRecyclerView()
             }
         }
     }
