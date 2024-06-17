@@ -22,7 +22,6 @@ import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.server.remote.request.LoginRequest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kr.pandadong2024.babya.R
@@ -121,7 +120,7 @@ class LoginFragment : Fragment() {
                     RetrofitBuilder.getLoginService().postLogin(LoginRequest(emailText, passwordText))
                         .let { result ->
                             Log.d(TAG, "${result.data}")
-                            accessToken = result.data.accessToken
+                            accessToken = result.data!!.accessToken
                             refreshToken = result.data.refreshToken
                         }
                 }.onSuccess {
@@ -143,7 +142,7 @@ class LoginFragment : Fragment() {
         }
     }
 
-//    사용하는 코드
+//    사용했던 코드
 //    lifecycleScope.launch {
 //        viewModel.flow.collectLatest {
 //                userProto ->
@@ -185,6 +184,7 @@ class LoginFragment : Fragment() {
                 TokenEntity(
                     id = 1,
                     accessToken = accessToken,
+                    email = binding.emailEditText?.text.toString(),
                     refreshToken = refreshToken
                 )
             )

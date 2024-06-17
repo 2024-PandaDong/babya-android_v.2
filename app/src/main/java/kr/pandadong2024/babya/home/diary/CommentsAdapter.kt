@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kr.pandadong2024.babya.databinding.ItemCommentsBinding
 
-class CommentsAdapter(val commentsList : List<String>) : RecyclerView.Adapter<CommentsAdapter.CommentsViewHolder>() {
+class CommentsAdapter(private val commentsList : List<String>) : RecyclerView.Adapter<CommentsAdapter.CommentsViewHolder>() {
     inner class CommentsViewHolder(private val binding : ItemCommentsBinding) : RecyclerView.ViewHolder(binding.root){
         fun setItemComments(commentData: String) {
             binding.commentNameText.text = "test"

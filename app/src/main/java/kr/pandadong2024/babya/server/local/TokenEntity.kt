@@ -14,4 +14,7 @@ data class TokenEntity(
 
     @ColumnInfo(name = "refreshToken")
     val refreshToken: String,
+
+    @ColumnInfo(name = "email")
+    val email: String
 )

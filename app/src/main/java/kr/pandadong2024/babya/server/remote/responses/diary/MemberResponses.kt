@@ -2,7 +2,7 @@ package kr.pandadong2024.babya.server.remote.responses.diary
 
 import com.google.gson.annotations.SerializedName
 
-data class Member(
+data class MemberResponses(
     @field:SerializedName("answerDt")
     val answerDt: String = "test",
     @field:SerializedName("birthDt")

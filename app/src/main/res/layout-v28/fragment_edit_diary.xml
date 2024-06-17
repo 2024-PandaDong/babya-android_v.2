@@ -61,7 +61,7 @@
             android:layout_height="match_parent"
             android:paddingBottom="30dp">
             <androidx.cardview.widget.CardView
-                android:id="@+id/editDiaryImageCardView"
+                android:id="@+id/editDiaryAddImageCardView"
                 android:layout_width="0dp"
                 android:layout_height="200dp"
                 android:layout_marginStart="20dp"
@@ -70,13 +70,19 @@
                 android:background="@color/gray"
                 android:elevation="@null"
                 android:outlineProvider="none"
-                app:cardBackgroundColor="@color/gray"
                 app:cardCornerRadius="10dp"
+                app:cardBackgroundColor="@color/gray"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
+                <ImageView
+                    android:id="@+id/selectedImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    />
 
                 <ImageView
+                    android:id="@+id/iconImage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_add_photo"
@@ -84,6 +90,7 @@
                     android:scaleY="2"
                     android:scaleX="2"
                     />
+
             </androidx.cardview.widget.CardView>
 
             <TextView
@@ -94,41 +101,43 @@
                 android:fontFamily="@font/pretendard_bold"
                 android:text="제목"
                 android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="@id/editDiaryImageCardView"
-                app:layout_constraintTop_toBottomOf="@id/editDiaryImageCardView" />
+                app:layout_constraintStart_toStartOf="@id/editDiaryAddImageCardView"
+                app:layout_constraintTop_toBottomOf="@id/editDiaryAddImageCardView" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/editDiaryTitleInputLayout"
+            <!--            <com.google.android.material.textfield.TextInputLayout-->
+            <!--                android:id="@+id/editDiaryTitleInputLayout"-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="40dp"-->
+            <!--                android:labelFor="@id/test"-->
+            <!--                android:outlineAmbientShadowColor="@color/yellow"-->
+            <!--                android:paddingStart="5dp"-->
+            <!--                android:paddingEnd="5dp"-->
+            <!--                android:textColorHint="#A0A0A0"-->
+            <!--                app:boxBackgroundColor="@color/white"-->
+            <!--                app:boxBackgroundMode="filled"-->
+            <!--                app:boxStrokeColor="@color/yellow"-->
+            <!--                app:cursorColor="@color/yellow"-->
+            <!--                app:errorEnabled="true"-->
+            <!--                app:hintTextColor="@color/yellow"-->
+            <!--                -->
+
+            <!--                >-->
+
+            <EditText
+                android:id="@+id/editDiaryTitleEditText"
                 android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:labelFor="@id/test"
-                android:outlineAmbientShadowColor="@color/yellow"
-                android:paddingStart="5dp"
-                android:paddingEnd="5dp"
-                android:textColorHint="#A0A0A0"
-                app:boxBackgroundColor="@color/white"
-                app:boxBackgroundMode="filled"
-                app:boxStrokeColor="@color/yellow"
-                app:cursorColor="@color/yellow"
-                app:errorEnabled="true"
-                app:hintTextColor="@color/yellow"
-                app:layout_constraintEnd_toEndOf="@id/editDiaryImageCardView"
-                app:layout_constraintStart_toStartOf="@id/editDiaryImageCardView"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pretendard_semibold"
+                android:gravity="bottom"
+                android:hint="제목"
+                android:inputType="textEmailAddress"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="@id/editDiaryAddImageCardView"
+                app:layout_constraintStart_toStartOf="@id/editDiaryAddImageCardView"
                 app:layout_constraintTop_toBottomOf="@id/editDiaryTitleText"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"/>
 
-                >
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editDiaryTitleEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:fontFamily="@font/pretendard_semibold"
-                    android:gravity="bottom"
-                    android:hint="제목"
-                    android:inputType="textEmailAddress"
-                    android:textSize="14sp" />
-
-            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:id="@+id/weightText"
@@ -141,7 +150,7 @@
                 app:layout_constraintEnd_toStartOf="@id/weightEditText"
 
                 app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toStartOf="@id/editDiaryImageCardView"
+                app:layout_constraintStart_toStartOf="@id/editDiaryAddImageCardView"
                 app:layout_constraintTop_toTopOf="@id/weightEditText" />
 
             <EditText
@@ -160,7 +169,7 @@
                 app:layout_constraintEnd_toStartOf="@id/weightUnitText"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toEndOf="@id/weightText"
-                app:layout_constraintTop_toBottomOf="@id/editDiaryTitleInputLayout" />
+                app:layout_constraintTop_toBottomOf="@id/editDiaryTitleEditText" />
 
             <TextView
 
@@ -186,7 +195,7 @@
                 app:layout_constraintEnd_toStartOf="@id/bloodPressureHeightEditText"
 
                 app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toStartOf="@id/editDiaryImageCardView"
+                app:layout_constraintStart_toStartOf="@id/editDiaryAddImageCardView"
                 app:layout_constraintTop_toTopOf="@id/bloodPressureHeightEditText" />
 
             <EditText
@@ -271,7 +280,7 @@
                 app:layout_constraintEnd_toStartOf="@id/pregnancyUnitText"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toEndOf="@id/pregnancyText"
-                app:layout_constraintTop_toBottomOf="@id/editDiaryTitleInputLayout" />
+                app:layout_constraintTop_toBottomOf="@id/editDiaryTitleEditText" />
 
             <TextView
 
@@ -339,41 +348,46 @@
                 android:fontFamily="@font/pretendard_bold"
                 android:text="태아소견"
                 android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="@id/editDiaryImageCardView"
+                app:layout_constraintStart_toStartOf="@id/editDiaryAddImageCardView"
                 app:layout_constraintTop_toBottomOf="@id/bloodPressureHeightEditText" />
 
-            <com.google.android.material.textfield.TextInputLayout
+            <!--            <com.google.android.material.textfield.TextInputLayout-->
+            <!--                android:id="@+id/editDiaryFetalFindingsInputLayout"-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:labelFor="@id/test"-->
+            <!--                android:outlineAmbientShadowColor="@color/yellow"-->
+            <!--                android:paddingStart="5dp"-->
+            <!--                android:paddingEnd="5dp"-->
+            <!--                android:textColorHint="#A0A0A0"-->
+            <!--                app:boxBackgroundColor="@color/white"-->
+            <!--                app:boxBackgroundMode="filled"-->
+            <!--                app:boxStrokeColor="@color/yellow"-->
+            <!--                app:cursorColor="@color/yellow"-->
+            <!--                app:errorEnabled="true"-->
+            <!--                android:hint="아이의 상태는 어떤가요?"-->
+            <!--                app:hintTextColor="@color/yellow"-->
+            <!--                app:layout_constraintEnd_toEndOf="@id/editDiaryAddImageCardView"-->
+            <!--                app:layout_constraintStart_toStartOf="@id/editDiaryAddImageCardView"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/editDiaryFetalFindingsText"-->
+
+            <!--                >-->
+
+            <EditText
                 android:id="@+id/editDiaryFetalFindingsInputLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:labelFor="@id/test"
-                android:outlineAmbientShadowColor="@color/yellow"
-                android:paddingStart="5dp"
-                android:paddingEnd="5dp"
-                android:textColorHint="#A0A0A0"
-                app:boxBackgroundColor="@color/white"
-                app:boxBackgroundMode="filled"
-                app:boxStrokeColor="@color/yellow"
-                app:cursorColor="@color/yellow"
-                app:errorEnabled="true"
-                android:hint="아이의 상태는 어떤가요?"
-                app:hintTextColor="@color/yellow"
-                app:layout_constraintEnd_toEndOf="@id/editDiaryImageCardView"
-                app:layout_constraintStart_toStartOf="@id/editDiaryImageCardView"
+                android:fontFamily="@font/pretendard_semibold"
+                android:gravity="bottom"
+                android:inputType="textMultiLine"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="@id/editDiaryAddImageCardView"
+                app:layout_constraintStart_toStartOf="@id/editDiaryAddImageCardView"
                 app:layout_constraintTop_toBottomOf="@id/editDiaryFetalFindingsText"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"/>
 
-                >
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editDiaryFetalFindingsEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/pretendard_semibold"
-                    android:gravity="bottom"
-                    android:inputType="textMultiLine"
-                    android:textSize="14sp" />
-
-            </com.google.android.material.textfield.TextInputLayout>
+            <!--            </com.google.android.material.textfield.TextInputLayout>-->
 
             <TextView
                 android:id="@+id/editDiaryMainContextText"
@@ -382,49 +396,54 @@
                 android:fontFamily="@font/pretendard_bold"
                 android:text="본문"
                 android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="@id/editDiaryImageCardView"
+                app:layout_constraintStart_toStartOf="@id/editDiaryAddImageCardView"
                 app:layout_constraintTop_toBottomOf="@id/editDiaryFetalFindingsInputLayout" />
 
-            <com.google.android.material.textfield.TextInputLayout
+            <!--            <com.google.android.material.textfield.TextInputLayout-->
+            <!--                android:id="@+id/editDiaryMainContentInputLayout"-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:labelFor="@id/test"-->
+            <!--                android:outlineAmbientShadowColor="@color/yellow"-->
+            <!--                android:paddingStart="5dp"-->
+            <!--                android:paddingEnd="5dp"-->
+            <!--                android:textColorHint="#A0A0A0"-->
+            <!--                app:boxBackgroundColor="@color/white"-->
+            <!--                app:boxBackgroundMode="filled"-->
+            <!--                app:boxStrokeColor="@color/yellow"-->
+            <!--                app:cursorColor="@color/yellow"-->
+            <!--                app:errorEnabled="true"-->
+            <!--                android:hint="오늘은 어떤일이 있으셨나요?"-->
+            <!--                app:hintTextColor="@color/yellow"-->
+            <!--                app:layout_constraintEnd_toEndOf="@id/editDiaryAddImageCardView"-->
+            <!--                app:layout_constraintStart_toStartOf="@id/editDiaryAddImageCardView"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/editDiaryMainContextText"-->
+
+            <!--                >-->
+
+            <EditText
                 android:id="@+id/editDiaryMainContentInputLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:labelFor="@id/test"
-                android:outlineAmbientShadowColor="@color/yellow"
-                android:paddingStart="5dp"
-                android:paddingEnd="5dp"
-                android:textColorHint="#A0A0A0"
-                app:boxBackgroundColor="@color/white"
-                app:boxBackgroundMode="filled"
-                app:boxStrokeColor="@color/yellow"
-                app:cursorColor="@color/yellow"
-                app:errorEnabled="true"
-                android:hint="오늘은 어떤일이 있으셨나요?"
-                app:hintTextColor="@color/yellow"
-                app:layout_constraintEnd_toEndOf="@id/editDiaryImageCardView"
-                app:layout_constraintStart_toStartOf="@id/editDiaryImageCardView"
+                android:fontFamily="@font/pretendard_semibold"
+                android:gravity="bottom"
+                android:inputType="textMultiLine"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="@id/editDiaryAddImageCardView"
+                app:layout_constraintStart_toStartOf="@id/editDiaryAddImageCardView"
                 app:layout_constraintTop_toBottomOf="@id/editDiaryMainContextText"
-
-                >
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editDiaryMainContentEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/pretendard_semibold"
-                    android:gravity="bottom"
-                    android:inputType="textMultiLine"
-                    android:textSize="14sp" />
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"/>
 
 
 
-            </com.google.android.material.textfield.TextInputLayout>
+            <!--            </com.google.android.material.textfield.TextInputLayout>-->
             <TextView
                 android:id="@+id/editDiaryStatusText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/editDiaryMainContentInputLayout"
-                app:layout_constraintStart_toStartOf="@id/editDiaryImageCardView"
+                app:layout_constraintStart_toStartOf="@id/editDiaryAddImageCardView"
                 android:fontFamily="@font/pretendard_bold"
                 android:text="오늘 상태는?"
                 android:textSize="16sp"
@@ -435,8 +454,8 @@
                 android:layout_width="0dp"
                 android:gravity="center"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="@id/editDiaryImageCardView"
-                app:layout_constraintEnd_toEndOf="@id/editDiaryImageCardView"
+                app:layout_constraintStart_toStartOf="@id/editDiaryAddImageCardView"
+                app:layout_constraintEnd_toEndOf="@id/editDiaryAddImageCardView"
                 app:layout_constraintTop_toBottomOf="@id/editDiaryStatusText"
                 android:layout_marginTop="14dp"
                 android:orientation="horizontal"

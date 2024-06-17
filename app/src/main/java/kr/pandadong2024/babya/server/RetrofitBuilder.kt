@@ -8,6 +8,7 @@ import com.google.gson.GsonBuilder
 import kr.pandadong2024.babya.server.local.BabyaDB
 import kr.pandadong2024.babya.server.local.TokenDAO
 import kr.pandadong2024.babya.server.remote.interceptor.TokenInterceptor
+import kr.pandadong2024.babya.server.remote.service.DiaryService
 import kr.pandadong2024.babya.server.remote.service.MainService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -26,6 +27,7 @@ class RetrofitBuilder {
         private var loginService: LoginService? = null
         private var signupService: SignupService? = null
         private var mainService: MainService? = null
+        private var diaryService: DiaryService? = null
         private var httpClient : OkHttpClient? = null
         private var tokenDao: TokenDAO? = null
 
@@ -155,6 +157,13 @@ class RetrofitBuilder {
                 mainService = getRetrofit().create(MainService::class.java)
             }
             return mainService!!
+        }
+
+        fun getDiaryService() : DiaryService {
+            if (diaryService == null){
+                diaryService = getHttpRetrofit().create(DiaryService::class.java)
+            }
+            return diaryService!!
         }
     }
 }

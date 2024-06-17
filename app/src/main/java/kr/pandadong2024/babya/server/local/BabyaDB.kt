@@ -4,8 +4,10 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 
-@Database(entities = [TokenEntity::class], version = 4)
+@Database(entities = [TokenEntity::class], version = 5)
 abstract class BabyaDB : RoomDatabase() {
     abstract fun tokenDao(): TokenDAO
     companion object {
@@ -18,17 +20,20 @@ abstract class BabyaDB : RoomDatabase() {
                 instance = Room.databaseBuilder(
                     context.applicationContext,
                     BabyaDB::class.java, "database")
-//                    .addMigrations(MIGRATION_3_4)
+                    .addMigrations(MIGRATION_4_5)
                     .build()
             }
             return instance
         }
+        private val MIGRATION_4_5 = object : Migration(4, 5) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL(
+                    "ALTER TABLE 'token_table' ADD COLUMN 'email' TEXT NOT NULL DEFAULT ''"
+                )
+            }
 
-//        private val MIGRATION_3_4 = object : Migration(3,4){
-//            override fun migrate(database: SupportSQLiteDatabase) {
-//                database.execSQL("ALTER TABLE 'token_table' ADD COLUMN 'accessToken' INTEGER" )
-//            }
-//        }
+        }
+
 
         fun getInstanceOrNull(): BabyaDB? {
             return instance

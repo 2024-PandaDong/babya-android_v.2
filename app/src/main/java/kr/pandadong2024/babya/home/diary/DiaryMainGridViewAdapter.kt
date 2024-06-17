@@ -6,17 +6,16 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import coil.load
 import kr.pandadong2024.babya.databinding.ItmeDiaryCardBinding
-import kr.pandadong2024.babya.server.remote.responses.diary.DiaryData
-import kr.pandadong2024.babya.server.remote.responses.diary.DiaryStatus
+import kr.pandadong2024.babya.server.remote.responses.diary.DiaryDataResponses
 
 class DiaryMainGridViewAdapter(
-    val diaryData : DiaryStatus,
-    val makeNewDisplay : (diaryData : DiaryData) -> Unit
+    val diaryData : List<DiaryDataResponses>,
+    val makeNewDisplay : (diaryData : DiaryDataResponses) -> Unit
 ) : BaseAdapter() {
-    override fun getCount(): Int = diaryData.data!!.size
+    override fun getCount(): Int = diaryData.size
 
     override fun getItem(position: Int): Any {
-        return diaryData.data!![position]
+        return diaryData[position]
     }
 
     override fun getItemId(position: Int): Long {
@@ -24,13 +23,13 @@ class DiaryMainGridViewAdapter(
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        val data = diaryData.data!![position]
+        val data = diaryData[position]
         val binding  = ItmeDiaryCardBinding.inflate(LayoutInflater.from(parent?.context))
-        binding.diaryMainImage.load(data.files[0].url)
-        binding.titleText.text = data.diary.title
-        binding.writerText.text = data.diary.title
+        binding.diaryMainImage.load(data.files?.get(0)?.url)
+        binding.titleText.text = data.title
+        binding.writerText.text = data.title
         binding.root.setOnClickListener {
-            makeNewDisplay(data.diary)
+            makeNewDisplay(data)
         }
         return binding.root
     }

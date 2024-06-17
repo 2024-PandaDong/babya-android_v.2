@@ -4,7 +4,7 @@ import kr.pandadong2024.babya.server.remote.responses.BannerResponses
 import kr.pandadong2024.babya.server.remote.responses.BaseResponse
 import kr.pandadong2024.babya.server.remote.responses.CompanyDataResponses
 import kr.pandadong2024.babya.server.remote.responses.PageRequest
-import kr.pandadong2024.babya.server.remote.responses.diary.DiaryPostData
+import kr.pandadong2024.babya.server.remote.responses.diary.DiaryDataResponses
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Path
@@ -20,19 +20,9 @@ interface MainService {
 
     @GET("/company")
     suspend fun getCompanyData(
+        @Header("Authorization")accessToken : String,
         @Query("pageRequest") pageRequest : PageRequest
     ):BaseResponse<List<CompanyDataResponses>>
 
-    @GET("/diary/my")
-    suspend fun getMyDiaryData(
-        @Query("page") page : Int,
-        @Query("size") size : Int
-    ):BaseResponse<List<DiaryPostData>>
-
-    @GET("/diary")
-    suspend fun getAllDiaryData(
-        @Query("page") page : Int,
-        @Query("size") size : Int
-    ):BaseResponse<List<DiaryPostData>>
 }
 

@@ -6,25 +6,31 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentDiaryBinding
 import kr.pandadong2024.babya.home.diary.diaryviewmodle.DiaryViewModel
 import kr.pandadong2024.babya.server.RetrofitBuilder
-import kr.pandadong2024.babya.server.remote.responses.diary.DiaryData
-import kr.pandadong2024.babya.server.remote.responses.diary.DiaryPostData
-import kr.pandadong2024.babya.server.remote.responses.diary.DiaryFile
-import kr.pandadong2024.babya.server.remote.responses.diary.DiaryStatus
+import kr.pandadong2024.babya.server.local.BabyaDB
+import kr.pandadong2024.babya.server.local.TokenDAO
+import kr.pandadong2024.babya.server.remote.responses.BaseResponse
+import kr.pandadong2024.babya.server.remote.responses.PageRequest
+import kr.pandadong2024.babya.server.remote.responses.diary.DiaryDataResponses
 import kr.pandadong2024.babya.util.BottomControllable
+import kotlin.math.log
 
 class DiaryFragment : Fragment() {
     private var _binding: FragmentDiaryBinding? = null
+    private var diaryList: List<DiaryDataResponses>? = null
     private val binding get() = _binding!!
-    private lateinit var viewmodel: DiaryViewModel
+    private lateinit var viewModel: DiaryViewModel
+    private lateinit var tokenDao: TokenDAO
 
     private lateinit var diaryMainGridViewAdapter: DiaryMainGridViewAdapter
     private lateinit var diaryBannerAdapter: DiaryBannerAdapter
@@ -38,8 +44,8 @@ class DiaryFragment : Fragment() {
         (requireActivity() as BottomControllable).setBottomNavVisibility(false)
         initDiaryBannerView()
 
-        Log.d(TAG, getAllDiaryData(1, 1).toString())
-        initDiaryGridView(getAllDiaryData(1, 1))
+        tokenDao = BabyaDB.getInstance(requireContext().applicationContext)?.tokenDao()!!
+
 
         binding.diaryEditFloatingActionButton.setOnClickListener{
             findNavController().navigate(R.id.action_diaryFragment_to_editDiaryFragment)
@@ -53,15 +59,16 @@ class DiaryFragment : Fragment() {
             when (checkId) {
                 binding.diaryAllRadio.id -> {
                     binding.diaryDisclosureButton.visibility = View.GONE
-                    initDiaryGridView(getAllDiaryData(1, 1))
+                    getDiaryData(1, 10, 2)
                 }
 
                 binding.diaryMyRadio.id -> {
                     binding.diaryDisclosureButton.visibility = View.VISIBLE
-                    initDiaryGridView(getAllDiaryData(1, 1))
+                    getDiaryData(1, 10, 1)
                 }
             }
         }
+
         return binding.root
     }
 
@@ -75,8 +82,9 @@ class DiaryFragment : Fragment() {
         (requireActivity() as BottomControllable).setBottomNavVisibility(true)
     }
 
-    fun initDiaryGridView(diaryDataList: DiaryStatus) {
-        diaryMainGridViewAdapter = DiaryMainGridViewAdapter(diaryDataList) { data ->
+
+    private fun initDiaryGridView() {
+        diaryMainGridViewAdapter = DiaryMainGridViewAdapter(diaryList!!) { data ->
             Log.d("TAG", "in data")
             findNavController().navigate(R.id.action_diaryFragment_to_detailPublicFragment)
         }
@@ -85,7 +93,7 @@ class DiaryFragment : Fragment() {
         binding.DiaryGridView.adapter = diaryMainGridViewAdapter
     }
 
-    fun initDiaryBannerView() {
+    private fun initDiaryBannerView() {
         diaryBannerAdapter = DiaryBannerAdapter(listOf(""), requireContext())
         diaryBannerAdapter.notifyItemRemoved(0)
         with(binding) {
@@ -95,73 +103,71 @@ class DiaryFragment : Fragment() {
     }
 
 
-    fun getMyDiaryData(
+    // type | 1 : my | 2 : all
+    private fun getDiaryData(
         page: Int,
         size: Int,
-    ): DiaryStatus = runBlocking {
-        var diaryList: List<DiaryPostData>? = null
-        var statuse: Boolean = false
-        withContext(Dispatchers.IO) {
+        type : Int
+    ) {
+        Log.d(TAG, "in getMyDiaryData")
+        lifecycleScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                diaryList =
-                    RetrofitBuilder.getHttpMainService().getMyDiaryData(page = page, size = size).data
-            }.onSuccess {
-                statuse = true
+                Log.d(TAG, "in runCahting")
+                var DiaryData : BaseResponse<List<DiaryDataResponses>>? = null
+
+                Log.d(TAG, "ㅅㄷㄴㅅ = ${RetrofitBuilder.getDiaryService().getMyDiaryData(accessToken = tokenDao.getMembers ().accessToken, pageRequest = PageRequest(page = page, size= size)).message!!}")
+                when(type){
+                    1 -> {
+                        DiaryData = RetrofitBuilder.getDiaryService().getMyDiaryData(
+                            accessToken = tokenDao.getMembers().accessToken,
+                            pageRequest = PageRequest(page, size)
+                        )
+                        Log.d(TAG, "Test1")
+                        Log.e(TAG, "status : ${DiaryData.status}, message : ${DiaryData.message}")
+                        Log.d(TAG, "Test2")
+
+                    }
+                    2 -> {
+                        DiaryData = RetrofitBuilder.getDiaryService().getOtherDiaryList(
+                            accessToken = tokenDao.getMembers().accessToken,
+                            pageRequest = PageRequest(
+                                page = page,
+                                size= size
+                            )
+                        )
+                        Log.d(TAG, "Test1")
+                        Log.e(TAG, "status : ${DiaryData.status}, message : ${DiaryData.message}")
+                        Log.d(TAG, "Test2")
+                    }
+
+                    else -> {
+                        RetrofitBuilder.getDiaryService().getOtherDiaryList(
+                            accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
+                            pageRequest = PageRequest(
+                                page = page,
+                                size= size
+                            )
+                        )
+                    }
+                }
+                Log.d(TAG, "Test12123123213")
+                Log.e(TAG, "status : ${DiaryData?.status}, message : ${DiaryData?.message}")
+                diaryList = DiaryData?.data
             }.onFailure {
-                statuse = false
+                Log.d(TAG, "Test123")
                 diaryList = listOf(
-                    DiaryPostData(DiaryData(), listOf(DiaryFile())),
-                    DiaryPostData(DiaryData(), listOf(DiaryFile()))
+                    DiaryDataResponses()
                 )
+                lifecycleScope.launch(Dispatchers.Main) {
+                    initDiaryGridView()
+                }
+            }.onSuccess {
+                Log.d(TAG, "Test3")
+                lifecycleScope.launch(Dispatchers.Main) {
+                    initDiaryGridView()
+                }
             }
         }
 
-        return@runBlocking DiaryStatus(
-            status = statuse,
-            data = diaryList
-        )
     }
-
-    fun getAllDiaryData(
-        page: Int,
-        size: Int,
-    ): DiaryStatus = runBlocking {
-        var diaryList: List<DiaryPostData>? = null
-        var status: Boolean = false
-
-        withContext(Dispatchers.IO) {
-            kotlin.runCatching {
-                diaryList =
-                    RetrofitBuilder.getHttpMainService().getAllDiaryData(page = page, size = size).data
-            }.onSuccess {
-                status = true
-            }.onFailure {
-                status = false
-                diaryList = listOf(
-                    DiaryPostData(DiaryData(title = "titledesu"), listOf(DiaryFile())),
-                    DiaryPostData(DiaryData(), listOf(DiaryFile())),
-                    DiaryPostData(DiaryData(), listOf(DiaryFile())),
-                    DiaryPostData(DiaryData(), listOf(DiaryFile())),
-                    DiaryPostData(DiaryData(), listOf(DiaryFile())),
-                    DiaryPostData(DiaryData(), listOf(DiaryFile())),
-                    DiaryPostData(DiaryData(), listOf(DiaryFile())),
-                    DiaryPostData(DiaryData(), listOf(DiaryFile())),
-                    DiaryPostData(DiaryData(), listOf(DiaryFile())),
-                    DiaryPostData(DiaryData(), listOf(DiaryFile())),
-                    DiaryPostData(DiaryData(), listOf(DiaryFile())),
-                    DiaryPostData(DiaryData(), listOf(DiaryFile())),
-                    DiaryPostData(DiaryData(), listOf(DiaryFile())),
-                    DiaryPostData(DiaryData(), listOf(DiaryFile())),
-                    DiaryPostData(DiaryData(), listOf(DiaryFile()))
-                )
-            }
-        }
-
-        return@runBlocking DiaryStatus(
-            status = status,
-            data = diaryList
-        )
-    }
-
-
 }

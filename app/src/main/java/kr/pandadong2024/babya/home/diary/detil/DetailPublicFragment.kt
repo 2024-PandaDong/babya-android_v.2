@@ -30,7 +30,7 @@ class DetailPublicFragment : Fragment() {
     }
 
     private fun initCommentRecyclerView(){
-        val testList = mutableListOf("")
+        val testList = mutableListOf<String>()
         for (i in 0.. 100){
             testList.add(i.toString())
         }

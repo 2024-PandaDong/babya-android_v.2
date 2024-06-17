@@ -43,15 +43,14 @@ class MainFragment : Fragment() {
 
     private suspend fun getBanner() : List<BannerResponses>{
         Log.d(TAG, "mainBanner : $form")
-        val db = BabyaDB.getInstance(requireContext().applicationContext)?.tokenDao()
         val response = RetrofitBuilder.getHttpMainService().getBanner(
-            accessToken = "Bearer ${db?.getMembers()?.accessToken}",
+            accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
             lc ="my",
             type = "$form")
         Log.d(TAG, "mainBanner : ${response.data}")
         Log.d(TAG, "mainBanner : ${response.status}")
         Log.d(TAG, "mainBanner : ${response.message}")
-        return response.data
+        return response.data!!
     }
     lateinit var job : Job
     fun scrollJobCreate() {
@@ -95,7 +94,7 @@ class MainFragment : Fragment() {
             }
         }
         initStatusViewPager()
-//        initCompanyList()
+        initCompanyList()
         initBannerData()
 
         binding.radioGroup.check(binding.maternityInfoRadioButton.id)
@@ -188,17 +187,24 @@ class MainFragment : Fragment() {
     private fun initCompanyList() {
         lifecycleScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                companyData = RetrofitBuilder.getMainService().getCompanyData(PageRequest(0, 3))
+                companyData = RetrofitBuilder.getMainService().getCompanyData(
+                    accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
+                    pageRequest =  PageRequest(0, 3)
+                )
                 Log.e(TAG, "initCompanyRecyclerView: ${companyData.status}")
                 Log.e(TAG, "initCompanyRecyclerView: ${companyData.message}")
-                companyList = companyData.data
+                companyList = companyData.data!!
             }.onSuccess {
-                setCompanyRecyclerView()
+                launch(Dispatchers.Main) {
+                    setCompanyRecyclerView()
+                }
             }.onFailure {
                 it.stackTrace
-                companyList = listOf()
+                companyList = listOf(CompanyDataResponses(), CompanyDataResponses(), CompanyDataResponses())
                 Log.e(TAG, "initCompanyRecyclerView: ${it.message.toString()}")
-                setCompanyRecyclerView()
+                launch(Dispatchers.Main) {
+                    setCompanyRecyclerView()
+                }
             }
         }
     }
