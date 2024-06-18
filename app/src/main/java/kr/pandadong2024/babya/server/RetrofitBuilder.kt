@@ -4,8 +4,10 @@ import com.babya.server.service.LoginService
 import kr.pandadong2024.babya.server.service.SignupService
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import kr.pandadong2024.babya.server.service.ProfileService
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
 
 class RetrofitBuilder {
     companion object{
@@ -13,6 +15,7 @@ class RetrofitBuilder {
         private var retrofit: Retrofit? = null
         private var loginService: LoginService? = null
         private var signupService: SignupService? = null
+        private var profileService: ProfileService? = null
 
         @Synchronized
         fun getGson(): Gson? {
@@ -31,6 +34,14 @@ class RetrofitBuilder {
                     .build()
             }
             return retrofit!!
+        }
+
+        @Synchronized
+        fun getProfileService(): ProfileService{
+            if (profileService == null){
+                profileService = getRetrofit().create(ProfileService::class.java)
+            }
+            return profileService!!
         }
 
         fun getLoginService(): LoginService{

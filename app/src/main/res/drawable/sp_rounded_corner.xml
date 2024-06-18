@@ -4,8 +4,8 @@
         
         android:type="linear"
         android:angle="45"
-        android:startColor="@color/white"
-        android:endColor="@color/white"/>
+        android:startColor="#FFE38B"
+        android:endColor="#FFE38B"/>
 
 
     <!--    <solid android:color="#7EF192"/>-->
@@ -18,8 +18,8 @@
     <!--        android:right="1dp"-->
     <!--        android:bottom="1dp" />-->
 
-    <corners android:bottomRightRadius="10dp"
-        android:bottomLeftRadius="10dp"
-        android:topLeftRadius="10dp"
-        android:topRightRadius="10dp"/>
+    <corners android:bottomRightRadius="80dp"
+        android:bottomLeftRadius="80dp"
+        android:topLeftRadius="80dp"
+        android:topRightRadius="80dp"/>
 </shape>

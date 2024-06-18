@@ -48,8 +48,7 @@
                 android:fontFamily="@font/pretendard_variable"
                 app:layout_constraintTop_toBottomOf="@id/toolbar"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginRight="295dp"
+                android:layout_marginLeft="23dp"
                 android:layout_marginTop="25dp"
                 />
 

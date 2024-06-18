@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/quiz"
+        android:title="일일퀴즈" />
+
+    <item
+        android:id="@+id/profile"
+        android:title="프로필 수정하기"
+        />
+
+    <item
+        android:id="@+id/privacy"
+        android:title="개인정보 약관상세" />
+
+    <item
+        android:id="@+id/included"
+        android:title="문의하기" />
+
+    <item
+        android:id="@+id/faq"
+        android:title="FAQ" />
+
+    <item
+        android:id="@+id/logout"
+        android:title="로그아웃"
+        />
+
+    <item
+        android:id="@+id/delete"
+        android:title="계정삭제"
+        />
+
+</menu>
