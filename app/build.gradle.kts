@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     id("com.google.protobuf")
+    id("kotlin-kapt")
 }
 
 android {
@@ -60,14 +61,28 @@ protobuf {
 }
 
 dependencies {
+    implementation("com.tbuonomo:dotsindicator:5.0")
+    implementation(libs.circleindicator)
+
+    implementation(libs.androidx.room.runtime.v250)
+    implementation(libs.androidx.room.ktx)
+    kapt(libs.androidx.room.compiler)
+
+    implementation(libs.logging.interceptor)
+
+    implementation(libs.coil)
+    implementation (libs.coil.svg)
 
     implementation(libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.circleimageview)
 
+    implementation (libs.okhttp)
     implementation(libs.firebase.firestore.ktx)
     implementation(libs.androidx.activity.v190)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
-    val room_version = "2.6.1"
+
+    //datastore
     implementation(libs.androidx.datastore)
     implementation(libs.protobuf.javalite)
     implementation(libs.protobuf.kotlin.lite)

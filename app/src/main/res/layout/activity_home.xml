@@ -23,9 +23,7 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         app:labelVisibilityMode="labeled"
         app:itemIconSize="30dp"
-
         android:pointerIcon="text"
-
         android:id="@+id/nav_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -37,6 +35,10 @@
         app:layout_constraintRight_toRightOf="parent"
         app:itemTextAppearanceActiveBoldEnabled="false"
         app:itemHorizontalTranslationEnabled="false"
-        app:menu="@menu/bottom_home_menu" />
+        app:menu="@menu/bottom_home_menu"
+        style="@style/BottomNavigationViewStyle"
+        android:paddingTop="10dp"
+        android:paddingBottom="12dp"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

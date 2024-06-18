@@ -43,7 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <RadioGroup
-                android:checkedButton="@id/maternity_info"
+                android:checkedButton="@id/diaryAllRadio"
                 android:id="@+id/radioGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -57,10 +57,10 @@
                 >
 
                 <RadioButton
-                    android:id="@+id/maternity_info"
+                    android:id="@+id/maternityInfoRadioButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/selector_main_underbar"
+                    android:background="@drawable/sel_main_underbar"
                     android:button="@null"
                     android:text="임산부"
                     android:paddingHorizontal="3dp"
@@ -71,11 +71,10 @@
                     android:checked="true"
                     />
                 <RadioButton
-                    android:id="@+id/locale_info"
+                    android:id="@+id/LocaleInfoRadioButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
-                    android:background="@drawable/selector_main_underbar"
+                    android:background="@drawable/sel_main_underbar"
                     android:button="@null"
                     android:text="지역별"
                     android:paddingHorizontal="3dp"
@@ -86,13 +85,100 @@
                     android:checked="false"/>
 
             </RadioGroup>
-<!--            <ImageView-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="200dp"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/radioGroup"-->
-<!--                -->
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/bannerViewPager"
+                android:layout_width="0dp"
+                android:layout_height="200dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/radioGroup"
+                android:layout_marginStart="13dp"
+                android:layout_marginEnd="13dp"
+                />
+
+            <me.relex.circleindicator.CircleIndicator3
+                android:id="@+id/bannerIndicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:ci_drawable="@drawable/sp_circle_select"
+                app:ci_drawable_unselected="@drawable/sp_circle_banner_unselect"
+                app:layout_constraintBottom_toBottomOf="@id/bannerViewPager"
+                app:layout_constraintEnd_toEndOf="@id/bannerViewPager"
+                app:layout_constraintStart_toStartOf="@id/bannerViewPager"
+                android:layout_marginTop="0dp"
+                />
+            <TextView
+                android:id="@+id/myStatusText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/bannerViewPager"
+                app:layout_constraintStart_toStartOf="parent"
+                android:text="나의 상태"
+                android:fontFamily="@font/pretendard_bold"
+                android:textSize="16sp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="25dp"
+                />
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/statusViewPager"
+                android:layout_width="0dp"
+                android:layout_height="150dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/myStatusText"
+                android:layout_marginStart="13dp"
+                android:layout_marginEnd="13dp"
+                android:layout_marginTop="13dp"
+                />
+            <me.relex.circleindicator.CircleIndicator3
+                android:id="@+id/ci_indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@id/statusViewPager"
+                app:layout_constraintEnd_toEndOf="@id/statusViewPager"
+                app:layout_constraintStart_toStartOf="@id/statusViewPager"
+                app:layout_constraintVertical_bias="0.85"
+                app:ci_drawable="@drawable/sp_circle_select"
+                app:ci_drawable_unselected="@drawable/sp_circle_statuse_unselect"/>
+            <TextView
+                android:id="@+id/companyText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@id/myStatusText"
+                app:layout_constraintTop_toBottomOf="@id/statusViewPager"
+                android:text="현재 인기회사"
+                android:fontFamily="@font/pretendard_bold"
+                android:textSize="16sp"
+                android:layout_marginTop="25dp"
+                />
+            <TextView
+                android:id="@+id/companyMoreText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/companyText"
+                app:layout_constraintBottom_toBottomOf="@id/companyText"
+                android:layout_marginEnd="20dp"
+                android:text="더보기"
+                android:fontFamily="@font/pretendard_bold"
+                android:textSize="14sp"
+
+
+                />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/companyRankRecyclerView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintTop_toBottomOf="@id/companyText"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="13dp"
+                android:paddingHorizontal="13dp"
+                />
+
+
 
 
 

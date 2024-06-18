@@ -1,0 +1,612 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".home.diary.EditDiaryFragment">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/editDiaryToolbar"
+        style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:subtitle="title"
+        android:title="test"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/editDateText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="@font/pretendard_bold"
+            android:text="2024.12.12"
+            android:textSize="19sp" />
+
+        <ImageButton
+            android:id="@+id/diaryBackButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:background="@null"
+            android:src="@drawable/ic_arrow_14" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/diaryEditSubmitButton"
+            android:layout_width="42dp"
+            android:layout_height="25dp"
+            android:layout_gravity="end"
+            android:layout_marginEnd="15dp"
+            android:background="@drawable/sp_edit_diary_background"
+            android:fontFamily="@font/pretendard_bold"
+            android:src="@drawable/ic_reload"
+            android:text="등록"
+            android:textColor="@color/yellow"
+            android:textSize="11sp" />
+    </androidx.appcompat.widget.Toolbar>
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/editDiaryNestedScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/editDiaryToolbar"
+        app:layout_constraintBottom_toTopOf="@id/editDiaryBottomLayout"
+        >
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="30dp">
+            <androidx.cardview.widget.CardView
+                android:id="@+id/editDiaryAddImageCardView"
+                android:layout_width="0dp"
+                android:layout_height="200dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="9dp"
+                android:layout_marginEnd="20dp"
+                android:background="@color/gray"
+                android:elevation="@null"
+                android:outlineProvider="none"
+                app:cardCornerRadius="10dp"
+                app:cardBackgroundColor="@color/gray"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+                <ImageView
+                    android:id="@+id/selectedImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+
+                    android:scaleType="centerCrop"
+                    />
+
+                <ImageView
+                    android:id="@+id/iconImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_add_photo"
+                    android:layout_gravity="center"
+                    android:scaleY="2"
+                    android:scaleX="2"
+                    />
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/editDiaryTitleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:fontFamily="@font/pretendard_bold"
+                android:text="제목"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@id/editDiaryAddImageCardView"
+                app:layout_constraintTop_toBottomOf="@id/editDiaryAddImageCardView" />
+
+<!--            <com.google.android.material.textfield.TextInputLayout-->
+<!--                android:id="@+id/editDiaryTitleInputLayout"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="40dp"-->
+<!--                android:labelFor="@id/test"-->
+<!--                android:outlineAmbientShadowColor="@color/yellow"-->
+<!--                android:paddingStart="5dp"-->
+<!--                android:paddingEnd="5dp"-->
+<!--                android:textColorHint="#A0A0A0"-->
+<!--                app:boxBackgroundColor="@color/white"-->
+<!--                app:boxBackgroundMode="filled"-->
+<!--                app:boxStrokeColor="@color/yellow"-->
+<!--                app:cursorColor="@color/yellow"-->
+<!--                app:errorEnabled="true"-->
+<!--                app:hintTextColor="@color/yellow"-->
+<!--                -->
+
+<!--                >-->
+
+                <EditText
+                    android:id="@+id/editDiaryTitleEditText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/pretendard_semibold"
+                    android:gravity="bottom"
+                    android:hint="제목"
+                    android:inputType="textEmailAddress"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="@id/editDiaryAddImageCardView"
+                    app:layout_constraintStart_toStartOf="@id/editDiaryAddImageCardView"
+                    app:layout_constraintTop_toBottomOf="@id/editDiaryTitleText"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"/>
+
+
+            <TextView
+                android:id="@+id/weightText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pretendard_semibold"
+                android:text="체중"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@id/weightEditText"
+                app:layout_constraintEnd_toStartOf="@id/weightEditText"
+
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="@id/editDiaryAddImageCardView"
+                app:layout_constraintTop_toTopOf="@id/weightEditText" />
+
+            <EditText
+                android:id="@+id/weightEditText"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:fontFamily="@font/pretendard_semibold"
+                android:hint="000"
+                android:maxLength="3"
+                android:inputType="number"
+                android:paddingVertical="1dp"
+                android:textAlignment="center"
+                android:textSize="13sp"
+                android:layout_marginTop="20dp"
+
+                app:layout_constraintEnd_toStartOf="@id/weightUnitText"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toEndOf="@id/weightText"
+                app:layout_constraintTop_toBottomOf="@id/editDiaryTitleEditText" />
+
+            <TextView
+
+                android:id="@+id/weightUnitText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pretendard_bold"
+                android:text="Kg"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@id/weightText"
+
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toEndOf="@id/weightEditText"
+                app:layout_constraintTop_toTopOf="@id/weightText" />
+            <TextView
+                android:id="@+id/bloodPressureText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pretendard_semibold"
+                android:text="혈압"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@id/bloodPressureHeightEditText"
+                app:layout_constraintEnd_toStartOf="@id/bloodPressureHeightEditText"
+
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="@id/editDiaryAddImageCardView"
+                app:layout_constraintTop_toTopOf="@id/bloodPressureHeightEditText" />
+
+            <EditText
+                android:id="@+id/bloodPressureHeightEditText"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:fontFamily="@font/pretendard_semibold"
+                android:hint="000"
+                android:maxLength="3"
+                android:inputType="number"
+                android:paddingVertical="1dp"
+                android:textAlignment="center"
+                android:textSize="13sp"
+                android:layout_marginTop="10dp"
+
+                app:layout_constraintEnd_toStartOf="@id/bloodPressureSplitText"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toEndOf="@id/bloodPressureText"
+                app:layout_constraintTop_toBottomOf="@id/weightEditText" />
+
+            <TextView
+
+
+                android:id="@+id/bloodPressureSplitText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pretendard_bold"
+                android:text="/"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@id/bloodPressureHeightEditText"
+
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toEndOf="@id/bloodPressureHeightEditText"
+                app:layout_constraintEnd_toStartOf="@id/bloodPressureLowEditText"
+                app:layout_constraintTop_toTopOf="@id/bloodPressureHeightEditText" />
+            <EditText
+                android:id="@+id/bloodPressureLowEditText"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:fontFamily="@font/pretendard_semibold"
+                android:hint="00"
+                android:maxLength="3"
+                android:inputType="number"
+                android:paddingVertical="1dp"
+                android:textAlignment="center"
+                android:textSize="13sp"
+
+
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toEndOf="@id/bloodPressureSplitText"
+                app:layout_constraintTop_toTopOf="@id/bloodPressureHeightEditText"
+                app:layout_constraintBottom_toBottomOf="@id/bloodPressureHeightEditText"/>
+
+            <TextView
+                android:id="@+id/pregnancyText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pretendard_semibold"
+                android:text="임신주수"
+                android:layout_marginStart="50dp"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@id/pregnancyEditText"
+                app:layout_constraintEnd_toStartOf="@id/pregnancyEditText"
+
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toEndOf="@+id/weightUnitText"
+                app:layout_constraintTop_toTopOf="@id/pregnancyEditText" />
+
+            <EditText
+                android:id="@+id/pregnancyEditText"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:fontFamily="@font/pretendard_semibold"
+                android:hint="000"
+                android:maxLength="3"
+                android:inputType="number"
+                android:paddingVertical="1dp"
+                android:textAlignment="center"
+                android:textSize="13sp"
+                android:layout_marginTop="20dp"
+
+                app:layout_constraintEnd_toStartOf="@id/pregnancyUnitText"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toEndOf="@id/pregnancyText"
+                app:layout_constraintTop_toBottomOf="@id/editDiaryTitleEditText" />
+
+            <TextView
+
+                android:id="@+id/pregnancyUnitText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pretendard_bold"
+                android:text="주"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@id/pregnancyText"
+
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toEndOf="@id/pregnancyEditText"
+                app:layout_constraintTop_toTopOf="@id/pregnancyText" />
+
+            <TextView
+                android:id="@+id/nextDayTitleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pretendard_semibold"
+                android:text="다음진찰일"
+                android:textSize="14sp"
+
+                app:layout_constraintBottom_toBottomOf="@id/bloodPressureHeightEditText"
+                app:layout_constraintEnd_toStartOf="@id/nextDaySelectedText"
+
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="@id/pregnancyText"
+                app:layout_constraintTop_toTopOf="@id/bloodPressureHeightEditText" />
+
+            <TextView
+                android:id="@+id/nextDaySelectedText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pretendard_bold"
+                android:textAlignment="center"
+                android:textSize="13sp"
+                android:text="2024.12.12"
+                android:textColor="@color/gray"
+
+                app:layout_constraintEnd_toStartOf="@id/nextDaySelectButton"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toEndOf="@id/nextDayTitleText"
+                android:paddingStart="3dp"
+                android:paddingEnd="3dp"
+                app:layout_constraintBottom_toBottomOf="@id/nextDayTitleText"/>
+
+            <ImageButton
+                android:id="@+id/nextDaySelectButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_calendar"
+                android:background="@null"
+
+                app:layout_constraintBottom_toBottomOf="@id/nextDayTitleText"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toEndOf="@id/nextDaySelectedText"
+                app:layout_constraintTop_toTopOf="@id/nextDayTitleText" />
+
+            <TextView
+                android:id="@+id/editDiaryFetalFindingsText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:fontFamily="@font/pretendard_bold"
+                android:text="태아소견"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@id/editDiaryAddImageCardView"
+                app:layout_constraintTop_toBottomOf="@id/bloodPressureHeightEditText" />
+
+<!--            <com.google.android.material.textfield.TextInputLayout-->
+<!--                android:id="@+id/editDiaryFetalFindingsInputLayout"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:labelFor="@id/test"-->
+<!--                android:outlineAmbientShadowColor="@color/yellow"-->
+<!--                android:paddingStart="5dp"-->
+<!--                android:paddingEnd="5dp"-->
+<!--                android:textColorHint="#A0A0A0"-->
+<!--                app:boxBackgroundColor="@color/white"-->
+<!--                app:boxBackgroundMode="filled"-->
+<!--                app:boxStrokeColor="@color/yellow"-->
+<!--                app:cursorColor="@color/yellow"-->
+<!--                app:errorEnabled="true"-->
+<!--                android:hint="아이의 상태는 어떤가요?"-->
+<!--                app:hintTextColor="@color/yellow"-->
+<!--                app:layout_constraintEnd_toEndOf="@id/editDiaryAddImageCardView"-->
+<!--                app:layout_constraintStart_toStartOf="@id/editDiaryAddImageCardView"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/editDiaryFetalFindingsText"-->
+
+<!--                >-->
+
+                <EditText
+                    android:id="@+id/editDiaryFetalFindingsEditText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/pretendard_semibold"
+                    android:gravity="bottom"
+                    android:inputType="textMultiLine"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="@id/editDiaryAddImageCardView"
+                    app:layout_constraintStart_toStartOf="@id/editDiaryAddImageCardView"
+                    app:layout_constraintTop_toBottomOf="@id/editDiaryFetalFindingsText"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"/>
+
+<!--            </com.google.android.material.textfield.TextInputLayout>-->
+
+            <TextView
+                android:id="@+id/editDiaryMainContentText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pretendard_bold"
+                android:text="본문"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@id/editDiaryAddImageCardView"
+                app:layout_constraintTop_toBottomOf="@id/editDiaryFetalFindingsEditText" />
+
+<!--            <com.google.android.material.textfield.TextInputLayout-->
+<!--                android:id="@+id/editDiaryMainContentInputLayout"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:labelFor="@id/test"-->
+<!--                android:outlineAmbientShadowColor="@color/yellow"-->
+<!--                android:paddingStart="5dp"-->
+<!--                android:paddingEnd="5dp"-->
+<!--                android:textColorHint="#A0A0A0"-->
+<!--                app:boxBackgroundColor="@color/white"-->
+<!--                app:boxBackgroundMode="filled"-->
+<!--                app:boxStrokeColor="@color/yellow"-->
+<!--                app:cursorColor="@color/yellow"-->
+<!--                app:errorEnabled="true"-->
+<!--                android:hint="오늘은 어떤일이 있으셨나요?"-->
+<!--                app:hintTextColor="@color/yellow"-->
+<!--                app:layout_constraintEnd_toEndOf="@id/editDiaryAddImageCardView"-->
+<!--                app:layout_constraintStart_toStartOf="@id/editDiaryAddImageCardView"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/editDiaryMainContextText"-->
+
+<!--                >-->
+
+                <EditText
+                    android:id="@+id/editDiaryMainContentEditText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/pretendard_semibold"
+                    android:gravity="bottom"
+                    android:inputType="textMultiLine"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="@id/editDiaryAddImageCardView"
+                    app:layout_constraintStart_toStartOf="@id/editDiaryAddImageCardView"
+                    app:layout_constraintTop_toBottomOf="@id/editDiaryMainContentText"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"/>
+
+
+
+<!--            </com.google.android.material.textfield.TextInputLayout>-->
+            <TextView
+                android:id="@+id/editDiaryStatusText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/editDiaryMainContentEditText"
+                app:layout_constraintStart_toStartOf="@id/editDiaryAddImageCardView"
+                android:fontFamily="@font/pretendard_bold"
+                android:text="오늘 상태는?"
+                android:textSize="16sp"
+
+                />
+            <RadioGroup
+                android:id="@+id/editDiaryStatusRadioGroup"
+                android:layout_width="0dp"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@id/editDiaryAddImageCardView"
+                app:layout_constraintEnd_toEndOf="@id/editDiaryAddImageCardView"
+                app:layout_constraintTop_toBottomOf="@id/editDiaryStatusText"
+                android:layout_marginTop="14dp"
+                android:orientation="horizontal"
+                >
+                <RadioButton
+                    android:id="@+id/goodRadioButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="좋음"
+                    android:textSize="12sp"
+                    android:textColor="@drawable/sel_text_color"
+                    android:fontFamily="@font/pretendard_semibold"
+                    android:textAlignment="center"
+                    android:button="@null"
+                    android:drawableTop="@drawable/img_good"
+                    android:layout_weight="1"
+                    />
+
+                <RadioButton
+                    android:id="@+id/normalRadioButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="평범"
+                    android:textSize="12sp"
+                    android:textColor="@drawable/sel_text_color"
+                    android:fontFamily="@font/pretendard_semibold"
+                    android:textAlignment="center"
+                    android:button="@null"
+                    android:drawableTop="@drawable/img_normal"
+                    android:layout_weight="1"
+                    />
+
+                <RadioButton
+                    android:id="@+id/painRadioButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="아픔"
+                    android:textSize="12sp"
+                    android:textColor="@drawable/sel_text_color"
+                    android:fontFamily="@font/pretendard_semibold"
+                    android:textAlignment="center"
+                    android:button="@null"
+                    android:drawableTop="@drawable/img_pain"
+                    android:layout_weight="1"
+                    />
+
+                <RadioButton
+                    android:id="@+id/tiredRadioButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="피곤"
+                    android:textSize="12sp"
+                    android:textColor="@drawable/sel_text_color"
+                    android:fontFamily="@font/pretendard_semibold"
+                    android:textAlignment="center"
+                    android:button="@null"
+                    android:drawableTop="@drawable/img_tired"
+                    android:layout_weight="1"
+                    />
+
+                <RadioButton
+                    android:id="@+id/unrestRadioButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="불안"
+                    android:textSize="12sp"
+                    android:textColor="@drawable/sel_text_color"
+                    android:fontFamily="@font/pretendard_semibold"
+                    android:textAlignment="center"
+                    android:button="@null"
+                    android:drawableTop="@drawable/img_unrest"
+                    android:layout_weight="1"
+                    />
+            </RadioGroup>
+
+
+
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/editDiaryBottomLayout"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        >
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/editDiaryIconLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:background="@drawable/sp_yellow_circle"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="15dp">
+            <ImageView
+                android:id="@+id/editDiaryIconImage"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_public_off"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/diaryInvisibilityTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/editDiaryIconLayout"
+            app:layout_constraintBottom_toBottomOf="@id/editDiaryIconLayout"
+            app:layout_constraintStart_toEndOf="@id/editDiaryIconLayout"
+            android:text="비공개 : 당신외엔 볼 수 없어요."
+            android:textColor="@color/yellow"
+            android:textSize="14sp"
+            android:fontFamily="@font/pretendard_bold"
+            android:layout_marginStart="14dp"/>
+
+
+
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/SwitchCompat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:track="@drawable/sel_switch_track"
+            app:trackTint="@null"
+            app:thumbTint="@color/white"
+            android:thumb="@drawable/sel_swich_thumb"
+            android:checked="false"
+            android:layout_marginEnd="15dp"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        app:layout_constraintTop_toTopOf="@+id/editDiaryBottomLayout"
+        android:background="@color/gray"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

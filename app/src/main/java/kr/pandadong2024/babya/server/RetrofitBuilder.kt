@@ -4,10 +4,8 @@ import com.babya.server.service.LoginService
 import kr.pandadong2024.babya.server.service.SignupService
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import kr.pandadong2024.babya.server.service.ProfileService
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 
 class RetrofitBuilder {
     companion object{
@@ -15,7 +13,6 @@ class RetrofitBuilder {
         private var retrofit: Retrofit? = null
         private var loginService: LoginService? = null
         private var signupService: SignupService? = null
-        private var profileService: ProfileService? = null
 
         @Synchronized
         fun getGson(): Gson? {
@@ -34,6 +31,88 @@ class RetrofitBuilder {
                     .build()
             }
             return retrofit!!
+        }
+        @Synchronized
+        fun getHttpRetrofit(): Retrofit {
+            Log.d("test", "in get")
+            if (retrofit == null) {
+                retrofit = Retrofit.Builder()
+                    .baseUrl(Url.serverUrl)
+                    .client(getOhHttpClient())
+                    .addConverterFactory(GsonConverterFactory.create(getGson()!!))
+                    .build()
+            }
+            return retrofit!!
+        }
+
+        @Synchronized
+        fun getHttpTokenRetrofit(): Retrofit {
+            if (retrofit == null) {
+                retrofit = Retrofit.Builder()
+                    .baseUrl(Url.serverUrl)
+                    .client(getTokenOkHttpClient())
+                    .addConverterFactory(GsonConverterFactory.create(getGson()!!))
+                    .build()
+            }
+            return retrofit!!
+        }
+
+        @Synchronized
+        fun getOhHttpClient(): OkHttpClient {
+            val interceptor = HttpLoggingInterceptor().apply {
+                level = HttpLoggingInterceptor.Level.BODY
+            }
+            tokenDao = BabyaDB.getInstanceOrNull()?.tokenDao()
+            val httpClient = OkHttpClient.Builder().apply {
+                addNetworkInterceptor { chain ->
+                    Log.i("TAG", "${chain.request()}")
+                    tokenDao?.getMembers()?.let {
+                        val request = chain.request().newBuilder().addHeader(
+                            "Authorization",
+                            "Bearer ${it.accessToken}"
+                        ).build()
+                        chain.proceed(request)
+                    } ?: chain.proceed(chain.request())
+                }
+            }
+//            httpClient.addNetworkInterceptor()
+            return httpClient.build()
+        }
+
+        @Synchronized // 로그인 일회용
+        fun getTokenOkHttpClient(): OkHttpClient {
+            val interceptor = HttpLoggingInterceptor()
+            interceptor.level = HttpLoggingInterceptor.Level.BODY
+            val okhttpBuilder = OkHttpClient().newBuilder()
+                .addInterceptor(interceptor)
+                .addInterceptor(TokenInterceptor())
+
+
+            val trustAllCerts = arrayOf<TrustManager>(object : X509TrustManager {
+                override fun checkClientTrusted(
+                    chain: Array<out X509Certificate>?,
+                    authType: String?
+                ) {
+                }
+                override fun checkServerTrusted(
+                    chain: Array<out X509Certificate>?,
+                    authType: String?
+                ) {
+                }
+
+                override fun getAcceptedIssuers(): Array<X509Certificate> {
+                    return arrayOf()
+                }
+            })
+
+            val sslContext = SSLContext.getInstance("SSL")
+            sslContext.init(null, trustAllCerts, SecureRandom())
+
+            val sslSocketFactory = sslContext.socketFactory
+
+            okhttpBuilder.sslSocketFactory(sslSocketFactory, trustAllCerts[0] as X509TrustManager)
+            okhttpBuilder.hostnameVerifier { hostname, session -> true }
+            return okhttpBuilder.build()
         }
 
         @Synchronized
@@ -56,6 +135,32 @@ class RetrofitBuilder {
                 signupService = getRetrofit().create(SignupService::class.java)
             }
             return signupService!!
+        }
+        fun getHttpMainService() : MainService {
+            if (mainService == null){
+                mainService = getHttpRetrofit().create(MainService::class.java)
+            }
+            return mainService!!
+        }
+        fun getMainService() : MainService {
+            if (mainService == null){
+                mainService = getRetrofit().create(MainService::class.java)
+            }
+            return mainService!!
+        }
+
+        fun getDiaryService() : DiaryService {
+            if (diaryService == null){
+                diaryService = getHttpRetrofit().create(DiaryService::class.java)
+            }
+            return diaryService!!
+        }
+
+        fun getCommonService() : CommonService {
+            if (commonService == null){
+                commonService = getHttpRetrofit().create(CommonService::class.java)
+            }
+            return commonService!!
         }
     }
 }

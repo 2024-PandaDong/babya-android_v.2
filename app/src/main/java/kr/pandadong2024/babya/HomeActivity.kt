@@ -1,14 +1,16 @@
 package kr.pandadong2024.babya;
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kr.pandadong2024.babya.databinding.ActivityHomeBinding
+import kr.pandadong2024.babya.util.BottomControllable
 
-class HomeActivity : AppCompatActivity() {
+class HomeActivity : AppCompatActivity(), BottomControllable {
 
     private lateinit var binding: ActivityHomeBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,14 +23,9 @@ class HomeActivity : AppCompatActivity() {
         val navController = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_home) as NavHostFragment
 
         navView.setupWithNavController(navController.navController)
-        // Passing each menu ID as a set of Ids because each
-//        // menu should be considered as top level destinations.
-//        val appBarConfiguration = AppBarConfiguration(
-//            setOf(
-//                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications
-//            )
-//        )
-//        setupActionBarWithNavController(navController, appBarConfiguration)
+    }
 
+    override fun setBottomNavVisibility(visibility: Boolean) {
+        findViewById<BottomNavigationView>(R.id.nav_view).visibility = if (visibility) View.VISIBLE else View.GONE
     }
 }

@@ -8,23 +8,48 @@
         android:id="@+id/findCompanyFragment"
         android:name="kr.pandadong2024.babya.home.find_company.FindCompanyFragment"
         android:label="d"
-        tools:layout="@layout/fragment_find_company" />
+        tools:layout="@layout/fragment_find_company" >
+        <action
+            android:id="@+id/action_findCompanyFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
     <fragment
         android:id="@+id/dashBoardFragment"
         android:name="kr.pandadong2024.babya.home.dash_board.DashBoardFragment"
         android:label="a"
-        tools:layout="@layout/fragment_dash_board" />
+        tools:layout="@layout/fragment_dash_board" >
+        <action
+            android:id="@+id/action_dashBoardFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
     <fragment
         android:id="@+id/diaryFragment"
         android:name="kr.pandadong2024.babya.home.diary.DiaryFragment"
         android:label="s"
-        tools:layout="@layout/fragment_diary" />
+        tools:layout="@layout/fragment_diary" >
+        <action
+            android:id="@+id/action_diaryFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/action_diaryFragment_to_detailWriterFragment"
+            app:destination="@id/detailWriterFragment" />
+        <action
+            android:id="@+id/action_diaryFragment_to_detailPublicFragment"
+            app:destination="@id/detailPublicFragment" />
+        <action
+            android:id="@+id/action_diaryFragment_to_editDiaryFragment"
+            app:destination="@id/editDiaryFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/todoListFragment"
         android:name="kr.pandadong2024.babya.home.todo_list.TodoListFragment"
         android:label="g"
-        tools:layout="@layout/fragment_todo_list" />
+        tools:layout="@layout/fragment_todo_list" >
+        <action
+            android:id="@+id/action_todoListFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/profileFragment"
@@ -32,8 +57,8 @@
         android:label="f"
         tools:layout="@layout/fragment_profile" >
         <action
-            android:id="@+id/action_profileFragment_to_bookmarkFragment"
-            app:destination="@id/bookmarkFragment" />
+            android:id="@+id/action_profileFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
     </fragment>
     <fragment
         android:id="@+id/mainFragment"
@@ -41,9 +66,31 @@
         android:label="fragment_main"
         tools:layout="@layout/fragment_main" />
     <fragment
-        android:id="@+id/bookmarkFragment"
-        android:name="kr.pandadong2024.babya.home.profile.bookmarkFragment"
-        android:label="fragment_bookmark"
-        tools:layout="@layout/fragment_bookmark" />
+        android:id="@+id/detailPublicFragment"
+        android:name="kr.pandadong2024.babya.home.diary.detil.DetailPublicFragment"
+        android:label="fragment_detail_public"
+        tools:layout="@layout/fragment_detail_public" >
+        <action
+            android:id="@+id/action_detailPublicFragment_to_diaryFragment"
+            app:destination="@id/diaryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailWriterFragment"
+        android:name="kr.pandadong2024.babya.home.diary.detil.DetailWriterFragment"
+        android:label="fragment_detail_writer"
+        tools:layout="@layout/fragment_detail_writer" >
+        <action
+            android:id="@+id/action_detailWriterFragment_to_diaryFragment"
+            app:destination="@id/diaryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editDiaryFragment"
+        android:name="kr.pandadong2024.babya.home.diary.EditDiaryFragment"
+        android:label="fragment_edit_diary"
+        tools:layout="@layout/fragment_edit_diary" >
+        <action
+            android:id="@+id/action_editDiaryFragment_to_diaryFragment"
+            app:destination="@id/diaryFragment" />
+    </fragment>
 
 </navigation>

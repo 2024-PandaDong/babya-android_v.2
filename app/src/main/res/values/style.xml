@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="BottomNavigationViewStyle" parent="Widget.Design.BottomNavigationView">
+        <!-- 선택된 아이템 텍스트 색상 변경 -->
+        <item name="itemTextColor">@color/bottom_bar_gray</item>
+        <!-- 선택된 아이템 아이콘 색상 변경 -->
+        <item name="itemIconTint">@color/bottom_bar_gray</item>
+    </style>
+    <style name="diaryActionButton">
+        <item name="cornerFamily">rounded</item>
+
+    </style>
+</resources>

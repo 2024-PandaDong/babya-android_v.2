@@ -87,7 +87,7 @@
                         />
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/emailDeleteBtn"
-                        android:background="@drawable/eraser"
+                        android:background="@drawable/img_eraser"
                         android:layout_width="23dp"
                         android:layout_height="19dp"
                         android:layout_marginRight="10dp"

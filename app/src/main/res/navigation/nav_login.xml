@@ -6,7 +6,7 @@
     app:startDestination="@id/loginFragment">
     <fragment
         android:id="@+id/loginFragment"
-        android:name="kr.pandadong2024.babya.login.LoginFragment"
+        android:name="kr.pandadong2024.babya.start.login.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
@@ -15,7 +15,7 @@
     </fragment>
     <fragment
         android:id="@+id/signupFragment"
-        android:name="kr.pandadong2024.babya.signup.SignupFragment"
+        android:name="kr.pandadong2024.babya.start.signup.SignupFragment"
         android:label="SignupFragment" />
 
 </navigation>
