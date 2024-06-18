@@ -37,7 +37,7 @@
             android:src="@drawable/ic_arrow_14" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/diaryEditRegistButton"
+            android:id="@+id/diaryEditSubmitButton"
             android:layout_width="42dp"
             android:layout_height="25dp"
             android:layout_gravity="end"
@@ -79,6 +79,7 @@
                     android:id="@+id/selectedImage"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
                     />
 
                 <ImageView
@@ -374,7 +375,7 @@
             <!--                >-->
 
             <EditText
-                android:id="@+id/editDiaryFetalFindingsInputLayout"
+                android:id="@+id/editDiaryFetalFindingsEditText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/pretendard_semibold"
@@ -390,14 +391,14 @@
             <!--            </com.google.android.material.textfield.TextInputLayout>-->
 
             <TextView
-                android:id="@+id/editDiaryMainContextText"
+                android:id="@+id/editDiaryMainContentText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/pretendard_bold"
                 android:text="본문"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="@id/editDiaryAddImageCardView"
-                app:layout_constraintTop_toBottomOf="@id/editDiaryFetalFindingsInputLayout" />
+                app:layout_constraintTop_toBottomOf="@id/editDiaryFetalFindingsEditText" />
 
             <!--            <com.google.android.material.textfield.TextInputLayout-->
             <!--                android:id="@+id/editDiaryMainContentInputLayout"-->
@@ -422,7 +423,7 @@
             <!--                >-->
 
             <EditText
-                android:id="@+id/editDiaryMainContentInputLayout"
+                android:id="@+id/editDiaryMainContentEditText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/pretendard_semibold"
@@ -431,7 +432,7 @@
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="@id/editDiaryAddImageCardView"
                 app:layout_constraintStart_toStartOf="@id/editDiaryAddImageCardView"
-                app:layout_constraintTop_toBottomOf="@id/editDiaryMainContextText"
+                app:layout_constraintTop_toBottomOf="@id/editDiaryMainContentText"
                 android:layout_marginStart="5dp"
                 android:layout_marginEnd="5dp"/>
 
@@ -442,7 +443,7 @@
                 android:id="@+id/editDiaryStatusText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/editDiaryMainContentInputLayout"
+                app:layout_constraintTop_toBottomOf="@id/editDiaryMainContentEditText"
                 app:layout_constraintStart_toStartOf="@id/editDiaryAddImageCardView"
                 android:fontFamily="@font/pretendard_bold"
                 android:text="오늘 상태는?"

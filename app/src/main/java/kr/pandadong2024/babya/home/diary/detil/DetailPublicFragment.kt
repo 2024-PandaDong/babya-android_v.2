@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentDetailPublicBinding
-import kr.pandadong2024.babya.home.diary.CommentsAdapter
+import kr.pandadong2024.babya.home.diary.diaryadapters.CommentsAdapter
 import kr.pandadong2024.babya.util.BottomControllable
 
 class DetailPublicFragment : Fragment() {

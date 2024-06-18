@@ -1,4 +1,4 @@
-package kr.pandadong2024.babya.home.diary
+package kr.pandadong2024.babya.home.diary.diaryadapters
 
 import android.util.Log
 import android.view.LayoutInflater

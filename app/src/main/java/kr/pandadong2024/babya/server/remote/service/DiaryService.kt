@@ -1,10 +1,13 @@
 package kr.pandadong2024.babya.server.remote.service
 
+import kr.pandadong2024.babya.server.remote.request.diary.PostDiaryRequest
 import kr.pandadong2024.babya.server.remote.responses.BaseResponse
 import kr.pandadong2024.babya.server.remote.responses.PageRequest
 import kr.pandadong2024.babya.server.remote.responses.diary.DiaryDataResponses
+import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.POST
 import retrofit2.http.Query
 
 interface DiaryService {
@@ -14,6 +17,12 @@ interface DiaryService {
         @Header("Authorization")accessToken : String,
         @Query("pageRequest") pageRequest : PageRequest,
     ):BaseResponse<List<DiaryDataResponses>>
+
+    @POST("/diary")
+    suspend fun postDiary(
+        @Header("Authorization")accessToken : String,
+        @Body postDiaryRequest:PostDiaryRequest,
+    ):BaseResponse<String>
 
     @GET("/diary/list") // 1부터 있음
     suspend fun getOtherDiaryList(

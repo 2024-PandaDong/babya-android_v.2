@@ -8,4 +8,5 @@ import androidx.lifecycle.liveData
 
 class DiaryViewModel() : ViewModel() {
     val id : LiveData<Int> = MutableLiveData<Int>(0)
+
 }

@@ -2,12 +2,14 @@ package kr.pandadong2024.babya.server
 
 import android.util.Log
 import com.babya.server.service.LoginService
+import com.google.android.gms.common.internal.service.Common
 import kr.pandadong2024.babya.server.remote.service.SignupService
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import kr.pandadong2024.babya.server.local.BabyaDB
 import kr.pandadong2024.babya.server.local.TokenDAO
 import kr.pandadong2024.babya.server.remote.interceptor.TokenInterceptor
+import kr.pandadong2024.babya.server.remote.service.CommonService
 import kr.pandadong2024.babya.server.remote.service.DiaryService
 import kr.pandadong2024.babya.server.remote.service.MainService
 import okhttp3.OkHttpClient
@@ -28,6 +30,7 @@ class RetrofitBuilder {
         private var signupService: SignupService? = null
         private var mainService: MainService? = null
         private var diaryService: DiaryService? = null
+        private var commonService: CommonService? = null
         private var httpClient : OkHttpClient? = null
         private var tokenDao: TokenDAO? = null
 
@@ -164,6 +167,13 @@ class RetrofitBuilder {
                 diaryService = getHttpRetrofit().create(DiaryService::class.java)
             }
             return diaryService!!
+        }
+
+        fun getCommonService() : CommonService {
+            if (commonService == null){
+                commonService = getHttpRetrofit().create(CommonService::class.java)
+            }
+            return commonService!!
         }
     }
 }
