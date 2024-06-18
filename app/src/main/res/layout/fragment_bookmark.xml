@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/white">
+    android:background="@color/white"
+    tools:context="kr.pandadong2024.babya.home.profile">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -33,7 +34,7 @@
         />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/diaryRv"
+        android:id="@+id/bookmarkRv"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/gray"

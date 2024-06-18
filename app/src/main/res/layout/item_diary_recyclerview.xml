@@ -25,6 +25,7 @@
             />
         
         <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/profile"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:background="@drawable/sp_rounded_corner"
