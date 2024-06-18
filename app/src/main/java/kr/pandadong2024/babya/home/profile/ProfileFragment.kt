@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.datastore.dataStore
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kr.pandadong2024.babya.R
@@ -44,8 +45,16 @@ class ProfileFragment : Fragment() {
             }
         }
 
+        binding.bookmarkBtn.setOnClickListener {
+            findNavController().navigate(R.id.action_profileFragment_to_bookmarkFragment)
+        }
 
 
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

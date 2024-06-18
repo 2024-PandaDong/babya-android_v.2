@@ -30,11 +30,20 @@
         android:id="@+id/profileFragment"
         android:name="kr.pandadong2024.babya.home.profile.ProfileFragment"
         android:label="f"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_bookmarkFragment"
+            app:destination="@id/bookmarkFragment" />
+    </fragment>
     <fragment
         android:id="@+id/mainFragment"
         android:name="kr.pandadong2024.babya.home.main.MainFragment"
         android:label="fragment_main"
         tools:layout="@layout/fragment_main" />
+    <fragment
+        android:id="@+id/bookmarkFragment"
+        android:name="kr.pandadong2024.babya.home.profile.bookmarkFragment"
+        android:label="fragment_bookmark"
+        tools:layout="@layout/fragment_bookmark" />
 
 </navigation>
