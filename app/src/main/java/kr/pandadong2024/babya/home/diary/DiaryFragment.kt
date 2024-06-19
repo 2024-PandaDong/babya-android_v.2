@@ -164,6 +164,7 @@ class DiaryFragment : Fragment() {
                 Log.d(TAG, "Test3")
                 lifecycleScope.launch(Dispatchers.Main) {
                     initDiaryGridView()
+                    //완료
                 }
             }
         }
