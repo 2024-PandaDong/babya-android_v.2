@@ -100,7 +100,7 @@ class ProfileFragment : Fragment() {
         lifecycleScope.launch(Dispatchers.IO){
             kotlin.runCatching {
                 RetrofitBuilder.getProfileService().getProfile(email = email)
-            }.onSuccess {value ->
+            }.onSuccess { value ->
 
 
             }.onFailure {

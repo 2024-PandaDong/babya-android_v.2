@@ -21,7 +21,7 @@ interface DiaryService {
     @POST("/diary")
     suspend fun postDiary(
         @Header("Authorization")accessToken : String,
-        @Body postDiaryRequest:PostDiaryRequest,
+        @Body request:PostDiaryRequest,
     ):BaseResponse<String>
 
     @GET("/diary/list") // 1부터 있음

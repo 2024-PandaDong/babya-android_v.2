@@ -1,11 +1,26 @@
 package kr.pandadong2024.babya.server
 
+import android.util.Log
 import com.babya.server.service.LoginService
-import kr.pandadong2024.babya.server.service.SignupService
+import kr.pandadong2024.babya.server.remote.service.SignupService
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import kr.pandadong2024.babya.server.local.BabyaDB
+import kr.pandadong2024.babya.server.local.TokenDAO
+import kr.pandadong2024.babya.server.remote.interceptor.TokenInterceptor
+import kr.pandadong2024.babya.server.remote.service.CommonService
+import kr.pandadong2024.babya.server.remote.service.DiaryService
+import kr.pandadong2024.babya.server.remote.service.MainService
+import kr.pandadong2024.babya.server.service.ProfileService
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.security.SecureRandom
+import java.security.cert.X509Certificate
+import javax.net.ssl.SSLContext
+import javax.net.ssl.TrustManager
+import javax.net.ssl.X509TrustManager
 
 class RetrofitBuilder {
     companion object{
@@ -13,12 +28,19 @@ class RetrofitBuilder {
         private var retrofit: Retrofit? = null
         private var loginService: LoginService? = null
         private var signupService: SignupService? = null
+        private var commonService: CommonService? = null
+        private var mainService: MainService? = null
+        private var diaryService: DiaryService? = null
+        private var httpClient : OkHttpClient? = null
+        private var tokenDao: TokenDAO? = null
+        private var profileService: ProfileService? =null
 
         @Synchronized
         fun getGson(): Gson? {
             if (gson == null) {
                 gson = GsonBuilder().setLenient().create()
             }
+
             return gson
         }
 
@@ -115,19 +137,18 @@ class RetrofitBuilder {
             return okhttpBuilder.build()
         }
 
-        @Synchronized
-        fun getProfileService(): ProfileService{
-            if (profileService == null){
-                profileService = getRetrofit().create(ProfileService::class.java)
-            }
-            return profileService!!
-        }
-
         fun getLoginService(): LoginService{
             if (loginService == null){
                 loginService = getRetrofit().create(LoginService::class.java)
             }
             return loginService!!
+        }
+
+        fun getProfileService(): ProfileService{
+            if (profileService == null){
+                profileService = getRetrofit().create(ProfileService::class.java)
+            }
+            return profileService!!
         }
 
         fun getSignupService(): SignupService {
@@ -155,7 +176,6 @@ class RetrofitBuilder {
             }
             return diaryService!!
         }
-
         fun getCommonService() : CommonService {
             if (commonService == null){
                 commonService = getHttpRetrofit().create(CommonService::class.java)

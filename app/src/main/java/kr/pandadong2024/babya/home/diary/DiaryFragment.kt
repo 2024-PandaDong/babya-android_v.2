@@ -118,7 +118,7 @@ class DiaryFragment : Fragment() {
                 when(type){
                     1 -> {
                         DiaryData = RetrofitBuilder.getDiaryService().getMyDiaryData(
-                            accessToken = tokenDao.getMembers().accessToken,
+                            accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
                             pageRequest = PageRequest(page, size)
                         )
                         Log.d(TAG, "Test1")

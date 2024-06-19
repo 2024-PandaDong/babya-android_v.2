@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class PostDiaryRequest(
     @field:SerializedName("content")
-    val content: String? = "mull",
+    val content: String? = "null",
     @field:SerializedName("diastolicPressure")
     val diastolicPressure: Int? = -1,
     @field:SerializedName("emoji")

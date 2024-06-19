@@ -1,7 +1,6 @@
 package kr.pandadong2024.babya.start.signup;
 
 import android.app.AlertDialog
-import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -42,7 +41,7 @@ class SignupFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentSignupBinding.inflate(inflater, container, false)
 
@@ -303,7 +302,7 @@ class SignupFragment : Fragment() {
             }.onSuccess {
                 Log.d(TAG, "reemail: 성공")
             }.onFailure {
-                it.printStackTrace()
+//                it.printStackTrace()
             }
         }
     }
@@ -322,8 +321,9 @@ class SignupFragment : Fragment() {
                 )
             }.onSuccess {
                 handleSuccess()
-            }.onFailure { throwable ->
-                handleFailure(throwable)
+            }.onFailure {
+//                throwable ->
+//                handleFailure(throwable)
             }
         }
     }

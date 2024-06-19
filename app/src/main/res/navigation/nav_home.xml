@@ -59,6 +59,9 @@
         <action
             android:id="@+id/action_profileFragment_to_mainFragment"
             app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_bookmarkFragment"
+            app:destination="@id/bookmarkFragment" />
     </fragment>
     <fragment
         android:id="@+id/mainFragment"
@@ -92,5 +95,9 @@
             android:id="@+id/action_editDiaryFragment_to_diaryFragment"
             app:destination="@id/diaryFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/bookmarkFragment"
+        android:name="kr.pandadong2024.babya.home.profile.BookmarkFragment"
+        android:label="BookmarkFragment" />
 
 </navigation>
