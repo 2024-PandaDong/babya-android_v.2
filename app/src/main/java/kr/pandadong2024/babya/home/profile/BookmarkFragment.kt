@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import kr.pandadong2024.babya.databinding.FragmentBookmarkBinding
+import kr.pandadong2024.babya.home.profile.adapter.BookmarkAdapter
+import kr.pandadong2024.babya.home.profile.data.BookmarkData
 
 class BookmarkFragment : Fragment() {
 

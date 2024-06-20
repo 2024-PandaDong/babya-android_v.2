@@ -13,6 +13,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentProfileBinding
+import kr.pandadong2024.babya.home.profile.adapter.ProfileBoardAdapter
+import kr.pandadong2024.babya.home.profile.adapter.ProfileDiaryAdapter
+import kr.pandadong2024.babya.home.profile.data.ProfileBoardData
+import kr.pandadong2024.babya.home.profile.data.ProfileDiaryData
 import kr.pandadong2024.babya.server.RetrofitBuilder
 
 
