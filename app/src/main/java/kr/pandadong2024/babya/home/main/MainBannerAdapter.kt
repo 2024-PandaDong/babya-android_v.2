@@ -22,11 +22,11 @@ class MainBannerAdapter(
 ) : RecyclerView.Adapter<MainBannerAdapter.PagerViewHolder>() {
     inner class PagerViewHolder(private val binding : ItemBanerCardBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(bannerData : BannerResponses, context: Context){
-            if(bannerData.image!!.extension!!.uppercase() == "SVG"){
+            if(bannerData.image?.extension?.uppercase() == "SVG"){
                 bannerData.image.url?.let { binding.itemImage.loadImageFromUrl(it) }
             }
             else{
-                binding.itemImage.load(bannerData.image.url)
+                binding.itemImage.load(bannerData.image?.url)
             }
 
             binding.typeText.text = bannerData.subTitle
