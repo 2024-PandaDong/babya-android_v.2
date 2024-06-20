@@ -15,6 +15,7 @@ import android.widget.NumberPicker
 import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import kr.pandadong2024.babya.QuizFragment
 import kr.pandadong2024.babya.start.login.Pattern
@@ -60,6 +61,10 @@ class SignupFragment : Fragment() {
 
         binding.cityBtn.setOnClickListener {
             locationSave(binding.cityEdit)
+        }
+
+        binding.signUpBackButton.setOnClickListener{
+            findNavController().navigate(R.id.action_signupFragment_to_loginFragment)
         }
 
         // emailDelete 버튼 누르면 텍스트 삭제

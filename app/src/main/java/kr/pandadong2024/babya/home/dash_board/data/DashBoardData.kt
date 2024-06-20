@@ -1,4 +1,4 @@
-package kr.pandadong2024.babya.home.dash_board
+package kr.pandadong2024.babya.home.dash_board.data
 
 data class DashBoardData (
     val title : String,

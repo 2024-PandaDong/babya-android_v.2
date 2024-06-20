@@ -1,18 +1,18 @@
-package kr.pandadong2024.babya.home.dash_board
+package kr.pandadong2024.babya.home.dash_board.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kr.pandadong2024.babya.databinding.ItemDashBoardRecyclerviewBinding
-import kr.pandadong2024.babya.databinding.ItemDiaryRecyclerviewBinding
+import kr.pandadong2024.babya.home.dash_board.data.DashBoardData
 
 class DashBoardAdapter(val item: ArrayList<DashBoardData>): RecyclerView.Adapter<DashBoardAdapter.Holder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DashBoardAdapter.Holder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val biding = ItemDashBoardRecyclerviewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return Holder(biding)
     }
 
-    override fun onBindViewHolder(holder: DashBoardAdapter.Holder, position: Int) {
+    override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.title.setText(item[position].title)
         holder.name.setText(item[position].name)
         holder.body.setText(item[position].body)

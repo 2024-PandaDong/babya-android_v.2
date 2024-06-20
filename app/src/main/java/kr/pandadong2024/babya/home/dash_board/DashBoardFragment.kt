@@ -5,12 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentDashBoardBinding
-import kr.pandadong2024.babya.databinding.FragmentProfileBinding
-import kr.pandadong2024.babya.home.profile.adapter.ProfileBoardAdapter
-import kr.pandadong2024.babya.home.profile.data.ProfileBoardData
+import kr.pandadong2024.babya.home.dash_board.adapter.DashBoardAdapter
+import kr.pandadong2024.babya.home.dash_board.data.DashBoardData
 import kr.pandadong2024.babya.util.BottomControllable
 
 
@@ -31,6 +31,16 @@ class DashBoardFragment : Fragment() {
         kotlin.runCatching {
             getBoardData()
         }
+
+        binding.boardEditFloatingActionButton.setOnClickListener{
+            findNavController().navigate(R.id.action_dashBoardFragment_to_editDashBoardFragment)
+        }
+
+        binding.dashBoardBackButton.setOnClickListener {
+            findNavController().navigate(R.id.action_dashBoardFragment_to_mainFragment)
+        }
+
+
 
 
         return binding.root
@@ -58,5 +68,12 @@ class DashBoardFragment : Fragment() {
     override fun onPause() {
         super.onPause()
         (requireActivity() as BottomControllable).setBottomNavVisibility(true)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+        (requireActivity() as BottomControllable).setBottomNavVisibility(true)
+
     }
 }

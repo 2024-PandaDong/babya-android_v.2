@@ -16,6 +16,10 @@
     <fragment
         android:id="@+id/signupFragment"
         android:name="kr.pandadong2024.babya.start.signup.SignupFragment"
-        android:label="SignupFragment" />
+        android:label="SignupFragment" >
+        <action
+            android:id="@+id/action_signupFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
 
 </navigation>

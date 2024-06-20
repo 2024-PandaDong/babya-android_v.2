@@ -39,7 +39,7 @@
                 android:textSize="19sp" />
 
             <ImageButton
-                android:id="@+id/diaryBackButton"
+                android:id="@+id/dashBoardBackButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
