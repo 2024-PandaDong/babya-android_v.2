@@ -14,8 +14,10 @@ import kotlinx.coroutines.launch
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentProfileBinding
 import kr.pandadong2024.babya.home.profile.adapter.ProfileBoardAdapter
+import kr.pandadong2024.babya.home.profile.adapter.ProfileBookmarkAdapter
 import kr.pandadong2024.babya.home.profile.adapter.ProfileDiaryAdapter
 import kr.pandadong2024.babya.home.profile.data.ProfileBoardData
+import kr.pandadong2024.babya.home.profile.data.ProfileBookmarkData
 import kr.pandadong2024.babya.home.profile.data.ProfileDiaryData
 import kr.pandadong2024.babya.server.RetrofitBuilder
 
@@ -23,6 +25,7 @@ import kr.pandadong2024.babya.server.RetrofitBuilder
 class ProfileFragment : Fragment() {
 
     private var _binding: FragmentProfileBinding? = null
+    private lateinit var adapter: ProfileBookmarkAdapter
     private val binding get() = _binding!!
     private val TAG = "ProfileFragment"
     private val email = ""
@@ -39,6 +42,7 @@ class ProfileFragment : Fragment() {
             getProfileData()
             profileDiary()
             profileBoard()
+            profileBookmark()
         }
 
         // 즐겨찾기 화면으로 이동
@@ -50,6 +54,24 @@ class ProfileFragment : Fragment() {
 
 
         return binding.root
+    }
+
+    // 즐겨찾기 정보 받기
+    private fun profileBookmark() {
+        /** 더미데이터 나중에 삭제해야함*/
+        val bookmarkList = ArrayList<ProfileBookmarkData>()
+        bookmarkList.add(ProfileBookmarkData("동바일"))
+        bookmarkList.add(ProfileBookmarkData("동바이"))
+        bookmarkList.add(ProfileBookmarkData("동바삼"))
+        bookmarkList.add(ProfileBookmarkData("동바사"))
+        bookmarkList.add(ProfileBookmarkData("동바오"))
+        bookmarkList.add(ProfileBookmarkData("동바육"))
+        /** ============================================== */
+
+        val adapter = ProfileBookmarkAdapter()
+        adapter.setItems(bookmarkList)
+        binding.bookmarkGv.adapter = adapter
+
     }
 
     // 개시판 정보 받기
