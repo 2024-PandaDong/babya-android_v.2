@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kr.pandadong2024.babya.databinding.FragmentBookmarkBinding
 import kr.pandadong2024.babya.home.profile.adapter.BookmarkAdapter
 import kr.pandadong2024.babya.home.profile.data.BookmarkData
+import kr.pandadong2024.babya.util.BottomControllable
 
 class BookmarkFragment : Fragment() {
 
@@ -22,7 +23,7 @@ class BookmarkFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+        (requireActivity() as BottomControllable).setBottomNavVisibility(false)
         _binding = FragmentBookmarkBinding.inflate(inflater, container, false)
 
         /** 툴바 설정*/
@@ -67,6 +68,11 @@ class BookmarkFragment : Fragment() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        (requireActivity() as BottomControllable).setBottomNavVisibility(true)
     }
 
     override fun onDestroyView() {

@@ -20,6 +20,7 @@ import kr.pandadong2024.babya.home.profile.data.ProfileBoardData
 import kr.pandadong2024.babya.home.profile.data.ProfileBookmarkData
 import kr.pandadong2024.babya.home.profile.data.ProfileDiaryData
 import kr.pandadong2024.babya.server.RetrofitBuilder
+import kr.pandadong2024.babya.util.BottomControllable
 
 
 class ProfileFragment : Fragment() {
@@ -34,7 +35,7 @@ class ProfileFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+        (requireActivity() as BottomControllable).setBottomNavVisibility(false)
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
 
         // 정보 받기
@@ -141,6 +142,12 @@ class ProfileFragment : Fragment() {
     private fun goBookmark() {
         findNavController().navigate(R.id.action_profileFragment_to_bookmarkFragment)
     }
+
+    override fun onPause() {
+        super.onPause()
+        (requireActivity() as BottomControllable).setBottomNavVisibility(true)
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
