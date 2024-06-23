@@ -20,7 +20,6 @@ import kr.pandadong2024.babya.server.local.TokenDAO
 import kr.pandadong2024.babya.server.remote.responses.BannerResponses
 import kr.pandadong2024.babya.server.remote.responses.BaseResponse
 import kr.pandadong2024.babya.server.remote.responses.CompanyDataResponses
-import kr.pandadong2024.babya.server.remote.responses.PageRequest
 import java.time.Duration
 import kotlin.math.ceil
 
@@ -189,7 +188,8 @@ class MainFragment : Fragment() {
             kotlin.runCatching {
                 companyData = RetrofitBuilder.getMainService().getCompanyData(
                     accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
-                    pageRequest =  PageRequest(0, 3)
+                    page =  1,
+                    size = 10
                 )
                 Log.e(TAG, "initCompanyRecyclerView: ${companyData.status}")
                 Log.e(TAG, "initCompanyRecyclerView: ${companyData.message}")

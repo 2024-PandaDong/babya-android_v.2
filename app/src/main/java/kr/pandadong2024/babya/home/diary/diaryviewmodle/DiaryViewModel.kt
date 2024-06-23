@@ -7,6 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 
 class DiaryViewModel() : ViewModel() {
-    val id : LiveData<Int> = MutableLiveData<Int>(0)
+    var id = MutableLiveData<Int>().apply { value = -1 }
 
 }

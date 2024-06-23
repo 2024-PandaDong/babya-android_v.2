@@ -4,13 +4,24 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import kr.pandadong2024.babya.databinding.ItemCommentsBinding
+import kr.pandadong2024.babya.server.remote.responses.CommentResponses
+import kr.pandadong2024.babya.server.remote.responses.SubCommentResponses
 
-class CommentsAdapter(private val commentsList : List<String>) : RecyclerView.Adapter<CommentsAdapter.CommentsViewHolder>() {
+class CommentsAdapter(
+    private val commentsList : List<CommentResponses>,
+    val replayComment : (parentId : Int) -> Unit
+) : RecyclerView.Adapter<CommentsAdapter.CommentsViewHolder>() {
     inner class CommentsViewHolder(private val binding : ItemCommentsBinding) : RecyclerView.ViewHolder(binding.root){
-        fun setItemComments(commentData: String) {
-            binding.commentNameText.text = "test"
-
+        fun setItemComments(commentData: CommentResponses) {
+            binding.commentNameText.text = commentData.nickname
+            binding.commentProfileImage.load(commentData.profileImg)
+            binding.contentTextView.text = commentData.content
+            binding.commentTimeText.text = commentData.createdAt
+            binding.replayCommentText.setOnClickListener {
+                commentData.commentId?.let { commentId -> replayComment(commentId) }
+            }
         }
 
     }
