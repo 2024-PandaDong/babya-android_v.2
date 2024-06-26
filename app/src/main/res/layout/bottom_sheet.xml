@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/bottomSheet"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingBottom="16dp"
+    >
+    <TextView
+
+        android:id="@+id/bottomSheetCategoryText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/categoryEditText"
+        app:layout_constraintBottom_toBottomOf="@id/categoryEditText"
+
+        android:text="카테고리:"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/categoryEditText"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        android:layout_marginStart="30dp"
+
+        android:fontFamily="@font/pretendard_regular"
+        />
+    <EditText
+        android:id="@+id/categoryEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="카테고리를 입력해주세요."
+        app:layout_constraintStart_toEndOf="@id/bottomSheetCategoryText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="13dp"
+        android:textSize="18sp"
+        android:fontFamily="@font/pretendard_regular"
+        android:background="@null"
+        android:cursorVisible="false"
+        android:layout_marginTop="30dp"
+        >
+        <requestFocus/>
+    </EditText>
+    <TextView
+        android:id="@+id/bottomSheetTodoText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="할일:"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@id/bottomSheetCategoryText"
+        app:layout_constraintTop_toTopOf="@id/todoEditText"
+        app:layout_constraintBottom_toBottomOf="@id/todoEditText"
+        app:layout_constraintEnd_toStartOf="@id/todoEditText"
+        android:fontFamily="@font/pretendard_regular"
+
+        />
+
+    <EditText
+        android:id="@+id/todoEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="새로운 할일을 입력해주세요."
+        app:layout_constraintStart_toEndOf="@id/bottomSheetTodoText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/categoryEditText"
+        android:textSize="18sp"
+        android:layout_marginStart="13dp"
+        android:fontFamily="@font/pretendard_regular"
+        android:background="@null"
+        android:cursorVisible="false"
+        android:layout_marginTop="30dp"
+        />
+    <TextView
+        android:id="@+id/bottomSheetTimeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/bottomSheetCategoryText"
+        app:layout_constraintEnd_toStartOf="@id/timeIconImage"
+        app:layout_constraintTop_toTopOf="@id/bottomSheetTimeLayout"
+        app:layout_constraintBottom_toBottomOf="@id/bottomSheetTimeLayout"
+        android:text="시작일:"
+        />
+    <ImageView
+        android:id="@+id/timeIconImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/bottomSheetTimeText"
+        app:layout_constraintEnd_toStartOf="@id/bottomSheetTimeLayout"
+        app:layout_constraintBottom_toBottomOf="@id/bottomSheetTimeLayout"
+        app:layout_constraintTop_toTopOf="@id/bottomSheetTimeLayout"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        android:src="@drawable/ic_time"
+        android:layout_marginStart="6dp" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/bottomSheetTimeLayout"
+        android:layout_width="85dp"
+        android:layout_marginStart="6dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="30dp"
+
+        android:background="@drawable/sp_bottom_sheet_time_background"
+        app:layout_constraintStart_toEndOf="@id/timeIconImage"
+        app:layout_constraintTop_toBottomOf="@id/todoEditText">
+        <TextView
+            android:id="@+id/todoSelectedTimeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="00/00"
+            android:textSize="16sp"
+            android:fontFamily="@font/pretendard_bold"
+            android:textColor="@color/dark_gray"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <ImageButton
+        android:id="@+id/bottomSheetSubmitButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/bottomSheetTimeLayout"
+        app:layout_constraintBottom_toBottomOf="@id/bottomSheetTimeLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="30dp"
+        android:src="@drawable/ic_check"
+        android:background="@color/invisible"
+        />
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

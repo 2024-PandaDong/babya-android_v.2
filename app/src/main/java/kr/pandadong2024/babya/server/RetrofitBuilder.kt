@@ -11,6 +11,7 @@ import kr.pandadong2024.babya.server.remote.interceptor.TokenInterceptor
 import kr.pandadong2024.babya.server.remote.service.CommonService
 import kr.pandadong2024.babya.server.remote.service.DiaryService
 import kr.pandadong2024.babya.server.remote.service.MainService
+import kr.pandadong2024.babya.server.remote.service.TodoListService
 import kr.pandadong2024.babya.server.service.ProfileService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -30,6 +31,7 @@ class RetrofitBuilder {
         private var signupService: SignupService? = null
         private var commonService: CommonService? = null
         private var mainService: MainService? = null
+        private var todoListService: TodoListService? = null
         private var diaryService: DiaryService? = null
         private var httpClient : OkHttpClient? = null
         private var tokenDao: TokenDAO? = null
@@ -176,6 +178,14 @@ class RetrofitBuilder {
             }
             return diaryService!!
         }
+
+        fun getTodoListService() : TodoListService {
+            if (todoListService == null){
+                todoListService = getHttpRetrofit().create(TodoListService::class.java)
+            }
+            return todoListService!!
+        }
+
         fun getCommonService() : CommonService {
             if (commonService == null){
                 commonService = getHttpRetrofit().create(CommonService::class.java)

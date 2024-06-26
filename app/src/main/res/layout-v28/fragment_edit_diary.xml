@@ -79,6 +79,7 @@
                     android:id="@+id/selectedImage"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+
                     android:scaleType="centerCrop"
                     />
 
@@ -147,15 +148,15 @@
                 android:fontFamily="@font/pretendard_semibold"
                 android:text="체중"
                 android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="@id/weightInputText"
-                app:layout_constraintEnd_toStartOf="@id/weightInputText"
+                app:layout_constraintBottom_toBottomOf="@id/weightEditText"
+                app:layout_constraintEnd_toStartOf="@id/weightEditText"
 
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="@id/editDiaryAddImageCardView"
-                app:layout_constraintTop_toTopOf="@id/weightInputText" />
+                app:layout_constraintTop_toTopOf="@id/weightEditText" />
 
             <EditText
-                android:id="@+id/weightInputText"
+                android:id="@+id/weightEditText"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:fontFamily="@font/pretendard_semibold"
@@ -183,7 +184,7 @@
                 app:layout_constraintBottom_toBottomOf="@id/weightText"
 
                 app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toEndOf="@id/weightInputText"
+                app:layout_constraintStart_toEndOf="@id/weightEditText"
                 app:layout_constraintTop_toTopOf="@id/weightText" />
             <TextView
                 android:id="@+id/bloodPressureText"
@@ -215,7 +216,7 @@
                 app:layout_constraintEnd_toStartOf="@id/bloodPressureSplitText"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toEndOf="@id/bloodPressureText"
-                app:layout_constraintTop_toBottomOf="@id/weightInputText" />
+                app:layout_constraintTop_toBottomOf="@id/weightEditText" />
 
             <TextView
 
@@ -258,15 +259,15 @@
                 android:text="임신주수"
                 android:layout_marginStart="50dp"
                 android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="@id/pregnancyInputText"
-                app:layout_constraintEnd_toStartOf="@id/pregnancyInputText"
+                app:layout_constraintBottom_toBottomOf="@id/pregnancyEditText"
+                app:layout_constraintEnd_toStartOf="@id/pregnancyEditText"
 
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toEndOf="@+id/weightUnitText"
-                app:layout_constraintTop_toTopOf="@id/pregnancyInputText" />
+                app:layout_constraintTop_toTopOf="@id/pregnancyEditText" />
 
             <EditText
-                android:id="@+id/pregnancyInputText"
+                android:id="@+id/pregnancyEditText"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:fontFamily="@font/pretendard_semibold"
@@ -294,7 +295,7 @@
                 app:layout_constraintBottom_toBottomOf="@id/pregnancyText"
 
                 app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toEndOf="@id/pregnancyInputText"
+                app:layout_constraintStart_toEndOf="@id/pregnancyEditText"
                 app:layout_constraintTop_toTopOf="@id/pregnancyText" />
 
             <TextView
@@ -493,7 +494,7 @@
                     android:id="@+id/painRadioButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="좋음"
+                    android:text="아픔"
                     android:textSize="12sp"
                     android:textColor="@drawable/sel_text_color"
                     android:fontFamily="@font/pretendard_semibold"

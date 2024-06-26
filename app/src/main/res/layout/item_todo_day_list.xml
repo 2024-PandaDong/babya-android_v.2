@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView
+        android:id="@+id/todoDayText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="12일"
+        android:textSize="14sp"
+        android:fontFamily="@font/pretendard_semibold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="15dp"/>
+    <ImageView
+        android:id="@+id/todoDayIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/todoDayText"
+        app:layout_constraintTop_toTopOf="@id/todoDayText"
+        app:layout_constraintBottom_toBottomOf="@id/todoDayText"
+        android:src="@drawable/ic_up_arrow"
+        android:layout_marginBottom="3dp"
+        android:layout_marginStart="3dp"
+        />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/todoDayItemRecyclerView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/todoDayText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:visibility="gone"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

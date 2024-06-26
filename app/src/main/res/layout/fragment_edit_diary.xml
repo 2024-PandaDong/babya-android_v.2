@@ -318,17 +318,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/pretendard_bold"
-                android:textAlignment="center"
-                android:textSize="13sp"
-                android:text="2024.12.12"
-                android:textColor="@color/gray"
-
-                app:layout_constraintEnd_toStartOf="@id/nextDaySelectButton"
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toEndOf="@id/nextDayTitleText"
                 android:paddingStart="3dp"
                 android:paddingEnd="3dp"
-                app:layout_constraintBottom_toBottomOf="@id/nextDayTitleText"/>
+                android:text="2024.12.12"
+                android:textAlignment="center"
+
+                android:textColor="@color/gray"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toBottomOf="@id/nextDayTitleText"
+                app:layout_constraintEnd_toStartOf="@id/nextDaySelectButton"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toEndOf="@id/nextDayTitleText" />
 
             <ImageButton
                 android:id="@+id/nextDaySelectButton"

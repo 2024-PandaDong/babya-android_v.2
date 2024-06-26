@@ -12,7 +12,7 @@ class BookmarkAdapter (val item:ArrayList<BookmarkData>) : RecyclerView.Adapter<
     }
 
     override fun onBindViewHolder(holder: BookmarkAdapter.Holder, position: Int) {
-        holder.title.setText(item[position].title)
+        holder.title.text = item[position].title
     }
 
     override fun getItemCount(): Int {

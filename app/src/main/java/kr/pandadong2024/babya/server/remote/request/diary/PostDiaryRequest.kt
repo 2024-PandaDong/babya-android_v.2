@@ -17,7 +17,7 @@ data class PostDiaryRequest(
     @field:SerializedName("diastolicPressure")
     val diastolicPressure: Int? = -1,
     @field:SerializedName("nextAppointment")
-    val nextAppointment: String? = "null",
+    val nextAppointment: String? = "2024-12-12",
     @field:SerializedName("emoji")
     val emoji: String? = "null",
     @field:SerializedName("fetusComment")

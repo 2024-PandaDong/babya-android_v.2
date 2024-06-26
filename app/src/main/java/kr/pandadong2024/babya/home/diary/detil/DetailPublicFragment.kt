@@ -126,7 +126,7 @@ class DetailPublicFragment : Fragment() {
                     body = SubCommentRequest(
                         comment = binding.editCommentEditText.text.toString(),
                         diaryId = diaryId,
-                        parentCommentId = null
+                        parentCommentId = 0
                     )
                 )
             }.onSuccess {result ->
