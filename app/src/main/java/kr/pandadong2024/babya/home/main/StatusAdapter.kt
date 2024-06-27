@@ -10,14 +10,19 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import kr.pandadong2024.babya.databinding.ItemBanerCardBinding
 import kr.pandadong2024.babya.databinding.ItemMyStatusProfileBinding
 import kr.pandadong2024.babya.databinding.ItmeMyStatusBinding
+import kr.pandadong2024.babya.server.remote.responses.main.UserWeekStatus
 
-class StatusAdapter () :RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+class StatusAdapter (val userWeekStatus : UserWeekStatus) :RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
 
     inner class StatusPagerViewHolder(private val binding : ItmeMyStatusBinding): RecyclerView.ViewHolder(binding.root){
         fun statusBind(){
 //            binding.range.isEnabled = false
-            Log.d("TAG", "statusBind")
+            binding.goodSeekBar.progress = userWeekStatus.c1!!
+            binding.normalSeekBar.progress = userWeekStatus.c2!!
+            binding.painSeekBar.progress = userWeekStatus.c3!!
+            binding.tiredSeekBar.progress = userWeekStatus.c4!!
+            binding.uneasySeekBar.progress = userWeekStatus.c5!!
 
 
         }

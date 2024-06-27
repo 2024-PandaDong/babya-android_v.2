@@ -20,6 +20,8 @@ import kr.pandadong2024.babya.server.local.TokenDAO
 import kr.pandadong2024.babya.server.remote.responses.BannerResponses
 import kr.pandadong2024.babya.server.remote.responses.BaseResponse
 import kr.pandadong2024.babya.server.remote.responses.CompanyDataResponses
+import kr.pandadong2024.babya.server.remote.responses.main.UserWeekStatus
+import retrofit2.HttpException
 import java.time.Duration
 import kotlin.math.ceil
 
@@ -92,7 +94,7 @@ class MainFragment : Fragment() {
                 }
             }
         }
-        initStatusViewPager()
+        setUserWeekStatus()
         initCompanyList()
         initBannerData()
 
@@ -121,13 +123,34 @@ class MainFragment : Fragment() {
         return binding.root
     }
 
-    private fun initStatusViewPager() {
-        statusAdapter = StatusAdapter()
+    private fun initStatusViewPager( userWeekStatus : UserWeekStatus) {
+        statusAdapter = StatusAdapter(userWeekStatus)
         statusAdapter.notifyItemRemoved(0)
         with(binding) {
             statusViewPager.adapter = statusAdapter
             statusViewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
             ciIndicator.setViewPager(statusViewPager)
+        }
+    }
+
+    private fun setUserWeekStatus(){
+        lifecycleScope.launch(Dispatchers.IO){
+            kotlin.runCatching {
+                RetrofitBuilder.getHttpMainService().getUserWeekStatus(
+                    accessToken = "Bearer ${tokenDao.getMembers().accessToken}"
+                )
+            }.onSuccess { result ->
+                Log.d(TAG, "setUserWeekStatusResult : ${result}")
+                launch (Dispatchers.Main) {
+                    initStatusViewPager(result.data!!)
+                }
+            }.onFailure { result ->
+                result.printStackTrace()
+                if (result is HttpException) {
+                    val errorBody = result.response()?.errorBody()?.string()
+                    Log.e(TAG, "Error body: $errorBody")
+                }
+            }
         }
     }
 
