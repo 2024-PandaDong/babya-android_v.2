@@ -1,6 +1,5 @@
-package kr.pandadong2024.babya.home.todo_list
+package kr.pandadong2024.babya.home.todo_list.adapter
 
-import android.annotation.SuppressLint
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -12,6 +11,9 @@ class TodoCategoryAdapter(val flash :(position:Int)->Unit, val categoryList : Li
     inner class CategoryViewHolder(private val binding : ItemTodoListTagBinding) :  RecyclerView.ViewHolder(binding.root){
         fun bind(themeText : String, position: Int){
             binding.root.setOnClickListener {
+//                flash(position)
+            }
+            binding.itemTodoParent.setOnClickListener {
                 flash(position)
             }
             binding.tagText.text = themeText

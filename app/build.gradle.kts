@@ -61,7 +61,7 @@ protobuf {
 }
 
 dependencies {
-    implementation(libs.material.v110)
+
     implementation("com.tbuonomo:dotsindicator:5.0")
     implementation(libs.circleindicator)
 
