@@ -124,13 +124,66 @@ class TodoListFragment : Fragment() {
     private fun initDayRecyclerView(todoList : Map<String, List<TodoResponses>>){
         Log.d(TAG, "$todoList")
         val todoAdapter = TodoDayAdapter(
-            todoList = todoList
-        )
+            todoList = todoList,
+            context =  requireContext()
+        ){type, todoId ->
+            // | 1 : 삭제 | 2 : 수정 |
+            when(type){
+                1 ->{
+                    deleteTodo(todoId)
+                }
+                2 ->{
+                    modifyTodo(todoId)
+                }
+            }
+
+        }
         todoAdapter.notifyItemRemoved(0)
         with(binding){
             todoListRecyclerView.adapter = todoAdapter
         }
     }
+
+    private fun modifyTodo(todoId : Int){
+        lifecycleScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+//                RetrofitBuilder.getTodoListService().modifyTodo(
+//                    accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
+//                )
+            }.onSuccess { result ->
+                launch (Dispatchers.Main){
+                    getCategory()
+                }
+            }.onFailure { result ->
+                result.printStackTrace()
+                if (result is HttpException) {
+                    val errorBody = result.response()?.raw()?.request
+                    Log.e(TAG, "Error body: $errorBody")
+                }
+            }
+        }
+    }
+    private fun deleteTodo(todoId : Int){
+        lifecycleScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                RetrofitBuilder.getTodoListService().deleteTodo(
+                    accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
+                    id = todoId
+                )
+            }.onSuccess { result ->
+                launch (Dispatchers.Main){
+                    getCategory()
+                }
+            }.onFailure { result ->
+                result.printStackTrace()
+                if (result is HttpException) {
+                    val errorBody = result.response()
+                    Log.e(TAG, "Error body: ${errorBody?.raw()?.request}")
+                }
+            }
+        }
+    }
+
 
     private fun getTodoList(category : String, date: String){
         lifecycleScope.launch (Dispatchers.IO) {

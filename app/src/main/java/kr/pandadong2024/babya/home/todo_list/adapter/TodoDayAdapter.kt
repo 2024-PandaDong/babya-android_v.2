@@ -1,10 +1,12 @@
 package kr.pandadong2024.babya.home.todo_list.adapter
 
+import android.content.Context
 import android.icu.util.Calendar
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.ItemTodoDayListBinding
@@ -14,6 +16,8 @@ import java.util.GregorianCalendar
 
 class TodoDayAdapter(
     val todoList: Map<String, List<TodoResponses>>,
+    val context: Context,
+    val work : (type : Int, todoId : Int) -> Unit
 ) : RecyclerView.Adapter<TodoDayAdapter.TodoDayViewHolder>() {
     inner class TodoDayViewHolder(
         private val binding: ItemTodoDayListBinding,
@@ -37,7 +41,22 @@ class TodoDayAdapter(
 
         }
         private fun openItem(){
-            val adapter = TodoItemAdapter(itemData!!)
+            val adapter = TodoItemAdapter(itemData!!){ type, todoId ->
+                work(type, todoId)
+            }
+
+            val swipeHelperCallback = TodoItemTouchHelper()
+            swipeHelperCallback.setClamp(1000f)
+            val itemTouchHelper: ItemTouchHelper = ItemTouchHelper(swipeHelperCallback)
+            itemTouchHelper.attachToRecyclerView(binding.todoDayItemRecyclerView)
+
+            binding.todoDayItemRecyclerView.apply {
+                setOnTouchListener { _, _ ->
+                    swipeHelperCallback.removePreviousClamp(this)
+                    false
+                }
+            }
+
             if (!isExpand) {
                 isExpand = true
                 adapter.notifyItemRemoved(0)
@@ -47,7 +66,6 @@ class TodoDayAdapter(
             } else {
 
                 isExpand = false
-//                    TodoItemTouchHelper().
 
 
                 binding.todoDayItemRecyclerView.visibility = View.VISIBLE
