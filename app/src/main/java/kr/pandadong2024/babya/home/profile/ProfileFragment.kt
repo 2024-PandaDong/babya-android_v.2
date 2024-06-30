@@ -97,17 +97,20 @@ class ProfileFragment : Fragment() {
     private fun getProfileData() {
         /** 프로필 정보 보여주기
          * email을 넣어야함*/
-        lifecycleScope.launch(Dispatchers.IO){
-            kotlin.runCatching {
-                RetrofitBuilder.getProfileService().getProfile(email = email)
-            }.onSuccess { value ->
-
-
-            }.onFailure {
-                it.printStackTrace()
-                Log.d(TAG, "onCreateView: 서버연결 실패")
-            }
-        }
+//        lifecycleScope.launch(Dispatchers.IO){
+//            kotlin.runCatching {
+//                RetrofitBuilder.getProfileService().getProfile(
+//
+//                    email = email
+//                )
+//            }.onSuccess { value ->
+//
+//
+//            }.onFailure {
+//                it.printStackTrace()
+//                Log.d(TAG, "onCreateView: 서버연결 실패")
+//            }
+//        }
     }
 
 
