@@ -15,6 +15,10 @@ class TodoItemAdapter(
         fun bind(itemDate : TodoResponses){
             binding.todoCheckRadio.text = itemDate.content
             binding.todoCheckRadio.isChecked = itemDate.isChecked!!
+            binding.swipeView.setOnClickListener {
+                Log.d("tageg", "swipeView")
+            }
+
 
             binding.deleteButton.setOnClickListener {
                 Log.d("tageg", "deleteButton")

@@ -46,16 +46,9 @@ class TodoDayAdapter(
             }
 
             val swipeHelperCallback = TodoItemTouchHelper()
-            swipeHelperCallback.setClamp(1000f)
+
             val itemTouchHelper: ItemTouchHelper = ItemTouchHelper(swipeHelperCallback)
             itemTouchHelper.attachToRecyclerView(binding.todoDayItemRecyclerView)
-
-            binding.todoDayItemRecyclerView.apply {
-                setOnTouchListener { _, _ ->
-                    swipeHelperCallback.removePreviousClamp(this)
-                    false
-                }
-            }
 
             if (!isExpand) {
                 isExpand = true
@@ -70,8 +63,15 @@ class TodoDayAdapter(
 
                 binding.todoDayItemRecyclerView.visibility = View.VISIBLE
                 adapter.notifyItemRemoved(0)
-                binding.todoDayItemRecyclerView.adapter = adapter
 
+                binding.todoDayItemRecyclerView.adapter = adapter
+                binding.todoDayItemRecyclerView.apply {
+                    setOnTouchListener { _, _ ->
+                        performClick()
+                        swipeHelperCallback.removePreviousClamp(this)
+                        false
+                    }
+                }
                 binding.todoDayIcon.setImageResource(R.drawable.ic_down_arrow)
             }
         }

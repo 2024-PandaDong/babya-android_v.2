@@ -130,9 +130,11 @@ class TodoListFragment : Fragment() {
             // | 1 : 삭제 | 2 : 수정 |
             when(type){
                 1 ->{
+                    Log.d(TAG, "Delete")
                     deleteTodo(todoId)
                 }
                 2 ->{
+                    Log.d(TAG, "Modify")
                     modifyTodo(todoId)
                 }
             }

@@ -23,7 +23,8 @@ class TodoItemTouchHelper (
         viewHolder: RecyclerView.ViewHolder,
     ): Int {
         val view = getView(viewHolder)
-        clamp = view.width.toFloat() / 10 * 3
+        clamp = 360f
+        Log.d("TAG", "clamp = $clamp")
         return makeMovementFlags(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT)
     }
 
@@ -89,7 +90,8 @@ class TodoItemTouchHelper (
         isCurrentlyActive: Boolean
     ) : Float {
         // View의 가로 길이의 절반까지만 swipe 되도록
-        val min: Float = -view.width.toFloat()/2
+        val min: Float = -360f
+        Log.d("TAG", min.toString())
         // RIGHT 방향으로 swipe 막기
         val max: Float = 0f
 
@@ -114,7 +116,7 @@ class TodoItemTouchHelper (
     override fun getSwipeThreshold(viewHolder: RecyclerView.ViewHolder): Float {
         val isClamped = getTag(viewHolder)
         setTag(viewHolder, !isClamped && currentDx <= -clamp)
-        return 2f
+        return 5f
     }
 
     fun setClamp(clamp: Float) {
