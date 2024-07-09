@@ -108,6 +108,7 @@ class DetailDashBoardFragment : Fragment() {
                 initCommentRecyclerView(1, 100, viewModel.id.value!!)
 
             }.onFailure {result ->
+                Log.d(TAG, "postSubComment: 실패")
                 result.printStackTrace()
             }
         }
@@ -129,8 +130,10 @@ class DetailDashBoardFragment : Fragment() {
                 initCommentRecyclerView(1, 100, viewModel.id.value!!)
 
             }.onFailure {result ->
+                Log.d(TAG, "postComment: 실패")
                 result.printStackTrace()
             }
+
         }
     }
 
@@ -144,6 +147,7 @@ class DetailDashBoardFragment : Fragment() {
                     postId = postId
                 )
             }.onSuccess {result ->
+                Log.d(TAG, "initCommentRecyclerView1 : 성공 ")
                 Log.d(TAG, "message : ${result.message}")
                 Log.d(TAG, "status : ${result.status}")
                 Log.d(TAG, "data : ${result.data}")
@@ -160,41 +164,9 @@ class DetailDashBoardFragment : Fragment() {
                     }
                 }
             }.onFailure { result ->
+                Log.d(TAG, "initCommentRecyclerView1: 실패")
                 result.printStackTrace()
                 Log.d(TAG, "message : ${result.message}")
-            }
-            kotlin.runCatching {
-                RetrofitBuilder.getDashBoardService().getDashBoard(
-                    accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
-                    id = viewModel.id.value!!
-                )
-            }.onSuccess {result ->
-                Log.e(TAG, "result : ${result.message}")
-                val dashBoardData = result.data
-                lifecycleScope.launch(Dispatchers.Main){
-
-                    if (dashBoardData?.files?.get(0)?.url.isNullOrBlank()){
-                        binding.mainImage.visibility = View.GONE
-                    }else{
-                        binding.mainImage.load(dashBoardData?.files?.get(0)?.url)
-                    }
-
-                    categoryClass(dashBoardData?.category)
-
-                    binding.mainText.text = dashBoardData?.content
-                    binding.name.text = dashBoardData?.nickname
-                    binding.title.text = dashBoardData?.title
-                    binding.views.text = dashBoardData?.view.toString()
-                    binding.comment.text = dashBoardData?.commentCnt.toString()
-                    // 슬라이싱 해야함
-                    binding.dateText.text = dashBoardData?.createdAt
-                    binding.dashBoardProfileImage.load(dashBoardData?.profileImg)
-
-
-                }
-            }.onFailure {result ->
-                Log.e(TAG, "result : ${result.message}")
-                result.printStackTrace()
             }
         }
     }
@@ -232,6 +204,44 @@ class DetailDashBoardFragment : Fragment() {
                         binding.profileImage.load(result.data?.profileImg)
                     }
                 }.onFailure {result ->
+                    Log.d(TAG, "initView: 실패")
+                    Log.e(TAG, "result : ${result.message}")
+                    result.printStackTrace()
+                }
+                kotlin.runCatching {
+                    Log.d(TAG, "initCommentRecyclerView: ${viewModel.id.value!!}")
+                    RetrofitBuilder.getDashBoardService().getDashBoard(
+                        accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
+                        id = viewModel.id.value!!
+                    )
+                }.onSuccess {result ->
+                    Log.d(TAG, "initCommentRecyclerView2 : 성공")
+                    Log.e(TAG, "result : ${result.message}")
+                    Log.d(TAG, "data : ${result.data}")
+                    val dashBoardData = result.data
+                    lifecycleScope.launch(Dispatchers.Main){
+
+                        if (dashBoardData?.files?.get(0)?.url.isNullOrBlank()){
+                            binding.mainImage.visibility = View.GONE
+                        }else{
+                            binding.mainImage.load(dashBoardData?.files?.get(0)?.url)
+                        }
+
+                        categoryClass(dashBoardData?.category)
+
+                        binding.mainText.text = dashBoardData?.content
+                        binding.name.text = dashBoardData?.nickname
+                        binding.title.text = dashBoardData?.title
+                        binding.views.text = dashBoardData?.view.toString()
+                        binding.comment.text = dashBoardData?.commentCnt.toString()
+                        // 슬라이싱 해야함
+                        binding.dateText.text = dashBoardData?.createdAt
+                        binding.dashBoardProfileImage.load(dashBoardData?.profileImg)
+
+
+                    }
+                }.onFailure {result ->
+                    Log.d(TAG, "initCommentRecyclerView2: 실패")
                     Log.e(TAG, "result : ${result.message}")
                     result.printStackTrace()
                 }
@@ -249,6 +259,4 @@ class DetailDashBoardFragment : Fragment() {
         super.onPause()
         (requireActivity() as BottomControllable).setBottomNavVisibility(true)
     }
-
-
 }
