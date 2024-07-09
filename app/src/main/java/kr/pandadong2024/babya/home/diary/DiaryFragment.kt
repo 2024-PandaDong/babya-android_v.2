@@ -109,6 +109,7 @@ class DiaryFragment : Fragment() {
 
 
 
+
     private fun initDiaryGridView() {
 
         diaryMainGridViewAdapter = DiaryMainGridViewAdapter(diaryList!!) { diaryId, memberId  ->

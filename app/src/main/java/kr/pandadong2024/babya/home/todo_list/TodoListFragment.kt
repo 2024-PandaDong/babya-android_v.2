@@ -109,6 +109,7 @@ class TodoListFragment : Fragment() {
         return binding.root
     }
 
+
     private fun setCategory(categoryList : List<String>){
         val todoCategoryAdapter = TodoCategoryAdapter(
             categoryList = categoryList,
@@ -131,13 +132,34 @@ class TodoListFragment : Fragment() {
         }
     }
 
+    private fun checkTodo(todoId : Int, isChecked : Boolean){
+        lifecycleScope.launch (Dispatchers.IO) {
+            kotlin.runCatching {
+                RetrofitBuilder.getTodoListService().checkTodo(
+                    accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
+                    isChecked = isChecked,
+                    id = todoId
+                )
+            }.onSuccess {result->
+                Log.d(TAG, "check result : $result")
+
+            }.onFailure { result->
+                result.printStackTrace()
+                if (result is HttpException) {
+                    val errorBody = result.response()?.raw()?.request
+                    Log.e(TAG, "Error body: $errorBody")
+                }
+            }
+        }
+    }
+
     private fun initDayRecyclerView(todoList : Map<String, List<TodoResponses>>){
         Log.d(TAG, "$todoList")
         val todoAdapter = TodoDayAdapter(
             todoList = todoList,
             context =  requireContext()
         ){type, todoData ->
-            // | 1 : 삭제 | 2 : 수정 |
+            // | 1 : 삭제 | 2 : 수정 | 3 : 체크 |
             when(type){
                 1 ->{
                     Log.d(TAG, "Delete")
@@ -146,6 +168,12 @@ class TodoListFragment : Fragment() {
                 2 ->{
                     Log.d(TAG, "Modify")
                     modifyTodo(todoData)
+                }
+                3 ->{
+                    Log.d(TAG, "check")
+                    checkTodo(
+                        todoId = todoData.todoId!!,
+                        isChecked = todoData.isChecked!!)
                 }
             }
 

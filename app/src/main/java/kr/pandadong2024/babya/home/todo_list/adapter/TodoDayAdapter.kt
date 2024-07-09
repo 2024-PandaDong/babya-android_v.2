@@ -35,6 +35,7 @@ class TodoDayAdapter(
                 isHavingDecoList[it] = false
             }
 
+
             itemData = getData
             if(date == key.toInt()){
                 isExpand = true
@@ -50,7 +51,7 @@ class TodoDayAdapter(
 
         }
         private fun openItem(key: String){
-            val adapter = TodoItemAdapter(itemData!!, key){ type, todoId ->
+            val adapter = TodoItemAdapter(itemData!!){ type, todoId ->
                 work(type, todoId)
                 //TODO : 지워지고 수정되는거 이쪽에서 맡아서 하기
             }

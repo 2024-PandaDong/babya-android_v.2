@@ -38,6 +38,13 @@ interface TodoListService {
         @Body requestBody : TodoModifyRequest
     ): BaseResponse<String>
 
+    @PATCH("/todo/check")
+    suspend fun checkTodo(
+        @Header("Authorization") accessToken: String,
+        @Query("isChecked") isChecked : Boolean,
+        @Query("id") id : Int
+    ): BaseResponse<String>
+
     @DELETE("/todo/{id}")
     suspend fun deleteTodo(
         @Header("Authorization") accessToken: String,

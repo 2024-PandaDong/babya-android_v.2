@@ -10,17 +10,24 @@ import kr.pandadong2024.babya.server.remote.responses.todo.TodoResponses
 
 class TodoItemAdapter(
     val todoList : List<TodoResponses>,
-    val key : String,
-    val work : (type : Int, todoData : TodoResponses) -> Unit)
+    val work : (type : Int, todoData : TodoResponses) -> Unit,
+    )
     : RecyclerView.Adapter<TodoItemAdapter.TodoItemViewHolder>() {
 
     inner class TodoItemViewHolder(val binding : ItemTodoListContentBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(itemDate : TodoResponses){
             binding.todoCheckRadio.text = itemDate.content
-            binding.todoCheckRadio.isChecked = itemDate.isChecked!!
+            binding.todoCheckRadio.setOnClickListener {
+                Log.d("teat", "check : ${itemDate.isChecked}")
+                itemDate.isChecked = binding.todoCheckRadio.isChecked
+                Log.d("teat", "check : ${itemDate.isChecked}")
+                work(3, itemDate)
+            }
             binding.swipeView.setOnClickListener {
                 Log.d("tageg", "swipeView")
             }
+
+
 
 
             binding.deleteButton.setOnClickListener {
@@ -32,6 +39,8 @@ class TodoItemAdapter(
                 work(2, itemDate)
             }
         }
+
+
 
     }
 

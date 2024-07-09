@@ -10,7 +10,7 @@ data class TodoResponses(
     @field:SerializedName("planedDt")
     val planedDt : String? = "0000-00-00",
     @field:SerializedName("isChecked")
-    val isChecked : Boolean? = false,
+    var isChecked : Boolean? = false,
     @field:SerializedName("category")
     val category : String? = "null",
 )
