@@ -42,7 +42,7 @@
             android:layout_height="25dp"
             android:layout_gravity="end"
             android:layout_marginEnd="15dp"
-            android:background="@drawable/sp_edit_diary_background"
+            android:background="@drawable/sp_edit_diary_able_background"
             android:fontFamily="@font/pretendard_bold"
             android:src="@drawable/ic_reload"
             android:text="등록"
@@ -79,6 +79,7 @@
                     android:id="@+id/selectedImage"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+
                     android:scaleType="centerCrop"
                     />
 
@@ -192,15 +193,15 @@
                 android:fontFamily="@font/pretendard_semibold"
                 android:text="혈압"
                 android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="@id/bloodPressureHeightEditText"
-                app:layout_constraintEnd_toStartOf="@id/bloodPressureHeightEditText"
+                app:layout_constraintBottom_toBottomOf="@id/bloodPressureHeightInputText"
+                app:layout_constraintEnd_toStartOf="@id/bloodPressureHeightInputText"
 
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="@id/editDiaryAddImageCardView"
-                app:layout_constraintTop_toTopOf="@id/bloodPressureHeightEditText" />
+                app:layout_constraintTop_toTopOf="@id/bloodPressureHeightInputText" />
 
             <EditText
-                android:id="@+id/bloodPressureHeightEditText"
+                android:id="@+id/bloodPressureHeightInputText"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:fontFamily="@font/pretendard_semibold"
@@ -226,14 +227,14 @@
                 android:fontFamily="@font/pretendard_bold"
                 android:text="/"
                 android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="@id/bloodPressureHeightEditText"
+                app:layout_constraintBottom_toBottomOf="@id/bloodPressureHeightInputText"
 
                 app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toEndOf="@id/bloodPressureHeightEditText"
-                app:layout_constraintEnd_toStartOf="@id/bloodPressureLowEditText"
-                app:layout_constraintTop_toTopOf="@id/bloodPressureHeightEditText" />
+                app:layout_constraintStart_toEndOf="@id/bloodPressureHeightInputText"
+                app:layout_constraintEnd_toStartOf="@id/bloodPressureLowInputText"
+                app:layout_constraintTop_toTopOf="@id/bloodPressureHeightInputText" />
             <EditText
-                android:id="@+id/bloodPressureLowEditText"
+                android:id="@+id/bloodPressureLowInputText"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:fontFamily="@font/pretendard_semibold"
@@ -247,8 +248,8 @@
 
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toEndOf="@id/bloodPressureSplitText"
-                app:layout_constraintTop_toTopOf="@id/bloodPressureHeightEditText"
-                app:layout_constraintBottom_toBottomOf="@id/bloodPressureHeightEditText"/>
+                app:layout_constraintTop_toTopOf="@id/bloodPressureHeightInputText"
+                app:layout_constraintBottom_toBottomOf="@id/bloodPressureHeightInputText"/>
 
             <TextView
                 android:id="@+id/pregnancyText"
@@ -305,12 +306,12 @@
                 android:text="다음진찰일"
                 android:textSize="14sp"
 
-                app:layout_constraintBottom_toBottomOf="@id/bloodPressureHeightEditText"
+                app:layout_constraintBottom_toBottomOf="@id/bloodPressureHeightInputText"
                 app:layout_constraintEnd_toStartOf="@id/nextDaySelectedText"
 
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="@id/pregnancyText"
-                app:layout_constraintTop_toTopOf="@id/bloodPressureHeightEditText" />
+                app:layout_constraintTop_toTopOf="@id/bloodPressureHeightInputText" />
 
             <TextView
                 android:id="@+id/nextDaySelectedText"
@@ -350,7 +351,7 @@
                 android:text="태아소견"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="@id/editDiaryAddImageCardView"
-                app:layout_constraintTop_toBottomOf="@id/bloodPressureHeightEditText" />
+                app:layout_constraintTop_toBottomOf="@id/bloodPressureHeightInputText" />
 
             <!--            <com.google.android.material.textfield.TextInputLayout-->
             <!--                android:id="@+id/editDiaryFetalFindingsInputLayout"-->
@@ -493,7 +494,7 @@
                     android:id="@+id/painRadioButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="좋음"
+                    android:text="아픔"
                     android:textSize="12sp"
                     android:textColor="@drawable/sel_text_color"
                     android:fontFamily="@font/pretendard_semibold"

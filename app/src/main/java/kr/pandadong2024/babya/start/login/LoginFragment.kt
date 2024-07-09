@@ -80,6 +80,7 @@ class LoginFragment : Fragment() {
             tokenDao = dao.tokenDao()
             token = tokenDao.getMembers().accessToken
             Log.d(TAG, "${token}")
+            Log.d(TAG, "email : ${tokenDao.getMembers().email}")
         }
 //        lifecycleScope.launch {
 //        viewModel.flow.collectLatest {

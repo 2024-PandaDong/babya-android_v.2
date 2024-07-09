@@ -7,39 +7,56 @@ import android.view.ViewGroup
 import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import coil.load
+import com.example.babya_android.datastore.user
 import kr.pandadong2024.babya.databinding.ItemBanerCardBinding
 import kr.pandadong2024.babya.databinding.ItemMyStatusProfileBinding
 import kr.pandadong2024.babya.databinding.ItmeMyStatusBinding
+import kr.pandadong2024.babya.server.remote.responses.UserDataResponses
+import kr.pandadong2024.babya.server.remote.responses.main.UserWeekStatus
 
-class StatusAdapter () :RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+class StatusAdapter(
+    val userWeekStatus: UserWeekStatus,
+    val userData: UserDataResponses
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
 
-    inner class StatusPagerViewHolder(private val binding : ItmeMyStatusBinding): RecyclerView.ViewHolder(binding.root){
-        fun statusBind(){
+    inner class StatusPagerViewHolder(private val binding: ItmeMyStatusBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun statusBind() {
 //            binding.range.isEnabled = false
-            Log.d("TAG", "statusBind")
+            binding.goodSeekBar.progress = userWeekStatus.c1!!
+            binding.normalSeekBar.progress = userWeekStatus.c2!!
+            binding.painSeekBar.progress = userWeekStatus.c3!!
+            binding.tiredSeekBar.progress = userWeekStatus.c4!!
+            binding.uneasySeekBar.progress = userWeekStatus.c5!!
 
 
         }
 
     }
-    inner class UserPagerViewHolder(private val binding : ItemMyStatusProfileBinding): RecyclerView.ViewHolder(binding.root){
 
-        fun userInfoBind(){
-            Log.d("TAG", "userInfoBind")
-//            profileBinding.dDayText.text = "text"
+    inner class UserPagerViewHolder(private val binding: ItemMyStatusProfileBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+        fun userInfoBind() {
+            binding.titleText.text = "현재 ${userData.nickname}님의 상태입니다."
+            binding.ageCount.text = userData.age.toString()
+            binding.marryCount.text = userData.marriedYears.toString()
+            binding.dDayCount.text = userData.dDay.toString()
+            binding.profileImage.load(userData.profileImg)
         }
 
     }
-
 
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when(position){
-            0 ->{
+        when (position) {
+            0 -> {
                 (holder as StatusPagerViewHolder).statusBind()
             }
-            1 ->{
+
+            1 -> {
                 (holder as UserPagerViewHolder).userInfoBind()
             }
 
@@ -52,19 +69,28 @@ class StatusAdapter () :RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return when(viewType){
-            0 ->{
-                val binding  = ItmeMyStatusBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+        return when (viewType) {
+            0 -> {
+                val binding =
+                    ItmeMyStatusBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 StatusPagerViewHolder(binding)
             }
 
-            1 ->{
-                val binding  = ItemMyStatusProfileBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+            1 -> {
+                val binding = ItemMyStatusProfileBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
                 UserPagerViewHolder(binding)
             }
 
-            else ->{
-                val binding  = ItemMyStatusProfileBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+            else -> {
+                val binding = ItemMyStatusProfileBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
                 UserPagerViewHolder(binding)
             }
 

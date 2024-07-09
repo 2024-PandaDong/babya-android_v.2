@@ -18,7 +18,6 @@ interface CommonService {
         @Part file: MultipartBody.Part
     ): BaseResponse<String>
 
-
     @GET("/member/profile/{email}")
     suspend fun getProfile(
         @Header("Authorization") accessToken: String,

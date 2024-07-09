@@ -18,11 +18,11 @@ data class DiaryDataResponses(
     @field:SerializedName("isPublic")
     val isPublic: String? = "true",
     @field:SerializedName("memberId")
-    val memberId: String? = "test",
+    val memberId: String? = "null",
     @field:SerializedName("memo")
     val memo: String? = "test",
     @field:SerializedName("nextAppointment")
-    val nextAppointment: String? = "test",
+    val nextAppointment: String? = "12/12",
     @field:SerializedName("nickname")
     val nickname: String? = "tester",
     @field:SerializedName("pregnancyWeeks")

@@ -61,11 +61,13 @@ protobuf {
 }
 
 dependencies {
+
     implementation("com.tbuonomo:dotsindicator:5.0")
     implementation(libs.circleindicator)
 
     implementation(libs.androidx.room.runtime.v250)
     implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.material3.android)
     kapt(libs.androidx.room.compiler)
 
     implementation(libs.logging.interceptor)

@@ -6,10 +6,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentDiaryBinding
@@ -20,7 +22,6 @@ import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.server.local.BabyaDB
 import kr.pandadong2024.babya.server.local.TokenDAO
 import kr.pandadong2024.babya.server.remote.responses.BaseResponse
-import kr.pandadong2024.babya.server.remote.responses.PageRequest
 import kr.pandadong2024.babya.server.remote.responses.diary.DiaryDataResponses
 import kr.pandadong2024.babya.util.BottomControllable
 
@@ -28,13 +29,19 @@ class DiaryFragment : Fragment() {
     private var _binding: FragmentDiaryBinding? = null
     private var diaryList: List<DiaryDataResponses>? = null
     private val binding get() = _binding!!
-    private lateinit var viewModel: DiaryViewModel
+    private val viewModel by activityViewModels<DiaryViewModel>()
     private lateinit var tokenDao: TokenDAO
+    private var isPublic = true
 
     private lateinit var diaryMainGridViewAdapter: DiaryMainGridViewAdapter
     private lateinit var diaryBannerAdapter: DiaryBannerAdapter
 
+    private var myEmail:String = ""
+
     private val TAG = "DiaryFragment"
+    init {
+        isPublic = true
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -43,7 +50,10 @@ class DiaryFragment : Fragment() {
         (requireActivity() as BottomControllable).setBottomNavVisibility(false)
         initDiaryBannerView()
 
-        tokenDao = BabyaDB.getInstance(requireContext().applicationContext)?.tokenDao()!!
+        binding.diaryDisclosureButton.setOnClickListener {
+            Log.d(TAG, isPublic.toString())
+            changeGridView()
+        }
 
 
         binding.diaryEditFloatingActionButton.setOnClickListener{
@@ -53,22 +63,37 @@ class DiaryFragment : Fragment() {
             findNavController().navigate(R.id.action_diaryFragment_to_mainFragment)
         }
         binding.radioGroup.check(R.id.diaryAllRadio)
+        when(binding.radioGroup.checkedRadioButtonId){
+            binding.diaryAllRadio.id -> {
+                getDiaryData(1, 100, 2)
+            }
+
+            binding.diaryMyRadio.id -> {
+                getDiaryData(1, 100, 1)
+            }
+
+        }
         binding.radioGroup.setOnCheckedChangeListener { radioGroup, checkId ->
             Log.d(TAG, "in setOnCheckedChangeListener")
             when (checkId) {
                 binding.diaryAllRadio.id -> {
                     binding.diaryDisclosureButton.visibility = View.GONE
-                    getDiaryData(1, 10, 2)
+                    getDiaryData(1, 100, 2)
                 }
 
                 binding.diaryMyRadio.id -> {
                     binding.diaryDisclosureButton.visibility = View.VISIBLE
-                    getDiaryData(1, 10, 1)
+                    getDiaryData(1, 100, 1)
                 }
             }
         }
 
         return binding.root
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        tokenDao = BabyaDB.getInstance(requireContext().applicationContext)?.tokenDao()!!
     }
 
     override fun onDestroy() {
@@ -82,14 +107,58 @@ class DiaryFragment : Fragment() {
     }
 
 
+
+
+
     private fun initDiaryGridView() {
-        diaryMainGridViewAdapter = DiaryMainGridViewAdapter(diaryList!!) { data ->
-            Log.d("TAG", "in data")
-            findNavController().navigate(R.id.action_diaryFragment_to_detailPublicFragment)
+
+        diaryMainGridViewAdapter = DiaryMainGridViewAdapter(diaryList!!) { diaryId, memberId  ->
+            lifecycleScope.launch(Dispatchers.Main){
+                kotlin.runCatching {
+                    viewModel.id.value = diaryId
+                    if (memberId == myEmail) {
+                        findNavController().navigate(R.id.action_diaryFragment_to_detailWriterFragment)
+                    } else {
+                        findNavController().navigate(R.id.action_diaryFragment_to_detailPublicFragment)
+                    }
+                }.onFailure {
+                    it.printStackTrace()
+                }.onSuccess {
+
+                }
+            }
+
+
         }
         diaryMainGridViewAdapter.notifyDataSetChanged()
-
         binding.DiaryGridView.adapter = diaryMainGridViewAdapter
+    }
+
+    private fun changeGridView(){
+        val changeList = mutableListOf<DiaryDataResponses>()
+        when(isPublic){
+            true ->{
+                binding.diaryDisclosureText.setText("비공개")
+                binding.diaryDisclosureIcon.setImageResource(R.drawable.ic_lock)
+                diaryList?.forEach {
+                    if (it.isPublic == "Y"){
+                        changeList.add(it)
+                    }
+                }
+            }
+            false ->{
+                binding.diaryDisclosureText.setText("공개")
+                binding.diaryDisclosureIcon.setImageResource(R.drawable.ic_unlock)
+                diaryList?.forEach {
+                    if (it.isPublic == "N"){
+                        changeList.add(it)
+                    }
+                }
+            }
+        }
+        isPublic = isPublic.not()
+        diaryMainGridViewAdapter.setDiaryList(changeList)
+        diaryMainGridViewAdapter.notifyDataSetChanged()
     }
 
     private fun initDiaryBannerView() {
@@ -108,52 +177,43 @@ class DiaryFragment : Fragment() {
         size: Int,
         type : Int
     ) {
-        Log.d(TAG, "in getMyDiaryData")
         lifecycleScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                Log.d(TAG, "in runCahting")
-                var DiaryData : BaseResponse<List<DiaryDataResponses>>? = null
+                var diaryData : BaseResponse<List<DiaryDataResponses>>? = null
+                myEmail = tokenDao.getMembers().email
+                Log.d(TAG, "email : ${tokenDao.getMembers().email}")
 
-                Log.d(TAG, "ㅅㄷㄴㅅ = ${RetrofitBuilder.getDiaryService().getMyDiaryData(accessToken = tokenDao.getMembers ().accessToken, pageRequest = PageRequest(page = page, size= size)).message!!}")
                 when(type){
                     1 -> {
-                        DiaryData = RetrofitBuilder.getDiaryService().getMyDiaryData(
+                        diaryData = RetrofitBuilder.getDiaryService().getMyDiaryData(
                             accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
-                            pageRequest = PageRequest(page, size)
+                            page =  page,
+                            size = size
                         )
-                        Log.d(TAG, "Test1")
-                        Log.e(TAG, "status : ${DiaryData.status}, message : ${DiaryData.message}")
-                        Log.d(TAG, "Test2")
 
                     }
                     2 -> {
-                        DiaryData = RetrofitBuilder.getDiaryService().getOtherDiaryList(
-                            accessToken = tokenDao.getMembers().accessToken,
-                            pageRequest = PageRequest(
-                                page = page,
-                                size= size
-                            )
+                        isPublic = true
+                        diaryData = RetrofitBuilder.getDiaryService().getDiaryList(
+                            accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
+                            page = page,
+                            size= size
+
                         )
-                        Log.d(TAG, "Test1")
-                        Log.e(TAG, "status : ${DiaryData.status}, message : ${DiaryData.message}")
-                        Log.d(TAG, "Test2")
                     }
 
                     else -> {
-                        RetrofitBuilder.getDiaryService().getOtherDiaryList(
+                        RetrofitBuilder.getDiaryService().getDiaryList(
                             accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
-                            pageRequest = PageRequest(
-                                page = page,
-                                size= size
-                            )
+                            page = page,
+                            size= size
                         )
                     }
                 }
-                Log.d(TAG, "Test12123123213")
-                Log.e(TAG, "status : ${DiaryData?.status}, message : ${DiaryData?.message}")
-                diaryList = DiaryData?.data
+                Log.d(TAG, "status : ${diaryData?.status}, message : ${diaryData?.message}")
+                diaryList = diaryData?.data
             }.onFailure {
-                Log.d(TAG, "Test123")
+                Log.d(TAG, "${it.message}")
                 diaryList = listOf(
                     DiaryDataResponses()
                 )
@@ -161,10 +221,12 @@ class DiaryFragment : Fragment() {
                     initDiaryGridView()
                 }
             }.onSuccess {
-                Log.d(TAG, "Test3")
                 lifecycleScope.launch(Dispatchers.Main) {
                     initDiaryGridView()
-                    //완료
+                    if(type == 1){
+                        delay(1)
+                        changeGridView()
+                    }
                 }
             }
         }

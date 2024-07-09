@@ -1,4 +1,4 @@
-package kr.pandadong2024.babya.home.profile.adapter
+package kr.pandadong2024.babya.home.profile
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

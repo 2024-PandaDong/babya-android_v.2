@@ -6,7 +6,7 @@ data class BaseResponse<T>(
     @field:SerializedName("status")
     val status: Int? = -1,
     @field:SerializedName("message")
-    val message: String? = "그냥 오류 이건 내부에서 오류난거임",
+    val message: String? = "초기화 안됨",
     @field:SerializedName("data")
     val data: T? = null,
 )

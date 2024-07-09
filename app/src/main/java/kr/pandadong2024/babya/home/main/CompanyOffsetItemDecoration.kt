@@ -4,9 +4,7 @@ import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
-class CompanyOffsetItemDecoration(padding : Int) : RecyclerView.ItemDecoration() {
-    val offsetPadding = padding
-    @Override
+class CompanyOffsetItemDecoration(private val padding : Int) : RecyclerView.ItemDecoration() {
     override fun getItemOffsets(
         outRect: Rect,
         view: View,
@@ -14,8 +12,8 @@ class CompanyOffsetItemDecoration(padding : Int) : RecyclerView.ItemDecoration()
         state: RecyclerView.State
     ) {
         super.getItemOffsets(outRect, view, parent, state)
-        outRect.left = offsetPadding
-        outRect.right = offsetPadding
+        outRect.left = padding
+        outRect.right = padding
 
     }
 }

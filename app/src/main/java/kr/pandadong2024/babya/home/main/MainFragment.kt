@@ -9,8 +9,11 @@ import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
+import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.time.delay
 import kr.pandadong2024.babya.databinding.FragmentMainBinding
@@ -20,7 +23,9 @@ import kr.pandadong2024.babya.server.local.TokenDAO
 import kr.pandadong2024.babya.server.remote.responses.BannerResponses
 import kr.pandadong2024.babya.server.remote.responses.BaseResponse
 import kr.pandadong2024.babya.server.remote.responses.CompanyDataResponses
-import kr.pandadong2024.babya.server.remote.responses.PageRequest
+import kr.pandadong2024.babya.server.remote.responses.UserDataResponses
+import kr.pandadong2024.babya.server.remote.responses.main.UserWeekStatus
+import retrofit2.HttpException
 import java.time.Duration
 import kotlin.math.ceil
 
@@ -38,6 +43,7 @@ class MainFragment : Fragment() {
     private var bannerPosition = 0
     private val binding get() = _binding!!
     private var form = 1 // 임산부인지 지역별인지
+    private var userData : UserDataResponses = UserDataResponses()
 
 
 
@@ -93,7 +99,7 @@ class MainFragment : Fragment() {
                 }
             }
         }
-        initStatusViewPager()
+        setUserWeekStatus()
         initCompanyList()
         initBannerData()
 
@@ -122,13 +128,67 @@ class MainFragment : Fragment() {
         return binding.root
     }
 
-    private fun initStatusViewPager() {
-        statusAdapter = StatusAdapter()
+    private fun initStatusViewPager( userWeekStatus : UserWeekStatus, userData : UserDataResponses) {
+        statusAdapter = StatusAdapter(userWeekStatus, userData)
         statusAdapter.notifyItemRemoved(0)
         with(binding) {
             statusViewPager.adapter = statusAdapter
             statusViewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
             ciIndicator.setViewPager(statusViewPager)
+        }
+    }
+
+    private fun setUserWeekStatus(){
+        lifecycleScope.launch(Dispatchers.IO){
+
+            val userStatus : Deferred<UserWeekStatus> = async {
+                var data : UserWeekStatus = UserWeekStatus()
+                kotlin.runCatching {
+                    RetrofitBuilder.getHttpMainService().getUserWeekStatus(
+                        accessToken = "Bearer ${tokenDao.getMembers().accessToken}"
+                    )
+                }.onSuccess { result ->
+                    Log.d(TAG, "setUserWeekStatusResult : ${result}")
+                    data = result.data!!
+                }.onFailure { result ->
+                    result.printStackTrace()
+                    if (result is HttpException) {
+                        val errorBody = result.response()?.errorBody()?.string()
+                        Log.e(TAG, "Error body: $errorBody")
+                    }
+                }
+                data
+            }
+
+            val userData : Deferred<UserDataResponses> = async {
+                var data : UserDataResponses = UserDataResponses()
+                kotlin.runCatching {
+                    RetrofitBuilder.getCommonService().getProfile(
+                        accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
+                        email = tokenDao.getMembers().email
+                    )
+                }.onSuccess { result ->
+                    Log.d(TAG, "setUserWeekStatusResult : ${result}")
+                    data = result.data!!
+                }.onFailure { result ->
+                    result.printStackTrace()
+                    if (result is HttpException) {
+                        val errorBody = result.response()?.errorBody()?.string()
+                        Log.e(TAG, "Error body: $errorBody")
+                    }
+                }
+                data
+            }
+            launch(Dispatchers.Main) {
+                initStatusViewPager(
+                    userData = userData.await(),
+                    userWeekStatus = userStatus.await()
+                )
+            }
+
+
+
+
         }
     }
 
@@ -152,9 +212,9 @@ class MainFragment : Fragment() {
         rankAdapter.setCompanyList(companyList)
         rankAdapter.notifyItemRemoved(0)
         with(binding){
+            companyRankRecyclerView.addItemDecoration(CompanyOffsetItemDecoration(25))
             companyRankRecyclerView.adapter = rankAdapter
             companyRankRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-            companyRankRecyclerView.addItemDecoration(CompanyOffsetItemDecoration(25))
         }
 
     }
@@ -189,7 +249,8 @@ class MainFragment : Fragment() {
             kotlin.runCatching {
                 companyData = RetrofitBuilder.getMainService().getCompanyData(
                     accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
-                    pageRequest =  PageRequest(0, 3)
+                    page =  1,
+                    size = 10
                 )
                 Log.e(TAG, "initCompanyRecyclerView: ${companyData.status}")
                 Log.e(TAG, "initCompanyRecyclerView: ${companyData.message}")

@@ -6,6 +6,7 @@
     <color name="fontGray">#CBCBCB</color>
     <color name="gray">#D9D9D9</color>
     <color name="bottom_bar_gray">#757575</color>
+    <color name="dark_gray">#898A8D</color>
     <color name="light_gray">#EEEEEE</color>
 
     <color name="rad">#FF5C5C</color>

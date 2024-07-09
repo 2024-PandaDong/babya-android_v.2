@@ -50,6 +50,17 @@
             android:textSize="15sp"
             android:fontFamily="@font/pretendard_medium"
             />
+        <ImageView
+            android:id="@+id/goodImage"
+            android:layout_width="13dp"
+            android:layout_height="13dp"
+            android:layout_marginEnd="-7dp"
+            card_view:layout_constraintTop_toTopOf="@id/goodSeekBar"
+            card_view:layout_constraintBottom_toBottomOf="@id/goodSeekBar"
+            card_view:layout_constraintEnd_toStartOf="@id/goodSeekBar"
+            android:src="@drawable/img_good"
+            android:scaleType="fitXY"
+            />
         <SeekBar
             android:id="@+id/goodSeekBar"
             android:layout_width="0dp"
@@ -66,7 +77,18 @@
             android:max="5"
             android:layout_marginTop="0dp"
             android:layout_centerHorizontal="true"
-            android:progress="2"/>
+            android:progress="0"/>
+        <ImageView
+            android:id="@+id/normalImage"
+            android:layout_width="13dp"
+            android:layout_height="13dp"
+            android:layout_marginEnd="-7dp"
+            card_view:layout_constraintTop_toTopOf="@id/normalSeekBar"
+            card_view:layout_constraintBottom_toBottomOf="@id/normalSeekBar"
+            card_view:layout_constraintEnd_toStartOf="@id/normalSeekBar"
+            android:src="@drawable/img_normal"
+            android:scaleType="fitXY"
+            />
         <SeekBar
             android:id="@+id/normalSeekBar"
             android:layout_width="0dp"
@@ -81,7 +103,18 @@
             android:max="5"
             android:layout_marginTop="0dp"
             android:layout_centerHorizontal="true"
-            android:progress="2"/>
+            android:progress="0"/>
+        <ImageView
+            android:id="@+id/painImage"
+            android:layout_width="13dp"
+            android:layout_height="13dp"
+            android:layout_marginEnd="-7dp"
+            card_view:layout_constraintTop_toTopOf="@id/painSeekBar"
+            card_view:layout_constraintBottom_toBottomOf="@id/painSeekBar"
+            card_view:layout_constraintEnd_toStartOf="@id/painSeekBar"
+            android:src="@drawable/img_pain"
+            android:scaleType="fitXY"
+            />
         <SeekBar
             android:id="@+id/painSeekBar"
             android:layout_width="0dp"
@@ -96,7 +129,18 @@
             android:max="5"
             android:layout_marginTop="0dp"
             android:layout_centerHorizontal="true"
-            android:progress="2"/>
+            android:progress="0"/>
+        <ImageView
+            android:id="@+id/tiredImage"
+            android:layout_width="13dp"
+            android:layout_height="13dp"
+            android:layout_marginEnd="-7dp"
+            card_view:layout_constraintTop_toTopOf="@id/tiredSeekBar"
+            card_view:layout_constraintBottom_toBottomOf="@id/tiredSeekBar"
+            card_view:layout_constraintEnd_toStartOf="@id/tiredSeekBar"
+            android:src="@drawable/img_tired"
+            android:scaleType="fitXY"
+            />
         <SeekBar
             android:id="@+id/tiredSeekBar"
             android:layout_width="0dp"
@@ -111,7 +155,18 @@
             android:max="5"
             android:layout_marginTop="0dp"
             android:layout_centerHorizontal="true"
-            android:progress="2"/>
+            android:progress="0"/>
+        <ImageView
+            android:id="@+id/unrestImage"
+            android:layout_width="13dp"
+            android:layout_height="13dp"
+            android:layout_marginEnd="-7dp"
+            card_view:layout_constraintTop_toTopOf="@id/uneasySeekBar"
+            card_view:layout_constraintBottom_toBottomOf="@id/uneasySeekBar"
+            card_view:layout_constraintEnd_toStartOf="@id/uneasySeekBar"
+            android:src="@drawable/img_unrest"
+            android:scaleType="fitXY"
+            />
         <SeekBar
             android:id="@+id/uneasySeekBar"
             android:layout_width="0dp"
@@ -126,7 +181,7 @@
             android:max="5"
             android:layout_marginTop="0dp"
             android:layout_centerHorizontal="true"
-            android:progress="2"
+            android:progress="0"
             android:layout_marginBottom="30dp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

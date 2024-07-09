@@ -1,13 +1,16 @@
 package kr.pandadong2024.babya.server.remote.service
 
+import kr.pandadong2024.babya.server.remote.responses.CommentResponses
+import kr.pandadong2024.babya.server.remote.request.SubCommentRequest
 import kr.pandadong2024.babya.server.remote.request.diary.PostDiaryRequest
 import kr.pandadong2024.babya.server.remote.responses.BaseResponse
-import kr.pandadong2024.babya.server.remote.responses.PageRequest
+import kr.pandadong2024.babya.server.remote.responses.SubCommentResponses
 import kr.pandadong2024.babya.server.remote.responses.diary.DiaryDataResponses
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface DiaryService {
@@ -15,7 +18,8 @@ interface DiaryService {
     @GET("/diary/my")
     suspend fun getMyDiaryData(
         @Header("Authorization")accessToken : String,
-        @Query("pageRequest") pageRequest : PageRequest,
+        @Query("page") page : Int,
+        @Query("size") size : Int
     ):BaseResponse<List<DiaryDataResponses>>
 
     @POST("/diary")
@@ -25,16 +29,39 @@ interface DiaryService {
     ):BaseResponse<String>
 
     @GET("/diary/list") // 1부터 있음
-    suspend fun getOtherDiaryList(
+    suspend fun getDiaryList(
         @Header("Authorization")accessToken : String,
-        @Query("pageRequest")pageRequest:PageRequest,
+        @Query("page")page:Int,
+        @Query("size")size:Int
     ):BaseResponse<List<DiaryDataResponses>>
 
-//    @GET("/diary/comment")
-//    suspend fun getComment(): BaseResponse<>
+    @GET("/diary/{id}")
+    suspend fun getDiaryData(
+        @Header("Authorization")accessToken : String,
+        @Path("id") id : Int
+    ): BaseResponse<DiaryDataResponses>
 //
-//    @GET("/diary/comment")
-//    suspend fun getComment(): BaseResponse<>
+    @GET("/diary/comment")
+    suspend fun getComment(
+        @Header("Authorization")accessToken : String,
+        @Query("page")page:Int,
+        @Query("size")size:Int,
+        @Query("diaryId")diaryId:Int
+    ): BaseResponse<List<CommentResponses>>
+
+    @GET("/diary/sub-comment")
+    suspend fun getSubComment(
+        @Header("Authorization")accessToken : String,
+        @Query("page")page:Int,
+        @Query("size")size:Int,
+        @Query("parentId")parentId:Int
+    ): BaseResponse<List<SubCommentResponses>>
+
+    @POST("/diary/comment")
+    suspend fun postComment(
+        @Header("Authorization")accessToken : String,
+        @Body body: SubCommentRequest
+    ):BaseResponse<String>
 //
 //    @GET("/diary/comment")
 //    suspend fun getComment(): BaseResponse<>
