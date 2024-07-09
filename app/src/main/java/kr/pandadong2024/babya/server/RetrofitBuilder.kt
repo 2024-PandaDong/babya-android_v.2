@@ -9,6 +9,7 @@ import kr.pandadong2024.babya.server.local.BabyaDB
 import kr.pandadong2024.babya.server.local.TokenDAO
 import kr.pandadong2024.babya.server.remote.interceptor.TokenInterceptor
 import kr.pandadong2024.babya.server.remote.service.CommonService
+import kr.pandadong2024.babya.server.remote.service.DashBoardService
 import kr.pandadong2024.babya.server.remote.service.DiaryService
 import kr.pandadong2024.babya.server.remote.service.MainService
 import kr.pandadong2024.babya.server.service.ProfileService
@@ -16,6 +17,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
 import java.security.SecureRandom
 import java.security.cert.X509Certificate
 import javax.net.ssl.SSLContext
@@ -34,6 +36,7 @@ class RetrofitBuilder {
         private var httpClient : OkHttpClient? = null
         private var tokenDao: TokenDAO? = null
         private var profileService: ProfileService? =null
+        private var dashBoardService: DashBoardService? = null
 
         @Synchronized
         fun getGson(): Gson? {
@@ -175,6 +178,13 @@ class RetrofitBuilder {
                 diaryService = getHttpRetrofit().create(DiaryService::class.java)
             }
             return diaryService!!
+        }
+
+        fun getDashBoardService() : DashBoardService {
+            if (dashBoardService == null){
+                dashBoardService = getHttpRetrofit().create(DashBoardService::class.java)
+            }
+            return dashBoardService!!
         }
         fun getCommonService() : CommonService {
             if (commonService == null){
