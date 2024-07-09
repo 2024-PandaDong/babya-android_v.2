@@ -24,6 +24,9 @@
         <action
             android:id="@+id/action_dashBoardFragment_to_editDashBoardFragment"
             app:destination="@id/editDashBoardFragment" />
+        <action
+            android:id="@+id/action_dashBoardFragment_to_detailDashBoardFragment"
+            app:destination="@id/detailDashBoardFragment" />
     </fragment>
     <fragment
         android:id="@+id/diaryFragment"
@@ -113,6 +116,15 @@
         tools:layout="@layout/fragment_edit_dash_board" >
         <action
             android:id="@+id/action_editDashBoardFragment_to_dashBoardFragment"
+            app:destination="@id/dashBoardFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailDashBoardFragment"
+        android:name="kr.pandadong2024.babya.home.dash_board.DetailDashBoardFragment"
+        android:label="fragment_detail_dash_board"
+        tools:layout="@layout/fragment_detail_dash_board" >
+        <action
+            android:id="@+id/action_detailDashBoardFragment_to_dashBoardFragment"
             app:destination="@id/dashBoardFragment" />
     </fragment>
 

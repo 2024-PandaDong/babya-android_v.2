@@ -36,7 +36,7 @@
             android:src="@drawable/ic_x" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/dashBoardEditSubmitButton"
+            android:id="@+id/editDashBoardSubmitButton"
             android:layout_width="42dp"
             android:layout_height="25dp"
             android:layout_gravity="end"
@@ -48,35 +48,218 @@
             android:textColor="@color/yellow"
             android:textSize="11sp" />
     </androidx.appcompat.widget.Toolbar>
+
+
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/categoryLayout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:layout_constraintTop_toBottomOf="@id/editDashBoardToolbar">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@color/gray"
+            />
+
+        <TextView
+            android:layout_width="158dp"
+            android:layout_height="22dp"
+            android:text="카테고리를 선택해주세요"
+            android:fontFamily="@font/pretendard_variable"
+            android:textSize="14dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="19dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+        <ImageButton
+            android:id="@+id/questionCategory"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/ic_question"
+            android:background="@drawable/sel_category_btn_selector"
+            android:enabled="false"
+            android:layout_marginTop="12dp"
+            android:layout_marginRight="6dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/questionText"
+            />
+
+        <TextView
+            android:id="@+id/questionText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="질문"
+            android:textSize="11dp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/pretendard_variable"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="10dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/communityCategory"
+            />
+
+        <ImageButton
+            android:id="@+id/communityCategory"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/ic_community"
+            android:background="@drawable/sel_category_btn_selector"
+            android:enabled="false"
+            android:layout_marginTop="12dp"
+            android:layout_marginRight="6dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/communityText"
+            />
+
+        <TextView
+            android:id="@+id/communityText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="공유"
+            android:textSize="11dp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/pretendard_variable"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="10dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/diaryCategory"
+            />
+
+        <ImageButton
+            android:id="@+id/diaryCategory"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/ic_daily"
+            android:background="@drawable/sel_category_btn_selector"
+            android:enabled="false"
+            android:layout_marginTop="12dp"
+            android:layout_marginRight="6dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/diaryText"
+            />
+        
+        <TextView
+            android:id="@+id/diaryText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="일상"
+            android:textSize="11dp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/pretendard_variable"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="20dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@color/gray"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/titleLayout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:layout_constraintTop_toBottomOf="@id/categoryLayout">
+
+        <EditText
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="제목"
+            android:textColorHint="#BABABA"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:fontFamily="@font/pretendard_variable"
+            android:textSize="20dp"
+            android:background="@color/white"
+            android:layout_marginLeft="19dp"
+            android:layout_marginRight="19dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@color/gray"
+            />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
     <androidx.core.widget.NestedScrollView
-        android:id="@+id/editDiaryNestedScrollView"
+        android:id="@+id/editDashBoardNestedScrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/editDashBoardToolbar"
+        app:layout_constraintTop_toBottomOf="@id/titleLayout"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
+            android:layout_height="wrap_content">
 
+            <androidx.cardview.widget.CardView
+                android:id="@+id/editDashBoardAddImageCardView"
+                android:layout_width="150dp"
+                android:layout_height="100dp"
+                app:cardCornerRadius="10dp"
+                app:cardBackgroundColor="@color/gray"
+                app:strokeColor="@color/black"
+                app:strokeWidth="3dp"
+                android:layout_marginStart="14dp"
+                android:layout_marginTop="23dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
+                <ImageView
+                    android:id="@+id/selectedImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop" />
 
+                <ImageView
+                    android:id="@+id/iconImage"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/ic_add_photo"
+                    android:backgroundTint="@color/black" />
 
+            </androidx.cardview.widget.CardView>
 
-
-
-
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/content"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="23dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="23dp"
+                android:hint="내용입력"
+                android:background="@color/white"
+                android:textColorHint="@color/gray"
+                android:textColor="@color/black"
+                android:textSize="15dp"
+                android:fontFamily="@font/pretendard_variable"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editDashBoardAddImageCardView" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-
-
-
     </androidx.core.widget.NestedScrollView>
-
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

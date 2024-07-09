@@ -14,20 +14,30 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
-        <ImageView
-            android:id="@+id/commentProfileImage"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/commentProfileImageCardView"
             android:layout_width="35dp"
             android:layout_height="35dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            />
+            app:cardCornerRadius="100dp"
+            android:outlineProvider="none"
+            android:backgroundTint="@color/gray"
+            >
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/commentProfileImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
+        </androidx.cardview.widget.CardView>
+
         <TextView
             android:id="@+id/commentNameText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toEndOf="@id/commentProfileImage"
-            app:layout_constraintTop_toTopOf="@id/commentProfileImage"
-            android:layout_marginTop="3dp"
+            app:layout_constraintStart_toEndOf="@id/commentProfileImageCardView"
+            app:layout_constraintTop_toTopOf="@id/commentProfileImageCardView"
+            android:layout_marginTop="1dp"
             android:layout_marginStart="7dp"
             android:text="name"
             android:textSize="14sp"
@@ -50,15 +60,15 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="2dp"
-            android:layout_marginTop="3dp"
             android:fontFamily="@font/pretendard_medium"
             android:text="대충내용"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
             app:layout_constraintStart_toStartOf="@id/commentNameText"
             app:layout_constraintTop_toBottomOf="@id/commentNameText" />
         <TextView
-            android:id="@+id/makeCommentText"
+            android:id="@+id/replayCommentText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="답글달기"
@@ -68,8 +78,8 @@
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@id/makeCommentText"
-            app:layout_constraintTop_toBottomOf="@id/makeCommentText"
+            app:layout_constraintStart_toStartOf="@id/replayCommentText"
+            app:layout_constraintTop_toBottomOf="@id/replayCommentText"
             app:layout_constraintEnd_toEndOf="parent"
             android:visibility="gone"
             />
@@ -83,7 +93,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-         />
+        />
 
 
 
