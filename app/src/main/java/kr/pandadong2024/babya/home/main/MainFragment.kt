@@ -212,9 +212,9 @@ class MainFragment : Fragment() {
         rankAdapter.setCompanyList(companyList)
         rankAdapter.notifyItemRemoved(0)
         with(binding){
+            companyRankRecyclerView.addItemDecoration(CompanyOffsetItemDecoration(25))
             companyRankRecyclerView.adapter = rankAdapter
             companyRankRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-            companyRankRecyclerView.addItemDecoration(CompanyOffsetItemDecoration(25))
         }
 
     }

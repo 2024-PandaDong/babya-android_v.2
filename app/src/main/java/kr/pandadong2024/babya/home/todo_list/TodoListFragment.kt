@@ -8,20 +8,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentTodoListBinding
-import kr.pandadong2024.babya.home.diary.diaryviewmodle.DiaryViewModel
 import kr.pandadong2024.babya.home.todo_list.adapter.TodoCategoryAdapter
 import kr.pandadong2024.babya.home.todo_list.adapter.TodoDayAdapter
+import kr.pandadong2024.babya.home.todo_list.decoration.CategoryItemDecoration
 import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.server.local.BabyaDB
 import kr.pandadong2024.babya.server.local.TokenDAO
+import kr.pandadong2024.babya.server.remote.request.todo.TodoModifyRequest
+import kr.pandadong2024.babya.server.remote.request.todo.TodoRequestBody
 import kr.pandadong2024.babya.server.remote.responses.todo.TodoResponses
 import kr.pandadong2024.babya.util.BottomControllable
 import retrofit2.HttpException
@@ -64,14 +64,19 @@ class TodoListFragment : Fragment() {
 
         binding.todoListAddTodoButton.setOnClickListener {
             val bottomSheetDialog = TodoBottomSheet(
-                context = requireContext(),
-                postTodo = { request ->
+                type = 0,
+                todoData = null,
+                function = { request ->
                     Log.d(TAG, "data : $request")
                     lifecycleScope.launch(Dispatchers.IO){
                         kotlin.runCatching {
                             RetrofitBuilder.getTodoListService().createTodo(
                                 accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
-                                requestBody = request
+                                requestBody = TodoRequestBody(
+                                    category = request.category,
+                                    content = request.content,
+                                    planedDt = request.planedDt
+                                )
                             )
                         }.onSuccess {result ->
                             Log.d(TAG, "data : $request")
@@ -79,6 +84,7 @@ class TodoListFragment : Fragment() {
                             Log.d(TAG, "createTodo status : ${result.status}")
                             launch(Dispatchers.Main) {
                                 viewModel.isSubmit.value = true
+                                getCategory()
                             }
                         }.onFailure {result ->
                             result.printStackTrace()
@@ -94,6 +100,7 @@ class TodoListFragment : Fragment() {
             viewModel.isSubmit.observe(viewLifecycleOwner){
                 if(viewModel.isSubmit.value!!){
                     bottomSheetDialog.dismiss()
+                    Log.d(TAG, "test")
                     viewModel.isSubmit.value = false
                 }
             }
@@ -118,6 +125,9 @@ class TodoListFragment : Fragment() {
         todoCategoryAdapter.notifyItemRemoved(0)
         with(binding){
             categoryRecyclerView.adapter = todoCategoryAdapter
+            Log.d(TAG, "itemDecorationCount : ${categoryRecyclerView.itemDecorationCount}")
+            if (categoryRecyclerView.itemDecorationCount == 0)categoryRecyclerView.addItemDecoration(CategoryItemDecoration(10, categoryList.size))
+            categoryRecyclerView.scrollToPosition(selectedPosition)
         }
     }
 
@@ -126,16 +136,16 @@ class TodoListFragment : Fragment() {
         val todoAdapter = TodoDayAdapter(
             todoList = todoList,
             context =  requireContext()
-        ){type, todoId ->
+        ){type, todoData ->
             // | 1 : 삭제 | 2 : 수정 |
             when(type){
                 1 ->{
                     Log.d(TAG, "Delete")
-                    deleteTodo(todoId)
+                    deleteTodo(todoData.todoId!!)
                 }
                 2 ->{
                     Log.d(TAG, "Modify")
-                    modifyTodo(todoId)
+                    modifyTodo(todoData)
                 }
             }
 
@@ -146,24 +156,48 @@ class TodoListFragment : Fragment() {
         }
     }
 
-    private fun modifyTodo(todoId : Int){
-        lifecycleScope.launch(Dispatchers.IO) {
-            kotlin.runCatching {
-//                RetrofitBuilder.getTodoListService().modifyTodo(
-//                    accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
-//                )
-            }.onSuccess { result ->
-                launch (Dispatchers.Main){
-                    getCategory()
-                }
-            }.onFailure { result ->
-                result.printStackTrace()
-                if (result is HttpException) {
-                    val errorBody = result.response()?.raw()?.request
-                    Log.e(TAG, "Error body: $errorBody")
+    private fun modifyTodo(todoData : TodoResponses){
+        val bottomSheetDialog = TodoBottomSheet(
+            type = 1,
+            todoData = todoData,
+            function = { request ->
+                Log.d(TAG, "data : $request")
+                lifecycleScope.launch(Dispatchers.IO) {
+                    kotlin.runCatching {
+                        RetrofitBuilder.getTodoListService().modifyTodo(
+                            accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
+                            requestBody = TodoModifyRequest(
+                                id = request.todoId,
+                                category = request.category,
+                                content = request.content,
+                                planedDt = request.planedDt
+                            )
+                        )
+                    }.onSuccess { result ->
+                        Log.d(TAG, "log : $result")
+                        launch (Dispatchers.Main){
+                            viewModel.isSubmit.value = true
+                            getCategory()
+                        }
+                    }.onFailure { result ->
+                        result.printStackTrace()
+                        if (result is HttpException) {
+                            val errorBody = result.response()?.raw()?.request
+                            Log.e(TAG, "Error body: $errorBody")
+                        }
+                    }
                 }
             }
+        )
+        bottomSheetDialog.show(requireActivity().supportFragmentManager, bottomSheetDialog.tag)
+        viewModel.isSubmit.observe(viewLifecycleOwner){
+            if(viewModel.isSubmit.value!!){
+                bottomSheetDialog.dismiss()
+                Log.d(TAG, "test")
+                viewModel.isSubmit.value = false
+            }
         }
+
     }
     private fun deleteTodo(todoId : Int){
         lifecycleScope.launch(Dispatchers.IO) {

@@ -5,12 +5,15 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kr.pandadong2024.babya.databinding.ItemTodoListContentBinding
+import kr.pandadong2024.babya.server.remote.request.todo.TodoModifyRequest
 import kr.pandadong2024.babya.server.remote.responses.todo.TodoResponses
 
 class TodoItemAdapter(
     val todoList : List<TodoResponses>,
-    val work : (type : Int,  todoId : Int) -> Unit)
+    val key : String,
+    val work : (type : Int, todoData : TodoResponses) -> Unit)
     : RecyclerView.Adapter<TodoItemAdapter.TodoItemViewHolder>() {
+
     inner class TodoItemViewHolder(val binding : ItemTodoListContentBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(itemDate : TodoResponses){
             binding.todoCheckRadio.text = itemDate.content
@@ -22,11 +25,11 @@ class TodoItemAdapter(
 
             binding.deleteButton.setOnClickListener {
                 Log.d("tageg", "deleteButton")
-                work(1, itemDate.todoId!!)
+                work(1, itemDate)
             }
             binding.modifyButton.setOnClickListener {
                 Log.d("tageg", "modifyButton")
-                work(2, itemDate.todoId!!)
+                work(2, itemDate)
             }
         }
 
@@ -45,4 +48,5 @@ class TodoItemAdapter(
     override fun onBindViewHolder(holder: TodoItemViewHolder, position: Int) {
         holder.bind(todoList[position])
     }
+
 }

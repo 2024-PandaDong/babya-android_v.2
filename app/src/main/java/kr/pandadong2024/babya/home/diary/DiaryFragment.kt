@@ -39,6 +39,9 @@ class DiaryFragment : Fragment() {
     private var myEmail:String = ""
 
     private val TAG = "DiaryFragment"
+    init {
+        isPublic = true
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -189,6 +192,7 @@ class DiaryFragment : Fragment() {
 
                     }
                     2 -> {
+                        isPublic = true
                         diaryData = RetrofitBuilder.getDiaryService().getDiaryList(
                             accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
                             page = page,
@@ -216,7 +220,6 @@ class DiaryFragment : Fragment() {
                     initDiaryGridView()
                 }
             }.onSuccess {
-
                 lifecycleScope.launch(Dispatchers.Main) {
                     initDiaryGridView()
                     if(type == 1){

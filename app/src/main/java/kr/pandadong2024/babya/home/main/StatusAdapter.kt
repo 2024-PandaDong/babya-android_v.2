@@ -42,7 +42,7 @@ class StatusAdapter(
         fun userInfoBind() {
             binding.titleText.text = "현재 ${userData.nickname}님의 상태입니다."
             binding.ageCount.text = userData.age.toString()
-            binding.marryText.text = userData.marriedYears.toString()
+            binding.marryCount.text = userData.marriedYears.toString()
             binding.dDayCount.text = userData.dDay.toString()
             binding.profileImage.load(userData.profileImg)
         }

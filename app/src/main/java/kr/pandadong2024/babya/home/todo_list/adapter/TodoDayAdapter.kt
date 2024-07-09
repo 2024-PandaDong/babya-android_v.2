@@ -11,14 +11,17 @@ import androidx.recyclerview.widget.RecyclerView
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.ItemTodoDayListBinding
 import kr.pandadong2024.babya.home.todo_list.TodoItemTouchHelper
+import kr.pandadong2024.babya.home.todo_list.decoration.TodoItemDecoration
+import kr.pandadong2024.babya.server.remote.request.todo.TodoModifyRequest
 import kr.pandadong2024.babya.server.remote.responses.todo.TodoResponses
 import java.util.GregorianCalendar
 
 class TodoDayAdapter(
     val todoList: Map<String, List<TodoResponses>>,
     val context: Context,
-    val work : (type : Int, todoId : Int) -> Unit
+    val work : (type : Int, todoData : TodoResponses) -> Unit
 ) : RecyclerView.Adapter<TodoDayAdapter.TodoDayViewHolder>() {
+    private val keyList = todoList.keys.toList()
     inner class TodoDayViewHolder(
         private val binding: ItemTodoDayListBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
@@ -26,24 +29,32 @@ class TodoDayAdapter(
         private val date = gregorianCalendar.get(Calendar.DATE)
         private var itemData : List<TodoResponses>? = null
         private var isExpand = false
+        private val isHavingDecoList = mutableMapOf<String, Boolean>()
         fun bindItem(key: String, getData: List<TodoResponses>) {
+            keyList.forEach {
+                isHavingDecoList[it] = false
+            }
+
             itemData = getData
             if(date == key.toInt()){
-                Log.d("tood adayer", "Test in if")
                 isExpand = true
-                openItem()
+                binding.todoDayText.text = "오늘"
+                openItem(key)
             }
-            binding.todoDayText.text = key
+            else{
+                binding.todoDayText.text = key
+            }
             binding.root.setOnClickListener {
-                Log.d("tood adayer", "Test in click")
-                openItem()
+                openItem(key)
             }
 
         }
-        private fun openItem(){
-            val adapter = TodoItemAdapter(itemData!!){ type, todoId ->
+        private fun openItem(key: String){
+            val adapter = TodoItemAdapter(itemData!!, key){ type, todoId ->
                 work(type, todoId)
+                //TODO : 지워지고 수정되는거 이쪽에서 맡아서 하기
             }
+
 
             val swipeHelperCallback = TodoItemTouchHelper()
 
@@ -65,6 +76,16 @@ class TodoDayAdapter(
                 adapter.notifyItemRemoved(0)
 
                 binding.todoDayItemRecyclerView.adapter = adapter
+                Log.d("itemDecorationCount", "itemDecorationCount : ${binding.todoDayItemRecyclerView.itemDecorationCount}")
+                if (isHavingDecoList[key]!!.not()) {
+                    binding.todoDayItemRecyclerView.addItemDecoration(
+                        TodoItemDecoration(
+                            horizontalPadding = 35,
+                            lastPos = itemData!!.size
+                        )
+                    )
+                    isHavingDecoList[key] = isHavingDecoList[key]!!.not()
+                }
                 binding.todoDayItemRecyclerView.apply {
                     setOnTouchListener { _, _ ->
                         performClick()
@@ -78,6 +99,7 @@ class TodoDayAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoDayViewHolder {
+
         val binding =
             ItemTodoDayListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return TodoDayViewHolder(binding)
