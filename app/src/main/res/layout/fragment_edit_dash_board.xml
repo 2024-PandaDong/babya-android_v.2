@@ -41,7 +41,7 @@
             android:layout_height="25dp"
             android:layout_gravity="end"
             android:layout_marginEnd="15dp"
-            android:background="@drawable/sp_edit_diary_background"
+            android:background="@color/gray"
             android:fontFamily="@font/pretendard_bold"
             android:src="@drawable/ic_reload"
             android:text="등록"

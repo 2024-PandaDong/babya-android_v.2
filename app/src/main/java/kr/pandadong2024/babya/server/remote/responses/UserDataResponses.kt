@@ -6,7 +6,7 @@ data class UserDataResponses(
     @field:SerializedName("age")
     val age: Int? = -1,
     @field:SerializedName("children")
-    val children: List<UserChildren>,
+    val children: List<UserChildren> = listOf<UserChildren>(),
     @field:SerializedName("dDay")
     val dDay: Int? = -1,
     @field:SerializedName("marriedYears")

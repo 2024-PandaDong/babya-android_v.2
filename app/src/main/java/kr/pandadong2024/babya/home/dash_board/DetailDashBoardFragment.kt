@@ -17,6 +17,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentDetailDashBoardBinding
+import kr.pandadong2024.babya.home.dash_board.adapter.DashBoardCommentsAdapter
 import kr.pandadong2024.babya.home.dash_board.dash_boardViewModel.DashBoardViewModel
 import kr.pandadong2024.babya.home.diary.diaryadapters.CommentsAdapter
 import kr.pandadong2024.babya.server.RetrofitBuilder
@@ -31,7 +32,7 @@ class DetailDashBoardFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var tokenDao: TokenDAO
     private val viewModel by activityViewModels<DashBoardViewModel>()
-    private lateinit var  commentsAdapter : CommentsAdapter
+    private lateinit var  commentsAdapter : DashBoardCommentsAdapter
     private val TAG = "DetailDashBoardFragment"
 
     private var postId by Delegates.notNull<Int>()
@@ -147,7 +148,7 @@ class DetailDashBoardFragment : Fragment() {
                 Log.d(TAG, "status : ${result.status}")
                 Log.d(TAG, "data : ${result.data}")
                 launch(Dispatchers.Main) {
-                    commentsAdapter = result.data?.let { CommentsAdapter(
+                    commentsAdapter = result.data?.let { DashBoardCommentsAdapter(
                         commentsList = it.reversed(),
                         replayComment = { id ->
                             binding.editCommentEditText.setHint("답글쓰기")

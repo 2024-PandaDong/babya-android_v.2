@@ -3,11 +3,9 @@ package kr.pandadong2024.babya.server.remote.service
 import kr.pandadong2024.babya.server.remote.request.dash_board.DashBoardCommentRequest
 import kr.pandadong2024.babya.server.remote.request.dash_board.DashBoardRequest
 import kr.pandadong2024.babya.server.remote.responses.BaseResponse
-import kr.pandadong2024.babya.server.remote.responses.PageRequest
 import kr.pandadong2024.babya.server.remote.responses.dash_board.DashBoardCommentResponses
 import kr.pandadong2024.babya.server.remote.responses.dash_board.DashBoardDataResponses
 import kr.pandadong2024.babya.server.remote.responses.dash_board.DashBoardResponses
-import kr.pandadong2024.babya.server.remote.responses.diary.DiaryDataResponses
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header

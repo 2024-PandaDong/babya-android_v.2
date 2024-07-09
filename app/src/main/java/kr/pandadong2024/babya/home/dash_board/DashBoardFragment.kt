@@ -9,23 +9,16 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentDashBoardBinding
 import kr.pandadong2024.babya.home.dash_board.adapter.DashBoardAdapter
 import kr.pandadong2024.babya.home.dash_board.dash_boardViewModel.DashBoardViewModel
-import kr.pandadong2024.babya.home.diary.diaryviewmodle.DiaryViewModel
-import kr.pandadong2024.babya.home.profile.adapter.ProfileBoardAdapter
-import kr.pandadong2024.babya.home.profile.data.ProfileBoardData
 import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.server.local.BabyaDB
 import kr.pandadong2024.babya.server.remote.responses.BaseResponse
-import kr.pandadong2024.babya.server.remote.responses.PageRequest
 import kr.pandadong2024.babya.server.remote.responses.dash_board.DashBoardResponses
-import kr.pandadong2024.babya.server.remote.responses.diary.DiaryDataResponses
-import kr.pandadong2024.babya.server.remote.service.DashBoardService
 import kr.pandadong2024.babya.util.BottomControllable
 import retrofit2.HttpException
 
