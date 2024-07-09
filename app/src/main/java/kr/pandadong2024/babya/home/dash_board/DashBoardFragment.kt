@@ -33,6 +33,8 @@ class DashBoardFragment : Fragment() {
     private val binding get() = _binding!!
     private val TAG = "DashBoardFragment"
 
+    private var type = "1"
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -40,6 +42,7 @@ class DashBoardFragment : Fragment() {
         // Inflate the layout for this fragment
         (requireActivity() as BottomControllable).setBottomNavVisibility(false)
         _binding = FragmentDashBoardBinding.inflate(inflater, container, false)
+        TypeValue.init(requireContext())
 
 
         binding.boardEditFloatingActionButton.setOnClickListener{
@@ -47,7 +50,17 @@ class DashBoardFragment : Fragment() {
         }
 
         binding.dashBoardBackButton.setOnClickListener {
+            TypeValue.setTypeValue("1")
             findNavController().navigate(R.id.action_dashBoardFragment_to_mainFragment)
+        }
+
+        kotlin.runCatching {
+            when(TypeValue.getType()){
+                "1" -> getDashBoardData(1,10, 1)
+                "2" -> getDashBoardData(1, 10, 2)
+                "3" -> getDashBoardData(1, 10, 3)
+                else -> getDashBoardData(1, 10, 1)
+            }
         }
 
 
@@ -71,6 +84,7 @@ class DashBoardFragment : Fragment() {
     }
 
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -79,21 +93,29 @@ class DashBoardFragment : Fragment() {
         // 툴바에 메뉴를 인플레이트
         toolbar.inflateMenu(R.menu.dash_board_menu)
 
+
+
         // 메뉴 항목 클릭 이벤트 처리
         toolbar.setOnMenuItemClickListener { item ->
             when(item.itemId) {
 
                 R.id.question -> {
                     Log.d(TAG, "onCreateView: 선택1")
+                    type = "1"
+                    TypeValue.setTypeValue(type)
                     getDashBoardData(1, 10, 1)
                     true
                 }
                 R.id.community -> {
                     Log.d(TAG, "onCreateView: 선택2")
+                    type = "2"
+                    TypeValue.setTypeValue(type)
                     getDashBoardData(1, 10, 2)
                     true
                 }
                 R.id.daily -> {
+                    type = "3"
+                    TypeValue.setTypeValue(type)
                     Log.d(TAG, "onCreateView: 선택3")
                     getDashBoardData(1, 10, 3)
                     true
