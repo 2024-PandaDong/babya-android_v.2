@@ -1,5 +1,6 @@
 package kr.pandadong2024.babya.home.dash_board
 
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -13,6 +14,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.tbuonomo.viewpagerdotsindicator.setBackgroundCompat
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -29,6 +31,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 import java.io.FileOutputStream
+import java.time.LocalDate
 
 class EditDashBoardFragment : Fragment() {
     private var _binding: FragmentEditDashBoardBinding? = null
@@ -50,6 +53,11 @@ class EditDashBoardFragment : Fragment() {
         _binding = FragmentEditDashBoardBinding.inflate(inflater, container, false)
 
         tokenDao = BabyaDB.getInstance(requireContext().applicationContext)?.tokenDao()!!
+
+        kotlin.runCatching {
+            val localDate: LocalDate = LocalDate.now()
+            binding.dashBoardDateText.text = localDate.toString()
+        }
 
         binding.dashBoardBackButton.setOnClickListener {
             findNavController().navigate(R.id.action_editDashBoardFragment_to_dashBoardFragment)
@@ -182,19 +190,19 @@ class EditDashBoardFragment : Fragment() {
     private fun selectCategory(category: String) {
         when (category) {
             "1" -> {
-                binding.questionCategory.isEnabled = true
-                binding.communityCategory.isEnabled = false
-                binding.diaryCategory.isEnabled = false
+                binding.questionCategory.setBackgroundResource(R.drawable.sp_yellow_circle)
+                binding.communityCategory.setBackgroundResource(R.drawable.sp_gray_circle)
+                binding.diaryCategory.setBackgroundResource(R.drawable.sp_gray_circle)
             }
             "2" -> {
-                binding.questionCategory.isEnabled = false
-                binding.communityCategory.isEnabled = true
-                binding.diaryCategory.isEnabled = false
+                binding.questionCategory.setBackgroundResource(R.drawable.sp_gray_circle)
+                binding.communityCategory.setBackgroundResource(R.drawable.sp_yellow_circle)
+                binding.diaryCategory.setBackgroundResource(R.drawable.sp_gray_circle)
             }
             "3" -> {
-                binding.questionCategory.isEnabled = false
-                binding.communityCategory.isEnabled = false
-                binding.diaryCategory.isEnabled = true
+                binding.questionCategory.setBackgroundResource(R.drawable.sp_gray_circle)
+                binding.communityCategory.setBackgroundResource(R.drawable.sp_gray_circle)
+                binding.diaryCategory.setBackgroundResource(R.drawable.sp_yellow_circle)
             }
         }
 
