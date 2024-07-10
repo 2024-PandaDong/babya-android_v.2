@@ -14,12 +14,16 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentProfileBinding
+import kr.pandadong2024.babya.home.dash_board.dash_boardViewModel.DashBoardViewModel
+import kr.pandadong2024.babya.home.diary.diaryviewmodle.DiaryViewModel
 import kr.pandadong2024.babya.home.profile.adapter.ProfileBoardAdapter
+import kr.pandadong2024.babya.home.profile.adapter.ProfileDiaryAdapter
 import kr.pandadong2024.babya.home.profile.profileviewmodle.ProfileViewModel
 import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.server.local.BabyaDB
 import kr.pandadong2024.babya.server.remote.responses.BaseResponse
 import kr.pandadong2024.babya.server.remote.responses.profile.ProfileMyDashBoardResponses
+import kr.pandadong2024.babya.server.remote.responses.profile.ProfileMyDiaryResponses
 
 class ProfileFragment : Fragment() {
 
@@ -29,8 +33,12 @@ class ProfileFragment : Fragment() {
     private lateinit var token: String
     private lateinit var boardAdapter: ProfileBoardAdapter
     private var boardList: List<ProfileMyDashBoardResponses>? = null
+    private lateinit var diaryAdapter: ProfileDiaryAdapter
+    private var diaryList: List<ProfileMyDiaryResponses>? = null
 
-    private val viewModel by activityViewModels<ProfileViewModel>()
+    private val dashBoardViewModel by activityViewModels<DashBoardViewModel>()
+    private val diaryViewModel by activityViewModels<DiaryViewModel>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,12 +61,50 @@ class ProfileFragment : Fragment() {
             profileBoard()
         }
 
+        binding.boardMoveBtn.setOnClickListener {
+            findNavController().navigate(R.id.action_profileFragment_to_dashBoardFragment)
+        }
+
+        binding.diaryMoveBtn.setOnClickListener {
+            findNavController().navigate(R.id.action_profileFragment_to_diaryFragment)
+        }
+
 //        // 즐겨찾기 화면으로 이동
 //        binding.bookmarkBtn.setOnClickListener {
 //            goBookmark()
 //        }
 
         return binding.root
+    }
+
+    private fun dashBoardRecyclerView() {
+        Log.d(TAG, "dashBoardRecyclerView: $boardList")
+        boardAdapter = ProfileBoardAdapter(boardList!!) { id ->
+            lifecycleScope.launch(Dispatchers.Main) {
+                Log.d(TAG, "dashBoardRecyclerView: $id")
+                kotlin.runCatching {
+                    dashBoardViewModel.id.value = id
+                    findNavController().navigate(R.id.action_profileFragment_to_detailDashBoardFragment)
+                }
+            }
+        }
+        boardAdapter.notifyDataSetChanged()
+        binding.boardRv.adapter = boardAdapter
+    }
+
+    private fun diaryRecyclerView() {
+        Log.d(TAG, "diaryRecyclerView: $diaryList")
+        diaryAdapter = ProfileDiaryAdapter(diaryList!!) { id ->
+            lifecycleScope.launch(Dispatchers.Main) {
+                Log.d(TAG, "diaryRecyclerView: ${id}")
+                kotlin.runCatching {
+                    diaryViewModel.id.value = id
+                    findNavController().navigate(R.id.action_profileFragment_to_detailWriterFragment)
+                }
+            }
+        }
+        diaryAdapter.notifyDataSetChanged()
+        binding.diaryRv.adapter = diaryAdapter
     }
 
     // 게시판 정보 받기
@@ -84,23 +130,26 @@ class ProfileFragment : Fragment() {
         }
     }
 
-    private fun dashBoardRecyclerView() {
-        Log.d(TAG, "dashBoardRecyclerView: $boardList")
-        boardAdapter = ProfileBoardAdapter(boardList!!) { id ->
-            lifecycleScope.launch(Dispatchers.Main) {
-                Log.d(TAG, "dashBoardRecyclerView: $id")
-                kotlin.runCatching {
-                    viewModel.id.value = id
-                }
-            }
-        }
-        boardAdapter.notifyDataSetChanged()
-        binding.boardRv.adapter = boardAdapter
-    }
-
     // 산모일기 정보 받기
     private fun profileDiary() {
-        // 구현 내용 추가 필요
+        lifecycleScope.launch(Dispatchers.IO){
+            kotlin.runCatching {
+                val diaryData: BaseResponse<List<ProfileMyDiaryResponses>> =
+                    RetrofitBuilder.getProfileService().getMyDiary(
+                        accessToken = "Bearer $token",
+                        page = 1,
+                        size = 100
+                    )
+                diaryList = diaryData.data
+            }.onSuccess {
+                Log.d(TAG, "diaryList: ${diaryList}")
+                launch(Dispatchers.Main){
+                    diaryRecyclerView()
+                }
+            }.onFailure {
+                it.printStackTrace()
+            }
+        }
     }
 
     // 프로필 정보 받기

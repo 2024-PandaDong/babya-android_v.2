@@ -6,23 +6,6 @@
         android:title="일일퀴즈" />
 
     <item
-        android:id="@+id/profile"
-        android:title="프로필 수정하기"
-        />
-
-    <item
-        android:id="@+id/privacy"
-        android:title="개인정보 약관상세" />
-
-    <item
-        android:id="@+id/included"
-        android:title="문의하기" />
-
-    <item
-        android:id="@+id/faq"
-        android:title="FAQ" />
-
-    <item
         android:id="@+id/logout"
         android:title="로그아웃"
         />

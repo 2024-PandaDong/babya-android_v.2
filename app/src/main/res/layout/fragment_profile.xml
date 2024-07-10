@@ -43,33 +43,20 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/parentsText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="17dp"
-                    android:layout_marginLeft="50dp"
-                    android:layout_marginTop="15dp"
-                    android:fontFamily="@font/pretendard_variable"
-                    android:text="소망이 아빠"
-                    android:textAlignment="textStart"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/welcomeText" />
 
                 <TextView
                     android:id="@+id/dayText"
                     android:layout_width="wrap_content"
                     android:layout_height="17dp"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="50dp"
                     android:layout_marginTop="15dp"
                     android:fontFamily="@font/pretendard_variable"
                     android:text="D-Day: 86일"
                     android:textAlignment="textStart"
                     android:textColor="@color/white"
                     android:textStyle="bold"
-                    app:layout_constraintStart_toEndOf="@id/parentsText"
-                    app:layout_constraintTop_toBottomOf="@id/welcomeText" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/welcomeText"/>
 
                 <TextView
                     android:id="@+id/argText"
@@ -83,7 +70,7 @@
                     android:textColor="@color/white"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/parentsText" />
+                    app:layout_constraintTop_toBottomOf="@id/dayText" />
 
                 <TextView
                     android:id="@+id/weddingYearText"
@@ -97,21 +84,9 @@
                     android:textColor="@color/white"
                     android:textStyle="bold"
                     app:layout_constraintStart_toEndOf="@id/argText"
-                    app:layout_constraintTop_toBottomOf="@id/parentsText" />
+                    app:layout_constraintTop_toBottomOf="@id/dayText" />
 
-                <TextView
-                    android:id="@+id/diaryText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="17dp"
-                    android:layout_marginLeft="50dp"
-                    android:layout_marginTop="7dp"
-                    android:fontFamily="@font/pretendard_variable"
-                    android:text="산모일기: 소망이 산모 일기"
-                    android:textAlignment="textStart"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/argText" />
+
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/profileImage"
@@ -174,6 +149,16 @@
 <!--                -->
 <!--            </LinearLayout>-->
 
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/diaryMoveBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:layout_marginRight="35dp"
+                android:background="@drawable/ic_move"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/profileView" />
+
             <TextView
                 android:id="@+id/diary"
                 android:layout_width="90dp"
@@ -187,16 +172,6 @@
                 android:textStyle="bold"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/profileView" />
-
-            <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/diaryMoveBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
-                android:layout_marginRight="35dp"
-                android:background="@drawable/ic_move"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/bookmarkLayout" />
 
             <LinearLayout
                 android:id="@+id/diaryLayout"

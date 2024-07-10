@@ -2,6 +2,7 @@ package kr.pandadong2024.babya.server.service
 
 import kr.pandadong2024.babya.server.remote.responses.BaseResponse
 import kr.pandadong2024.babya.server.remote.responses.profile.ProfileMyDashBoardResponses
+import kr.pandadong2024.babya.server.remote.responses.profile.ProfileMyDiaryResponses
 import kr.pandadong2024.babya.server.responses.ProfileData
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -23,4 +24,11 @@ interface ProfileService {
         @Query("page")page: Int,
         @Query("size")size: Int
     ):BaseResponse<List<ProfileMyDashBoardResponses>>
+
+    @GET("/diary/my/profile")
+    suspend fun getMyDiary(
+        @Header("Authorization")accessToken : String,
+        @Query("page")page: Int,
+        @Query("size")size: Int
+    ):BaseResponse<List<ProfileMyDiaryResponses>>
 }

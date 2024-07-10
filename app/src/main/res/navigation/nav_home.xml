@@ -66,8 +66,17 @@
             android:id="@+id/action_profileFragment_to_mainFragment"
             app:destination="@id/mainFragment" />
         <action
-            android:id="@+id/action_profileFragment_to_bookmarkFragment"
-            app:destination="@id/bookmarkFragment" />
+            android:id="@+id/action_profileFragment_to_dashBoardFragment"
+            app:destination="@id/dashBoardFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_diaryFragment"
+            app:destination="@id/diaryFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_detailDashBoardFragment"
+            app:destination="@id/detailDashBoardFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_detailWriterFragment"
+            app:destination="@id/detailWriterFragment" />
     </fragment>
     <fragment
         android:id="@+id/mainFragment"
@@ -100,14 +109,6 @@
         <action
             android:id="@+id/action_editDiaryFragment_to_diaryFragment"
             app:destination="@id/diaryFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/bookmarkFragment"
-        android:name="kr.pandadong2024.babya.home.profile.BookmarkFragment"
-        android:label="BookmarkFragment" >
-        <action
-            android:id="@+id/action_bookmarkFragment_to_profileFragment"
-            app:destination="@id/profileFragment" />
     </fragment>
     <fragment
         android:id="@+id/editDashBoardFragment"
