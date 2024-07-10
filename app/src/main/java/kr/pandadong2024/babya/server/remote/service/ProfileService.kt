@@ -5,6 +5,7 @@ import kr.pandadong2024.babya.server.remote.responses.profile.ProfileMyDashBoard
 import kr.pandadong2024.babya.server.remote.responses.profile.ProfileMyDiaryResponses
 import kr.pandadong2024.babya.server.responses.ProfileData
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Path
@@ -31,4 +32,9 @@ interface ProfileService {
         @Query("page")page: Int,
         @Query("size")size: Int
     ):BaseResponse<List<ProfileMyDiaryResponses>>
+
+    @DELETE("/member/withdraw")
+    suspend fun deleteMember(
+        @Header("Authorization")accessToken : String
+    ):BaseResponse<Unit>
 }

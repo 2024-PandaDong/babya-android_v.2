@@ -26,8 +26,7 @@
 
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:menu="@menu/dash_board_menu">
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/toolbarTitle"
@@ -82,7 +81,7 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
-    
+
 
 
     <androidx.recyclerview.widget.RecyclerView

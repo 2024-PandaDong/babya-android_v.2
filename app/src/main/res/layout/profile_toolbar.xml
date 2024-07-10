@@ -5,10 +5,7 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/profileToolbar"
-    android:background="@color/yellow"
-    app:menu="@menu/profile_menu"
-
-    >
+    android:background="@color/yellow">
 
 
 

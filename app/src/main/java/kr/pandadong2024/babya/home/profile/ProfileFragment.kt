@@ -1,11 +1,13 @@
 package kr.pandadong2024.babya.home.profile
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toolbar
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -48,11 +50,52 @@ class ProfileFragment : Fragment() {
         }
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+
+        // 툴바를 초기화하고 설정
+        val toolbar: androidx.appcompat.widget.Toolbar = view.findViewById(R.id.profileToolbar)
+        // 툴바에 메뉴를 인플레이트
+        toolbar.inflateMenu(R.menu.profile_menu)
+
+
+        toolbar.setOnMenuItemClickListener{item ->
+            when(item.itemId){
+                R.id.logout -> {
+                    lifecycleScope.launch(Dispatchers.IO) {
+                        BabyaDB.getInstance(requireContext())?.tokenDao()?.getMembers()?.let { tokenEntity ->
+                            BabyaDB.getInstance(requireContext())?.tokenDao()?.deleteMember(tokenEntity)
+                        }
+                    }
+                    true
+                }
+                R.id.delete -> {
+                    lifecycleScope.launch(Dispatchers.IO) {
+                        kotlin.runCatching {
+                            RetrofitBuilder.getProfileService().deleteMember(
+                                accessToken = "Bearer $token"
+                            )
+                        }.onSuccess {
+                            Log.d(TAG, "onViewCreated: 성공")
+                        }.onFailure {
+                            Log.d(TAG, "onViewCreated: 실패")
+                            it.printStackTrace()
+                        }
+                    }
+                    true
+                }
+                else -> false
+            }
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
+
 
         // 정보 받기
         lifecycleScope.launch {
