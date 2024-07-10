@@ -39,6 +39,9 @@ class TodoBottomSheet(
         if (todoData != null){
             binding.categoryEditText.setText(todoData.category)
             binding.todoEditText.setText(todoData.content)
+            binding.categoryEditText.isEnabled = false
+        }else{
+            binding.categoryEditText.isEnabled = true
         }
         binding.bottomSheetSubmitButton.setOnClickListener {
             if (!binding.categoryEditText.text.isNullOrBlank() && !binding.todoEditText.text.isNullOrBlank()) {
