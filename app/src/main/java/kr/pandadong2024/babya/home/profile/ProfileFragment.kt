@@ -119,6 +119,8 @@ class ProfileFragment : Fragment() {
                                     }
                                 }
                             }
+                            val intent = Intent(requireContext(), MainActivity::class.java)
+                            startActivity(intent)
                         }
                         .show()
                     true
