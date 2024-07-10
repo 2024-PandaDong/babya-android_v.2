@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".home.todo_list.TodoListFragment">
+    tools:context=".home.todo_list.TodoListFragment"
+    android:background="@color/white">
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/todoListToolbar"
         style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
@@ -15,9 +16,9 @@
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/white">
+    <TextView
             android:id="@+id/todoListTitleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
