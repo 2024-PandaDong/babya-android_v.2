@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -22,11 +23,14 @@ class MainBannerAdapter(
 ) : RecyclerView.Adapter<MainBannerAdapter.PagerViewHolder>() {
     inner class PagerViewHolder(private val binding : ItemBanerCardBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(bannerData : BannerResponses, context: Context){
-            if(bannerData.image!!.extension!!.uppercase() == "SVG"){
-                bannerData.image.url?.let { binding.itemImage.loadImageFromUrl(it) }
-            }
-            else{
-                binding.itemImage.load(bannerData.image?.url)
+            Log.d("mainbannder", "data : $bannerData")
+            if(bannerData.image != null){
+                if(bannerData.image.extension!!.uppercase() == "SVG"){
+                    bannerData.image.url?.let { binding.itemImage.loadImageFromUrl(it) }
+                }
+                else{
+                    binding.itemImage.load(bannerData.image.url)
+                }
             }
 
             binding.typeText.text = bannerData.subTitle
