@@ -122,7 +122,7 @@ class DetailDashBoardFragment : Fragment() {
                     body = DashBoardCommentRequest(
                         comment = binding.editCommentEditText.text.toString(),
                         postId = postId,
-                        parentCommentId = null
+                        parentCommentId = 0
                     )
                 )
             }.onSuccess {result ->
