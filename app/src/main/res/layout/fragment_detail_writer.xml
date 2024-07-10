@@ -90,9 +90,10 @@
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="@id/writerWeightInputText"
                 app:layout_constraintEnd_toStartOf="@id/writerWeightInputText"
+                android:layout_marginStart="20dp"
 
                 app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toStartOf="@id/writerDiaryAddImageCardView"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/writerWeightInputText" />
 
             <TextView
@@ -133,10 +134,11 @@
                 android:fontFamily="@font/pretendard_semibold"
                 android:text="혈압"
                 android:textSize="14sp"
+                android:layout_marginStart="20dp"
                 app:layout_constraintEnd_toStartOf="@id/writerBloodPressureHeightInputText"
 
                 app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toStartOf="@id/writerDiaryAddImageCardView"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/writerBloodPressureHeightInputText" />
 
             <TextView
@@ -265,10 +267,10 @@
                 android:id="@+id/writerEmojiImage"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                app:layout_constraintEnd_toEndOf="@id/writerDiaryAddImageCardView"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/writerDiaryAddImageCardView"
                 android:layout_marginTop="18dp"
-                android:layout_marginEnd="30dp"
+                android:layout_marginEnd="50dp"
                 app:layout_constraintBottom_toTopOf="@id/writerEmojiCode"
                 app:layout_constraintVertical_chainStyle="packed"/>
             <TextView
@@ -289,7 +291,8 @@
                 android:fontFamily="@font/pretendard_bold"
                 android:text="태아소견"
                 android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="@id/writerDiaryAddImageCardView"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="20dp"
                 app:layout_constraintTop_toBottomOf="@id/writerBloodPressureHeightInputText" />
             <TextView
                 android:id="@+id/writerFetalFindingsContentText"
@@ -311,7 +314,8 @@
                 android:fontFamily="@font/pretendard_bold"
                 android:text="내용"
                 android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="@id/writerDiaryAddImageCardView"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="20dp"
                 app:layout_constraintTop_toBottomOf="@id/writerFetalFindingsContentText" />
             <TextView
                 android:id="@+id/writerContentContentText"

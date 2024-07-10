@@ -208,7 +208,9 @@ class DetailWriterFragment : Fragment() {
 
                     binding.writerTitleText.text = diaryData?.title
                     if (diaryData?.files?.get(0)?.url.isNullOrBlank()){
+                        Log.d(TAG, "in if")
                         binding.selectedImage.visibility = View.GONE
+                        binding.writerDiaryAddImageCardView.visibility = View.GONE
                     }else{
                         binding.selectedImage.load(diaryData?.files?.get(0)?.url)
                     }
@@ -219,6 +221,16 @@ class DetailWriterFragment : Fragment() {
                     binding.writerNextDaySelectedText.text = (diaryData?.nextAppointment?.substring(5))?.replace('-', '/')
                     binding.writerDateText.text = diaryData?.writtenDt?.replace('-', '/')
                     binding.writerContentContentText.text = diaryData?.content
+                    binding.writerEmojiCode.text = diaryData?.emojiCode
+
+                    binding.writerEmojiImage.load(when(diaryData?.emojiCode){
+                        "좋음"->R.drawable.img_good
+                        "평범"->R.drawable.img_normal
+                        "아픔"->R.drawable.img_pain
+                        "피곤"->R.drawable.img_tired
+                        "불안"->R.drawable.img_unrest
+                        else ->R.drawable.img_normal
+                    })
                 }
 
             }.onFailure { result ->

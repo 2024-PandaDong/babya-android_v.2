@@ -50,7 +50,7 @@
 
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginTop="14dp"
+                android:layout_marginTop="-14dp"
                 android:layout_marginStart="20dp"
                 android:orientation="horizontal"
                 android:foregroundGravity="center"
@@ -140,43 +140,51 @@
                 app:layout_constraintVertical_bias="0.85"
                 app:ci_drawable="@drawable/sp_circle_select"
                 app:ci_drawable_unselected="@drawable/sp_circle_statuse_unselect"/>
-            <TextView
-                android:id="@+id/companyText"
-                android:layout_width="wrap_content"
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="@id/myStatusText"
                 app:layout_constraintTop_toBottomOf="@id/statusViewPager"
-                android:text="현재 인기회사"
-                android:fontFamily="@font/pretendard_bold"
-                android:textSize="16sp"
                 android:layout_marginTop="25dp"
-                />
-            <TextView
-                android:id="@+id/companyMoreText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/companyText"
-                app:layout_constraintBottom_toBottomOf="@id/companyText"
-                android:layout_marginEnd="20dp"
-                android:text="더보기"
-                android:fontFamily="@font/pretendard_bold"
-                android:textSize="14sp"
+                android:visibility="gone"
+                >
+                <TextView
+                    android:id="@+id/companyText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/pretendard_bold"
+                    android:layout_marginStart="20dp"
+                    android:text="현재 인기회사"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent" />
+                <TextView
+                    android:id="@+id/companyMoreText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/companyText"
+                    app:layout_constraintBottom_toBottomOf="@id/companyText"
+                    android:layout_marginEnd="20dp"
+                    android:text="더보기"
+                    android:fontFamily="@font/pretendard_bold"
+                    android:textSize="14sp"
 
 
-                />
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/companyRankRecyclerView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintTop_toBottomOf="@id/companyText"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="13dp"
-                android:paddingHorizontal="13dp"
-                />
+                    />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/companyRankRecyclerView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintTop_toBottomOf="@id/companyText"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="13dp"
+                    android:paddingHorizontal="13dp"
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 
 
