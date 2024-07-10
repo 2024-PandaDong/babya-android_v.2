@@ -133,10 +133,9 @@ class LoginFragment : Fragment() {
                     }
                 }.onFailure { throwable ->
                     Log.e(TAG, "$throwable")
-                    lifecycleScope.launch(Dispatchers.Main) {
-                        throwable.message
-                        Toast.makeText(requireContext(), "유저정보가 일치하지 않습니다.", Toast.LENGTH_SHORT)
-                            .show()
+                    throwable.message
+                    launch(Dispatchers.Main) {
+                        Toast.makeText(requireContext(), "유저정보가 일치하지 않습니다.", Toast.LENGTH_SHORT).show()
                     }
                 }
             }

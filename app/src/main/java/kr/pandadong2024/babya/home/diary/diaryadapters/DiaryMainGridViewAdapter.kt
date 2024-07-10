@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import coil.load
+import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.ItmeDiaryCardBinding
 import kr.pandadong2024.babya.server.remote.responses.diary.DiaryDataResponses
 
@@ -31,7 +32,11 @@ class DiaryMainGridViewAdapter(
         val data = diaryData[position]
         val binding  = ItmeDiaryCardBinding.inflate(LayoutInflater.from(parent?.context))
         Log.d(TAG, "data : $data")
-        binding.diaryMainImage.load(data.files?.get(0)?.url)
+        if(data.files?.get(0) == null){
+            binding.diaryMainImage.load(R.drawable.img_normal_diary)
+        } else{
+            binding.diaryMainImage.load(data.files.get(0).url)
+        }
         binding.titleText.text = data.title
         binding.writerText.text = data.title
         binding.root.setOnClickListener {
