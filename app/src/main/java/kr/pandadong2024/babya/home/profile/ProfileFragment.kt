@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import android.widget.Toolbar
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -24,13 +23,11 @@ import kr.pandadong2024.babya.home.dash_board.dash_boardViewModel.DashBoardViewM
 import kr.pandadong2024.babya.home.diary.diaryviewmodle.DiaryViewModel
 import kr.pandadong2024.babya.home.profile.adapter.ProfileBoardAdapter
 import kr.pandadong2024.babya.home.profile.adapter.ProfileDiaryAdapter
-import kr.pandadong2024.babya.home.profile.profileviewmodle.ProfileViewModel
 import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.server.local.BabyaDB
 import kr.pandadong2024.babya.server.remote.responses.BaseResponse
 import kr.pandadong2024.babya.server.remote.responses.profile.ProfileMyDashBoardResponses
 import kr.pandadong2024.babya.server.remote.responses.profile.ProfileMyDiaryResponses
-import kr.pandadong2024.babya.start.login.LoginFragment
 
 class ProfileFragment : Fragment() {
 
@@ -63,6 +60,8 @@ class ProfileFragment : Fragment() {
         val toolbar: androidx.appcompat.widget.Toolbar = view.findViewById(R.id.profileToolbar)
         // 툴바에 메뉴를 인플레이트
         toolbar.inflateMenu(R.menu.profile_menu)
+
+        // 색상 변경
 
 
         toolbar.setOnMenuItemClickListener{item ->

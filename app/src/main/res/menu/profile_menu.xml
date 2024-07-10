@@ -8,7 +8,6 @@
 
     <item
         android:id="@+id/delete"
-        android:title="계정삭제"
-        />
+        android:title="계정삭제"/>
 
 </menu>

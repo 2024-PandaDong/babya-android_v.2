@@ -45,17 +45,17 @@
                 app:layout_constraintStart_toEndOf="@id/dashBoardProfileImage"
                 />
 
-            <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/bookmarkBtn"
-                android:layout_width="20dp"
-                android:layout_height="18dp"
-                android:background="@drawable/ic_bookmark"
-                android:backgroundTint="@color/gray"
-                android:layout_marginTop="18dp"
-                android:layout_marginLeft="6dp"
-                app:layout_constraintStart_toEndOf="@id/name"
-                app:layout_constraintTop_toTopOf="parent"
-                />
+<!--            <androidx.appcompat.widget.AppCompatImageButton-->
+<!--                android:id="@+id/bookmarkBtn"-->
+<!--                android:layout_width="20dp"-->
+<!--                android:layout_height="18dp"-->
+<!--                android:background="@drawable/ic_bookmark"-->
+<!--                android:backgroundTint="@color/gray"-->
+<!--                android:layout_marginTop="18dp"-->
+<!--                android:layout_marginLeft="6dp"-->
+<!--                app:layout_constraintStart_toEndOf="@id/name"-->
+<!--                app:layout_constraintTop_toTopOf="parent"-->
+<!--                />-->
 
             <ImageView
                 android:id="@+id/viewsImage"
