@@ -129,12 +129,33 @@
     </fragment>
     <fragment
         android:id="@+id/quizFragment"
-        android:name="kr.pandadong2024.babya.QuizFragment"
+        android:name="kr.pandadong2024.babya.home.quiz.QuizFragment"
         android:label="fragment_quiz"
         tools:layout="@layout/fragment_quiz" >
         <action
             android:id="@+id/action_quizFragment_to_mainFragment"
-            app:destination="@id/mainFragment" />
+            app:destination="@id/mainFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/quizFragment"
+            />
+        <action
+            android:id="@+id/action_quizFragment_to_quizResultFragment"
+            app:destination="@id/quizResultFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/quizFragment"
+            />
+    </fragment>
+    <fragment
+        android:id="@+id/quizResultFragment"
+        android:name="kr.pandadong2024.babya.QuizResultFragment"
+        android:label="fragment_quiz_result"
+        tools:layout="@layout/fragment_quiz_result" >
+        <action
+            android:id="@+id/action_quizResultFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/quizFragment"
+             />
     </fragment>
 
 </navigation>

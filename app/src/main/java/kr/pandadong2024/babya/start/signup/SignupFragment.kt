@@ -17,7 +17,7 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import kr.pandadong2024.babya.QuizFragment
+import kr.pandadong2024.babya.home.quiz.QuizFragment
 import kr.pandadong2024.babya.start.login.Pattern
 import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.server.remote.request.SignUpRequest

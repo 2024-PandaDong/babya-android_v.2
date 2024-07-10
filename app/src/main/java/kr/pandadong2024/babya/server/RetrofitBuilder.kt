@@ -12,6 +12,7 @@ import kr.pandadong2024.babya.server.remote.service.CommonService
 import kr.pandadong2024.babya.server.remote.service.DashBoardService
 import kr.pandadong2024.babya.server.remote.service.DiaryService
 import kr.pandadong2024.babya.server.remote.service.MainService
+import kr.pandadong2024.babya.server.remote.service.QuizService
 import kr.pandadong2024.babya.server.remote.service.TodoListService
 import kr.pandadong2024.babya.server.service.ProfileService
 import okhttp3.OkHttpClient
@@ -37,6 +38,7 @@ class RetrofitBuilder {
         private var diaryService: DiaryService? = null
         private var httpClient : OkHttpClient? = null
         private var tokenDao: TokenDAO? = null
+        private var quizService : QuizService? = null
         private var profileService: ProfileService? =null
         private var dashBoardService: DashBoardService? = null
 
@@ -147,6 +149,12 @@ class RetrofitBuilder {
                 loginService = getRetrofit().create(LoginService::class.java)
             }
             return loginService!!
+        }
+        fun getQuizService() : QuizService {
+            if (quizService == null){
+                quizService = getHttpRetrofit().create(QuizService::class.java)
+            }
+            return quizService!!
         }
 
         fun getProfileService(): ProfileService{

@@ -108,7 +108,6 @@ class MainFragment : Fragment() {
             override fun onPageSelected(position: Int) {  //사용자가 스크롤 했을때 position 수정
                 super.onPageSelected(position)
                 bannerPosition = position
-
             }
 
             override fun onPageScrollStateChanged(state: Int) {
