@@ -29,7 +29,7 @@ class ProfileBoardAdapter(
             val data = item[position]
             binding.apply {
                 title.text = profileMyDashBoardResponses.title
-                day.text = profileMyDashBoardResponses.createdAt
+                day.text = profileMyDashBoardResponses.createdAt.substring(5 until 7) + "/" + profileMyDashBoardResponses.createdAt.substring(8 until 10)
 
                 root.setOnClickListener {
                     if (data.id != null){

@@ -29,7 +29,7 @@ class DashBoardAdapter(
                 title.text = dashBoardResponse.title
                 name.text = dashBoardResponse.nickname
                 body.text = dashBoardResponse.content
-                ago.text = dashBoardResponse.createdAt.toString()  // 적절한 형식으로 변환 필요
+                ago.text = dashBoardResponse.createdAt.toString().substring(5 until 10) // 적절한 형식으로 변환 필요
                 views.text = dashBoardResponse.view.toString()
                 comment.text = dashBoardResponse.commentCnt.toString()
 

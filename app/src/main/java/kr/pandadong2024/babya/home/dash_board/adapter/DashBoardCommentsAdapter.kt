@@ -18,7 +18,7 @@ class DashBoardCommentsAdapter(
             binding.commentNameText.text = commentData.nickname
             binding.commentProfileImage.load(commentData.profileImg)
             binding.contentTextView.text = commentData.content
-            binding.commentTimeText.text = commentData.createdAt
+            binding.commentTimeText.text = commentData.createdAt.toString().substring(5 until 10)
             binding.replayCommentText.setOnClickListener {
                 replayComment(commentData.commentId)
             }

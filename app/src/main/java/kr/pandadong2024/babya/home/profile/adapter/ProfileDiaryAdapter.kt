@@ -30,7 +30,8 @@ class ProfileDiaryAdapter(
             val data = item[position]
             binding.apply {
                 title.text = profileMyDiaryResponses.title
-                day.text = profileMyDiaryResponses.writtenDt
+
+                day.text = profileMyDiaryResponses.writtenDt.substring(5 until 7) +"/"+ profileMyDiaryResponses.writtenDt.substring(8)
 
                 when (profileMyDiaryResponses.emoji){
                     "좋음" -> binding.emoji.load(R.drawable.img_good)
