@@ -3,6 +3,102 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".QuizFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".QuizFragment"
+    android:background="@color/white">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/quizToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
 
+        android:title="test"
+        style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+        >
+        <TextView
+            android:id="@+id/publicTitleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="일일퀴즈"
+            android:textSize="24sp"
+            android:fontFamily="@font/pretendard_bold"/>
+    </androidx.appcompat.widget.Toolbar>
+    <TextView
+        android:id="@+id/quizText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/quizToolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
+
+        android:fontFamily="@font/pretendard_bold"
+        android:autoSizeTextType="uniform"
+        android:textSize="24sp"
+        android:autoSizeMaxTextSize="24sp"
+        android:autoSizeMinTextSize="12sp"
+        android:text="Q.임산부에게 요가는 좋은 운동이다"
+        android:textAlignment="center"
+        />
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/quizText"
+        app:layout_constraintStart_toStartOf="@id/quizText"
+        app:layout_constraintEnd_toEndOf="@id/quizText"
+        android:src="@drawable/img_quize_illustration"
+        android:layout_marginTop="40dp"
+        />
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/trueButton"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        app:layout_constraintStart_toStartOf="@id/imageView"
+        app:layout_constraintEnd_toEndOf="@id/imageView"
+        app:layout_constraintTop_toBottomOf="@id/imageView"
+        android:layout_marginTop="76dp"
+        android:backgroundTint="@color/blue"
+        android:background="@drawable/sp_button_background"
+        android:stateListAnimator="@null"
+        android:text="O"
+        android:fontFamily="@font/pretendard_extrabold"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/falseButton"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        app:layout_constraintEnd_toEndOf="@id/imageView"
+        app:layout_constraintStart_toStartOf="@id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/trueButton"
+        android:layout_marginTop="28dp"
+        android:backgroundTint="@color/rad"
+        android:background="@drawable/sp_button_background"
+        android:stateListAnimator="@null"
+        android:text="X"
+        android:fontFamily="@font/pretendard_extrabold"
+        android:textSize="20sp"
+        android:textColor="@color/white"/>
+
+    <TextView
+        android:id="@+id/skipText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="건너뛰기"
+        android:textSize="20sp"
+        android:fontFamily="@font/pretendard_bold"
+        android:textColor="@color/skip_gray"
+        app:layout_constraintTop_toBottomOf="@id/falseButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
