@@ -7,13 +7,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import android.widget.Toolbar
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import coil.load
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentProfileBinding
 import kr.pandadong2024.babya.home.dash_board.dash_boardViewModel.DashBoardViewModel
@@ -26,6 +29,7 @@ import kr.pandadong2024.babya.server.local.BabyaDB
 import kr.pandadong2024.babya.server.remote.responses.BaseResponse
 import kr.pandadong2024.babya.server.remote.responses.profile.ProfileMyDashBoardResponses
 import kr.pandadong2024.babya.server.remote.responses.profile.ProfileMyDiaryResponses
+import kr.pandadong2024.babya.start.login.LoginFragment
 
 class ProfileFragment : Fragment() {
 
@@ -63,26 +67,58 @@ class ProfileFragment : Fragment() {
         toolbar.setOnMenuItemClickListener{item ->
             when(item.itemId){
                 R.id.logout -> {
-                    lifecycleScope.launch(Dispatchers.IO) {
-                        BabyaDB.getInstance(requireContext())?.tokenDao()?.getMembers()?.let { tokenEntity ->
-                            BabyaDB.getInstance(requireContext())?.tokenDao()?.deleteMember(tokenEntity)
+                    MaterialAlertDialogBuilder(requireContext())
+                        .setMessage("정말로 로그아웃하시겠습니까?")
+                        .setNegativeButton("취소") { dialog, which ->
+                            // 취소 버튼을 누르면 다이얼로그를 닫음
+                            dialog.dismiss()
                         }
-                    }
+                        .setPositiveButton("로그아웃") { dialog, which ->
+                            lifecycleScope.launch(Dispatchers.IO) {
+                                BabyaDB.getInstance(requireContext())?.tokenDao()?.getMembers()?.let { tokenEntity ->
+                                    BabyaDB.getInstance(requireContext())?.tokenDao()?.deleteMember(tokenEntity)
+                                }
+                            }
+                            val intent = Intent(requireContext(), LoginFragment::class.java)
+                            startActivity(intent)
+                        }
+
                     true
                 }
                 R.id.delete -> {
-                    lifecycleScope.launch(Dispatchers.IO) {
-                        kotlin.runCatching {
-                            RetrofitBuilder.getProfileService().deleteMember(
-                                accessToken = "Bearer $token"
-                            )
-                        }.onSuccess {
-                            Log.d(TAG, "onViewCreated: 성공")
-                        }.onFailure {
-                            Log.d(TAG, "onViewCreated: 실패")
-                            it.printStackTrace()
+                    MaterialAlertDialogBuilder(requireContext())
+                        .setMessage("정말로 탈퇴하시겠습니까?")
+                        .setNegativeButton("취소") { dialog, which ->
+                            // 취소 버튼을 누르면 다이얼로그를 닫음
+                            dialog.dismiss()
                         }
-                    }
+                        .setPositiveButton("탈퇴") { dialog, which ->
+                            lifecycleScope.launch(Dispatchers.IO) {
+                                kotlin.runCatching {
+                                    // 서버에 탈퇴 요청
+                                    RetrofitBuilder.getProfileService().deleteMember(
+                                        accessToken = "Bearer $token"
+                                    )
+                                }.onSuccess {
+                                    Log.d(TAG, "onViewCreated: 성공")
+                                    BabyaDB.getInstance(requireContext())?.tokenDao()?.getMembers()?.let { tokenEntity ->
+                                        BabyaDB.getInstance(requireContext())?.tokenDao()?.deleteMember(tokenEntity)
+                                    }
+                                    // UI 스레드에서 프레그먼트 종료
+                                    withContext(Dispatchers.Main) {
+                                        parentFragmentManager.popBackStack()
+                                    }
+                                }.onFailure {
+                                    Log.d(TAG, "onViewCreated: 실패")
+                                    it.printStackTrace()
+                                    // 실패 시 UI 스레드에서 에러 메시지 표시
+                                    withContext(Dispatchers.Main) {
+                                        Toast.makeText(requireContext(), "탈퇴에 실패했습니다. 다시 시도해주세요.", Toast.LENGTH_SHORT).show()
+                                    }
+                                }
+                            }
+                        }
+                        .show()
                     true
                 }
                 else -> false
