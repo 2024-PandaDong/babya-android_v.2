@@ -35,6 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:background="@null"
+            android:rotation="180"
             android:src="@drawable/ic_arrow_14" />
 
         <ImageButton
