@@ -16,6 +16,8 @@ class TodoItemAdapter(
 
     inner class TodoItemViewHolder(val binding : ItemTodoListContentBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(itemDate : TodoResponses){
+            Log.d("itme adapte","item data $itemDate")
+            binding.todoCheckRadio.isChecked = itemDate.isChecked!!
             binding.todoCheckRadio.text = itemDate.content
             binding.todoCheckRadio.setOnClickListener {
                 Log.d("teat", "check : ${itemDate.isChecked}")
