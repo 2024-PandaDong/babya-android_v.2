@@ -172,7 +172,7 @@ class ProfileFragment : Fragment() {
                     binding.dayText.text = "D-Day: ${result.data?.dDay}일"
 
                     if (result.data?.profileImg == null) {
-                        binding.profileImage.load(R.drawable.ic_profile)
+                        binding.profileImage.load(R.drawable.ic_basic_profile)
                     } else {
                         binding.profileImage.load(result.data.profileImg)
                     }

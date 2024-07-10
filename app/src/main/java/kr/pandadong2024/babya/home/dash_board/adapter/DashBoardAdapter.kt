@@ -3,6 +3,7 @@ package kr.pandadong2024.babya.home.dash_board.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import kr.pandadong2024.babya.databinding.ItemDashBoardRecyclerviewBinding
 import kr.pandadong2024.babya.server.remote.responses.dash_board.DashBoardResponses
 
@@ -32,6 +33,7 @@ class DashBoardAdapter(
                 ago.text = dashBoardResponse.createdAt.toString().substring(5 until 10) // 적절한 형식으로 변환 필요
                 views.text = dashBoardResponse.view.toString()
                 comment.text = dashBoardResponse.commentCnt.toString()
+
 
                 root.setOnClickListener {
                     if (data.postId != null){
