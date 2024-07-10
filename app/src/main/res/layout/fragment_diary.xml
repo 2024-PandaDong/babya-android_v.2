@@ -139,7 +139,7 @@
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/diaryBannerViewPager"
                 android:layout_width="0dp"
-                android:layout_height="130dp"
+                android:layout_height="117dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/diaryToolbar" />

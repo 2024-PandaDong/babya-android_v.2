@@ -14,7 +14,7 @@ class DiaryBannerAdapter(
 ) : RecyclerView.Adapter<DiaryBannerAdapter.BannerViewHolder>() {
     inner class BannerViewHolder(private val binding : ItemDiaryBannerBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(diaryBannerData : String){
-            binding.diaryBannerImage.load(R.drawable.img_banner_test)
+            binding.diaryBannerImage.load(R.drawable.img_banner)
         }
     }
 
