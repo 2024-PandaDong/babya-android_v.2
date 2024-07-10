@@ -40,8 +40,8 @@ class MainFragment : Fragment() {
     private lateinit var tokenDao: TokenDAO
     private lateinit var statusAdapter : StatusAdapter
     private var _binding: FragmentMainBinding? = null
-    private var bannerPosition = 0
     private val binding get() = _binding!!
+    private var bannerPosition = 0
     private var form = 1 // 임산부인지 지역별인지
     private var userData : UserDataResponses = UserDataResponses()
 

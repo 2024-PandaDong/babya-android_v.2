@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="test"
+            android:text="회사찾기"
             android:textSize="19sp"
             android:fontFamily="@font/pretendard_bold"/>
         <ImageButton
@@ -61,6 +61,18 @@
         android:layout_height="0dp"
         app:layout_constraintTop_toBottomOf="@id/findCompanyToolbar"
         app:layout_constraintBottom_toBottomOf="parent"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/findCompanyToolbar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="아직 제작중인 기능이에요... \n조금만 기다려 주세요!"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:fontFamily="@font/pretendard_semibold"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
