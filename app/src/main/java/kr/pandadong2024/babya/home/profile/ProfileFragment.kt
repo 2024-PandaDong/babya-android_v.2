@@ -6,122 +6,146 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
+import coil.load
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentProfileBinding
 import kr.pandadong2024.babya.home.profile.adapter.ProfileBoardAdapter
-import kr.pandadong2024.babya.home.profile.adapter.ProfileDiaryAdapter
-import kr.pandadong2024.babya.home.profile.data.ProfileBoardData
-import kr.pandadong2024.babya.home.profile.data.ProfileDiaryData
+import kr.pandadong2024.babya.home.profile.profileviewmodle.ProfileViewModel
 import kr.pandadong2024.babya.server.RetrofitBuilder
-
+import kr.pandadong2024.babya.server.local.BabyaDB
+import kr.pandadong2024.babya.server.remote.responses.BaseResponse
+import kr.pandadong2024.babya.server.remote.responses.profile.ProfileMyDashBoardResponses
 
 class ProfileFragment : Fragment() {
 
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
     private val TAG = "ProfileFragment"
-    private val email = ""
+    private lateinit var token: String
+    private lateinit var boardAdapter: ProfileBoardAdapter
+    private var boardList: List<ProfileMyDashBoardResponses>? = null
+
+    private val viewModel by activityViewModels<ProfileViewModel>()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        // 메인 스레드가 아닌 IO 스레드에서 데이터베이스에 접근하도록 수정
+        lifecycleScope.launch(Dispatchers.IO) {
+            token = BabyaDB.getInstance(requireContext())?.tokenDao()?.getMembers()?.accessToken.toString()
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
 
         // 정보 받기
-        kotlin.runCatching {
+        lifecycleScope.launch {
             getProfileData()
             profileDiary()
             profileBoard()
         }
 
-        // 즐겨찾기 화면으로 이동
-        binding.bookmarkBtn.setOnClickListener {
-            goBookmark()
-        }
-
-
-
+//        // 즐겨찾기 화면으로 이동
+//        binding.bookmarkBtn.setOnClickListener {
+//            goBookmark()
+//        }
 
         return binding.root
     }
 
-    // 개시판 정보 받기
+    // 게시판 정보 받기
     private fun profileBoard() {
-        /** 더미데이터 나중에 삭제해야함*/
-        val boardList = ArrayList<ProfileBoardData>()
+        Log.d(TAG, "profileBoard: 들어옴")
+        lifecycleScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                val dashBoardData: BaseResponse<List<ProfileMyDashBoardResponses>> =
+                    RetrofitBuilder.getProfileService().getMyDashBoard(
+                        accessToken = "Bearer $token",
+                        page = 1,
+                        size = 100
+                    )
+                boardList = dashBoardData.data
+            }.onSuccess {
+                Log.d(TAG, "boardList: $boardList")
+                launch(Dispatchers.Main) {
+                    dashBoardRecyclerView()
+                }
+            }.onFailure { result ->
+                result.printStackTrace()
+            }
+        }
+    }
 
-        boardList.add(ProfileBoardData("3/14", "1이 심장소리 들어본날"))
-        boardList.add(ProfileBoardData("3/24", "2이 심장소리 들어본날"))
-        boardList.add(ProfileBoardData("4/11", "3이 심장소리 들어본날"))
-        boardList.add(ProfileBoardData("4/12", "4이 심장소리 들어본날"))
-        boardList.add(ProfileBoardData("5/13", "5이 심장소리 들어본날"))
-        boardList.add(ProfileBoardData("6/16", "6이 심장소리 들어본날"))
-        boardList.add(ProfileBoardData("7/17", "7이 심장소리 들어본날"))
-        boardList.add(ProfileBoardData("10/18", "8이 심장소리 들어본날"))
-        boardList.add(ProfileBoardData("11/19", "9이 심장소리 들어본날"))
-        boardList.add(ProfileBoardData("12/19", "10이 심장소리 들어본날"))
-        /** ============================================== */
-        val adapter = ProfileBoardAdapter(boardList)
-        binding.boardRv.adapter = adapter
-        binding.boardRv.layoutManager = LinearLayoutManager(requireContext())
-
+    private fun dashBoardRecyclerView() {
+        Log.d(TAG, "dashBoardRecyclerView: $boardList")
+        boardAdapter = ProfileBoardAdapter(boardList!!) { id ->
+            lifecycleScope.launch(Dispatchers.Main) {
+                Log.d(TAG, "dashBoardRecyclerView: $id")
+                kotlin.runCatching {
+                    viewModel.id.value = id
+                }
+            }
+        }
+        boardAdapter.notifyDataSetChanged()
+        binding.boardRv.adapter = boardAdapter
     }
 
     // 산모일기 정보 받기
     private fun profileDiary() {
-
-        /** 더미데이터 나중에 삭제해야함*/
-        val diaryList = ArrayList<ProfileDiaryData>()
-
-        diaryList.add(ProfileDiaryData("3/14", "1이 심장소리 들어본날"))
-        diaryList.add(ProfileDiaryData("3/24", "2이 심장소리 들어본날"))
-        diaryList.add(ProfileDiaryData("4/11", "3이 심장소리 들어본날"))
-        diaryList.add(ProfileDiaryData("4/12", "4이 심장소리 들어본날"))
-        diaryList.add(ProfileDiaryData("5/13", "5이 심장소리 들어본날"))
-        diaryList.add(ProfileDiaryData("6/16", "6이 심장소리 들어본날"))
-        diaryList.add(ProfileDiaryData("7/17", "7이 심장소리 들어본날"))
-        diaryList.add(ProfileDiaryData("10/18", "8이 심장소리 들어본날"))
-        diaryList.add(ProfileDiaryData("11/19", "9이 심장소리 들어본날"))
-        diaryList.add(ProfileDiaryData("12/19", "10이 심장소리 들어본날"))
-        /** ============================================== */
-        val adapter = ProfileDiaryAdapter(diaryList)
-        binding.diaryRv.adapter = adapter
-        binding.diaryRv.layoutManager = LinearLayoutManager(requireContext())
+        // 구현 내용 추가 필요
     }
-
 
     // 프로필 정보 받기
     private fun getProfileData() {
-        /** 프로필 정보 보여주기
-         * email을 넣어야함*/
-//        lifecycleScope.launch(Dispatchers.IO){
-//            kotlin.runCatching {
-//                RetrofitBuilder.getProfileService().getProfile(
-//
-//                    email = email
-//                )
-//            }.onSuccess { value ->
-//
-//
-//            }.onFailure {
-//                it.printStackTrace()
-//                Log.d(TAG, "onCreateView: 서버연결 실패")
-//            }
-//        }
-    }
+        lifecycleScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                Log.d(TAG, "token : $token")
+                RetrofitBuilder.getProfileService().getProfile(
+                    accessToken = "Bearer $token",
+                    email = "my"
+                )
+            }.onSuccess { result ->
+                Log.d(TAG, "status : ${result.status}")
+                Log.d(TAG, "message : ${result.message}")
+                Log.d(TAG, "getProfileData: ${result.data}")
 
+                launch(Dispatchers.Main) {
+                    binding.welcomeText.text = "${result.data?.nickname}님 반가워요!"
+                    binding.argText.text = "나이: ${result.data?.age}살"
+                    binding.dayText.text = "D-Day: ${result.data?.dDay}일"
+
+                    if (result.data?.profileImg == null) {
+                        binding.profileImage.load(R.drawable.ic_profile)
+                    } else {
+                        binding.profileImage.load(result.data.profileImg)
+                    }
+
+                    binding.weddingYearText.text = if (result.data?.marriedYears == 0) {
+                        "결혼: 미혼"
+                    } else {
+                        "결혼: ${result.data?.marriedYears}년차"
+                    }
+                }
+            }.onFailure { result ->
+                Log.d(TAG, "onCreateView: ${result.message}")
+                result.printStackTrace()
+                Log.d(TAG, "onCreateView: 서버연결 실패")
+            }
+        }
+    }
 
     // 즐겨찾기 화면으로 이동
-    private fun goBookmark() {
-        findNavController().navigate(R.id.action_profileFragment_to_bookmarkFragment)
-    }
+//    private fun goBookmark() {
+//        findNavController().navigate(R.id.action_profileFragment_to_bookmarkFragment)
+//    }
 
     override fun onDestroyView() {
         super.onDestroyView()

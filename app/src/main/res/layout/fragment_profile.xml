@@ -113,63 +113,66 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/argText" />
 
-                <androidx.appcompat.widget.AppCompatImageView
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/profileImage"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_marginTop="70dp"
-                    android:layout_marginRight="44dp"
-                    android:background="@color/white"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:layout_marginEnd="44dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:src="@mipmap/ic_launcher"
+                    />
+
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-            <TextView
-                android:id="@+id/bookmarkText"
-                android:layout_width="90dp"
-                android:layout_height="19dp"
-                android:layout_marginLeft="33dp"
-                android:layout_marginTop="25dp"
-                android:fontFamily="@font/pretendard_variable"
-                android:text="즐겨찾기 목록"
-                android:textAlignment="textStart"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/profileView" />
+<!--            <TextView-->
+<!--                android:id="@+id/bookmarkText"-->
+<!--                android:layout_width="90dp"-->
+<!--                android:layout_height="19dp"-->
+<!--                android:layout_marginLeft="33dp"-->
+<!--                android:layout_marginTop="25dp"-->
+<!--                android:fontFamily="@font/pretendard_variable"-->
+<!--                android:text="즐겨찾기 목록"-->
+<!--                android:textAlignment="textStart"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:textStyle="bold"-->
+<!--                app:layout_constraintLeft_toLeftOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/profileView" />-->
 
-            <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/bookmarkBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
-                android:layout_marginRight="35dp"
-                android:background="@drawable/ic_move"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/profileView" />
+<!--            <androidx.appcompat.widget.AppCompatImageButton-->
+<!--                android:id="@+id/bookmarkBtn"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="25dp"-->
+<!--                android:layout_marginRight="35dp"-->
+<!--                android:background="@drawable/ic_move"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/profileView" />-->
 
-            <LinearLayout
-                android:id="@+id/bookmarkLayout"
-                android:layout_width="0dp"
-                android:layout_height="63dp"
-                android:layout_marginLeft="22dp"
-                android:layout_marginTop="6dp"
-                android:layout_marginRight="22dp"
-                android:backgroundTint="@color/white"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/bookmarkText">
-                
-                <GridView
-                    android:id="@+id/bookmarkGv"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:numColumns="3"
-                    />
+<!--            <LinearLayout-->
+<!--                android:id="@+id/bookmarkLayout"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="63dp"-->
+<!--                android:layout_marginLeft="22dp"-->
+<!--                android:layout_marginTop="6dp"-->
+<!--                android:layout_marginRight="22dp"-->
+<!--                android:backgroundTint="@color/white"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/bookmarkText">-->
+<!--                -->
+<!--                <GridView-->
+<!--                    android:id="@+id/bookmarkGv"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:numColumns="3"-->
+<!--                    />-->
 
-                
-            </LinearLayout>
+<!--                -->
+<!--            </LinearLayout>-->
 
             <TextView
                 android:id="@+id/diary"
@@ -183,7 +186,7 @@
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/bookmarkLayout" />
+                app:layout_constraintTop_toBottomOf="@+id/profileView" />
 
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/diaryMoveBtn"
@@ -217,6 +220,7 @@
                     android:backgroundTint="@color/gray"
                     android:fontFamily="@font/pretendard_variable"
                     android:gravity="start"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/bookmarkText" />
@@ -269,6 +273,7 @@
                     android:backgroundTint="@color/gray"
                     android:fontFamily="@font/pretendard_variable"
                     android:gravity="start"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
