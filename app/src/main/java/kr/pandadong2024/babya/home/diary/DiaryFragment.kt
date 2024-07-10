@@ -62,28 +62,31 @@ class DiaryFragment : Fragment() {
         binding.diaryBackButton.setOnClickListener {
             findNavController().navigate(R.id.action_diaryFragment_to_mainFragment)
         }
-        binding.radioGroup.check(R.id.diaryAllRadio)
-        when(binding.radioGroup.checkedRadioButtonId){
-            binding.diaryAllRadio.id -> {
-                getDiaryData(1, 100, 2)
-            }
+        viewModel.isPublic.value = true
+        viewModel.isPublic.observe(viewLifecycleOwner){
+            when(it){
+                true -> {
+                    getDiaryData(1, 100, 2)
+                }
 
-            binding.diaryMyRadio.id -> {
-                getDiaryData(1, 100, 1)
+                false -> {
+                    getDiaryData(1, 100, 1)
+                }
             }
-
         }
+
         binding.radioGroup.setOnCheckedChangeListener { radioGroup, checkId ->
             Log.d(TAG, "in setOnCheckedChangeListener")
             when (checkId) {
                 binding.diaryAllRadio.id -> {
                     binding.diaryDisclosureButton.visibility = View.GONE
-                    getDiaryData(1, 100, 2)
+                    viewModel.isPublic.value = true
                 }
 
                 binding.diaryMyRadio.id -> {
                     binding.diaryDisclosureButton.visibility = View.VISIBLE
-                    getDiaryData(1, 100, 1)
+                    viewModel.isPublic.value = false
+
                 }
             }
         }

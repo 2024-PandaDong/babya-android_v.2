@@ -8,5 +8,6 @@ import androidx.lifecycle.liveData
 
 class DiaryViewModel() : ViewModel() {
     var id = MutableLiveData<Int>().apply { value = -1 }
+    var isPublic = MutableLiveData<Boolean>().apply { value = false }
 
 }

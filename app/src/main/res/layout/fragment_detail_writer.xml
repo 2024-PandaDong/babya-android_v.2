@@ -4,7 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".home.diary.detil.DetailWriterFragment">
+    tools:context=".home.diary.detil.DetailWriterFragment"
+
+    android:backgroundTint="@color/white">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/writerDiaryToolbar"
@@ -366,7 +368,8 @@
         android:layout_height="?attr/actionBarSize"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@color/white">
         <View
             android:layout_width="0dp"
             android:layout_height="0dp"

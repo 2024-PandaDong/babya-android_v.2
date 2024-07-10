@@ -37,6 +37,11 @@ class DetailWriterFragment : Fragment() {
     private var diaryId by Delegates.notNull<Int>()
     private var selectedCommentId : Int? = null
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        diaryId = viewModel.id.value!!
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
