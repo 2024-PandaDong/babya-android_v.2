@@ -17,6 +17,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kr.pandadong2024.babya.MainActivity
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentProfileBinding
 import kr.pandadong2024.babya.home.dash_board.dash_boardViewModel.DashBoardViewModel
@@ -67,6 +68,7 @@ class ProfileFragment : Fragment() {
         toolbar.setOnMenuItemClickListener{item ->
             when(item.itemId){
                 R.id.logout -> {
+                    Log.d(TAG, "test")
                     MaterialAlertDialogBuilder(requireContext())
                         .setMessage("정말로 로그아웃하시겠습니까?")
                         .setNegativeButton("취소") { dialog, which ->
@@ -79,9 +81,9 @@ class ProfileFragment : Fragment() {
                                     BabyaDB.getInstance(requireContext())?.tokenDao()?.deleteMember(tokenEntity)
                                 }
                             }
-                            val intent = Intent(requireContext(), LoginFragment::class.java)
+                            val intent = Intent(requireContext(), MainActivity::class.java)
                             startActivity(intent)
-                        }
+                        }.show()
 
                     true
                 }
