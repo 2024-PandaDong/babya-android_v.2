@@ -58,7 +58,11 @@ class DiaryFragment : Fragment() {
         binding.diaryReloadButton.setOnClickListener {
             when(viewModel.isPublic.value){
                 true -> getDiaryData(1, 100, 2)
-                false -> getDiaryData(1, 100, 1)
+                false -> {
+                    isPublic = isPublic.not()
+                    getDiaryData(1, 100, 1)
+                }
+
                 else -> {}
             }
         }
