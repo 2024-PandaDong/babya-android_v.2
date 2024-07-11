@@ -112,7 +112,7 @@ class EditDiaryFragment : Fragment() {
         val imageLinkList = mutableListOf<String>()
         if (selectedUri != null) {
             for (uri in selectedUri) {
-                val test = lifecycleScope.async((Dispatchers.IO)) {
+                val test = lifecycleScope.async(Dispatchers.IO) {
                     kotlin.runCatching {
                         RetrofitBuilder.getCommonService().fileUpload(
                             accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
@@ -130,7 +130,7 @@ class EditDiaryFragment : Fragment() {
                     imageLinkList.add(result.data!!)
                 }
             }
-            }
+        }
         return imageLinkList.toList()
     }
     private fun getFileFromUri(uri: Uri): File? {

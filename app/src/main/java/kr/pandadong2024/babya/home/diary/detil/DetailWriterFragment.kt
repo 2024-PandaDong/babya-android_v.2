@@ -13,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import coil.load
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kr.pandadong2024.babya.R
@@ -23,6 +24,7 @@ import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.server.local.BabyaDB
 import kr.pandadong2024.babya.server.local.TokenDAO
 import kr.pandadong2024.babya.server.remote.request.SubCommentRequest
+import kr.pandadong2024.babya.server.remote.responses.SubCommentResponses
 import kr.pandadong2024.babya.util.BottomControllable
 import kotlin.properties.Delegates
 
@@ -164,7 +166,16 @@ class DetailWriterFragment : Fragment() {
                             binding.editCommentEditText.setHint("답글쓰기")
                             selectedCommentId = id
                             Log.d(TAG, "test in comment")
-                        }) }!!
+                        },
+                        getSubComment = { commentId, page, size ->
+                            Log.d(TAG, "test in in in in in ")
+                            getSubComment(
+                                commentId = commentId,
+                                page = page,
+                                size = size
+                            )
+                        }
+                    ) }!!
                     commentsAdapter.notifyItemRemoved(0)
                     with(binding){
                         detailWitterRecyclerView.adapter = commentsAdapter
@@ -177,6 +188,29 @@ class DetailWriterFragment : Fragment() {
 
             }
         }
+    }
+
+    private fun getSubComment(commentId: Int, page: Int, size: Int) : List<SubCommentResponses> {
+        var subCommentList = listOf<SubCommentResponses>()
+        lifecycleScope.launch(Dispatchers.IO) {
+            val subCommentResult = lifecycleScope.async(Dispatchers.IO) {
+                kotlin.runCatching {
+                    RetrofitBuilder.getDiaryService().getSubComment(
+                        accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
+                        parentId = commentId,
+                        page = page,
+                        size = size
+                    ) }.onSuccess {result ->
+
+                }.onFailure { result ->
+                    result.printStackTrace()
+                }
+            }.await().onSuccess {  subCommentList = it.data!! }
+        }
+        Log.d(TAG, "subComment : $subCommentList")
+
+        return subCommentList
+
     }
 
     private fun initView(){

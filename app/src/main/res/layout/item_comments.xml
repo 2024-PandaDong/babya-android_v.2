@@ -76,6 +76,7 @@
             app:layout_constraintStart_toStartOf="@id/contentTextView"
             />
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/subCommentRecyclerView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="@id/replayCommentText"
