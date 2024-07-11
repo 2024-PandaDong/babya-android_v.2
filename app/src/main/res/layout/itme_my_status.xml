@@ -36,7 +36,7 @@
             />
 
         <TextView
-            android:id="@+id/commentText"
+            android:id="@+id/nameText"
             card_view:layout_constraintHorizontal_bias="0.0"
             android:layout_marginStart="15dp"
             card_view:layout_constraintEnd_toEndOf="@id/goodSeekBar"
@@ -70,11 +70,12 @@
             android:progressDrawable="@drawable/sp_test"
             card_view:layout_constraintStart_toEndOf="@id/emotionImage"
             card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintTop_toBottomOf="@id/commentText"
+            card_view:layout_constraintTop_toBottomOf="@id/nameText"
             card_view:layout_constraintBottom_toTopOf="@id/normalSeekBar"
             android:layout_marginEnd="30dp"
             android:layout_marginStart="30dp"
             android:max="5"
+            android:saveEnabled="true"
             android:layout_marginTop="0dp"
             android:layout_centerHorizontal="true"
             android:progress="0"/>
@@ -88,12 +89,14 @@
             card_view:layout_constraintEnd_toStartOf="@id/normalSeekBar"
             android:src="@drawable/img_normal"
             android:scaleType="fitXY"
+
             />
         <SeekBar
             android:id="@+id/normalSeekBar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:thumb="@null"
+            android:saveEnabled="false"
             android:tickMark="@drawable/sp_tick_mark"
             android:progressDrawable="@drawable/sp_test"
             card_view:layout_constraintStart_toStartOf="@id/goodSeekBar"

@@ -237,29 +237,27 @@ class DetailPublicFragment : Fragment() {
         }
     }
     private fun getSubComment(commentId: Int, page: Int, size: Int) : List<SubCommentResponses> {
-        var subCommentList = listOf<SubCommentResponses>()
-        runBlocking {
-            lifecycleScope.launch(Dispatchers.IO) {
-                val subCommentResult = lifecycleScope.async(Dispatchers.IO) {
-                    kotlin.runCatching {
-                        RetrofitBuilder.getDiaryService().getSubComment(
-                            accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
-                            parentId = commentId,
-                            page = page,
-                            size = size
-                        ) }.onSuccess {result ->
-
-                    }.onFailure { result ->
-                        result.printStackTrace()
-                    }
-                }.await().onSuccess {  subCommentList = it.data!! }.onFailure {
-                    it.printStackTrace()
+        var commentResult = listOf<SubCommentResponses>()
+        val subCommentList  = runBlocking(Dispatchers.IO) {
+            launch {
+                kotlin.runCatching {
+                    RetrofitBuilder.getDiaryService().getSubComment(
+                        accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
+                        parentId = commentId,
+                        page = page,
+                        size = size
+                    ) }.onSuccess {result ->
+                    commentResult = result.data!!
+                    Log.d(TAG, "subcomment result : $result")
+                    Log.d(TAG, "2")
+                }.onFailure { result ->
+                    result.printStackTrace()
                 }
             }
         }
 
-
-        return subCommentList
+        Log.d(TAG, "subcomment result : $commentResult")
+        return commentResult
 
     }
 

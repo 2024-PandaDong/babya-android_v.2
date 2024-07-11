@@ -2,20 +2,37 @@ package kr.pandadong2024.babya.home.dash_board.adapter
 
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.ItemCommentsBinding
+import kr.pandadong2024.babya.home.diary.diaryadapters.SubCommentAdapter
 import kr.pandadong2024.babya.server.remote.responses.CommentResponses
+import kr.pandadong2024.babya.server.remote.responses.SubCommentResponses
 import kr.pandadong2024.babya.server.remote.responses.dash_board.DashBoardCommentResponses
 
 class DashBoardCommentsAdapter(
     private val commentsList : List<DashBoardCommentResponses>,
-    val replayComment : (parentId : Int) -> Unit
+    val replayComment : (parentId : Int) -> Unit,
+    val getSubComment : (parentId : Int, page: Int, size : Int) -> List<SubCommentResponses>,
 ) : RecyclerView.Adapter<DashBoardCommentsAdapter.CommentsViewHolder>() {
     inner class CommentsViewHolder(private val binding : ItemCommentsBinding) : RecyclerView.ViewHolder(binding.root){
         fun setItemComments(commentData: DashBoardCommentResponses) {
+            if (commentData.subCommentCnt != 0){
+                binding.subCommentRecyclerView.visibility = View.VISIBLE
+                Log.d("recycler", " test in sub")
+                val subCommentList = getSubComment(commentData.commentId!!,  1, 100)
+                val subCommentAdapter = SubCommentAdapter(
+                    subCommentList = subCommentList,
+                    replayComment = { replayComment(commentData.commentId) }
+                )
+                subCommentAdapter.notifyItemRemoved(0)
+                with(binding){
+                    subCommentRecyclerView.adapter = subCommentAdapter
+                }
+            }
             binding.commentNameText.text = commentData.nickname
             if (commentData.profileImg == null){
                 binding.commentProfileImage.load(R.drawable.ic_basic_profile)

@@ -25,6 +25,7 @@ class SubCommentAdapter(
             binding.replayCommentText.setOnClickListener {
                 replayComment()
             }
+            binding.commentBottomLineView.visibility = View.GONE
         }
     }
 
