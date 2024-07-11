@@ -55,6 +55,17 @@ class DiaryFragment : Fragment() {
             changeGridView()
         }
 
+        binding.diaryReloadButton.setOnClickListener {
+            when(viewModel.isPublic.value){
+                true -> getDiaryData(1, 100, 2)
+                false -> {
+                    isPublic = isPublic.not()
+                    getDiaryData(1, 100, 1)
+                }
+
+                else -> {}
+            }
+        }
 
         binding.diaryEditFloatingActionButton.setOnClickListener{
             findNavController().navigate(R.id.action_diaryFragment_to_editDiaryFragment)
