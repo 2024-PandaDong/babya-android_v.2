@@ -28,6 +28,8 @@
         tools:layout="@layout/fragment_start" >
         <action
             android:id="@+id/action_startFragment_to_loginFragment"
+            app:popUpTo="@id/startFragment"
+            app:popUpToInclusive="true"
             app:destination="@id/loginFragment" />
     </fragment>
 
