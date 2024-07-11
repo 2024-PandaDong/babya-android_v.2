@@ -40,8 +40,10 @@ class StartFragment : Fragment() {
             withContext(Dispatchers.Main) {
                 if (!accessToken.isNullOrEmpty()) {
                     startActivity(Intent(requireContext(), HomeActivity::class.java))
+                    requireActivity().finish()
                 } else {
                     findNavController().navigate(R.id.action_startFragment_to_loginFragment)
+                    requireActivity().finish()
                 }
             }
         }
