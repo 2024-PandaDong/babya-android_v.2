@@ -15,6 +15,7 @@ import coil.load
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentDetailDashBoardBinding
 import kr.pandadong2024.babya.home.dash_board.adapter.DashBoardCommentsAdapter
@@ -24,6 +25,7 @@ import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.server.local.BabyaDB
 import kr.pandadong2024.babya.server.local.TokenDAO
 import kr.pandadong2024.babya.server.remote.request.dash_board.DashBoardCommentRequest
+import kr.pandadong2024.babya.server.remote.responses.SubCommentResponses
 import kr.pandadong2024.babya.util.BottomControllable
 import kotlin.properties.Delegates
 
@@ -157,7 +159,16 @@ class DetailDashBoardFragment : Fragment() {
                         replayComment = { id ->
                             binding.editCommentEditText.setHint("답글쓰기")
                             selectedCommentId = id
-                        }) }!!
+                        },
+                        getSubComment = { commentId, page, size ->
+                            Log.d(TAG, "test in in in in in ")
+                            getSubComment(
+                                commentId = commentId,
+                                page = page,
+                                size = size
+                            )
+                        }
+                        ) }!!
                     commentsAdapter.notifyItemRemoved(0)
                     with(binding){
                         commentRecyclerView.adapter = commentsAdapter
@@ -169,6 +180,31 @@ class DetailDashBoardFragment : Fragment() {
                 Log.d(TAG, "message : ${result.message}")
             }
         }
+    }
+
+    private fun getSubComment(commentId: Int, page: Int, size: Int) : List<SubCommentResponses> {
+        var commentResult = listOf<SubCommentResponses>()
+        val subCommentList  = runBlocking(Dispatchers.IO) {
+            launch {
+                kotlin.runCatching {
+                    RetrofitBuilder.getDiaryService().getSubComment(
+                        accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
+                        parentId = commentId,
+                        page = page,
+                        size = size
+                    ) }.onSuccess {result ->
+                    commentResult = result.data!!
+                    Log.d(TAG, "subcomment result : $result")
+                    Log.d(TAG, "2")
+                }.onFailure { result ->
+                    result.printStackTrace()
+                }
+            }
+        }
+
+        Log.d(TAG, "subcomment result : $commentResult")
+        return commentResult
+
     }
 
     private fun categoryClass(category: String?) {
