@@ -4,6 +4,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SeekBar
 import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
@@ -30,6 +31,82 @@ class StatusAdapter(
             binding.painSeekBar.progress = userWeekStatus.c3!!
             binding.tiredSeekBar.progress = userWeekStatus.c4!!
             binding.uneasySeekBar.progress = userWeekStatus.c5!!
+
+            binding.goodSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+                override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+                    binding.goodSeekBar.progress = userWeekStatus.c1!!
+                }
+
+                override fun onStartTrackingTouch(p0: SeekBar?) {
+                    binding.goodSeekBar.progress = userWeekStatus.c1!!
+                }
+
+                override fun onStopTrackingTouch(p0: SeekBar?) {
+                    binding.goodSeekBar.progress = userWeekStatus.c1!!
+                }
+
+            })
+
+
+            binding.normalSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+                override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+                    binding.normalSeekBar.progress = userWeekStatus.c1!!
+                }
+
+                override fun onStartTrackingTouch(p0: SeekBar?) {
+                    binding.normalSeekBar.progress = userWeekStatus.c1!!
+                }
+
+                override fun onStopTrackingTouch(p0: SeekBar?) {
+                    binding.normalSeekBar.progress = userWeekStatus.c1!!
+                }
+
+            })
+
+            binding.painSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+                override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+                    binding.painSeekBar.progress = userWeekStatus.c1!!
+                }
+
+                override fun onStartTrackingTouch(p0: SeekBar?) {
+                    binding.painSeekBar.progress = userWeekStatus.c1!!
+                }
+
+                override fun onStopTrackingTouch(p0: SeekBar?) {
+                    binding.painSeekBar.progress = userWeekStatus.c1!!
+                }
+
+            })
+
+            binding.tiredSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+                override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+                    binding.tiredSeekBar.progress = userWeekStatus.c1!!
+                }
+
+                override fun onStartTrackingTouch(p0: SeekBar?) {
+                    binding.tiredSeekBar.progress = userWeekStatus.c1!!
+                }
+
+                override fun onStopTrackingTouch(p0: SeekBar?) {
+                    binding.tiredSeekBar.progress = userWeekStatus.c1!!
+                }
+
+            })
+
+            binding.uneasySeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+                override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+                    binding.uneasySeekBar.progress = userWeekStatus.c1!!
+                }
+
+                override fun onStartTrackingTouch(p0: SeekBar?) {
+                    binding.uneasySeekBar.progress = userWeekStatus.c1!!
+                }
+
+                override fun onStopTrackingTouch(p0: SeekBar?) {
+                    binding.uneasySeekBar.progress = userWeekStatus.c1!!
+                }
+
+            })
 
 
         }

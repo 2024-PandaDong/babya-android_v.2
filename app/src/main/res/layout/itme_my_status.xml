@@ -75,6 +75,7 @@
             android:layout_marginEnd="30dp"
             android:layout_marginStart="30dp"
             android:max="5"
+            android:saveEnabled="true"
             android:layout_marginTop="0dp"
             android:layout_centerHorizontal="true"
             android:progress="0"/>
@@ -88,12 +89,14 @@
             card_view:layout_constraintEnd_toStartOf="@id/normalSeekBar"
             android:src="@drawable/img_normal"
             android:scaleType="fitXY"
+
             />
         <SeekBar
             android:id="@+id/normalSeekBar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:thumb="@null"
+            android:saveEnabled="false"
             android:tickMark="@drawable/sp_tick_mark"
             android:progressDrawable="@drawable/sp_test"
             card_view:layout_constraintStart_toStartOf="@id/goodSeekBar"
