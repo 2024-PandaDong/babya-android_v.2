@@ -29,6 +29,10 @@ class CommentsAdapter(
                     subCommentList = subCommentList,
                     replayComment = { replayComment(commentData.commentId) }
                 )
+                subCommentAdapter.notifyItemRemoved(0)
+                with(binding){
+                    subCommentRecyclerView.adapter = subCommentAdapter
+                }
             }
             binding.commentNameText.text = commentData.nickname
             binding.commentProfileImage.load(commentData.profileImg)
