@@ -71,7 +71,13 @@ class QuizFragment : Fragment() {
                     accessToken = "Bearer ${tokenDao.getMembers().accessToken}"
                 )
             }.onSuccess { result ->
-                quiz = result.data!!
+                if (result.data != null){
+                    quiz = result.data
+                }
+                else{
+                    quiz = QuizResponses()
+                }
+
                 launch (Dispatchers.Main){
                     binding.quizText.text = quiz.title
                 }
