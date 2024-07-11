@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/login"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/startFragment">
     <fragment
         android:id="@+id/loginFragment"
         android:name="kr.pandadong2024.babya.start.login.LoginFragment"
@@ -19,6 +19,15 @@
         android:label="SignupFragment" >
         <action
             android:id="@+id/action_signupFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/startFragment"
+        android:name="kr.pandadong2024.babya.start.start.StartFragment"
+        android:label="fragment_start"
+        tools:layout="@layout/fragment_start" >
+        <action
+            android:id="@+id/action_startFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
     </fragment>
 

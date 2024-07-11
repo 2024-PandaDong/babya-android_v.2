@@ -66,7 +66,6 @@ class LoginFragment : Fragment() {
             login()
         }
 
-
         return binding.root
     }
 
