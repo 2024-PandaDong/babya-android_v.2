@@ -49,7 +49,6 @@ class DetailDashBoardFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentDetailDashBoardBinding.inflate(inflater, container, false)
         tokenDao = BabyaDB.getInstance(requireContext().applicationContext)?.tokenDao()!!
-        (requireActivity() as BottomControllable).setBottomNavVisibility(false)
         initView()
         initCommentRecyclerView(1, 100, viewModel.id.value!!)
 
@@ -259,8 +258,8 @@ class DetailDashBoardFragment : Fragment() {
         _binding = null
     }
 
-    override fun onPause() {
-        super.onPause()
-        (requireActivity() as BottomControllable).setBottomNavVisibility(true)
-    }
+//    override fun onPause() {
+//        super.onPause()
+//        (requireActivity() as BottomControllable).setBottomNavVisibility(true)
+//    }
 }

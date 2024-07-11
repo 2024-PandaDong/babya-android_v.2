@@ -48,11 +48,9 @@ class DetailWriterFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-
         // Inflate the layout for this fragment
         _binding = FragmentDetailWriterBinding.inflate(inflater, container, false)
         tokenDao = BabyaDB.getInstance(requireContext().applicationContext)?.tokenDao()!!
-        (requireActivity() as BottomControllable).setBottomNavVisibility(false)
         initView()
         initCommentRecyclerView(1, 100, viewModel.id.value!!)
         binding.writerBackButton.setOnClickListener {
@@ -284,8 +282,8 @@ class DetailWriterFragment : Fragment() {
         _binding = null
     }
 
-    override fun onPause() {
-        super.onPause()
-        (requireActivity() as BottomControllable).setBottomNavVisibility(true)
-    }
+//    override fun onPause() {
+//        super.onPause()
+//        (requireActivity() as BottomControllable).setBottomNavVisibility(true)
+//    }
 }

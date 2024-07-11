@@ -49,9 +49,7 @@ class EditDashBoardFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        (requireActivity() as BottomControllable).setBottomNavVisibility(false)
         _binding = FragmentEditDashBoardBinding.inflate(inflater, container, false)
-
         tokenDao = BabyaDB.getInstance(requireContext().applicationContext)?.tokenDao()!!
 
         kotlin.runCatching {
@@ -229,14 +227,13 @@ class EditDashBoardFragment : Fragment() {
         )
     }
 
-    override fun onPause() {
-        super.onPause()
-        (requireActivity() as BottomControllable).setBottomNavVisibility(true)
-    }
+//    override fun onPause() {
+//        super.onPause()
+//        (requireActivity() as BottomControllable).setBottomNavVisibility(true)
+//    }
 
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
-        (requireActivity() as BottomControllable).setBottomNavVisibility(true)
     }
 }

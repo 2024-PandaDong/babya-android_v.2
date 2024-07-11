@@ -282,13 +282,11 @@ class ProfileFragment : Fragment() {
 //        findNavController().navigate(R.id.action_profileFragment_to_bookmarkFragment)
 //    }
 
-    override fun onPause() {
-        super.onPause()
-        (requireActivity() as BottomControllable).setBottomNavVisibility(true)
-    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        (requireActivity() as BottomControllable).setBottomNavVisibility(true)
     }
 }

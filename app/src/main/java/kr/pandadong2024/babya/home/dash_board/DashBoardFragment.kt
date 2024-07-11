@@ -220,10 +220,10 @@ class DashBoardFragment : Fragment() {
 
 
 
-    override fun onPause() {
-        super.onPause()
-        (requireActivity() as BottomControllable).setBottomNavVisibility(true)
-    }
+//    override fun onPause() {
+//        super.onPause()
+//        (requireActivity() as BottomControllable).setBottomNavVisibility(true)
+//    }
 
     override fun onDestroy() {
         super.onDestroy()

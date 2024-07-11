@@ -53,7 +53,6 @@ class DetailPublicFragment : Fragment() {
     ): View {
         _binding = FragmentDetailPublicBinding.inflate(inflater, container, false)
         tokenDao = BabyaDB.getInstance(requireContext().applicationContext)?.tokenDao()!!
-        (requireActivity() as BottomControllable).setBottomNavVisibility(false)
         initView()
         initCommentRecyclerView(1, 100, viewModel.id.value!!)
 
@@ -264,10 +263,10 @@ class DetailPublicFragment : Fragment() {
 
     }
 
-    override fun onPause() {
-        super.onPause()
-        (requireActivity() as BottomControllable).setBottomNavVisibility(false)
-    }
+//    override fun onPause() {
+//        super.onPause()
+//        (requireActivity() as BottomControllable).setBottomNavVisibility(false)
+//    }
 
     override fun onDestroy() {
         super.onDestroy()

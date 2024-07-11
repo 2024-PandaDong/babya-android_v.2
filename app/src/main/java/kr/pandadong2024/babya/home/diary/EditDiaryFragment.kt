@@ -61,7 +61,6 @@ class EditDiaryFragment : Fragment() {
     ): View {
         _binding = FragmentEditDiaryBinding.inflate(inflater, container, false)
         tokenDao = BabyaDB.getInstance(requireContext().applicationContext)?.tokenDao()!!
-        (requireActivity() as BottomControllable).setBottomNavVisibility(false)
         binding.editDateText.text = "${year}.${month+1}.${date}"
         binding.nextDaySelectedText.text = "${year}.${month+1}.${date}"
 
@@ -278,5 +277,4 @@ class EditDiaryFragment : Fragment() {
         super.onDestroy()
         _binding = null
     }
-
 }

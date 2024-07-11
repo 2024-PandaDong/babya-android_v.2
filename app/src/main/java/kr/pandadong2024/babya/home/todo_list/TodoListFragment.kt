@@ -330,14 +330,6 @@ class TodoListFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
-    }
-
-
-    override fun onStop() {
-        super.onStop()
         (requireActivity() as BottomControllable).setBottomNavVisibility(true)
     }
-
-
-
 }

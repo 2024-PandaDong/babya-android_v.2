@@ -46,8 +46,8 @@ class DiaryFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        _binding = FragmentDiaryBinding.inflate(inflater, container, false)
         (requireActivity() as BottomControllable).setBottomNavVisibility(false)
+        _binding = FragmentDiaryBinding.inflate(inflater, container, false)
         initDiaryBannerView()
 
         binding.diaryDisclosureButton.setOnClickListener {
@@ -113,12 +113,13 @@ class DiaryFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
-    }
-
-    override fun onPause() {
-        super.onPause()
         (requireActivity() as BottomControllable).setBottomNavVisibility(true)
     }
+
+//    override fun onPause() {
+//        super.onPause()
+//        (requireActivity() as BottomControllable).setBottomNavVisibility(true)
+//    }
 
 
 
