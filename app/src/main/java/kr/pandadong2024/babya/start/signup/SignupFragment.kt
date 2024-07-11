@@ -424,11 +424,8 @@ class SignupFragment : Fragment() {
         val checkBox2 = binding.agreementCheckBox2.isChecked
         val checkBox3 = binding.agreementCheckBox3.isChecked
 
-
         // 선택 항목
         val marriedDay :String = binding.weddingDayEdit.text.toString()
-
-
 
 
         if (name.isNotEmpty() && birthDay.isNotEmpty() && locationCode.isNotEmpty() && passwordCheck == true && checkBox1 == true && checkBox2 == true && checkBox3 == true && emailCheck == true){
@@ -449,11 +446,17 @@ class SignupFragment : Fragment() {
                     )
 
                 }.onSuccess {
+
                     Log.d(TAG, "Signup: 성공")
                     lifecycleScope.launch(Dispatchers.Main) {
                         Toast.makeText(requireContext(), "회원가입에 성공했습니다", Toast.LENGTH_SHORT).show()
-                        val intent = Intent(requireContext(), QuizFragment::class.java)
-                        startActivity(intent)
+
+                        // 회원가입 -> 홈(quiz)
+                        // val intent = Intent(requireContext(), QuizFragment::class.java)
+                        // startActivity(intent)
+
+                        // 회원가입 -> 로그인
+                        findNavController().navigate(R.id.action_signupFragment_to_loginFragment)
                     }
                 }.onFailure {
                     it.printStackTrace()
@@ -466,6 +469,7 @@ class SignupFragment : Fragment() {
             Toast.makeText(requireContext(), "회원정보를 전부 입력해주세요", Toast.LENGTH_SHORT).show()
         }
     }
+
 
     override fun onDestroy() {
         super.onDestroy()
