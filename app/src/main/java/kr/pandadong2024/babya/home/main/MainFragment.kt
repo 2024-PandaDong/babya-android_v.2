@@ -13,7 +13,6 @@ import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.time.delay
 import kr.pandadong2024.babya.databinding.FragmentMainBinding
@@ -25,7 +24,6 @@ import kr.pandadong2024.babya.server.remote.responses.BaseResponse
 import kr.pandadong2024.babya.server.remote.responses.CompanyDataResponses
 import kr.pandadong2024.babya.server.remote.responses.UserDataResponses
 import kr.pandadong2024.babya.server.remote.responses.main.UserWeekStatus
-import kr.pandadong2024.babya.util.BottomControllable
 import retrofit2.HttpException
 import java.time.Duration
 import kotlin.math.ceil
@@ -83,7 +81,6 @@ class MainFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        (requireActivity() as BottomControllable).setBottomNavVisibility(true)
         _binding = FragmentMainBinding.inflate(inflater, container, false)
         tokenDao = BabyaDB.getInstance(requireContext().applicationContext)?.tokenDao()!!
 

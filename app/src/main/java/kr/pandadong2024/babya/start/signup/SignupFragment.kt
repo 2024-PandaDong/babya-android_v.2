@@ -105,7 +105,12 @@ class SignupFragment : Fragment() {
 
         // 전체동의
         binding.fullAgreementCheckBox.setOnClickListener {
-            fullAgreementCheck()
+            val isChecked = binding.fullAgreementCheckBox.isChecked
+            binding.agreementCheckBox1.isChecked = isChecked
+        }
+        binding.agreementCheckBox1.setOnClickListener{
+            val isChecked = binding.agreementCheckBox1.isChecked
+            binding.fullAgreementCheckBox.isChecked = isChecked
         }
 
         // 회원가입
@@ -376,14 +381,6 @@ class SignupFragment : Fragment() {
         }
     }
 
-    // 약관동의
-    private fun fullAgreementCheck() {
-        val isChecked = binding.fullAgreementCheckBox.isChecked
-        binding.agreementCheckBox1.isChecked = isChecked
-        binding.agreementCheckBox2.isChecked = isChecked
-        binding.agreementCheckBox3.isChecked = isChecked
-        binding.agreementCheckBox4.isChecked = isChecked
-    }
 
 
     // 지역코드로 변환
@@ -421,14 +418,12 @@ class SignupFragment : Fragment() {
         val city = binding.cityEdit.text.toString()
         val locationCode = cityNumber(city)
         val checkBox1 = binding.agreementCheckBox1.isChecked
-        val checkBox2 = binding.agreementCheckBox2.isChecked
-        val checkBox3 = binding.agreementCheckBox3.isChecked
 
         // 선택 항목
         val marriedDay :String = binding.weddingDayEdit.text.toString()
 
 
-        if (name.isNotEmpty() && birthDay.isNotEmpty() && locationCode.isNotEmpty() && passwordCheck == true && checkBox1 == true && checkBox2 == true && checkBox3 == true && emailCheck == true){
+        if (name.isNotEmpty() && birthDay.isNotEmpty() && locationCode.isNotEmpty() && passwordCheck == true && checkBox1 == true && emailCheck == true){
             lifecycleScope.launch(Dispatchers.IO){
                 kotlin.runCatching {
                     RetrofitBuilder.getSignupService().postSignup(
