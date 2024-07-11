@@ -65,9 +65,7 @@ class LoginFragment : Fragment() {
         binding.loginButton?.setOnClickListener{
             login()
         }
-        binding.googleAuthButton?.setOnClickListener {
-            oAuthLogin()
-        }
+
 
         return binding.root
     }

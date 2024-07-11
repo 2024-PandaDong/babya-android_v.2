@@ -17,7 +17,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <ImageView
                 android:id="@+id/circleImg"
@@ -196,59 +196,6 @@
                 app:layout_constraintEnd_toEndOf="@id/loginButton"
                 app:layout_constraintStart_toEndOf="@id/singeUpText"
                 app:layout_constraintTop_toBottomOf="@id/loginButton" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/googleAuthButton"
-                android:layout_width="0dp"
-                android:layout_height="45dp"
-                android:layout_marginTop="60dp"
-
-                app:layout_constraintEnd_toEndOf="@id/loginButton"
-                app:layout_constraintStart_toStartOf="@id/loginButton"
-                app:layout_constraintTop_toBottomOf="@id/singeUpTextButton">
-
-                <ImageView
-                    android:layout_width="336dp"
-                    android:layout_height="52dp"
-                    android:background="@drawable/sp_google_backgraound"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageView
-                    android:id="@+id/googleImg"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:src="@drawable/img_google_logo"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/googleText1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Google"
-                    android:textSize="14sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/googleText2"
-                    app:layout_constraintHorizontal_chainStyle="packed"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/googleText2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=" 계정으로 로그인하기"
-                    android:textSize="14sp"
-                    app:layout_constraintBottom_toBottomOf="@id/googleText1"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/googleText1" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
