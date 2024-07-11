@@ -81,6 +81,7 @@ class ProfileFragment : Fragment() {
                             }
                             val intent = Intent(requireContext(), MainActivity::class.java)
                             startActivity(intent)
+                            requireActivity().finish()
                         }.show()
 
                     true

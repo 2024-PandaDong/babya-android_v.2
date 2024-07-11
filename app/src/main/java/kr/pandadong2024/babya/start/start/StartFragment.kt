@@ -43,7 +43,6 @@ class StartFragment : Fragment() {
                     requireActivity().finish()
                 } else {
                     findNavController().navigate(R.id.action_startFragment_to_loginFragment)
-                    requireActivity().finish()
                 }
             }
         }
