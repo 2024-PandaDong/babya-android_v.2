@@ -31,6 +31,7 @@ class StatusAdapter(
             binding.painSeekBar.progress = userWeekStatus.c3!!
             binding.tiredSeekBar.progress = userWeekStatus.c4!!
             binding.uneasySeekBar.progress = userWeekStatus.c5!!
+            binding.nameText.text = "이번주 ${userData.nickname}님의 상태는 좋음입니다."
 
             binding.goodSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
                 override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
