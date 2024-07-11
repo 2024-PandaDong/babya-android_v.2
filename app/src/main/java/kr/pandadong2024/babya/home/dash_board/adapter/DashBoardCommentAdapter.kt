@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.ItemCommentsBinding
 import kr.pandadong2024.babya.server.remote.responses.dash_board.DashBoardCommentResponses
 
@@ -28,10 +29,15 @@ class DashBoardCommentAdapter(
 
     inner class Holder(private val binding: ItemCommentsBinding) : RecyclerView.ViewHolder(binding.root){
         fun setItemComments(commentData: DashBoardCommentResponses) {
+
+            if (commentData.profileImg == null){
+                binding.commentProfileImage.load(R.drawable.ic_basic_profile)
+            }else{
+                binding.commentProfileImage.load(commentData.profileImg)
+            }
             binding.commentNameText.text = commentData.nickname
-            binding.commentProfileImage.load(commentData.profileImg)
             binding.contentTextView.text = commentData.content
-            binding.commentTimeText.text = commentData.createdAt.toString().substring(5 until 10)
+            binding.commentTimeText.text = commentData.createdAt.substring(5 until 10)
             binding.replayCommentText.setOnClickListener {
                 commentData.commentId?.let { commentId -> replayComment(commentId) }
             }

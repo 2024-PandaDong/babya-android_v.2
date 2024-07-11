@@ -236,7 +236,11 @@ class DetailDashBoardFragment : Fragment() {
                         binding.comment.text = dashBoardData?.commentCnt.toString()
                         // 슬라이싱 해야함
                         binding.dateText.text = dashBoardData?.createdAt.toString().substring(5 until 10)
-                        binding.dashBoardProfileImage.load(dashBoardData?.profileImg)
+                        if(dashBoardData?.profileImg == null){
+                            binding.dashBoardProfileImage.load(R.drawable.ic_basic_profile)
+                        } else{
+                            binding.dashBoardProfileImage.load(dashBoardData.profileImg)
+                        }
 
 
                     }
