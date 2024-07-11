@@ -155,7 +155,7 @@
             android:id="@+id/action_quizResultFragment_to_mainFragment"
             app:destination="@id/mainFragment"
             app:popUpToInclusive="true"
-            app:popUpTo="@id/quizFragment"
+            app:popUpTo="@id/quizResultFragment"
              />
     </fragment>
 
