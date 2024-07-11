@@ -28,6 +28,7 @@ import kr.pandadong2024.babya.server.local.BabyaDB
 import kr.pandadong2024.babya.server.remote.responses.BaseResponse
 import kr.pandadong2024.babya.server.remote.responses.profile.ProfileMyDashBoardResponses
 import kr.pandadong2024.babya.server.remote.responses.profile.ProfileMyDiaryResponses
+import kr.pandadong2024.babya.util.BottomControllable
 
 class ProfileFragment : Fragment() {
 
@@ -60,8 +61,6 @@ class ProfileFragment : Fragment() {
         val toolbar: androidx.appcompat.widget.Toolbar = view.findViewById(R.id.profileToolbar)
         // 툴바에 메뉴를 인플레이트
         toolbar.inflateMenu(R.menu.profile_menu)
-
-        // 색상 변경
 
 
         toolbar.setOnMenuItemClickListener{item ->
@@ -133,6 +132,7 @@ class ProfileFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        (requireActivity() as BottomControllable).setBottomNavVisibility(false)
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
 
 
@@ -141,6 +141,10 @@ class ProfileFragment : Fragment() {
             getProfileData()
             profileDiary()
             profileBoard()
+        }
+
+        binding.profileBackButton.setOnClickListener {
+            findNavController().navigate(R.id.action_profileFragment_to_mainFragment)
         }
 
         binding.boardMoveBtn.setOnClickListener {
@@ -277,6 +281,11 @@ class ProfileFragment : Fragment() {
 //    private fun goBookmark() {
 //        findNavController().navigate(R.id.action_profileFragment_to_bookmarkFragment)
 //    }
+
+    override fun onPause() {
+        super.onPause()
+        (requireActivity() as BottomControllable).setBottomNavVisibility(true)
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
