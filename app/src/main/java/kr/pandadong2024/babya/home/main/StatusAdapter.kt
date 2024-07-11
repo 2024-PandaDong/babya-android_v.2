@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import coil.load
 import com.example.babya_android.datastore.user
+import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.ItemBanerCardBinding
 import kr.pandadong2024.babya.databinding.ItemMyStatusProfileBinding
 import kr.pandadong2024.babya.databinding.ItmeMyStatusBinding
@@ -32,6 +33,7 @@ class StatusAdapter(
             binding.tiredSeekBar.progress = userWeekStatus.c4!!
             binding.uneasySeekBar.progress = userWeekStatus.c5!!
             binding.nameText.text = "이번주 ${userData.nickname}님의 상태는 좋음입니다."
+            binding.emotionImage.load(R.drawable.img_good)
 
             binding.goodSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
                 override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
