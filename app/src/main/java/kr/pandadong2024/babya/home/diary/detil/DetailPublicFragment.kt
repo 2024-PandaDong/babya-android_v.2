@@ -51,6 +51,7 @@ class DetailPublicFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
+        (requireActivity() as BottomControllable).setBottomNavVisibility(false)
         _binding = FragmentDetailPublicBinding.inflate(inflater, container, false)
         tokenDao = BabyaDB.getInstance(requireContext().applicationContext)?.tokenDao()!!
         initView()

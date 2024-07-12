@@ -50,6 +50,7 @@ class DetailWriterFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
         // Inflate the layout for this fragment
+        (requireActivity() as BottomControllable).setBottomNavVisibility(false)
         _binding = FragmentDetailWriterBinding.inflate(inflater, container, false)
         tokenDao = BabyaDB.getInstance(requireContext().applicationContext)?.tokenDao()!!
         initView()
