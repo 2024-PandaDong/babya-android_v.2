@@ -555,7 +555,7 @@
                     android:backgroundTint="@color/gray"
                     android:fontFamily="@font/pretendard_variable"
                     android:gravity="start"
-                    android:hint="동바오"
+                    android:hint="태명을 입력해주세요."
                     android:inputType="text"
                     android:paddingTop="5dp"
                     android:textColor="@color/black"
