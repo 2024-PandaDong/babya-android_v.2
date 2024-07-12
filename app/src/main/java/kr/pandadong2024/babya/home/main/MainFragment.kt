@@ -15,6 +15,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.time.delay
+import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentMainBinding
 import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.server.local.BabyaDB
@@ -83,17 +84,22 @@ class MainFragment : Fragment() {
     ): View {
         _binding = FragmentMainBinding.inflate(inflater, container, false)
         tokenDao = BabyaDB.getInstance(requireContext().applicationContext)?.tokenDao()!!
-
+        binding.maternityInfoRadioButton.setTextColor(requireContext().getColor(R.color.black))
+        binding.LocaleInfoRadioButton.setTextColor(requireContext().getColor(R.color.gray))
         binding.radioGroup.setOnCheckedChangeListener { radioGroup, checkId ->
             Log.d(TAG, "in setOnCheckedChangeListener")
             when (checkId) {
                 binding.LocaleInfoRadioButton.id -> {
                     form = 2
+                    binding.maternityInfoRadioButton.setTextColor(requireContext().getColor(R.color.gray))
+                    binding.LocaleInfoRadioButton.setTextColor(requireContext().getColor(R.color.black))
                     initBannerData()
                 }
 
                 binding.maternityInfoRadioButton.id -> {
                     form = 1
+                    binding.maternityInfoRadioButton.setTextColor(requireContext().getColor(R.color.black))
+                    binding.LocaleInfoRadioButton.setTextColor(requireContext().getColor(R.color.gray))
                     initBannerData()
                 }
             }

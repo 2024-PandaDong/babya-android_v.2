@@ -62,7 +62,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/sel_main_underbar"
                     android:button="@null"
-                    android:text="임산부"
+                    android:text="출산전"
                     android:paddingHorizontal="3dp"
                     android:fontFamily="@font/pretendard_bold"
                     android:gravity="bottom"
@@ -76,7 +76,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/sel_main_underbar"
                     android:button="@null"
-                    android:text="지역별"
+                    android:text="출산후"
                     android:paddingHorizontal="3dp"
                     android:fontFamily="@font/pretendard_bold"
                     android:gravity="bottom"
@@ -94,6 +94,7 @@
                 app:layout_constraintTop_toBottomOf="@id/radioGroup"
                 android:layout_marginStart="13dp"
                 android:layout_marginEnd="13dp"
+                android:layout_marginTop="18dp"
                 />
 
             <me.relex.circleindicator.CircleIndicator3
