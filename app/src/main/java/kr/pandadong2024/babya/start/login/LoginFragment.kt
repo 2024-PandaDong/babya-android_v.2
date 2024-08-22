@@ -148,7 +148,7 @@ class LoginFragment : Fragment() {
 //    }
 
     private fun singeUp() {
-        findNavController().navigate(R.id.action_loginFragment_to_signupFragment)
+        findNavController().navigate(R.id.action_loginFragment_to_signup1)
     }
 
     private fun changeVisiblePassword(){

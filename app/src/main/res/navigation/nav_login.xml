@@ -12,6 +12,9 @@
         <action
             android:id="@+id/action_loginFragment_to_signupFragment"
             app:destination="@id/signupFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_signup1"
+            app:destination="@id/signup1" />
     </fragment>
     <fragment
         android:id="@+id/signupFragment"
@@ -30,6 +33,15 @@
             android:id="@+id/action_startFragment_to_loginFragment"
             app:popUpTo="@id/startFragment"
             app:popUpToInclusive="true"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signup1"
+        android:name="kr.pandadong2024.babya.start.signup.Signup1"
+        android:label="fragment_signup1"
+        tools:layout="@layout/fragment_signup1" >
+        <action
+            android:id="@+id/action_signup1_to_loginFragment"
             app:destination="@id/loginFragment" />
     </fragment>
 
