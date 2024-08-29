@@ -238,7 +238,6 @@
         android:layout_marginBottom="72dp"
         android:background="@drawable/sel_email_btn_selector"
         android:enabled="false"
-        android:fontFamily="@font/pretendard_variable"
         android:text="다음으로"
         android:textColor="@color/white"
         android:textStyle="bold"
