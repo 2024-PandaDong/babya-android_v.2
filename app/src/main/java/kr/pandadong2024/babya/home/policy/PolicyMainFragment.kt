@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentPolicyMainBinding
 import kr.pandadong2024.babya.home.policy.adapter.PolicyRecyclerView
+import kr.pandadong2024.babya.home.policy.bottom_sheet.PolicyBottomSheet
 import kr.pandadong2024.babya.home.policy.decoration.PolicyItemDecoration
 import kr.pandadong2024.babya.home.todo_list.adapter.PolicyCategoryAdapter
 import kr.pandadong2024.babya.home.todo_list.decoration.PolicyCategoryItemDecoration
@@ -67,11 +68,16 @@ class PolicyMainFragment : Fragment() {
                     _category = localCategoryList
                 }
                 else{
+                    val bottomSheetDialog = PolicyBottomSheet(localCategoryList){
+                        tagList ->
+                        setCategory(tagList)
+                    }
+                    bottomSheetDialog.show(requireActivity().supportFragmentManager, bottomSheetDialog.tag)
                     Log.d(TAG, "show aaa")
                     // TODO : show BottomSheet
                 }
 
-                setCategory(localCategoryList)
+
             }
         )
         todoCategoryAdapter.notifyItemRemoved(0)
