@@ -5,7 +5,7 @@ import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
-class PolicyTodoItemDecoration(private val horizontalPadding : Int, private val lastPos : Int) : RecyclerView.ItemDecoration() {
+class PolicyItemDecoration(private val lastPos : Int) : RecyclerView.ItemDecoration() {
     override fun getItemOffsets(
         outRect: Rect,
         view: View,
@@ -15,11 +15,8 @@ class PolicyTodoItemDecoration(private val horizontalPadding : Int, private val 
         val position = parent.getChildAdapterPosition(view)
         Log.d( "pos", "pos : $position")
         if(position != lastPos){
-            outRect.bottom = 10
-            outRect.bottom = 10
+            outRect.bottom = 5
         }
-        outRect.left = horizontalPadding
-        outRect.right = horizontalPadding
 
 
 
