@@ -9,8 +9,10 @@ import androidx.transition.Visibility
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.ItemPolicyListTagBinding
 import kr.pandadong2024.babya.databinding.ItemTodoListTagBinding
+import kr.pandadong2024.babya.util.roundAll
 
-class PolicyCategoryAdapter(val flash :(position:Int, localCategoryList : MutableList<String>)->Unit, private val localCategoryList : List<String>) : RecyclerView.Adapter<PolicyCategoryAdapter.CategoryViewHolder>() {
+class PolicyCategoryAdapter(val flash :(position:Int, localCategoryList : MutableList<String>)->Unit, private val localCategoryList : List<String>) :
+    RecyclerView.Adapter<PolicyCategoryAdapter.CategoryViewHolder>() {
     inner class CategoryViewHolder(private val binding: ItemPolicyListTagBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(localText: String, position: Int) {
@@ -25,7 +27,6 @@ class PolicyCategoryAdapter(val flash :(position:Int, localCategoryList : Mutabl
                 binding.policyTagText.text = localText
                 binding.itemLocalParent.visibility = View.GONE
                 binding.itemPolicyParent.setOnClickListener {
-                    //TODO : delete category
                     flash(position, localCategoryList.toMutableList())
                 }
                 Log.d("isSelect", "test : $localText")
