@@ -25,6 +25,7 @@
             android:layout_gravity="start"
             android:background="@null"
             android:rotation="180"
+            android:padding="8dp"
             android:src="@drawable/ic_arrow_14" />
         <ImageButton
             android:id="@+id/declarationButton"
@@ -33,6 +34,7 @@
             android:layout_gravity="end"
             android:background="@null"
             android:layout_marginEnd="17dp"
+            android:padding="8dp"
             android:src="@drawable/ic_declaration" />
 
     </androidx.appcompat.widget.Toolbar>
@@ -262,6 +264,7 @@
         android:layout_marginBottom="40dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         android:text="내용이 더 궁금하다면?"
         android:fontFamily="@font/pretendard_bold"
