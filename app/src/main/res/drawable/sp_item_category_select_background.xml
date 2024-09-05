@@ -5,6 +5,10 @@
         android:radius="10dp"
         />
     <solid
-        android:color="@color/yellow"/>
+        android:color="@color/backgroundNormalStrong"/>
+    <stroke
+        android:color="@color/primaryLight"
+        android:width="1dp"
+        />
 
 </shape>

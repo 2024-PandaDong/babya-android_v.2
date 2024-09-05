@@ -37,7 +37,7 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-    buildFeatures{
+    buildFeatures {
         viewBinding = true
     }
 }
@@ -73,12 +73,12 @@ dependencies {
     implementation(libs.logging.interceptor)
 
     implementation(libs.coil)
-    implementation (libs.coil.svg)
+    implementation(libs.coil.svg)
 
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.circleimageview)
 
-    implementation (libs.okhttp)
+    implementation(libs.okhttp)
     implementation(libs.firebase.firestore.ktx)
     implementation(libs.androidx.activity.v190)
     implementation(libs.androidx.navigation.fragment.ktx)

@@ -15,11 +15,11 @@ import kr.pandadong2024.babya.home.policy.decoration.PolicyTodoItemDecoration
 import kr.pandadong2024.babya.server.remote.responses.todo.TodoResponses
 import java.util.GregorianCalendar
 
-class TodoDayAdapter(
-    private val todoList: Map<String, List<TodoResponses>>,
+class PolicyDayAdapter(
+    val todoList: Map<String, List<TodoResponses>>,
     val context: Context,
     val work : (type : Int, todoData : TodoResponses) -> Unit
-) : RecyclerView.Adapter<TodoDayAdapter.TodoDayViewHolder>() {
+) : RecyclerView.Adapter<PolicyDayAdapter.TodoDayViewHolder>() {
     private val keyList = todoList.keys.toList()
     inner class TodoDayViewHolder(
         private val binding: ItemTodoDayListBinding,

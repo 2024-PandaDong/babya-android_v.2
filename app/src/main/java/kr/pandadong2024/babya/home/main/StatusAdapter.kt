@@ -1,17 +1,11 @@
 package kr.pandadong2024.babya.home.main
 
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
-import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import coil.load
-import com.example.babya_android.datastore.user
 import kr.pandadong2024.babya.R
-import kr.pandadong2024.babya.databinding.ItemBanerCardBinding
 import kr.pandadong2024.babya.databinding.ItemMyStatusProfileBinding
 import kr.pandadong2024.babya.databinding.ItmeMyStatusBinding
 import kr.pandadong2024.babya.server.remote.responses.UserDataResponses

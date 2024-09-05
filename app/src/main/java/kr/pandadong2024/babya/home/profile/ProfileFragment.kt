@@ -149,7 +149,7 @@ class ProfileFragment : Fragment() {
         }
 
         binding.boardMoveBtn.setOnClickListener {
-            findNavController().navigate(R.id.action_profileFragment_to_dashBoardFragment)
+//            findNavController().navigate(R.id.action_profileFragment_to_dashBoardFragment)
         }
 
         binding.diaryMoveBtn.setOnClickListener {
@@ -171,7 +171,7 @@ class ProfileFragment : Fragment() {
                 Log.d(TAG, "dashBoardRecyclerView: $id")
                 kotlin.runCatching {
                     dashBoardViewModel.id.value = id
-                    findNavController().navigate(R.id.action_profileFragment_to_detailDashBoardFragment)
+//                    findNavController().navigate(R.id.action_profileFragment_to_detailDashBoardFragment)
                 }
             }
         }

@@ -266,7 +266,7 @@
         android:text="내용이 더 궁금하다면?"
         android:fontFamily="@font/pretendard_bold"
         android:textColor="@color/commonWhite"
-        android:textSize="14sp"
+        android:textSize="16sp"
         />
 
 
