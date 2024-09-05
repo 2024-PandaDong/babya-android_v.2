@@ -7,7 +7,7 @@
     tools:context=".home.policy.PolicyMainFragment"
     android:background="@color/backgroundNormalStrong">
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/todoListToolbar"
+        android:id="@+id/policyListToolbar"
         style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
@@ -38,12 +38,18 @@
 
 
     </androidx.appcompat.widget.Toolbar>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        app:layout_constraintBottom_toBottomOf="@id/policyListToolbar"
+        android:background="@color/lineNormal"
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/category_recycler_view"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/todoListToolbar"
+        app:layout_constraintTop_toBottomOf="@id/policyListToolbar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:orientation="horizontal"
