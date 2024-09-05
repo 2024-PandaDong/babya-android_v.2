@@ -6,7 +6,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
+import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentPolicyMainBinding
+import kr.pandadong2024.babya.home.policy.adapter.PolicyRecyclerView
+import kr.pandadong2024.babya.home.policy.decoration.PolicyItemDecoration
 import kr.pandadong2024.babya.home.todo_list.adapter.PolicyCategoryAdapter
 import kr.pandadong2024.babya.home.todo_list.decoration.PolicyCategoryItemDecoration
 
@@ -17,6 +21,7 @@ class PolicyMainFragment : Fragment() {
     val binding get() = _binding!!
 
     private var _category : MutableList<String> = mutableListOf<String>("지역")
+    private var _policy : MutableList<String> = mutableListOf<String>("지역", "지역", "지역", "지역", "지역", "지역", "지역", "지역", "지역", "지역", "지역", "지역", "지역", "지역", "지역", "지역", "지역", )
 
 
     override fun onCreateView(
@@ -27,8 +32,27 @@ class PolicyMainFragment : Fragment() {
 
 
         setCategory(categoryList = _category)
+        setRecyclerView(_policy)
 
         return binding.root
+    }
+
+    private fun setRecyclerView(policyList : List<String>){
+        val recyclerAdapter = PolicyRecyclerView(policyList = policyList){
+            findNavController().navigate(R.id.action_policyMainFragment_to_policyContentFragment)
+        }
+        with(binding){
+            recyclerAdapter.notifyItemRemoved(0)
+            policyListRecyclerView.adapter = recyclerAdapter
+            Log.d("TAG", "itemDecorationCount : ${policyListRecyclerView.itemDecorationCount}")
+            if (policyListRecyclerView.itemDecorationCount == 0) policyListRecyclerView.addItemDecoration(
+                PolicyItemDecoration(policyList.size)
+            )
+        }
+
+
+
+
     }
 
     private fun setCategory(
