@@ -14,9 +14,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentTodoListBinding
-import kr.pandadong2024.babya.home.todo_list.adapter.PolicyCategoryAdapter
 import kr.pandadong2024.babya.home.todo_list.adapter.PolicyDayAdapter
 import kr.pandadong2024.babya.home.todo_list.adapter.TodoCategoryAdapter
+import kr.pandadong2024.babya.home.todo_list.decoration.CategoryItemDecoration
 import kr.pandadong2024.babya.home.todo_list.decoration.PolicyCategoryItemDecoration
 import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.server.local.BabyaDB
@@ -128,7 +128,7 @@ class TodoListFragment : Fragment() {
         with(binding){
             categoryRecyclerView.adapter = todoCategoryAdapter
             Log.d(TAG, "itemDecorationCount : ${categoryRecyclerView.itemDecorationCount}")
-            if (categoryRecyclerView.itemDecorationCount == 0)categoryRecyclerView.addItemDecoration(PolicyCategoryItemDecoration(10, categoryList.size))
+            if (categoryRecyclerView.itemDecorationCount == 0)categoryRecyclerView.addItemDecoration(CategoryItemDecoration(10, categoryList.size))
             categoryRecyclerView.scrollToPosition(selectedPosition)
         }
     }
