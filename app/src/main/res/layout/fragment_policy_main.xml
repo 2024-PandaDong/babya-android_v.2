@@ -14,7 +14,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:navigationIcon="@drawable/ic_nav_back"
         android:background="@color/backgroundNormalNormal"
         >
         <TextView
@@ -26,6 +25,15 @@
             android:text="지역"
             android:textSize="16sp"
             android:backgroundTint="@color/backgroundNormalNormal"/>
+        <ImageButton
+            android:id="@+id/signUpBackButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:background="@null"
+            android:rotation="180"
+            android:padding="8dp"
+            android:src="@drawable/ic_arrow_14" />
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
