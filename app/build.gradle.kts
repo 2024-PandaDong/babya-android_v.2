@@ -62,7 +62,9 @@ protobuf {
 
 dependencies {
 
-    implementation("com.tbuonomo:dotsindicator:5.0")
+    implementation(libs.google.material.v190)
+
+    implementation(libs.dotsindicator)
     implementation(libs.circleindicator)
 
     implementation(libs.androidx.room.runtime.v250)
