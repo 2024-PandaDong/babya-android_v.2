@@ -28,12 +28,7 @@ class PolicyBottomSheet(
         savedInstanceState: Bundle?,
     ): View {
         _binding = PolicyBottomSheetBinding.inflate(inflater, container, false)
-//        val bottomSheet: View = binding.bottomSheet
-//        val bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet)
-//        bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED // 처음에 접힌 상태로 시작
-//        bottomSheetBehavior.isDraggable = false
 
-//        bottomSheetBehavior.state = BottomSheetBehavior.
 
 
 
