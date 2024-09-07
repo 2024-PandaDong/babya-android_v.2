@@ -6,9 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.google.apphosting.datastore.testing.DatastoreTestTrace.FirestoreV1Action.Listen
+import com.google.android.material.chip.Chip
+import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.PolicyBottomSheetBinding
-import kr.pandadong2024.babya.home.policy.adapter.bottom.SelectAdapter
 
 class PolicyBottomSheet(
     private val tagList: MutableList<String>,
@@ -48,6 +48,12 @@ class PolicyBottomSheet(
 
         val encodingSelects= encodingSelected(listOf("대구광역시", "동구", "부산광역시", "수영구", "동래구","중구", "수성구", "군위군"))
         Log.i("PolicyBottomSheet", "test : $encodingSelects")
+
+        binding.searchButton.setOnClickListener {
+            Log.d("PolicyBottomSheet", "list : $tagList")
+            submit(tagList)
+
+        }
         initZoneRecyclerview(encodingSelects)
 
 
@@ -55,27 +61,29 @@ class PolicyBottomSheet(
     }
 
     private fun initZoneRecyclerview(encodingSelects : SubmitList){
-        val tagSelectAdapter =
-            SelectAdapter(textDataList =  zoneList, selectList = encodingSelects.mainTagSelectedList, requireContext()) { position ->
-                val saveList = encodingSelects.mainTagSelectedList.toMutableList()
-                if(position in encodingSelects.mainTagSelectedList){
-                    saveList.remove(position)
-                    Log.d("TAG", "test1")
-                }
-                else{
-                    saveList.add(position)
-                    Log.d("TAG", "test2")
-                }
-                encodingSelects.mainTagSelectedList = saveList.toList()
-                initZoneRecyclerview(encodingSelects)
-            }
-        tagSelectAdapter.notifyItemRemoved(0)
-        binding.localRecyclerView.adapter = tagSelectAdapter
+        zoneList.forEach {
+            val chipGroup = binding.ZoneChipGroup
 
-        binding.searchButton.setOnClickListener {
-            submit(tagList)
+            chipGroup.addView(Chip(requireContext()).apply {
+                text = it // text 세팅
+                isCheckable = true
+                setChipBackgroundColorResource(R.color.backgroundNormalNormal)
+                setTextColor(resources.getColorStateList(R.color.chip_color, null))
+                setChipStrokeColorResource(R.color.chip_color)
+                chipCornerRadius = 31f
+                chipStrokeWidth = 3f
+
+                setOnClickListener { view ->
+
+                    if (binding.root.findViewById<Chip>(view.id).isChecked) {
+                        tagList.add(it)
+                    }
+                    else{
+                        tagList.remove(it)
+                    }
+                }
+            })
         }
-
     }
 
     private fun encodingSelected(selectedList : List<String>): SubmitList {
