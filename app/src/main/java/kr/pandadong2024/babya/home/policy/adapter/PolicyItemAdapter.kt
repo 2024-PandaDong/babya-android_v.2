@@ -1,4 +1,4 @@
-package kr.pandadong2024.babya.home.todo_list.adapter
+package kr.pandadong2024.babya.home.policy.adapter
 
 import android.util.Log
 import android.view.LayoutInflater
