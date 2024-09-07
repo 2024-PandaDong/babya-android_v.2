@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".home.policy.PolicyContentFragment"
+    android:background="@color/backgroundNormalStrong">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/policyContentToolbar"
+        style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:subtitle="title"
+        android:title="test"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/backgroundNormalNormal">
+
+        <ImageButton
+            android:id="@+id/signUpBackButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:background="@null"
+            android:rotation="180"
+            android:padding="8dp"
+            android:src="@drawable/ic_arrow_14" />
+        <ImageButton
+            android:id="@+id/declarationButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:background="@null"
+            android:layout_marginEnd="17dp"
+            android:padding="8dp"
+            android:src="@drawable/ic_declaration" />
+
+    </androidx.appcompat.widget.Toolbar>
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/policyContentToolbar"
+        app:layout_constraintBottom_toBottomOf="parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="17dp"
+            android:layout_marginTop="30dp"
+            >
+            <ImageView
+                android:id="@+id/policyImage"
+                android:layout_width="0dp"
+                android:layout_height="200dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+
+                />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/policySummaryLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/policyImage"
+                app:layout_constraintStart_toStartOf="@id/policyImage"
+                app:layout_constraintEnd_toEndOf="@id/policyImage"
+                android:paddingVertical="12dp"
+                android:paddingHorizontal="17dp"
+                android:layout_marginTop="17dp"
+                android:background="@drawable/sp_card_background">
+                <TextView
+                    android:id="@+id/policyTitleText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="policyTitle"
+                    android:textSize="20dp"
+                    android:fontFamily="@font/pretendard_semibold"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:textColor="@color/commonBlack"
+                    />
+                <TextView
+                    android:id="@+id/policyDateRangeText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0000.00.00 ~ 0000.00.00"
+                    android:textSize="14dp"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:textColor="@color/neutral90"
+
+                    app:layout_constraintTop_toBottomOf="@id/policyTitleText"
+                    app:layout_constraintStart_toStartOf="parent"
+
+                    />
+
+                <TextView
+                    android:id="@+id/policyOrganTitleText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="시행기관 : "
+                    android:textSize="14dp"
+                    android:fontFamily="@font/pretendard_semibold"
+                    android:textColor="@color/commonBlack"
+                    app:layout_constraintTop_toBottomOf="@id/policyDateRangeText"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginTop="7dp"
+                    />
+
+                <TextView
+                    android:id="@+id/policyOrganText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="000기관"
+                    android:textSize="14dp"
+                    android:fontFamily="@font/pretendard_regular"
+                    android:textColor="@color/commonBlack"
+                    app:layout_constraintTop_toTopOf="@id/policyOrganTitleText"
+                    app:layout_constraintStart_toEndOf="@id/policyOrganTitleText"
+                    app:layout_constraintBottom_toBottomOf="@id/policyOrganTitleText"
+
+                    />
+                <TextView
+                    android:id="@+id/policyCategoryTitleText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="범주 : "
+                    android:textSize="14dp"
+                    android:fontFamily="@font/pretendard_semibold"
+                    android:textColor="@color/commonBlack"
+                    app:layout_constraintTop_toBottomOf="@id/policyOrganTitleText"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginTop="7dp"
+                    />
+
+                <TextView
+                    android:id="@+id/policyCategoryText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="000기관"
+                    android:textSize="14dp"
+                    android:fontFamily="@font/pretendard_regular"
+                    android:textColor="@color/commonBlack"
+                    app:layout_constraintTop_toTopOf="@id/policyCategoryTitleText"
+                    app:layout_constraintStart_toEndOf="@id/policyCategoryTitleText"
+                    app:layout_constraintBottom_toBottomOf="@id/policyCategoryTitleText"
+
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/supportAmountTitleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/policySummaryLayout"
+                app:layout_constraintStart_toStartOf="parent"
+                android:text="지원금액"
+                android:textSize="16sp"
+                android:fontFamily="@font/pretendard_semibold"
+                android:layout_marginTop="17dp"
+                android:layout_marginStart="10dp"
+                />
+            <TextView
+                android:id="@+id/supportAmountText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/supportAmountTitleText"
+                app:layout_constraintStart_toStartOf="@id/supportAmountTitleText"
+                android:text="지원금액"
+                android:textSize="14sp"
+                android:fontFamily="@font/pretendard_regular"
+                android:layout_marginTop="6dp"
+                android:layout_marginStart="3dp"
+                />
+
+            <TextView
+                android:id="@+id/supportPaymentTitleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/supportAmountText"
+                app:layout_constraintStart_toStartOf="parent"
+                android:text="지급방식"
+                android:textSize="16sp"
+                android:fontFamily="@font/pretendard_semibold"
+                android:layout_marginTop="17dp"
+                android:layout_marginStart="10dp"
+                />
+            <TextView
+                android:id="@+id/supportPaymentText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/supportPaymentTitleText"
+                app:layout_constraintStart_toStartOf="@id/supportPaymentTitleText"
+                android:text="지원금액"
+                android:textSize="14sp"
+                android:fontFamily="@font/pretendard_regular"
+                android:layout_marginTop="6dp"
+                android:layout_marginStart="3dp"
+                />
+
+            <TextView
+                android:id="@+id/supportTargetTitleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/supportPaymentText"
+                app:layout_constraintStart_toStartOf="parent"
+                android:text="지원대상"
+                android:textSize="16sp"
+                android:fontFamily="@font/pretendard_semibold"
+                android:layout_marginTop="17dp"
+                android:layout_marginStart="10dp"
+                />
+            <TextView
+                android:id="@+id/supportTargetText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/supportTargetTitleText"
+                app:layout_constraintStart_toStartOf="@id/supportTargetTitleText"
+                android:text="지원금액"
+                android:textSize="14sp"
+                android:fontFamily="@font/pretendard_regular"
+                android:layout_marginTop="6dp"
+                android:layout_marginStart="3dp"
+                />
+            <TextView
+                android:id="@+id/supportWayTitleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/supportTargetText"
+                app:layout_constraintStart_toStartOf="parent"
+                android:text="지급방식"
+                android:textSize="16sp"
+                android:fontFamily="@font/pretendard_semibold"
+                android:layout_marginTop="17dp"
+                android:layout_marginStart="10dp"
+                />
+            <TextView
+                android:id="@+id/supportWayText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/supportWayTitleText"
+                app:layout_constraintStart_toStartOf="@id/supportWayTitleText"
+                android:text="지원금액"
+                android:textSize="14sp"
+                android:fontFamily="@font/pretendard_regular"
+                android:layout_marginTop="6dp"
+                android:layout_marginStart="3dp"
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                app:layout_constraintTop_toBottomOf="@id/supportWayText"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+    <androidx.appcompat.widget.AppCompatButton
+        android:enabled="true"
+        android:background="@drawable/sel_button_background"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:layout_marginHorizontal="17dp"
+        android:layout_marginBottom="40dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="내용이 더 궁금하다면?"
+        android:fontFamily="@font/pretendard_bold"
+        android:textColor="@color/commonWhite"
+        android:textSize="16sp"
+        />
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

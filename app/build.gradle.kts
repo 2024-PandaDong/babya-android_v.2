@@ -37,7 +37,7 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-    buildFeatures{
+    buildFeatures {
         viewBinding = true
     }
 }
@@ -62,7 +62,9 @@ protobuf {
 
 dependencies {
 
-    implementation("com.tbuonomo:dotsindicator:5.0")
+    implementation(libs.google.material.v190)
+
+    implementation(libs.dotsindicator)
     implementation(libs.circleindicator)
 
     implementation(libs.androidx.room.runtime.v250)
@@ -73,12 +75,12 @@ dependencies {
     implementation(libs.logging.interceptor)
 
     implementation(libs.coil)
-    implementation (libs.coil.svg)
+    implementation(libs.coil.svg)
 
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.circleimageview)
 
-    implementation (libs.okhttp)
+    implementation(libs.okhttp)
     implementation(libs.firebase.firestore.ktx)
     implementation(libs.androidx.activity.v190)
     implementation(libs.androidx.navigation.fragment.ktx)

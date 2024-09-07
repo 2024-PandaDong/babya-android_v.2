@@ -7,7 +7,7 @@
     <solid
         android:color="@color/backgroundNormalNormal"/>
     <stroke
-        android:color="@color/primaryLight"
+        android:color="@color/labelDisable"
         android:width="1dp"
         />
 

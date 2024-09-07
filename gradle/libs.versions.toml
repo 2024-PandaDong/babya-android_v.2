@@ -5,9 +5,11 @@ circleimageview = "3.1.0"
 circleindicator = "2.1.6"
 coil = "2.5.0"
 coilSvg = "2.5.0" # 주영: 버전이 너무 옛날이라서 없었음
+comGoogleAndroidMaterialMaterial = "1.9.0"
 converterGson = "2.9.0"
 coreKtxVersion = "1.12.0"
 datastore = "1.1.1"
+dotsindicator = "5.0"
 firebaseFirestoreKtx = "25.0.0"
 googleMaterial = "1.1.0"
 kotlin = "1.9.0"
@@ -48,7 +50,9 @@ circleindicator = { module = "me.relex:circleindicator", version.ref = "circlein
 coil = { module = "io.coil-kt:coil", version.ref = "coil" }
 coil-svg = { module = "io.coil-kt:coil-svg", version.ref = "coilSvg" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
+dotsindicator = { module = "com.tbuonomo:dotsindicator", version.ref = "dotsindicator" }
 firebase-firestore-ktx = { module = "com.google.firebase:firebase-firestore-ktx", version.ref = "firebaseFirestoreKtx" }
+google-material-v190 = { module = "com.google.android.material:material", version.ref = "comGoogleAndroidMaterialMaterial" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }

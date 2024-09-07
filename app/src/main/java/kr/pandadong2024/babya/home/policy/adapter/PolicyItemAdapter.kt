@@ -1,4 +1,4 @@
-package kr.pandadong2024.babya.home.todo_list.adapter
+package kr.pandadong2024.babya.home.policy.adapter
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,11 +7,11 @@ import androidx.recyclerview.widget.RecyclerView
 import kr.pandadong2024.babya.databinding.ItemTodoListContentBinding
 import kr.pandadong2024.babya.server.remote.responses.todo.TodoResponses
 
-class TodoItemAdapter(
+class PolicyItemAdapter(
     val todoList : List<TodoResponses>,
     val work : (type : Int, todoData : TodoResponses) -> Unit,
     )
-    : RecyclerView.Adapter<TodoItemAdapter.TodoItemViewHolder>() {
+    : RecyclerView.Adapter<PolicyItemAdapter.TodoItemViewHolder>() {
 
     inner class TodoItemViewHolder(val binding : ItemTodoListContentBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(itemDate : TodoResponses){

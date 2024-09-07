@@ -8,12 +8,14 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/itemTodoParent"
         android:layout_width="wrap_content"
+        android:clickable="true"
         android:layout_height="wrap_content"
         android:background="@drawable/sp_item_category_select_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
 
         <TextView
             android:id="@+id/tagText"
@@ -25,13 +27,15 @@
             android:layout_marginBottom="3dp"
             android:fontFamily="@font/pretendard_semibold"
             android:text="test"
-            android:textColor="@color/white"
+            android:textColor="@color/primaryLight"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

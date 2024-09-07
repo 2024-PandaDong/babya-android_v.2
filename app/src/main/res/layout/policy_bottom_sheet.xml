@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/policyBottomSheet"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="630dp"
+            android:background="@drawable/sp_policy_bottom_sheet"
+            android:paddingHorizontal="25dp"
+            android:paddingVertical="38dp"
+            >
+            <TextView
+                android:id="@+id/stateTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:fontFamily="@font/pretendard_semibold"
+                android:textSize="16sp"
+                android:text="지역를 선택해주세요."
+                />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/stateRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/stateTitle"
+                android:layout_marginTop="25dp"
+                app:spanCount="5"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                />
+            <TextView
+                android:id="@+id/localTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/stateRecyclerView"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="38dp"
+                android:fontFamily="@font/pretendard_semibold"
+                android:textSize="16sp"
+                android:text="지역를 선택해주세요."
+                />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/localRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/localTitle"
+                android:layout_marginTop="25dp"
+                app:spanCount="5"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/searchButton"
+                android:enabled="true"
+                android:background="@drawable/sel_button_background"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:clickable="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:text="검색하기"
+                android:fontFamily="@font/pretendard_bold"
+                android:textColor="@color/commonWhite"
+                android:textSize="16sp"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
