@@ -24,34 +24,31 @@
                 android:textSize="16sp"
                 android:text="지역를 선택해주세요."
                 />
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/stateRecyclerView"
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/ZoneChipGroup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/stateTitle"
                 android:layout_marginTop="25dp"
-                app:spanCount="5"
-                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 />
             <TextView
                 android:id="@+id/localTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/stateRecyclerView"
+                app:layout_constraintTop_toBottomOf="@id/ZoneChipGroup"
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginTop="38dp"
                 android:fontFamily="@font/pretendard_semibold"
                 android:textSize="16sp"
                 android:text="지역를 선택해주세요."
                 />
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/localRecyclerView"
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/localChipGroup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/localTitle"
+                app:layout_constraintTop_toBottomOf="@id/stateTitle"
                 android:layout_marginTop="25dp"
-                app:spanCount="5"
-                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 />
 
             <androidx.appcompat.widget.AppCompatButton
