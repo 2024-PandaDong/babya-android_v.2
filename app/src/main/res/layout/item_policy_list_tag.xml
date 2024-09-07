@@ -17,6 +17,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:paddingHorizontal="10dp"
         android:paddingVertical="4dp"
+
         android:clickable="true">
 
 
