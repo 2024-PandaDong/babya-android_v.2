@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.apphosting.datastore.testing.DatastoreTestTrace.FirestoreV1Action.Listen
 import kr.pandadong2024.babya.databinding.PolicyBottomSheetBinding
 import kr.pandadong2024.babya.home.policy.adapter.bottom.SelectAdapter
 
@@ -45,23 +46,35 @@ class PolicyBottomSheet(
     ): View {
         _binding = PolicyBottomSheetBinding.inflate(inflater, container, false)
 
+        val encodingSelects= encodingSelected(listOf("대구광역시", "동구", "부산광역시", "수영구", "동래구","중구", "수성구", "군위군"))
+        Log.i("PolicyBottomSheet", "test : $encodingSelects")
+        initZoneRecyclerview(encodingSelects)
+
+
+        return binding.root
+    }
+
+    private fun initZoneRecyclerview(encodingSelects : SubmitList){
         val tagSelectAdapter =
-            SelectAdapter(tagList.toList(), listOf(true)) { tagText, isSelected ->
-                if (isSelected) {
-                    tagList.add(tagText)
-                } else {
-                    tagList.remove(tagText)
+            SelectAdapter(textDataList =  zoneList, selectList = encodingSelects.mainTagSelectedList, requireContext()) { position ->
+                val saveList = encodingSelects.mainTagSelectedList.toMutableList()
+                if(position in encodingSelects.mainTagSelectedList){
+                    saveList.remove(position)
+                    Log.d("TAG", "test1")
                 }
+                else{
+                    saveList.add(position)
+                    Log.d("TAG", "test2")
+                }
+                encodingSelects.mainTagSelectedList = saveList.toList()
+                initZoneRecyclerview(encodingSelects)
             }
+        tagSelectAdapter.notifyItemRemoved(0)
         binding.localRecyclerView.adapter = tagSelectAdapter
 
         binding.searchButton.setOnClickListener {
             submit(tagList)
         }
-
-        Log.i("PolicyBottomSheet", "test : ${encodingSelected(listOf("대구광역시", "동구", "부산광역시", "수영구", "동래구","중구", "수성구", "군위군"))}")
-
-        return binding.root
     }
 
     private fun encodingSelected(selectedList : List<String>): SubmitList {
@@ -110,7 +123,8 @@ class PolicyBottomSheet(
 
         return SubmitList(
             mainTagSelectedList = mainSelectResult,
-            subTagSelectedList = subSelectResult
+            subTagSelectedList = subSelectResult,
+            subTagList = subList
         )
 
     }
@@ -168,9 +182,10 @@ class PolicyBottomSheet(
     }
 
 
-    private data class SubmitList(
-        val mainTagSelectedList: List<Int>,
-        val subTagSelectedList: List<List<Int>>
+    data class SubmitList(
+        var mainTagSelectedList: List<Int>,
+        val subTagSelectedList: List<List<Int>>,
+        val subTagList: List<List<String>>
     )
 
 
