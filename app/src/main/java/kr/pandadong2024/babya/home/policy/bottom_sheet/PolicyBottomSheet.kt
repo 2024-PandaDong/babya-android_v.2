@@ -75,6 +75,7 @@ class PolicyBottomSheet(
         binding.searchButton.setOnClickListener {
             submit(tagList)
         }
+
     }
 
     private fun encodingSelected(selectedList : List<String>): SubmitList {
