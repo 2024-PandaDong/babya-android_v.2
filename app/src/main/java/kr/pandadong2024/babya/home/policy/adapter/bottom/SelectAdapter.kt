@@ -10,7 +10,7 @@ import kr.pandadong2024.babya.databinding.ItemPolicyListTagBinding
 class SelectAdapter(
     private val textDataList: List<String>,
     private val selectList: List<Boolean>,
-    val changeSelectState: (position: Int) -> Unit
+    val changeSelectState: (tagText: String, isSelected : Boolean) -> Unit
 ) : RecyclerView.Adapter<SelectAdapter.SelectViewHolder>() {
     inner class SelectViewHolder(private val binding: ItemPolicyListTagBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -24,7 +24,7 @@ class SelectAdapter(
             }
 
             binding.itemPolicyParent.setOnClickListener {
-                changeSelectState(position)
+                changeSelectState(tagText, isSelected)
             }
         }
 
