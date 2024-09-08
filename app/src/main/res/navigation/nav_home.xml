@@ -46,17 +46,7 @@
         android:id="@+id/profileFragment"
         android:name="kr.pandadong2024.babya.home.profile.ProfileFragment"
         android:label="f"
-        tools:layout="@layout/fragment_profile" >
-        <action
-            android:id="@+id/action_profileFragment_to_mainFragment"
-            app:destination="@id/mainFragment" />
-        <action
-            android:id="@+id/action_profileFragment_to_diaryFragment"
-            app:destination="@id/diaryFragment" />
-        <action
-            android:id="@+id/action_profileFragment_to_detailWriterFragment"
-            app:destination="@id/detailWriterFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/mainFragment"
         android:name="kr.pandadong2024.babya.home.main.MainFragment"
