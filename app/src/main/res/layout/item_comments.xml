@@ -41,7 +41,7 @@
             android:layout_marginStart="7dp"
             android:text="name"
             android:textSize="14sp"
-            android:fontFamily="@font/pretendard_semibold"
+            android:fontFamily="@font/notosanskr_semibold"
             />
         <TextView
             android:id="@+id/commentTimeText"
@@ -50,7 +50,7 @@
             app:layout_constraintStart_toEndOf="@id/commentNameText"
             app:layout_constraintBottom_toBottomOf="@id/commentNameText"
             android:textSize="11sp"
-            android:fontFamily="@font/pretendard_semibold"
+            android:fontFamily="@font/notosanskr_semibold"
             android:text="n일"
             android:layout_marginStart="3dp"
             />
@@ -60,7 +60,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="2dp"
-            android:fontFamily="@font/pretendard_medium"
+            android:fontFamily="@font/notosanskr_medium"
             android:text="대충내용"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"

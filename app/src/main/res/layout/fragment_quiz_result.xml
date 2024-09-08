@@ -25,7 +25,7 @@
             android:layout_gravity="center"
             android:text="일일퀴즈"
             android:textSize="24sp"
-            android:fontFamily="@font/pretendard_bold"/>
+            android:fontFamily="@font/notosanskr_bold"/>
     </androidx.appcompat.widget.Toolbar>
     <TextView
         android:id="@+id/quizText"
@@ -39,7 +39,7 @@
         android:layout_marginStart="25dp"
         android:layout_marginEnd="25dp"
 
-        android:fontFamily="@font/pretendard_bold"
+        android:fontFamily="@font/notosanskr_bold"
         android:autoSizeTextType="uniform"
         android:textSize="24sp"
         android:autoSizeMaxTextSize="24sp"
@@ -68,7 +68,7 @@
         android:layout_marginTop="38dp"
 
         android:textSize="24sp"
-        android:fontFamily="@font/pretendard_medium"
+        android:fontFamily="@font/notosanskr_medium"
 
         app:layout_constraintHorizontal_chainStyle="packed"
         />
@@ -82,7 +82,7 @@
 
         android:text="O"
         android:textSize="24sp"
-        android:fontFamily="@font/pretendard_semibold"
+        android:fontFamily="@font/notosanskr_semibold"
         android:textColor="@color/green"
         />
     <androidx.core.widget.NestedScrollView
@@ -122,7 +122,7 @@
         android:background="@drawable/sp_button_background"
         android:stateListAnimator="@null"
         android:text="메인화면으로 가기"
-        android:fontFamily="@font/pretendard_extrabold"
+        android:fontFamily="@font/notosanskr_extrabold"
         android:textSize="20sp"
         android:textColor="@color/white"/>
 

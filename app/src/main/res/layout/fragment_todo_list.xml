@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:fontFamily="@font/pretendard_bold"
+            android:fontFamily="@font/notosanskr_bold"
             android:text="투두리스트"
             android:textSize="19sp" />
 

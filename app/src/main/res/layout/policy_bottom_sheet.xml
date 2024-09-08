@@ -20,7 +20,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                android:fontFamily="@font/pretendard_semibold"
+                android:fontFamily="@font/notosanskr_semibold"
                 android:textSize="16sp"
                 android:text="지역를 선택해주세요."
                 />
@@ -39,7 +39,7 @@
                 app:layout_constraintTop_toBottomOf="@id/ZoneChipGroup"
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginTop="38dp"
-                android:fontFamily="@font/pretendard_semibold"
+                android:fontFamily="@font/notosanskr_semibold"
                 android:textSize="16sp"
                 android:text="지역를 선택해주세요."
                 />
@@ -62,7 +62,7 @@
                 android:clickable="true"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:text="검색하기"
-                android:fontFamily="@font/pretendard_bold"
+                android:fontFamily="@font/notosanskr_bold"
                 android:textColor="@color/commonWhite"
                 android:textSize="16sp"
                 />

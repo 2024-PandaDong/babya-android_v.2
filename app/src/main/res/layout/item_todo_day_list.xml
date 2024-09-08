@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:text="12일"
         android:textSize="14sp"
-        android:fontFamily="@font/pretendard_semibold"
+        android:fontFamily="@font/notosanskr_semibold"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="15dp"/>

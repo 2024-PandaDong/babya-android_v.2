@@ -26,7 +26,7 @@
             android:layout_gravity="center_horizontal"
             android:text="회사찾기"
             android:textSize="19sp"
-            android:fontFamily="@font/pretendard_bold"/>
+            android:fontFamily="@font/notosanskr_bold"/>
         <ImageButton
             android:id="@+id/findCompanyBackButton"
             android:layout_width="wrap_content"
@@ -73,7 +73,7 @@
         android:text="아직 제작중인 기능이에요... \n조금만 기다려 주세요!"
         android:textAlignment="center"
         android:textSize="24sp"
-        android:fontFamily="@font/pretendard_semibold"
+        android:fontFamily="@font/notosanskr_semibold"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

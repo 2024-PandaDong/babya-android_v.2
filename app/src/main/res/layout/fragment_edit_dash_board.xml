@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:fontFamily="@font/pretendard_bold"
+            android:fontFamily="@font/notosanskr_bold"
             android:text="2024.12.12"
             android:textSize="19sp" />
 
@@ -42,7 +42,7 @@
             android:layout_gravity="end"
             android:layout_marginEnd="15dp"
             android:background="@drawable/sp_rectangle_login"
-            android:fontFamily="@font/pretendard_bold"
+            android:fontFamily="@font/notosanskr_bold"
             android:src="@drawable/ic_reload"
             android:text="등록"
             android:textColor="@color/white"

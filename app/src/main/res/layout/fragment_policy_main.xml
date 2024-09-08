@@ -21,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:fontFamily="@font/pretendard_bold"
+            android:fontFamily="@font/notosanskr_bold"
             android:text="지역"
             android:textSize="16sp"
             android:backgroundTint="@color/backgroundNormalNormal"/>
