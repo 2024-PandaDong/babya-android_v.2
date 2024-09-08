@@ -29,7 +29,8 @@
             android:fontFamily="@font/notosanskr_medium"
             android:text="프로필"
             android:textSize="16sp"
-            android:backgroundTint="@color/backgroundNormalNormal"/>
+            android:backgroundTint="@color/backgroundNormalNormal"
+            android:includeFontPadding="false"/>
 
 
         <ImageButton
@@ -59,14 +60,13 @@
             android:layout_height="match_parent">
 
 
-
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/profileView"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:background="@color/backgroundNormalNormal"
                 android:paddingTop="60dp"
                 android:paddingBottom="18dp"
-                android:background="@color/backgroundNormalNormal"
                 app:layout_constraintTop_toTopOf="parent">
 
 
@@ -74,17 +74,16 @@
                     android:id="@+id/welcomeText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/notosanskr_medium"
+                    android:layout_marginTop="18dp"
 
+                    android:fontFamily="@font/notosanskr_medium"
+                    android:includeFontPadding="false"
                     android:text="승혁이 아빠님 반가워요!"
                     android:textAlignment="textStart"
                     android:textSize="20sp"
-                    android:layout_marginTop="18dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/profileImage" />
-
-
 
 
                 <de.hdodenhof.circleimageview.CircleImageView
@@ -120,7 +119,7 @@
                     android:text="프로필 수정하기"
                     android:fontFamily="@font/notosanskr_medium"
                     android:textSize="16sp"
-
+                    android:includeFontPadding="false"
                     />
 
                 <ImageView
@@ -152,7 +151,7 @@
                     android:text="일일퀴즈 설정"
                     android:fontFamily="@font/notosanskr_medium"
                     android:textSize="16sp"
-
+                    android:includeFontPadding="false"
                     />
 
                 <androidx.appcompat.widget.SwitchCompat
@@ -195,7 +194,7 @@
                     android:text="약관 및 개인정보 처리 동의"
                     android:fontFamily="@font/notosanskr_medium"
                     android:textSize="16sp"
-
+                    android:includeFontPadding="false"
                     />
 
                 <ImageView
@@ -229,7 +228,7 @@
                     android:text="프로필 수정하기"
                     android:fontFamily="@font/notosanskr_medium"
                     android:textSize="16sp"
-
+                    android:includeFontPadding="false"
                     />
 
                 <ImageView
@@ -263,7 +262,7 @@
                     android:text="앱 버전"
                     android:fontFamily="@font/notosanskr_medium"
                     android:textSize="16sp"
-
+                    android:includeFontPadding="false"
                     />
 
                 <TextView
@@ -278,7 +277,7 @@
                     android:fontFamily="@font/notosanskr_medium"
                     android:textSize="16sp"
                     android:textAlignment="textEnd"
-
+                    android:includeFontPadding="false"
                     />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -303,7 +302,7 @@
                     android:text="로그아웃"
                     android:fontFamily="@font/notosanskr_medium"
                     android:textSize="16sp"
-
+                    android:includeFontPadding="false"
                     />
 
 

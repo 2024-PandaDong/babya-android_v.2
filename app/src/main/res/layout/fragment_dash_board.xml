@@ -63,13 +63,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
                 android:layout_marginTop="32dp"
-                android:fontFamily="@font/pretendard_variable"
+                android:fontFamily="@font/notosanskr_regular"
                 android:text="오늘도 따뜻한 가정을 위해 \n애기야에서 이야기 나눠봐요"
                 android:textAlignment="textStart"
                 android:textSize="18dp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:includeFontPadding="false"/>
 
 
             <ImageView

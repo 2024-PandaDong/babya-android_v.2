@@ -69,17 +69,18 @@
                 android:paddingHorizontal="17dp"
                 android:layout_marginTop="17dp"
                 android:background="@drawable/sp_card_background">
+
                 <TextView
                     android:id="@+id/policyTitleText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="policyTitle"
-                    android:textSize="20dp"
                     android:fontFamily="@font/notosanskr_semibold"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    android:text="policyTitle"
                     android:textColor="@color/commonBlack"
-                    />
+                    android:textSize="20dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:includeFontPadding="false"/>
                 <TextView
                     android:id="@+id/policyDateRangeText"
                     android:layout_width="wrap_content"
@@ -88,6 +89,7 @@
                     android:textSize="14dp"
                     android:fontFamily="@font/notosanskr_medium"
                     android:textColor="@color/neutral90"
+                    android:includeFontPadding="false"
 
                     app:layout_constraintTop_toBottomOf="@id/policyTitleText"
                     app:layout_constraintStart_toStartOf="parent"
@@ -105,6 +107,7 @@
                     app:layout_constraintTop_toBottomOf="@id/policyDateRangeText"
                     app:layout_constraintStart_toStartOf="parent"
                     android:layout_marginTop="7dp"
+                    android:includeFontPadding="false"
                     />
 
                 <TextView
@@ -118,7 +121,7 @@
                     app:layout_constraintTop_toTopOf="@id/policyOrganTitleText"
                     app:layout_constraintStart_toEndOf="@id/policyOrganTitleText"
                     app:layout_constraintBottom_toBottomOf="@id/policyOrganTitleText"
-
+                    android:includeFontPadding="false"
                     />
                 <TextView
                     android:id="@+id/policyCategoryTitleText"
@@ -131,6 +134,7 @@
                     app:layout_constraintTop_toBottomOf="@id/policyOrganTitleText"
                     app:layout_constraintStart_toStartOf="parent"
                     android:layout_marginTop="7dp"
+                    android:includeFontPadding="false"
                     />
 
                 <TextView
@@ -144,7 +148,7 @@
                     app:layout_constraintTop_toTopOf="@id/policyCategoryTitleText"
                     app:layout_constraintStart_toEndOf="@id/policyCategoryTitleText"
                     app:layout_constraintBottom_toBottomOf="@id/policyCategoryTitleText"
-
+                    android:includeFontPadding="false"
                     />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -159,6 +163,7 @@
                 android:fontFamily="@font/notosanskr_semibold"
                 android:layout_marginTop="17dp"
                 android:layout_marginStart="10dp"
+                android:includeFontPadding="false"
                 />
             <TextView
                 android:id="@+id/supportAmountText"
@@ -171,6 +176,7 @@
                 android:fontFamily="@font/notosanskr_regular"
                 android:layout_marginTop="6dp"
                 android:layout_marginStart="3dp"
+                android:includeFontPadding="false"
                 />
 
             <TextView
@@ -184,6 +190,7 @@
                 android:fontFamily="@font/notosanskr_semibold"
                 android:layout_marginTop="17dp"
                 android:layout_marginStart="10dp"
+                android:includeFontPadding="false"
                 />
             <TextView
                 android:id="@+id/supportPaymentText"
@@ -196,6 +203,7 @@
                 android:fontFamily="@font/notosanskr_regular"
                 android:layout_marginTop="6dp"
                 android:layout_marginStart="3dp"
+                android:includeFontPadding="false"
                 />
 
             <TextView
@@ -209,6 +217,7 @@
                 android:fontFamily="@font/notosanskr_semibold"
                 android:layout_marginTop="17dp"
                 android:layout_marginStart="10dp"
+                android:includeFontPadding="false"
                 />
             <TextView
                 android:id="@+id/supportTargetText"
@@ -221,6 +230,7 @@
                 android:fontFamily="@font/notosanskr_regular"
                 android:layout_marginTop="6dp"
                 android:layout_marginStart="3dp"
+                android:includeFontPadding="false"
                 />
             <TextView
                 android:id="@+id/supportWayTitleText"
@@ -233,6 +243,7 @@
                 android:fontFamily="@font/notosanskr_semibold"
                 android:layout_marginTop="17dp"
                 android:layout_marginStart="10dp"
+                android:includeFontPadding="false"
                 />
             <TextView
                 android:id="@+id/supportWayText"
@@ -245,6 +256,7 @@
                 android:fontFamily="@font/notosanskr_regular"
                 android:layout_marginTop="6dp"
                 android:layout_marginStart="3dp"
+                android:includeFontPadding="false"
                 />
 
             <View
