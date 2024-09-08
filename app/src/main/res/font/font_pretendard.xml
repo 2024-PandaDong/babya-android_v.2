@@ -3,26 +3,26 @@
     <font
         android:fontStyle="normal"
         android:fontWeight="200"
-        android:font="@font/pretendard_light" />
+        android:font="@font/notosanskr_light" />
     <font
         android:fontStyle="normal"
         android:fontWeight="400"
-        android:font="@font/pretendard_regular" />
+        android:font="@font/notosanskr_regular" />
     <font
         android:fontStyle="normal"
         android:fontWeight="500"
-        android:font="@font/pretendard_medium"/>
+        android:font="@font/notosanskr_medium"/>
     <font
         android:fontStyle="normal"
         android:fontWeight="600"
-        android:font="@font/pretendard_semibold" />
+        android:font="@font/notosanskr_semibold" />
     <font
         android:fontStyle="normal"
         android:fontWeight="700"
-        android:font="@font/pretendard_bold" />
+        android:font="@font/notosanskr_bold" />
     <font
         android:fontStyle="normal"
         android:fontWeight="800"
-        android:font="@font/pretendard_extrabold" />
+        android:font="@font/notosanskr_extrabold" />
 
 </font-family>
