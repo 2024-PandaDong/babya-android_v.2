@@ -1,0 +1,595 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".home.find_company.CompanyDetailsFragment">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/mainImage"
+                android:layout_width="0dp"
+                android:layout_height="190dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/companyName"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:text="회사명"
+                android:fontFamily="@font/pretendard_semibold"
+                android:textSize="24dp"
+                android:layout_marginTop="27dp"
+                android:layout_marginStart="18dp"
+                app:layout_constraintTop_toBottomOf="@id/mainImage"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/field"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:text="분야 | "
+                android:textSize="14dp"
+                android:fontFamily="@font/pretendard_medium"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="3dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/companyName" />
+
+            <TextView
+                android:id="@+id/region"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:text="지역"
+                android:textSize="14dp"
+                android:fontFamily="@font/pretendard_medium"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="3dp"
+                app:layout_constraintStart_toEndOf="@id/field"
+                app:layout_constraintTop_toBottomOf="@id/companyName" />
+
+            <ImageView
+                android:id="@+id/RatingImage"
+                android:layout_width="16dp"
+                android:layout_height="14dp"
+                android:layout_marginEnd="3dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toStartOf="@+id/RateScore"
+                app:layout_constraintTop_toBottomOf="@id/companyName"
+                android:src="@drawable/ic_star" />
+
+            <TextView
+                android:id="@+id/RateScore"
+                android:layout_width="wrap_content"
+                android:layout_height="23dp"
+                android:text="4.5"
+                android:fontFamily="@font/pretendard_regular"
+                android:textSize="16dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="18dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/companyName" />
+
+            <TextView
+                android:id="@+id/explanation"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginEnd="30dp"
+                android:textSize="14dp"
+                android:fontFamily="@font/pretendard_regular"
+                android:maxLines="2"
+                android:ellipsize="end"
+                app:layout_constraintTop_toBottomOf="@+id/region"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="삼성전자는 사람과 사회를 생각하는 글로벌 일류기업을 추구합니다. ‘경영이념, 핵심가치, 경영원칙’의가치체계를 경영의 나침반으로 삼고, 인재와 기술을 바탕으로 최고의 제품과 서비스를 창출하여 인류사회에 공헌하는 것을 궁극적인 목표로 삼고 있습니다. 이를 위해 삼성전자가 지켜나갈 약속인 5가지 경영원칙을 세부원칙과 행동지침으로 구체화하여 삼성전자 임직원이 지켜야 할 행동규범(Global Code of Conduct)으로 제정하였으며, 모든 임직원의 사고와 행동에 5가지 핵심가치를 내재화하여 삼성전자의 지속적인 성장을 견인하고 미래 방향성을 제시하고자 합니다." />
+
+            <TextView
+                android:id="@+id/editExplanation"
+                android:layout_width="65dp"
+                android:layout_height="35dp"
+                android:padding="8dp"
+                android:text="더보기"
+                android:textAlignment="center"
+                android:textSize="14dp"
+                android:fontFamily="@font/pretendard_regular"
+                android:textColor="#A7A7A8"
+                android:layout_marginStart="5dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/explanation"
+                android:gravity="center" />
+
+
+            <TextView
+                android:id="@+id/salary"
+                android:layout_width="30dp"
+                android:layout_height="23dp"
+                android:text="연봉"
+                android:textSize="16dp"
+                android:fontFamily="@font/pretendard_semibold"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="18dp"
+                app:layout_constraintTop_toBottomOf="@+id/editExplanation"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+
+            <TextView
+                android:id="@+id/standard"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_marginStart="6dp"
+                android:fontFamily="@font/pretendard_medium"
+                android:text="2023년 기준"
+                android:textColor="#A7A7A8"
+                android:textSize="14dp"
+                app:layout_constraintStart_toEndOf="@id/salary"
+                app:layout_constraintTop_toTopOf="@id/salary" />
+
+            <TextView
+                android:id="@+id/salaryMinText"
+                android:layout_width="26dp"
+                android:layout_height="20dp"
+                android:text="최저"
+                android:textSize="14dp"
+                android:textColor="#A7A7A8"
+                android:fontFamily="@font/pretendard_semibold"
+                app:layout_constraintTop_toBottomOf="@id/salary"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="18dp"
+                android:layout_marginStart="18dp"
+                />
+
+            <TextView
+                android:id="@+id/salaryAvgText"
+                android:layout_width="26dp"
+                android:layout_height="20dp"
+                android:text="평균"
+                android:textSize="14dp"
+                android:textColor="#A7A7A8"
+                android:fontFamily="@font/pretendard_semibold"
+                app:layout_constraintTop_toBottomOf="@id/salary"
+                app:layout_constraintStart_toStartOf="@id/salaryMinText"
+                android:layout_marginTop="18dp"
+                android:layout_marginStart="120dp"
+                />
+
+
+            <TextView
+                android:id="@+id/salaryMaxText"
+                android:layout_width="26dp"
+                android:layout_height="20dp"
+                android:text="최대"
+                android:textSize="14dp"
+                android:textColor="#A7A7A8"
+                android:fontFamily="@font/pretendard_semibold"
+                app:layout_constraintTop_toBottomOf="@id/salary"
+                app:layout_constraintStart_toStartOf="@id/salaryAvgText"
+                android:layout_marginTop="18dp"
+                android:layout_marginStart="120dp"
+                />
+
+
+            <TextView
+                android:id="@+id/salaryMin"
+                android:layout_width="84dp"
+                android:layout_height="23dp"
+                android:text="11,750 만원"
+                android:textSize="16dp"
+                android:fontFamily="@font/pretendard_medium"
+                app:layout_constraintTop_toBottomOf="@id/salaryMinText"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="18dp"
+                />
+
+            <TextView
+                android:id="@+id/salaryAvg"
+                android:layout_width="84dp"
+                android:layout_height="23dp"
+                android:text="11,750 만원"
+                android:textSize="16dp"
+                android:fontFamily="@font/pretendard_medium"
+                app:layout_constraintTop_toBottomOf="@id/salaryMinText"
+                app:layout_constraintStart_toEndOf="@id/salaryMin"
+                android:layout_marginStart="36dp"
+                />
+
+            <TextView
+                android:id="@+id/salaryMax"
+                android:layout_width="84dp"
+                android:layout_height="23dp"
+                android:text="11,750 만원"
+                android:textSize="16dp"
+                android:fontFamily="@font/pretendard_medium"
+                app:layout_constraintTop_toBottomOf="@id/salaryMinText"
+                app:layout_constraintStart_toEndOf="@id/salaryAvg"
+                android:layout_marginStart="36dp"
+                />
+
+            <TextView
+                android:id="@+id/personnel"
+                android:layout_width="30dp"
+                android:layout_height="23dp"
+                android:text="연봉"
+                android:textSize="16dp"
+                android:fontFamily="@font/pretendard_semibold"
+                android:layout_marginTop="36dp"
+                android:layout_marginStart="18dp"
+                app:layout_constraintTop_toBottomOf="@+id/salaryMin"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/entireLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="55dp"
+                android:layout_marginTop="35dp"
+                android:layout_marginStart="55dp"
+                app:layout_constraintTop_toBottomOf="@+id/personnel"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <TextView
+                    android:id="@+id/entireText"
+                    android:layout_width="26dp"
+                    android:layout_height="20dp"
+                    android:text="전체"
+                    android:textSize="14dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:fontFamily="@font/pretendard_semibold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    />
+
+                <TextView
+                    android:id="@+id/entireCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="23dp"
+                    android:text="1203명"
+                    android:textSize="16dp"
+                    android:fontFamily="@font/pretendard_semibold"
+                    android:layout_marginTop="12dp"
+                    app:layout_constraintTop_toBottomOf="@+id/entireText"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/maleLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="55dp"
+                android:layout_marginTop="35dp"
+                android:layout_marginStart="10dp"
+                app:layout_constraintTop_toBottomOf="@+id/personnel"
+                app:layout_constraintStart_toEndOf="@id/entireLayout">
+
+                <TextView
+                    android:id="@+id/maleText"
+                    android:layout_width="26dp"
+                    android:layout_height="20dp"
+                    android:text="남성"
+                    android:textSize="14dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:fontFamily="@font/pretendard_semibold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    />
+
+                <TextView
+                    android:id="@+id/maleCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="23dp"
+                    android:text="50%"
+                    android:textSize="16dp"
+                    android:fontFamily="@font/pretendard_semibold"
+                    android:layout_marginTop="12dp"
+                    app:layout_constraintTop_toBottomOf="@+id/maleText"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/femaleLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="55dp"
+                android:layout_marginTop="35dp"
+                android:layout_marginStart="10dp"
+                app:layout_constraintTop_toBottomOf="@+id/personnel"
+                app:layout_constraintStart_toEndOf="@id/maleLayout">
+
+                <TextView
+                    android:id="@+id/femaleText"
+                    android:layout_width="26dp"
+                    android:layout_height="20dp"
+                    android:text="여성"
+                    android:textSize="14dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:fontFamily="@font/pretendard_semibold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    />
+
+                <TextView
+                    android:id="@+id/femaleCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="23dp"
+                    android:text="50%"
+                    android:textSize="16dp"
+                    android:fontFamily="@font/pretendard_semibold"
+                    android:layout_marginTop="12dp"
+                    app:layout_constraintTop_toBottomOf="@+id/femaleText"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <ImageView
+                android:id="@+id/Chart"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@color/blue"
+                app:layout_constraintTop_toBottomOf="@id/personnel"
+                app:layout_constraintStart_toEndOf="@+id/femaleLayout"
+                android:layout_marginTop="18dp"
+                android:layout_marginStart="36dp"
+                />
+
+
+            <TextView
+                android:id="@+id/CompanyInformationText"
+                android:layout_width="63dp"
+                android:layout_height="23dp"
+                android:text="기업정보"
+                android:textSize="16dp"
+                android:fontFamily="@font/pretendard_semibold"
+                android:layout_marginTop="64dp"
+                android:layout_marginStart="18dp"
+                app:layout_constraintTop_toBottomOf="@+id/entireLayout"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+
+            <TextView
+                android:id="@+id/ceoText"
+                android:layout_width="45dp"
+                android:layout_height="17dp"
+                android:text="대표자명"
+                android:textSize="12dp"
+                android:fontFamily="@font/pretendard_semibold"
+                app:layout_constraintTop_toBottomOf="@+id/CompanyInformationText"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="18dp"
+                android:layout_marginStart="18dp"
+                />
+
+            <TextView
+                android:id="@+id/ceo"
+                android:layout_width="wrap_content"
+                android:layout_height="17dp"
+                android:text="이름"
+                android:textSize="12dp"
+                android:textColor="#A7A7A8"
+                android:fontFamily="@font/pretendard_medium"
+                app:layout_constraintTop_toBottomOf="@+id/CompanyInformationText"
+                app:layout_constraintStart_toEndOf="@+id/ceoText"
+                android:layout_marginTop="18dp"
+                android:layout_marginStart="70dp"
+                />
+
+            <TextView
+                android:id="@+id/customerServiceText"
+                android:layout_width="56dp"
+                android:layout_height="17dp"
+                android:text="고객서비스"
+                android:textSize="12dp"
+                android:fontFamily="@font/pretendard_semibold"
+                app:layout_constraintTop_toBottomOf="@+id/ceoText"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="9dp"
+                android:layout_marginStart="18dp"
+                />
+
+            <TextView
+                android:id="@+id/customerService"
+                android:layout_width="211dp"
+                android:layout_height="17dp"
+                android:layout_marginStart="70dp"
+                android:layout_marginTop="9dp"
+                android:fontFamily="@font/pretendard_medium"
+                android:text="전화번호"
+                android:textColor="#A7A7A8"
+                android:textSize="12dp"
+                app:layout_constraintStart_toEndOf="@+id/ceoText"
+                app:layout_constraintTop_toBottomOf="@+id/ceoText" />
+
+
+            <TextView
+                android:id="@+id/locationText"
+                android:layout_width="45dp"
+                android:layout_height="17dp"
+                android:text="본사위치"
+                android:textSize="12dp"
+                android:fontFamily="@font/pretendard_semibold"
+                app:layout_constraintTop_toBottomOf="@+id/customerServiceText"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="9dp"
+                android:layout_marginStart="18dp"
+                />
+
+            <TextView
+                android:id="@+id/location"
+                android:layout_width="211dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="70dp"
+                android:layout_marginTop="9dp"
+                android:fontFamily="@font/pretendard_medium"
+                android:text="주소"
+                android:textColor="#A7A7A8"
+                android:textSize="12dp"
+                app:layout_constraintStart_toEndOf="@+id/ceoText"
+                app:layout_constraintTop_toBottomOf="@+id/customerService" />
+
+
+            <TextView
+                android:id="@+id/historyText"
+                android:layout_width="23dp"
+                android:layout_height="17dp"
+                android:text="연혁"
+                android:textSize="12dp"
+                android:fontFamily="@font/pretendard_semibold"
+                app:layout_constraintTop_toBottomOf="@+id/locationText"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="9dp"
+                android:layout_marginStart="18dp"
+                />
+
+            <TextView
+                android:id="@+id/history"
+                android:layout_width="211dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="70dp"
+                android:layout_marginTop="9dp"
+                android:fontFamily="@font/pretendard_medium"
+                android:text="설립날짜"
+                android:textColor="#A7A7A8"
+                android:textSize="12dp"
+                app:layout_constraintStart_toEndOf="@+id/ceoText"
+                app:layout_constraintTop_toBottomOf="@+id/locationText" />
+
+            <TextView
+                android:id="@+id/contentText"
+                android:layout_width="47dp"
+                android:layout_height="17dp"
+                android:text="사업 내용"
+                android:textSize="12dp"
+                android:fontFamily="@font/pretendard_semibold"
+                app:layout_constraintTop_toBottomOf="@+id/historyText"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="9dp"
+                android:layout_marginStart="18dp"
+                />
+
+            <TextView
+                android:id="@+id/content"
+                android:layout_width="211dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="70dp"
+                android:layout_marginTop="9dp"
+                android:fontFamily="@font/pretendard_medium"
+                android:text="어쩌고저쩌고"
+                android:textColor="#A7A7A8"
+                android:textSize="12dp"
+                app:layout_constraintStart_toEndOf="@+id/ceoText"
+                app:layout_constraintTop_toBottomOf="@+id/historyText" />
+
+            <TextView
+                android:id="@+id/typeText"
+                android:layout_width="47dp"
+                android:layout_height="17dp"
+                android:text="기업 유형"
+                android:textSize="12dp"
+                android:fontFamily="@font/pretendard_semibold"
+                app:layout_constraintTop_toBottomOf="@+id/content"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="9dp"
+                android:layout_marginStart="18dp"
+                />
+
+            <TextView
+                android:id="@+id/type"
+                android:layout_width="wrap_content"
+                android:layout_height="17dp"
+                android:layout_marginStart="70dp"
+                android:layout_marginTop="9dp"
+                android:fontFamily="@font/pretendard_medium"
+                android:text="기업분류"
+                android:textColor="#A7A7A8"
+                android:textSize="12dp"
+                app:layout_constraintStart_toEndOf="@+id/ceoText"
+                app:layout_constraintTop_toBottomOf="@+id/content" />
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/welfareLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                app:layout_constraintTop_toBottomOf="@+id/typeText"
+                android:visibility="gone"
+                >
+                
+                <TextView
+                    android:id="@+id/welfareText"
+                    android:layout_width="81dp"
+                    android:layout_height="23dp"
+                    android:text="혜택 및 복지"
+                    android:textSize="16dp"
+                    android:fontFamily="@font/pretendard_semibold"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginStart="18dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    />
+
+                <TextView
+                    android:id="@+id/welfare"
+                    android:layout_width="310dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginTop="9dp"
+                    android:layout_marginBottom="20dp"
+                    android:fontFamily="@font/pretendard_regular"
+                    android:text="첫째 500만 원, 둘째 1천만 원, 셋째 2천만 원 출산 지원"
+                    android:textColor="@color/black"
+                    android:textSize="14dp"
+                    android:ellipsize="end"
+                    app:layout_constraintTop_toBottomOf="@+id/welfareText"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                app:layout_constraintTop_toBottomOf="@id/welfareLayout"
+                />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="18dp"
+        android:layout_marginEnd="18dp"
+        android:layout_marginBottom="22dp"
+        android:text="회사 더 알아보기"
+        android:textColor="@color/white"
+        android:background="@drawable/sp_rounded_corner_primary"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>

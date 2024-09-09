@@ -53,6 +53,6 @@
         app:layout_constraintTop_toBottomOf="@id/findCompanyToolbar"
         app:layout_constraintBottom_toBottomOf="parent"
         />
-    
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

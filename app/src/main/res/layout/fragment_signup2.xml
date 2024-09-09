@@ -48,7 +48,7 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="18dp"
         android:layout_marginTop="40dp"
-        android:text="이메일 & 비밀번호"
+        android:text="이메일  비밀번호"
         android:fontFamily="@font/pretendard_semibold"
         android:textSize="20dp"
         android:textColor="@color/black"
