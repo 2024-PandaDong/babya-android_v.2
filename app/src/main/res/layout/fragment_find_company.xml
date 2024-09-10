@@ -26,7 +26,7 @@
             android:layout_gravity="center_horizontal"
             android:text="회사찾기"
             android:textSize="19sp"
-            android:fontFamily="@font/pretendard_bold"/>
+            android:fontFamily="@font/notosanskr_bold"/>
         <ImageButton
             android:id="@+id/findCompanyBackButton"
             android:layout_width="wrap_content"
@@ -64,6 +64,8 @@
         app:layout_constraintTop_toBottomOf="@id/findCompanyToolbar"
         app:layout_constraintBottom_toBottomOf="parent"
         />
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kr.pandadong2024.babya.databinding.ItemTodoListContentBinding
-import kr.pandadong2024.babya.server.remote.request.todo.TodoModifyRequest
 import kr.pandadong2024.babya.server.remote.responses.todo.TodoResponses
 
 class TodoItemAdapter(

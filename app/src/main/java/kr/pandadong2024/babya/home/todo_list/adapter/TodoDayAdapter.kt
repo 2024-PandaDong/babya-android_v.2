@@ -10,14 +10,14 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.ItemTodoDayListBinding
+import kr.pandadong2024.babya.home.policy.adapter.PolicyItemAdapter
 import kr.pandadong2024.babya.home.todo_list.TodoItemTouchHelper
 import kr.pandadong2024.babya.home.todo_list.decoration.TodoItemDecoration
-import kr.pandadong2024.babya.server.remote.request.todo.TodoModifyRequest
 import kr.pandadong2024.babya.server.remote.responses.todo.TodoResponses
 import java.util.GregorianCalendar
 
 class TodoDayAdapter(
-    val todoList: Map<String, List<TodoResponses>>,
+    private val todoList: Map<String, List<TodoResponses>>,
     val context: Context,
     val work : (type : Int, todoData : TodoResponses) -> Unit
 ) : RecyclerView.Adapter<TodoDayAdapter.TodoDayViewHolder>() {
@@ -51,7 +51,7 @@ class TodoDayAdapter(
 
         }
         private fun openItem(key: String){
-            val adapter = TodoItemAdapter(itemData!!){ type, todoId ->
+            val adapter = PolicyItemAdapter(itemData!!){ type, todoId ->
                 work(type, todoId)
                 //TODO : 지워지고 수정되는거 이쪽에서 맡아서 하기
             }

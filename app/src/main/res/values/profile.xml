@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="dailyQuiz">
+        <item name="thumbTint">@color/white</item>
+        <item name="track">@drawable/sel_toggle</item>
+        <item name="android:thumb">@drawable/sel_toggle_thumb</item>
+        <item name="android:enabled">true</item>
+    </style>
+</resources>

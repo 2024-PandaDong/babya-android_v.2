@@ -21,7 +21,7 @@
         app:layout_constraintHorizontal_chainStyle="packed"
         android:layout_marginStart="30dp"
 
-        android:fontFamily="@font/pretendard_regular"
+        android:fontFamily="@font/notosanskr_regular"
         />
     <EditText
         android:id="@+id/categoryEditText"
@@ -33,7 +33,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginStart="13dp"
         android:textSize="18sp"
-        android:fontFamily="@font/pretendard_regular"
+        android:fontFamily="@font/notosanskr_regular"
         android:background="@null"
         android:cursorVisible="false"
         android:layout_marginTop="30dp"
@@ -50,7 +50,7 @@
         app:layout_constraintTop_toTopOf="@id/todoEditText"
         app:layout_constraintBottom_toBottomOf="@id/todoEditText"
         app:layout_constraintEnd_toStartOf="@id/todoEditText"
-        android:fontFamily="@font/pretendard_regular"
+        android:fontFamily="@font/notosanskr_regular"
 
         />
 
@@ -64,7 +64,7 @@
         app:layout_constraintTop_toBottomOf="@id/categoryEditText"
         android:textSize="18sp"
         android:layout_marginStart="13dp"
-        android:fontFamily="@font/pretendard_regular"
+        android:fontFamily="@font/notosanskr_regular"
         android:background="@null"
         android:cursorVisible="false"
         android:layout_marginTop="30dp"
@@ -110,7 +110,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:text="00/00"
             android:textSize="16sp"
-            android:fontFamily="@font/pretendard_bold"
+            android:fontFamily="@font/notosanskr_bold"
             android:textColor="@color/dark_gray"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>

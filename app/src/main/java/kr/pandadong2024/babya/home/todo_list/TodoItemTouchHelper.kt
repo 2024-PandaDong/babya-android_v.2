@@ -6,7 +6,6 @@ import android.view.View
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import kr.pandadong2024.babya.home.todo_list.adapter.TodoItemAdapter
-import kr.pandadong2024.babya.server.remote.responses.todo.TodoResponses
 import kotlin.math.max
 import kotlin.math.min
 

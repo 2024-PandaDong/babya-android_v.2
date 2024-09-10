@@ -31,7 +31,7 @@
             card_view:layout_constraintStart_toStartOf="@id/emotionImage"
             card_view:layout_constraintEnd_toEndOf="@id/emotionImage"
             android:text="좋음"
-            android:fontFamily="@font/pretendard_medium"
+            android:fontFamily="@font/notosanskr_medium"
             android:textSize="12sp"
             />
 
@@ -48,7 +48,7 @@
             card_view:layout_constraintBottom_toTopOf="@id/goodSeekBar"
             card_view:layout_constraintVertical_chainStyle="spread"
             android:textSize="15sp"
-            android:fontFamily="@font/pretendard_medium"
+            android:fontFamily="@font/notosanskr_medium"
             />
         <ImageView
             android:id="@+id/goodImage"

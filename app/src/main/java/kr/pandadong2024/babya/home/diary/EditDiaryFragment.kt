@@ -90,12 +90,13 @@ class EditDiaryFragment : Fragment() {
         }
 
         binding.diaryEditSubmitButton.setOnClickListener {
+            Log.d(TAG,  (!binding.editDiaryTitleEditText.text.isNullOrBlank()&&!binding.editDiaryMainContentEditText.text.isNullOrBlank()&&!binding.weightEditText.text.isNullOrBlank()&&!binding.editDiaryFetalFindingsEditText.text.isNullOrBlank()&&binding.editDiaryStatusRadioGroup.checkedRadioButtonId != -1).toString())
             if (
                 (binding.editDiaryTitleEditText.text.isNullOrBlank()
-                        && binding.editDiaryMainContentEditText.text.isNullOrBlank()
-                        && binding.weightEditText.text.isNullOrBlank()
+                        &&binding.editDiaryMainContentEditText.text.isNullOrBlank()
+                        &&binding.weightEditText.text.isNullOrBlank()
                         &&binding.editDiaryFetalFindingsEditText.text.isNullOrBlank()
-                        &&binding.editDiaryStatusRadioGroup.checkedRadioButtonId == -1).not()
+                        &&binding.editDiaryStatusRadioGroup.checkedRadioButtonId == -1)
             ){
                 submit()
             }
@@ -165,8 +166,6 @@ class EditDiaryFragment : Fragment() {
             binding.unrestRadioButton.id -> "불안"
             else -> "없음"
         }
-//            Log.i(TAG, LocalDate.now().toString())
-//            Log.i(TAG, date.toString())
         Log.d(TAG, "title = ${binding.editDiaryTitleEditText.text.toString()::class.simpleName},\n" +
                 "content = ${binding.editDiaryMainContentEditText.text.toString()::class.simpleName},\n" +
                 "pregnancyWeeks = ${binding.pregnancyEditText.text.toString().toInt()::class.simpleName},\n" +

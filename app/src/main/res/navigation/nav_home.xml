@@ -17,21 +17,6 @@
             app:destination="@id/companyDetailsFragment" />
     </fragment>
     <fragment
-        android:id="@+id/dashBoardFragment"
-        android:name="kr.pandadong2024.babya.home.dash_board.DashBoardFragment"
-        android:label="a"
-        tools:layout="@layout/fragment_dash_board" >
-        <action
-            android:id="@+id/action_dashBoardFragment_to_mainFragment"
-            app:destination="@id/mainFragment" />
-        <action
-            android:id="@+id/action_dashBoardFragment_to_editDashBoardFragment"
-            app:destination="@id/editDashBoardFragment" />
-        <action
-            android:id="@+id/action_dashBoardFragment_to_detailDashBoardFragment"
-            app:destination="@id/detailDashBoardFragment" />
-    </fragment>
-    <fragment
         android:id="@+id/diaryFragment"
         android:name="kr.pandadong2024.babya.home.diary.DiaryFragment"
         android:label="s"
@@ -64,23 +49,7 @@
         android:id="@+id/profileFragment"
         android:name="kr.pandadong2024.babya.home.profile.ProfileFragment"
         android:label="f"
-        tools:layout="@layout/fragment_profile" >
-        <action
-            android:id="@+id/action_profileFragment_to_mainFragment"
-            app:destination="@id/mainFragment" />
-        <action
-            android:id="@+id/action_profileFragment_to_dashBoardFragment"
-            app:destination="@id/dashBoardFragment" />
-        <action
-            android:id="@+id/action_profileFragment_to_diaryFragment"
-            app:destination="@id/diaryFragment" />
-        <action
-            android:id="@+id/action_profileFragment_to_detailDashBoardFragment"
-            app:destination="@id/detailDashBoardFragment" />
-        <action
-            android:id="@+id/action_profileFragment_to_detailWriterFragment"
-            app:destination="@id/detailWriterFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/mainFragment"
         android:name="kr.pandadong2024.babya.home.main.MainFragment"
@@ -114,24 +83,6 @@
             app:destination="@id/diaryFragment" />
     </fragment>
     <fragment
-        android:id="@+id/editDashBoardFragment"
-        android:name="kr.pandadong2024.babya.home.dash_board.EditDashBoardFragment"
-        android:label="fragment_edit_dash_board"
-        tools:layout="@layout/fragment_edit_dash_board" >
-        <action
-            android:id="@+id/action_editDashBoardFragment_to_dashBoardFragment"
-            app:destination="@id/dashBoardFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/detailDashBoardFragment"
-        android:name="kr.pandadong2024.babya.home.dash_board.DetailDashBoardFragment"
-        android:label="fragment_detail_dash_board"
-        tools:layout="@layout/fragment_detail_dash_board" >
-        <action
-            android:id="@+id/action_detailDashBoardFragment_to_dashBoardFragment"
-            app:destination="@id/dashBoardFragment" />
-    </fragment>
-    <fragment
         android:id="@+id/quizFragment"
         android:name="kr.pandadong2024.babya.home.quiz.QuizFragment"
         android:label="fragment_quiz"
@@ -162,6 +113,7 @@
              />
     </fragment>
     <fragment
+
         android:id="@+id/companyDetailsFragment"
         android:name="kr.pandadong2024.babya.home.find_company.CompanyDetailsFragment"
         android:label="fragment_company_details"
@@ -169,6 +121,24 @@
         <action
             android:id="@+id/action_companyDetailsFragment_to_findCompanyFragment"
             app:destination="@id/findCompanyFragment" />
+
+        android:id="@+id/policyContentFragment"
+        android:name="kr.pandadong2024.babya.home.policy.PolicyContentFragment"
+        android:label="fragment_policy_content"
+        tools:layout="@layout/fragment_policy_content" >
+        <action
+            android:id="@+id/action_policyContentFragment_to_policyMainFragment"
+            app:destination="@id/policyMainFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/policyMainFragment"
+        android:name="kr.pandadong2024.babya.home.policy.PolicyMainFragment"
+        android:label="fragment_policy_main"
+        tools:layout="@layout/fragment_policy_main" >
+        <action
+            android:id="@+id/action_policyMainFragment_to_policyContentFragment"
+            app:destination="@id/policyContentFragment" />
+
     </fragment>
 
 </navigation>

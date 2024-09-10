@@ -51,7 +51,7 @@
             app:layout_constraintStart_toStartOf="parent"
             android:text = "content"
             android:textSize="14sp"
-            android:fontFamily="@font/pretendard_bold"
+            android:fontFamily="@font/notosanskr_bold"
             android:paddingStart="5dp"
             android:layout_marginStart="5dp"
             />

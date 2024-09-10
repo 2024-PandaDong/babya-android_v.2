@@ -3,6 +3,7 @@ package kr.pandadong2024.babya;
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
@@ -28,4 +29,6 @@ class HomeActivity : AppCompatActivity(), BottomControllable {
     override fun setBottomNavVisibility(visibility: Boolean) {
         findViewById<BottomNavigationView>(R.id.nav_view).visibility = if (visibility) View.VISIBLE else View.GONE
     }
+
+
 }

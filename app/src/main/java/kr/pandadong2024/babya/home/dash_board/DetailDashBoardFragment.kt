@@ -56,7 +56,7 @@ class DetailDashBoardFragment : Fragment() {
         initCommentRecyclerView(1, 100, viewModel.id.value!!)
 
         binding.backButton.setOnClickListener {
-            findNavController().navigate(R.id.action_detailDashBoardFragment_to_dashBoardFragment)
+//            findNavController().navigate(R.id.action_detailDashBoardFragment_to_dashBoardFragment)
         }
 
         // 댓글

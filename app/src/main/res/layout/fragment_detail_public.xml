@@ -40,7 +40,7 @@
                 app:layout_constraintTop_toBottomOf="@id/mainImage"
                 android:text="본문"
                 android:textSize="16sp"
-                android:fontFamily="@font/pretendard_bold"
+                android:fontFamily="@font/notosanskr_bold"
                 android:layout_marginTop="25dp"
                 android:layout_marginStart="3dp"
                 />
@@ -54,7 +54,7 @@
                 android:layout_marginStart="3dp"
                 android:layout_marginTop="3dp"
                 android:textSize="13sp"
-                android:fontFamily="@font/pretendard_semibold"
+                android:fontFamily="@font/notosanskr_semibold"
                 />
 
             <TextView
@@ -109,7 +109,7 @@
             android:layout_gravity="center"
             android:text="test"
             android:textSize="19sp"
-            android:fontFamily="@font/pretendard_bold"/>
+            android:fontFamily="@font/notosanskr_bold"/>
         <ImageButton
             android:id="@+id/backButton"
             android:layout_width="wrap_content"
@@ -117,6 +117,7 @@
             android:layout_gravity="start"
             android:src="@drawable/ic_arrow_14"
             android:background="@null"
+            android:padding = "12dp"
             android:rotation="180"
             />
         <ImageButton
@@ -125,6 +126,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:background="@null"
+            android:padding = "12dp"
             android:layout_marginEnd="15dp"
             android:src="@drawable/ic_more_vert"
             />

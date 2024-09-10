@@ -46,12 +46,12 @@ class DashBoardFragment : Fragment() {
 
 
         binding.boardEditFloatingActionButton.setOnClickListener{
-            findNavController().navigate(R.id.action_dashBoardFragment_to_editDashBoardFragment)
+//            findNavController().navigate(R.id.action_dashBoardFragment_to_editDashBoardFragment)
         }
 
         binding.dashBoardBackButton.setOnClickListener {
             TypeValue.setTypeValue("1")
-            findNavController().navigate(R.id.action_dashBoardFragment_to_mainFragment)
+//            findNavController().navigate(R.id.action_dashBoardFragment_to_mainFragment)
         }
 
         kotlin.runCatching {
@@ -75,7 +75,7 @@ class DashBoardFragment : Fragment() {
                 Log.d(TAG, "dashBoardRecyclerView: ${postId}")
                 kotlin.runCatching {
                     viewModel.id.value = postId
-                    findNavController().navigate(R.id.action_dashBoardFragment_to_detailDashBoardFragment)
+//                    findNavController().navigate(R.id.action_dashBoardFragment_to_detailDashBoardFragment)
                 }
             }
         }

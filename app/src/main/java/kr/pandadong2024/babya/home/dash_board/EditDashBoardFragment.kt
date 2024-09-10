@@ -58,7 +58,7 @@ class EditDashBoardFragment : Fragment() {
         }
 
         binding.dashBoardBackButton.setOnClickListener {
-            findNavController().navigate(R.id.action_editDashBoardFragment_to_dashBoardFragment)
+//            findNavController().navigate(R.id.action_editDashBoardFragment_to_dashBoardFragment)
         }
 
         binding.editDashBoardAddImageCardView.setOnClickListener {
@@ -130,7 +130,7 @@ class EditDashBoardFragment : Fragment() {
             }.onSuccess {
                 Log.d(TAG, "createDashBoard: 게시물 올리기 성공!!")
                 withContext(Dispatchers.Main) {
-                    findNavController().navigate(R.id.action_editDashBoardFragment_to_dashBoardFragment)
+//                    findNavController().navigate(R.id.action_editDashBoardFragment_to_dashBoardFragment)
                 }
             }.onFailure {
                 it.printStackTrace()

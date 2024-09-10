@@ -36,7 +36,7 @@
                     android:layout_gravity="center_horizontal"
                     android:text="산모일기"
                     android:textSize="19sp"
-                    android:fontFamily="@font/pretendard_bold"/>
+                    android:fontFamily="@font/notosanskr_bold"/>
                 <ImageButton
                     android:id="@+id/diaryBackButton"
                     android:layout_width="wrap_content"
@@ -78,7 +78,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     android:text="비공개"
                     android:textSize="16sp"
-                    android:fontFamily="@font/pretendard_semibold"
+                    android:fontFamily="@font/notosanskr_semibold"
                     app:layout_constraintHorizontal_chainStyle="packed"
                     app:layout_constraintVertical_chainStyle="packed"
                     android:layout_marginEnd="6dp"
@@ -115,7 +115,7 @@
                     android:layout_height="25dp"
                     android:button="@null"
                     android:checked="true"
-                    android:fontFamily="@font/pretendard_regular"
+                    android:fontFamily="@font/notosanskr_regular"
                     android:gravity="center"
                     android:text="전체"
                     android:background="@drawable/sel_main_underbar"
@@ -128,7 +128,7 @@
                     android:layout_height="25dp"
                     android:button="@null"
                     android:checked="false"
-                    android:fontFamily="@font/pretendard_regular"
+                    android:fontFamily="@font/notosanskr_regular"
                     android:paddingHorizontal="3dp"
                     android:text="나의 일기"
                     android:textAlignment="center"

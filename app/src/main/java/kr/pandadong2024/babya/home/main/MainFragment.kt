@@ -160,6 +160,8 @@ class MainFragment : Fragment() {
                     result.printStackTrace()
                     if (result is HttpException) {
                         val errorBody = result.response()?.errorBody()?.string()
+                        result.response()?.code()
+
                         Log.e(TAG, "Error body: $errorBody")
                     }
                 }
@@ -210,6 +212,8 @@ class MainFragment : Fragment() {
             bannerIndicator
         }
     }
+
+
     private fun setCompanyRecyclerView(){
         rankAdapter = CompanyRankAdapter({
             position ->

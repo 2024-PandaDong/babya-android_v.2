@@ -38,7 +38,7 @@
         app:layout_constraintStart_toStartOf="@id/rank_card_view"
         app:layout_constraintEnd_toEndOf="@id/rank_card_view"
         android:text="대충 이름"
-        android:fontFamily="@font/pretendard_bold"
+        android:fontFamily="@font/notosanskr_bold"
         android:layout_marginTop="6dp"
         android:autoSizeTextType="uniform"
         android:autoSizeMaxTextSize="15dp"
