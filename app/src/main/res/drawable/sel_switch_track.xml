@@ -4,7 +4,7 @@
         <shape android:shape="rectangle">
             <corners android:radius="45dp"/>
 
-            <solid android:color="@color/yellow"/>
+            <solid android:color="@color/primaryLight"/>
         </shape>
     </item>
 
@@ -13,7 +13,7 @@
         <shape android:shape="rectangle">
             <corners android:radius="45dp"/>
 
-            <solid android:color="@color/light_gray"/>
+            <solid android:color="@color/labelDisable"/>
 
         </shape>
     </item>

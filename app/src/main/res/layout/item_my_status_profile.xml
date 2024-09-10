@@ -38,7 +38,7 @@
             android:id="@+id/title_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/pretendard_medium"
+            android:fontFamily="@font/notosanskr_medium"
             android:text="현재 박규민님의 상태입니다."
             android:textSize="15sp"
             card_view:layout_constraintBottom_toTopOf="@+id/in_card_view"
@@ -54,7 +54,7 @@
             card_view:layout_constraintStart_toEndOf="@id/in_card_view"
             card_view:layout_constraintEnd_toStartOf="@id/age_text"
             android:textSize="15sp"
-            android:fontFamily="@font/pretendard_semibold"
+            android:fontFamily="@font/notosanskr_semibold"
             />
         <TextView
             android:id="@+id/d_day_count"
@@ -65,7 +65,7 @@
             card_view:layout_constraintEnd_toEndOf="@id/d_day_text"
             card_view:layout_constraintBottom_toBottomOf="@id/age_count"
             android:text="1212"
-            android:fontFamily="@font/pretendard_regular"
+            android:fontFamily="@font/notosanskr_regular"
             android:textSize="16sp"/>
         <TextView
             android:id="@+id/age_count"
@@ -76,7 +76,7 @@
             card_view:layout_constraintEnd_toEndOf="@id/age_text"
             card_view:layout_constraintBottom_toBottomOf="@id/in_card_view"
             android:text="1212"
-            android:fontFamily="@font/pretendard_regular"
+            android:fontFamily="@font/notosanskr_regular"
             android:textSize="16sp"/>
         <TextView
             android:id="@+id/age_text"
@@ -88,7 +88,7 @@
             card_view:layout_constraintEnd_toStartOf="@id/marry_text"
             android:layout_marginTop="9dp"
             android:textSize="15sp"
-            android:fontFamily="@font/pretendard_semibold"
+            android:fontFamily="@font/notosanskr_semibold"
             />
         <TextView
             android:id="@+id/marry_count"
@@ -99,7 +99,7 @@
             card_view:layout_constraintEnd_toEndOf="@id/marry_text"
             card_view:layout_constraintBottom_toBottomOf="@id/age_count"
             android:text="1212"
-            android:fontFamily="@font/pretendard_regular"
+            android:fontFamily="@font/notosanskr_regular"
             android:textSize="16sp"/>
         <TextView
             android:id="@+id/marry_text"
@@ -110,7 +110,7 @@
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toEndOf="@id/age_text"
             android:textSize="15sp"
-            android:fontFamily="@font/pretendard_semibold"
+            android:fontFamily="@font/notosanskr_semibold"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

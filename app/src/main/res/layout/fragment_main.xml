@@ -25,7 +25,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="21dp"
-            android:fontFamily="@font/pretendard_extrabold"
+            android:fontFamily="@font/notosanskr_extrabold"
             android:textSize="16sp"
             />
 
@@ -64,7 +64,7 @@
                     android:button="@null"
                     android:text="출산전"
                     android:paddingHorizontal="3dp"
-                    android:fontFamily="@font/pretendard_bold"
+                    android:fontFamily="@font/notosanskr_bold"
                     android:gravity="bottom"
                     android:textSize="16sp"
 
@@ -78,7 +78,7 @@
                     android:button="@null"
                     android:text="출산후"
                     android:paddingHorizontal="3dp"
-                    android:fontFamily="@font/pretendard_bold"
+                    android:fontFamily="@font/notosanskr_bold"
                     android:gravity="bottom"
                     android:textSize="16sp"
 
@@ -115,7 +115,7 @@
                 app:layout_constraintTop_toBottomOf="@id/bannerViewPager"
                 app:layout_constraintStart_toStartOf="parent"
                 android:text="나의 상태"
-                android:fontFamily="@font/pretendard_bold"
+                android:fontFamily="@font/notosanskr_bold"
                 android:textSize="16sp"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="25dp"
@@ -155,7 +155,7 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toStartOf="parent"
-                    android:fontFamily="@font/pretendard_bold"
+                    android:fontFamily="@font/notosanskr_bold"
                     android:layout_marginStart="20dp"
                     android:text="현재 인기회사"
                     android:textSize="16sp"
@@ -169,7 +169,7 @@
                     app:layout_constraintBottom_toBottomOf="@id/companyText"
                     android:layout_marginEnd="20dp"
                     android:text="더보기"
-                    android:fontFamily="@font/pretendard_bold"
+                    android:fontFamily="@font/notosanskr_bold"
                     android:textSize="14sp"
 
 

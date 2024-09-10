@@ -69,25 +69,27 @@
                 android:paddingHorizontal="17dp"
                 android:layout_marginTop="17dp"
                 android:background="@drawable/sp_card_background">
+
                 <TextView
                     android:id="@+id/policyTitleText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/notosanskr_semibold"
                     android:text="policyTitle"
-                    android:textSize="20dp"
-                    android:fontFamily="@font/pretendard_semibold"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
                     android:textColor="@color/commonBlack"
-                    />
+                    android:textSize="20dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:includeFontPadding="false"/>
                 <TextView
                     android:id="@+id/policyDateRangeText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0000.00.00 ~ 0000.00.00"
                     android:textSize="14dp"
-                    android:fontFamily="@font/pretendard_medium"
+                    android:fontFamily="@font/notosanskr_medium"
                     android:textColor="@color/neutral90"
+                    android:includeFontPadding="false"
 
                     app:layout_constraintTop_toBottomOf="@id/policyTitleText"
                     app:layout_constraintStart_toStartOf="parent"
@@ -100,11 +102,12 @@
                     android:layout_height="wrap_content"
                     android:text="시행기관 : "
                     android:textSize="14dp"
-                    android:fontFamily="@font/pretendard_semibold"
+                    android:fontFamily="@font/notosanskr_semibold"
                     android:textColor="@color/commonBlack"
                     app:layout_constraintTop_toBottomOf="@id/policyDateRangeText"
                     app:layout_constraintStart_toStartOf="parent"
                     android:layout_marginTop="7dp"
+                    android:includeFontPadding="false"
                     />
 
                 <TextView
@@ -113,12 +116,12 @@
                     android:layout_height="wrap_content"
                     android:text="000기관"
                     android:textSize="14dp"
-                    android:fontFamily="@font/pretendard_regular"
+                    android:fontFamily="@font/notosanskr_regular"
                     android:textColor="@color/commonBlack"
                     app:layout_constraintTop_toTopOf="@id/policyOrganTitleText"
                     app:layout_constraintStart_toEndOf="@id/policyOrganTitleText"
                     app:layout_constraintBottom_toBottomOf="@id/policyOrganTitleText"
-
+                    android:includeFontPadding="false"
                     />
                 <TextView
                     android:id="@+id/policyCategoryTitleText"
@@ -126,11 +129,12 @@
                     android:layout_height="wrap_content"
                     android:text="범주 : "
                     android:textSize="14dp"
-                    android:fontFamily="@font/pretendard_semibold"
+                    android:fontFamily="@font/notosanskr_semibold"
                     android:textColor="@color/commonBlack"
                     app:layout_constraintTop_toBottomOf="@id/policyOrganTitleText"
                     app:layout_constraintStart_toStartOf="parent"
                     android:layout_marginTop="7dp"
+                    android:includeFontPadding="false"
                     />
 
                 <TextView
@@ -139,12 +143,12 @@
                     android:layout_height="wrap_content"
                     android:text="000기관"
                     android:textSize="14dp"
-                    android:fontFamily="@font/pretendard_regular"
+                    android:fontFamily="@font/notosanskr_regular"
                     android:textColor="@color/commonBlack"
                     app:layout_constraintTop_toTopOf="@id/policyCategoryTitleText"
                     app:layout_constraintStart_toEndOf="@id/policyCategoryTitleText"
                     app:layout_constraintBottom_toBottomOf="@id/policyCategoryTitleText"
-
+                    android:includeFontPadding="false"
                     />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -156,9 +160,10 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:text="지원금액"
                 android:textSize="16sp"
-                android:fontFamily="@font/pretendard_semibold"
+                android:fontFamily="@font/notosanskr_semibold"
                 android:layout_marginTop="17dp"
                 android:layout_marginStart="10dp"
+                android:includeFontPadding="false"
                 />
             <TextView
                 android:id="@+id/supportAmountText"
@@ -168,9 +173,10 @@
                 app:layout_constraintStart_toStartOf="@id/supportAmountTitleText"
                 android:text="지원금액"
                 android:textSize="14sp"
-                android:fontFamily="@font/pretendard_regular"
+                android:fontFamily="@font/notosanskr_regular"
                 android:layout_marginTop="6dp"
                 android:layout_marginStart="3dp"
+                android:includeFontPadding="false"
                 />
 
             <TextView
@@ -181,9 +187,10 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:text="지급방식"
                 android:textSize="16sp"
-                android:fontFamily="@font/pretendard_semibold"
+                android:fontFamily="@font/notosanskr_semibold"
                 android:layout_marginTop="17dp"
                 android:layout_marginStart="10dp"
+                android:includeFontPadding="false"
                 />
             <TextView
                 android:id="@+id/supportPaymentText"
@@ -193,9 +200,10 @@
                 app:layout_constraintStart_toStartOf="@id/supportPaymentTitleText"
                 android:text="지원금액"
                 android:textSize="14sp"
-                android:fontFamily="@font/pretendard_regular"
+                android:fontFamily="@font/notosanskr_regular"
                 android:layout_marginTop="6dp"
                 android:layout_marginStart="3dp"
+                android:includeFontPadding="false"
                 />
 
             <TextView
@@ -206,9 +214,10 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:text="지원대상"
                 android:textSize="16sp"
-                android:fontFamily="@font/pretendard_semibold"
+                android:fontFamily="@font/notosanskr_semibold"
                 android:layout_marginTop="17dp"
                 android:layout_marginStart="10dp"
+                android:includeFontPadding="false"
                 />
             <TextView
                 android:id="@+id/supportTargetText"
@@ -218,9 +227,10 @@
                 app:layout_constraintStart_toStartOf="@id/supportTargetTitleText"
                 android:text="지원금액"
                 android:textSize="14sp"
-                android:fontFamily="@font/pretendard_regular"
+                android:fontFamily="@font/notosanskr_regular"
                 android:layout_marginTop="6dp"
                 android:layout_marginStart="3dp"
+                android:includeFontPadding="false"
                 />
             <TextView
                 android:id="@+id/supportWayTitleText"
@@ -230,9 +240,10 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:text="지급방식"
                 android:textSize="16sp"
-                android:fontFamily="@font/pretendard_semibold"
+                android:fontFamily="@font/notosanskr_semibold"
                 android:layout_marginTop="17dp"
                 android:layout_marginStart="10dp"
+                android:includeFontPadding="false"
                 />
             <TextView
                 android:id="@+id/supportWayText"
@@ -242,9 +253,10 @@
                 app:layout_constraintStart_toStartOf="@id/supportWayTitleText"
                 android:text="지원금액"
                 android:textSize="14sp"
-                android:fontFamily="@font/pretendard_regular"
+                android:fontFamily="@font/notosanskr_regular"
                 android:layout_marginTop="6dp"
                 android:layout_marginStart="3dp"
+                android:includeFontPadding="false"
                 />
 
             <View
@@ -267,7 +279,7 @@
         android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         android:text="내용이 더 궁금하다면?"
-        android:fontFamily="@font/pretendard_bold"
+        android:fontFamily="@font/notosanskr_bold"
         android:textColor="@color/commonWhite"
         android:textSize="16sp"
         />

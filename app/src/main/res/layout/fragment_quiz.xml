@@ -24,7 +24,7 @@
             android:layout_gravity="center"
             android:text="일일퀴즈"
             android:textSize="24sp"
-            android:fontFamily="@font/pretendard_bold"/>
+            android:fontFamily="@font/notosanskr_bold"/>
     </androidx.appcompat.widget.Toolbar>
     <TextView
         android:id="@+id/quizText"
@@ -38,7 +38,7 @@
         android:layout_marginStart="25dp"
         android:layout_marginEnd="25dp"
 
-        android:fontFamily="@font/pretendard_bold"
+        android:fontFamily="@font/notosanskr_bold"
         android:autoSizeTextType="uniform"
         android:textSize="24sp"
         android:autoSizeMaxTextSize="24sp"
@@ -68,7 +68,7 @@
         android:background="@drawable/sp_button_background"
         android:stateListAnimator="@null"
         android:text="O"
-        android:fontFamily="@font/pretendard_extrabold"
+        android:fontFamily="@font/notosanskr_extrabold"
         android:textSize="20sp"
         android:textColor="@color/white"
         />
@@ -85,7 +85,7 @@
         android:background="@drawable/sp_button_background"
         android:stateListAnimator="@null"
         android:text="X"
-        android:fontFamily="@font/pretendard_extrabold"
+        android:fontFamily="@font/notosanskr_extrabold"
         android:textSize="20sp"
         android:textColor="@color/white"/>
 
@@ -95,7 +95,7 @@
         android:layout_height="wrap_content"
         android:text="건너뛰기"
         android:textSize="20sp"
-        android:fontFamily="@font/pretendard_bold"
+        android:fontFamily="@font/notosanskr_bold"
         android:textColor="@color/skip_gray"
         app:layout_constraintTop_toBottomOf="@id/falseButton"
         app:layout_constraintBottom_toBottomOf="parent"

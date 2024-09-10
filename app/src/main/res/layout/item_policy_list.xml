@@ -18,16 +18,17 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:fontFamily="@font/pretendard_semibold"
+            android:fontFamily="@font/notosanskr_semibold"
             app:layout_constraintEnd_toStartOf="@+id/imageCardView"
             android:textSize="16dp"
             android:text="대충 정책 지원금 200만원"
-            android:layout_marginEnd="17dp"/>
+            android:layout_marginEnd="17dp"
+            android:includeFontPadding="false"/>
         <TextView
             android:id="@+id/localTagText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/pretendard_semibold"
+            android:fontFamily="@font/notosanskr_semibold"
             android:textSize="14sp"
             app:layout_constraintTop_toBottomOf="@id/titleText"
             app:layout_constraintStart_toStartOf="@id/titleText"
@@ -35,6 +36,7 @@
             android:layout_marginStart="1dp"
             android:text="대구"
             android:textColor="@color/neutral40"
+            android:includeFontPadding="false"
             />
         <TextView
             android:id="@+id/locationText"
@@ -42,11 +44,12 @@
             android:layout_height="wrap_content"
             app:layout_constraintStart_toEndOf="@id/localTagText"
             android:textColor="@color/neutral40"
-            android:fontFamily="@font/pretendard_medium"
+            android:fontFamily="@font/notosanskr_medium"
             android:textSize="14sp"
             app:layout_constraintTop_toTopOf="@id/localTagText"
             android:layout_marginStart="9dp"
             android:text="대구광역시남구 보건소"
+            android:includeFontPadding="false"
             />
         
         <TextView
@@ -58,7 +61,8 @@
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="6dp"
             android:textSize="14sp"
-            android:fontFamily="@font/pretendard_medium"
+            android:fontFamily="@font/notosanskr_medium"
+            android:includeFontPadding="false"
             />
         <androidx.cardview.widget.CardView
             android:id="@+id/imageCardView"
@@ -69,6 +73,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            android:includeFontPadding="false"
             >
             <ImageView
                 android:id="@+id/policyImage"
