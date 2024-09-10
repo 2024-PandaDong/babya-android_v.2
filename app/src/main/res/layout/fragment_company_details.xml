@@ -344,11 +344,12 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <ImageView
+
+
+            <com.github.mikephil.charting.charts.PieChart
                 android:id="@+id/Chart"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:background="@color/blue"
                 app:layout_constraintTop_toBottomOf="@id/personnel"
                 app:layout_constraintStart_toEndOf="@+id/femaleLayout"
                 android:layout_marginTop="18dp"

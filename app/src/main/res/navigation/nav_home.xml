@@ -12,6 +12,9 @@
         <action
             android:id="@+id/action_findCompanyFragment_to_mainFragment"
             app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/action_findCompanyFragment_to_companyDetailsFragment"
+            app:destination="@id/companyDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/dashBoardFragment"
@@ -157,6 +160,15 @@
             app:popUpToInclusive="true"
             app:popUpTo="@id/quizResultFragment"
              />
+    </fragment>
+    <fragment
+        android:id="@+id/companyDetailsFragment"
+        android:name="kr.pandadong2024.babya.home.find_company.CompanyDetailsFragment"
+        android:label="fragment_company_details"
+        tools:layout="@layout/fragment_company_details" >
+        <action
+            android:id="@+id/action_companyDetailsFragment_to_findCompanyFragment"
+            app:destination="@id/findCompanyFragment" />
     </fragment>
 
 </navigation>
