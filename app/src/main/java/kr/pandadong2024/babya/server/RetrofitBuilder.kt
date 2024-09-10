@@ -9,6 +9,7 @@ import kr.pandadong2024.babya.server.local.BabyaDB
 import kr.pandadong2024.babya.server.local.TokenDAO
 import kr.pandadong2024.babya.server.remote.interceptor.TokenInterceptor
 import kr.pandadong2024.babya.server.remote.service.CommonService
+import kr.pandadong2024.babya.server.remote.service.CompanyService
 import kr.pandadong2024.babya.server.remote.service.DashBoardService
 import kr.pandadong2024.babya.server.remote.service.DiaryService
 import kr.pandadong2024.babya.server.remote.service.MainService
@@ -41,6 +42,7 @@ class RetrofitBuilder {
         private var quizService : QuizService? = null
         private var profileService: ProfileService? =null
         private var dashBoardService: DashBoardService? = null
+        private var companyService : CompanyService? = null
 
         @Synchronized
         fun getGson(): Gson? {
@@ -150,6 +152,14 @@ class RetrofitBuilder {
             }
             return loginService!!
         }
+
+        fun getCompanyService(): CompanyService{
+            if (companyService == null){
+                companyService = getHttpRetrofit().create(CompanyService::class.java)
+            }
+            return companyService!!
+        }
+
         fun getQuizService() : QuizService {
             if (quizService == null){
                 quizService = getHttpRetrofit().create(QuizService::class.java)

@@ -62,9 +62,16 @@ protobuf {
 
 dependencies {
 
+
+    // chart
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+
+    implementation("com.tbuonomo:dotsindicator:5.0")
+
     implementation(libs.google.material.v190)
 
     implementation(libs.dotsindicator)
+
     implementation(libs.circleindicator)
 
     implementation(libs.androidx.room.runtime.v250)

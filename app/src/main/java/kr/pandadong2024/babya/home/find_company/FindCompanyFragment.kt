@@ -25,7 +25,12 @@ class FindCompanyFragment : Fragment() {
             findNavController().navigate(R.id.action_findCompanyFragment_to_mainFragment)
         }
 
-        return return  binding.root
+        binding.gogogo.setOnClickListener {
+            findNavController().navigate(R.id.action_findCompanyFragment_to_companyDetailsFragment)
+        }
+
+
+        return  binding.root
     }
 
     override fun onPause() {
