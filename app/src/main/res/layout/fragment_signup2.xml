@@ -23,7 +23,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:fontFamily="@font/pretendard_bold"
+            android:fontFamily="@font/notosanskr_bold"
+            android:includeFontPadding="false"
             android:text="회원가입"
             android:textSize="19sp" />
 
@@ -49,7 +50,8 @@
         android:layout_marginStart="18dp"
         android:layout_marginTop="40dp"
         android:text="이메일  비밀번호"
-        android:fontFamily="@font/pretendard_semibold"
+        android:fontFamily="@font/notosanskr_semibold"
+        android:includeFontPadding="false"
         android:textSize="20dp"
         android:textColor="@color/black"
         />
@@ -66,7 +68,8 @@
         android:text="인증한 이메일로 로그인을 할 수 있어요."
         android:textColor="@color/black"
         android:textSize="14dp"
-        android:fontFamily="@font/pretendard_medium"
+        android:fontFamily="@font/notosanskr_medium"
+        android:includeFontPadding="false"
         />
 
 
