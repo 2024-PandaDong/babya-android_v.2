@@ -121,7 +121,8 @@
         <action
             android:id="@+id/action_companyDetailsFragment_to_findCompanyFragment"
             app:destination="@id/findCompanyFragment" />
-
+    </fragment>
+    <fragment
         android:id="@+id/policyContentFragment"
         android:name="kr.pandadong2024.babya.home.policy.PolicyContentFragment"
         android:label="fragment_policy_content"
