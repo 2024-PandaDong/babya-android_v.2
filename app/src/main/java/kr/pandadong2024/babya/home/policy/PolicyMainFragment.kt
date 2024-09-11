@@ -6,11 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentPolicyMainBinding
 import kr.pandadong2024.babya.home.policy.adapter.PolicyRecyclerView
@@ -59,9 +56,7 @@ class PolicyMainFragment : Fragment() {
         }
         binding.tagEditText.setOnClickListener {
             val bottomSheetDialog =
-                PolicyBottomSheet() { tagList ->
-                    setCategory(tagList)
-                }
+                PolicyBottomSheet()
 
             bottomSheetDialog.show(requireActivity().supportFragmentManager, bottomSheetDialog.tag)
             Log.d(TAG, "show aaa")
@@ -96,23 +91,7 @@ class PolicyMainFragment : Fragment() {
             localCategoryList = categoryList,
             flash = { position, localCategoryList ->
 
-//                if (position != 0){
-//                    localCategoryList.removeAt(position)
-//                    _category = localCategoryList
                 setCategory(viewModel.tagsList.value!!)
-//                }
-//                else{
-//                    val bottomSheetDialog = PolicyBottomSheet(localCategoryList){
-//                            tagList ->
-//                        _category = tagList.toMutableList()
-//                        setCategory(tagList)
-//                    }
-//
-//                    bottomSheetDialog.show(requireActivity().supportFragmentManager, bottomSheetDialog.tag)
-//                    Log.d(TAG, "show aaa")
-//
-//                    // TODO : show BottomSheet
-//                }
 
 
             }

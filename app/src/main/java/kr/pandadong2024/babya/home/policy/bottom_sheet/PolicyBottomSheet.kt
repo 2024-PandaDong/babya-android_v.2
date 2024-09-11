@@ -11,10 +11,8 @@ import com.google.android.material.chip.Chip
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.PolicyBottomSheetBinding
 import kr.pandadong2024.babya.home.policy.viewmdole.PolicyViewModel
-import kr.pandadong2024.babya.util.shortToast
 
 class PolicyBottomSheet(
-    val submit: (List<String>) -> Unit
 ) : BottomSheetDialogFragment() {
     private val viewModel by activityViewModels<PolicyViewModel>()
     private var _binding: PolicyBottomSheetBinding? = null
