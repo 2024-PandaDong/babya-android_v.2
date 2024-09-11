@@ -27,7 +27,7 @@
 <!--            android:includeFontPadding="false"-->
 <!--            android:backgroundTint="@color/backgroundNormalNormal"/>-->
         <ImageButton
-            android:id="@+id/signUpBackButton"
+            android:id="@+id/backButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
@@ -107,17 +107,58 @@
                     />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/policyTitleLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/categoryLayout"
+                android:layout_marginTop="10dp"
+                android:paddingTop="23dp"
+                android:paddingBottom="10dp"
+                android:paddingStart="21dp"
+                android:background="@color/backgroundNormalNormal"
+                >
+                <TextView
+                    android:id="@+id/titleText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/common0"
+                    android:fontFamily="@font/notosanskr_semibold"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:textSize="16sp"
+                    android:text="박규민님을 위한 추천 정책"
+                    android:includeFontPadding="false"
+                    />
+                <TextView
+                    android:id="@+id/subTitleText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/bottom_bar_gray"
+                    android:fontFamily="@font/notosanskr_medium"
+                    android:textSize="11sp"
+                    app:layout_constraintTop_toBottomOf="@id/titleText"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:text="지역에 따라 정책을 모았어요"
+                    android:layout_marginStart="1dp"
+                    android:layout_marginTop="4dp"
+                    android:includeFontPadding="false"
+                    />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/policyListRecyclerView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintTop_toBottomOf="@id/categoryLayout"
+                app:layout_constraintTop_toBottomOf="@id/policyTitleLayout"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginTop="10dp"
+
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
