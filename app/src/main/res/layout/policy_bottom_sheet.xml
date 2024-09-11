@@ -9,7 +9,7 @@
     >
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="630dp"
+            android:layout_height="790dp"
             android:background="@drawable/sp_policy_bottom_sheet"
             android:paddingHorizontal="25dp"
             android:paddingVertical="38dp"

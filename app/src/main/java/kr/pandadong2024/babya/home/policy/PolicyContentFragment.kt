@@ -21,8 +21,6 @@ import kr.pandadong2024.babya.databinding.FragmentPolicyContentBinding
 import kr.pandadong2024.babya.home.policy.viewmdole.PolicyViewModel
 import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.util.BottomControllable
-import org.jsoup.Jsoup
-import org.jsoup.nodes.Element
 import retrofit2.HttpException
 import java.io.File
 
@@ -143,53 +141,5 @@ class PolicyContentFragment : Fragment() {
         )
     }
 
-    fun convertHtmlToMarkdown(html: String): String {
-        val doc = Jsoup.parse(html)
 
-        // <h1>, <h2>, <h3> 등을 마크다운 헤더로 변환
-        convertHeadersToMarkdown(doc)
-
-        // <ul>과 <li>를 마크다운 리스트로 변환
-        convertListsToMarkdown(doc)
-
-        // <p>를 텍스트로 변환
-        doc.select("p").forEach {
-            it.before("${it.text()}\n\n")
-            it.remove()
-        }
-
-        // <img>를 마크다운 이미지로 변환
-        doc.select("img").forEach {
-            val alt = it.attr("alt")
-            val src = it.attr("src")
-            it.before("![${alt}](${src})\n")
-            it.remove()
-        }
-
-        return doc.body().text()
-    }
-
-    fun convertHeadersToMarkdown(doc: Element) {
-        doc.select("h1").forEach {
-            it.before("# ${it.text()}\n")
-            it.remove()
-        }
-        doc.select("h2").forEach {
-            it.before("## ${it.text()}\n")
-            it.remove()
-        }
-        doc.select("h3").forEach {
-            it.before("### ${it.text()}\n")
-            it.remove()
-        }
-    }
-
-    fun convertListsToMarkdown(doc: Element) {
-        doc.select("ul").forEach { ul ->
-            ul.select("li").forEach { li ->
-                li.before("- ${li.text()}\n")
-            }
-            ul.remove()
-        }
-    }
 }

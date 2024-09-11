@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.Chip
 import kr.pandadong2024.babya.R
@@ -53,6 +54,18 @@ class PolicyBottomSheet(val submit : (tag : String)->Unit
         ), "부산광역시" to listOf("수영구", "동래구")
     )
 
+    override fun onStart() {
+        super.onStart()
+        if (dialog != null) {
+            val bottomSheet =
+                dialog!!.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
+//            bottomSheet.layoutParams.height = 800
+            val behavior = BottomSheetBehavior.from(bottomSheet)
+            behavior.state = BottomSheetBehavior.STATE_EXPANDED
+            behavior.skipCollapsed = true
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -61,9 +74,10 @@ class PolicyBottomSheet(val submit : (tag : String)->Unit
         _binding = PolicyBottomSheetBinding.inflate(inflater, container, false)
 
         binding.searchButton.setOnClickListener {
-            if(viewModel.tagsList.value!!.isEmpty()){
+            if(viewModel.tagsList.value!!.isEmpty() or (viewModel.tagsList.value!!.size != 0)){
                 viewModel.initViewModel()
             }
+
             submit(viewModel.tagsList.value!![1])
 
             this.dismiss()
