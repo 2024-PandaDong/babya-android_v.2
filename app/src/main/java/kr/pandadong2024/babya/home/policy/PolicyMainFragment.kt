@@ -96,8 +96,9 @@ class PolicyMainFragment : Fragment() {
                         viewModel.setPolicyList(result.data!!)
                         setRecyclerView(
                             policyList = result.data,
-                            tag = tag
+                            tag = "${viewModel.tagsList.value!![0]} ${viewModel.tagsList.value!![1]} 보건소"
                         )
+
                     }
                 }else{
                     Log.d(TAG, "200이 아닌 다른 상태,\nstatus : ${result.status}")

@@ -1,5 +1,6 @@
 package kr.pandadong2024.babya.home.policy
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -7,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -19,7 +21,11 @@ import kr.pandadong2024.babya.databinding.FragmentPolicyContentBinding
 import kr.pandadong2024.babya.home.policy.viewmdole.PolicyViewModel
 import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.util.BottomControllable
+import org.jsoup.Jsoup
+import org.jsoup.nodes.Element
 import retrofit2.HttpException
+import java.io.File
+
 
 class PolicyContentFragment : Fragment() {
     var _binding: FragmentPolicyContentBinding? = null
@@ -34,7 +40,6 @@ class PolicyContentFragment : Fragment() {
     ): View {
         _binding = FragmentPolicyContentBinding.inflate(inflater, container, false)
         setScreen(viewModel.policyList.value!![viewModel.policyId.value!!].policyId)
-        (requireActivity() as BottomControllable).setBottomNavVisibility(false)
         binding.signUpBackButton.setOnClickListener {
             findNavController().navigate(R.id.action_policyContentFragment_to_policyMainFragment)
         }
@@ -47,17 +52,54 @@ class PolicyContentFragment : Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        (requireActivity() as BottomControllable).setBottomNavVisibility(false)
+    }
+
     private fun setScreen(id: Int) {
         lifecycleScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 RetrofitBuilder.getPolicyService().getPolicyContent(id)
             }.onSuccess { result ->
                 if (result.status == 200) {
+//                    val file = File(context?.filesDir, "index.html")
+//                    if(file.exists()){
+//                        FileOutputStream(file).use { output ->
+//                            output.write("".toByteArray())  // 빈 문자열을 씀
+//                        }
+//                    }
+//                    else{
+//                        file.createNewFile()
+//                    }
+//                    listFilesInInternalStorage(requireContext())
+//
+//                    val html = Jsoup.parse(result.data!!.content).html()
+//                    FileOutputStream(file).use { output ->
+//                        output.write(html.toByteArray())
+//                    }
                     withContext(Dispatchers.Main) {
                         Log.d(TAG, "200,\nstatus : ${result.data}")
                         policyLink = result.data!!.link
                         binding.policyTitleText.text = result.data.title
                         binding.policyDateRangeText.text = result.data.editDate
+                        binding.htmlLodeText.loadDataWithBaseURL(null,result.data.content,"text/html","utf-8",null )
+
+
+//                        binding.htmlLodeText.addInternalLinkPrefix(result.data.content)
+
+
+                        val filePath = requireContext().getExternalFilesDir(null)?.absolutePath
+                        Log.d(TAG, "Internal File Path: $filePath")
+
+
+//                        var prefix: String = indexUrl.toString()
+//                        Log.d(TAG, prefix)
+//                        val cut = prefix.lastIndexOf('/')
+//                        prefix = prefix.substring(0, cut + 1)
+//                        binding.htmlLodeText.addInternalLinkPrefix(prefix)
+//                        binding.htmlLodeText.loadHtml(indexUrl)
+
 
                     }
                 } else {
@@ -74,8 +116,80 @@ class PolicyContentFragment : Fragment() {
 
         }
     }
+
+
+    fun listFilesInInternalStorage(context: Context) {
+        val directory: File = context.filesDir
+        val files: Array<File>? = directory.listFiles()
+
+        if (files != null) {
+            for (file in files) {
+                println("File: ${file.name}")
+            }
+        } else {
+            println("No files found in the directory.")
+        }
+    }
     override fun onPause() {
         super.onPause()
         (requireActivity() as BottomControllable).setBottomNavVisibility(true)
+    }
+
+    fun getFileUri(context: Context, file: File): Uri? {
+        return FileProvider.getUriForFile(
+            context,
+            "${context.packageName}.provider",
+            file
+        )
+    }
+
+    fun convertHtmlToMarkdown(html: String): String {
+        val doc = Jsoup.parse(html)
+
+        // <h1>, <h2>, <h3> 등을 마크다운 헤더로 변환
+        convertHeadersToMarkdown(doc)
+
+        // <ul>과 <li>를 마크다운 리스트로 변환
+        convertListsToMarkdown(doc)
+
+        // <p>를 텍스트로 변환
+        doc.select("p").forEach {
+            it.before("${it.text()}\n\n")
+            it.remove()
+        }
+
+        // <img>를 마크다운 이미지로 변환
+        doc.select("img").forEach {
+            val alt = it.attr("alt")
+            val src = it.attr("src")
+            it.before("![${alt}](${src})\n")
+            it.remove()
+        }
+
+        return doc.body().text()
+    }
+
+    fun convertHeadersToMarkdown(doc: Element) {
+        doc.select("h1").forEach {
+            it.before("# ${it.text()}\n")
+            it.remove()
+        }
+        doc.select("h2").forEach {
+            it.before("## ${it.text()}\n")
+            it.remove()
+        }
+        doc.select("h3").forEach {
+            it.before("### ${it.text()}\n")
+            it.remove()
+        }
+    }
+
+    fun convertListsToMarkdown(doc: Element) {
+        doc.select("ul").forEach { ul ->
+            ul.select("li").forEach { li ->
+                li.before("- ${li.text()}\n")
+            }
+            ul.remove()
+        }
     }
 }

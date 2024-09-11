@@ -11,8 +11,6 @@ import kr.pandadong2024.babya.util.roundAll
 class PolicyRecyclerView (val policyList : List<PolicyListResponse>, val tag : String, val onClick : (position : Int) -> Unit) : RecyclerView.Adapter<PolicyRecyclerView.PolicyViewHolder>() {
     inner class PolicyViewHolder(val binding : ItemPolicyListBinding) :RecyclerView.ViewHolder(binding.root){
         fun policyBind(policyDate : PolicyListResponse, position: Int){
-            binding.policyImage.load("https://file.thisisgame.com/upload/nboard/news/2023/08/14/20230814121422_4417w.jpg")
-            roundAll(binding.policyImage, 10f)
             binding.termText.text = policyDate.editDate
 //            binding.locationText.text =tag
             binding.localTagText.text = tag
