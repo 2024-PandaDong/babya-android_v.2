@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kr.pandadong2024.babya.R
@@ -15,17 +16,35 @@ import kr.pandadong2024.babya.databinding.FragmentPolicyMainBinding
 import kr.pandadong2024.babya.home.policy.adapter.PolicyRecyclerView
 import kr.pandadong2024.babya.home.policy.bottom_sheet.PolicyBottomSheet
 import kr.pandadong2024.babya.home.policy.decoration.PolicyItemDecoration
+import kr.pandadong2024.babya.home.policy.viewmdole.PolicyViewModel
 import kr.pandadong2024.babya.home.todo_list.adapter.PolicyCategoryAdapter
 import kr.pandadong2024.babya.home.todo_list.decoration.PolicyCategoryItemDecoration
 
 class PolicyMainFragment : Fragment() {
     val TAG = "PolicyMainFragment"
-
+    private val viewModel by activityViewModels<PolicyViewModel>()
     var _binding: FragmentPolicyMainBinding? = null
     val binding get() = _binding!!
 
-    private var _category : MutableList<String> = mutableListOf<String>("지역")
-    private var _policy : MutableList<String> = mutableListOf<String>("지역", "지역", "지역", "지역", "지역", "지역", "지역", "지역", "지역", "지역", "지역", "지역", "지역", "지역", "지역", "지역", "지역", )
+    private var _policy: MutableList<String> = mutableListOf<String>(
+        "지역",
+        "지역",
+        "지역",
+        "지역",
+        "지역",
+        "지역",
+        "지역",
+        "지역",
+        "지역",
+        "지역",
+        "지역",
+        "지역",
+        "지역",
+        "지역",
+        "지역",
+        "지역",
+        "지역",
+    )
 
 
     override fun onCreateView(
@@ -34,18 +53,31 @@ class PolicyMainFragment : Fragment() {
     ): View {
         _binding = FragmentPolicyMainBinding.inflate(inflater, container, false)
 
+        viewModel.tagsList.observe(viewLifecycleOwner) {
+            Log.d(TAG, "changed")
+            setCategory(viewModel.tagsList.value!!)
+        }
+        binding.tagEditText.setOnClickListener {
+            val bottomSheetDialog =
+                PolicyBottomSheet() { tagList ->
+                    setCategory(tagList)
+                }
 
-        setCategory(categoryList = _category)
+            bottomSheetDialog.show(requireActivity().supportFragmentManager, bottomSheetDialog.tag)
+            Log.d(TAG, "show aaa")
+        }
+
+        setCategory(categoryList = viewModel.tagsList.value!!)
         setRecyclerView(_policy)
 
         return binding.root
     }
 
-    private fun setRecyclerView(policyList : List<String>){
-        val recyclerAdapter = PolicyRecyclerView(policyList = policyList){
+    private fun setRecyclerView(policyList: List<String>) {
+        val recyclerAdapter = PolicyRecyclerView(policyList = policyList) {
             findNavController().navigate(R.id.action_policyMainFragment_to_policyContentFragment)
         }
-        with(binding){
+        with(binding) {
             recyclerAdapter.notifyItemRemoved(0)
             policyListRecyclerView.adapter = recyclerAdapter
             Log.d("TAG", "itemDecorationCount : ${policyListRecyclerView.itemDecorationCount}")
@@ -53,8 +85,6 @@ class PolicyMainFragment : Fragment() {
                 PolicyItemDecoration(policyList.size)
             )
         }
-
-
 
 
     }
@@ -66,22 +96,23 @@ class PolicyMainFragment : Fragment() {
             localCategoryList = categoryList,
             flash = { position, localCategoryList ->
 
-                if (position != 0){
-                    localCategoryList.removeAt(position)
-                    _category = localCategoryList
-                }
-                else{
-
-
-                    val bottomSheetDialog = PolicyBottomSheet(localCategoryList){
-                        tagList ->
-                        setCategory(tagList)
-                    }
-
-                    bottomSheetDialog.show(requireActivity().supportFragmentManager, bottomSheetDialog.tag)
-                    Log.d(TAG, "show aaa")
-                    // TODO : show BottomSheet
-                }
+//                if (position != 0){
+//                    localCategoryList.removeAt(position)
+//                    _category = localCategoryList
+                setCategory(viewModel.tagsList.value!!)
+//                }
+//                else{
+//                    val bottomSheetDialog = PolicyBottomSheet(localCategoryList){
+//                            tagList ->
+//                        _category = tagList.toMutableList()
+//                        setCategory(tagList)
+//                    }
+//
+//                    bottomSheetDialog.show(requireActivity().supportFragmentManager, bottomSheetDialog.tag)
+//                    Log.d(TAG, "show aaa")
+//
+//                    // TODO : show BottomSheet
+//                }
 
 
             }

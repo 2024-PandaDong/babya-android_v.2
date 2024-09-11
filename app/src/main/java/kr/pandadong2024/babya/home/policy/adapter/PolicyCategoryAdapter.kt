@@ -16,21 +16,12 @@ class PolicyCategoryAdapter(val flash :(position:Int, localCategoryList : Mutabl
     inner class CategoryViewHolder(private val binding: ItemPolicyListTagBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(localText: String, position: Int) {
-            if (position == 0) {
-                binding.localTagText.text = localText
-                binding.itemPolicyParent.visibility = View.GONE
-                binding.itemLocalParent.setOnClickListener {
-                    // TODO : show bottom Sheet
-                    flash(position, localCategoryList.toMutableList())
-                }
-            } else {
+
                 binding.policyTagText.text = localText
-                binding.itemLocalParent.visibility = View.GONE
                 binding.itemPolicyParent.setOnClickListener {
                     flash(position, localCategoryList.toMutableList())
                 }
                 Log.d("isSelect", "test : $localText")
-            }
 
         }
 

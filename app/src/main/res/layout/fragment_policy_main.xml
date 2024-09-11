@@ -16,15 +16,16 @@
         app:layout_constraintTop_toTopOf="parent"
         android:background="@color/backgroundNormalNormal"
         >
-        <TextView
-            android:id="@+id/todoListTitleText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:fontFamily="@font/notosanskr_bold"
-            android:text="지역"
-            android:textSize="16sp"
-            android:backgroundTint="@color/backgroundNormalNormal"/>
+<!--        <TextView-->
+<!--            android:id="@+id/todoListTitleText"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:fontFamily="@font/notosanskr_bold"-->
+<!--            android:text="지역"-->
+<!--            android:textSize="16sp"-->
+<!--            android:includeFontPadding="false"-->
+<!--            android:backgroundTint="@color/backgroundNormalNormal"/>-->
         <ImageButton
             android:id="@+id/signUpBackButton"
             android:layout_width="wrap_content"
@@ -39,47 +40,121 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_marginEnd="13dp"
-            android:src="@drawable/ic_refresh"
+            android:src="@drawable/ic_search"
             android:background="@null"
             android:padding="8dp"
             />
 
 
     </androidx.appcompat.widget.Toolbar>
-    <View
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        app:layout_constraintBottom_toBottomOf="@id/policyListToolbar"
-        android:background="@color/lineNormal"
-        />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/category_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/policyListToolbar"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:orientation="horizontal"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        android:background="@color/backgroundNormalNormal"
-        />
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        app:layout_constraintBottom_toBottomOf="@id/category_recycler_view"
-        android:background="@color/lineNormal"
-        />
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/policyListRecyclerView"
-        android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintTop_toBottomOf="@id/category_recycler_view"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/policyTabLayout"
         app:layout_constraintBottom_toBottomOf="parent"
-        />
+        >
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/categoryLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="23dp"
+                android:paddingBottom="20dp"
+                app:layout_constraintTop_toTopOf="parent"
+                android:background="@color/backgroundNormalNormal"
+                >
+                <TextView
+                    android:id="@+id/tagTitleText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="박규민님의 지역"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/notosanskr_semibold"
+                    android:includeFontPadding="false"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="23dp"
+                    android:textColor="@color/common0"
+                    />
+                <TextView
+                    android:id="@+id/tagEditText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="편집하기"
+                    android:textSize="11sp"
+                    android:fontFamily="@font/notosanskr_medium"
+                    android:includeFontPadding="false"
+                    app:layout_constraintTop_toTopOf="@id/tagTitleText"
+                    app:layout_constraintBottom_toBottomOf="@id/tagTitleText"
+                    android:textColor="@color/bottom_bar_gray"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:padding="8dp"
+                    android:layout_marginEnd="15dp"
+                    />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/category_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/tagTitleText"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="16dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    android:background="@color/backgroundNormalNormal"
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/policyListRecyclerView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintTop_toBottomOf="@id/categoryLayout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginTop="10dp"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/policyTabLayout"
+        android:layout_width="match_parent"
+        app:layout_constraintTop_toBottomOf="@id/policyListToolbar"
+        android:layout_height="wrap_content"
+        app:tabTextAppearance="@style/tabBarTextStyle"
+        app:tabIndicatorColor="@color/primaryNormal"
+        app:tabIndicatorHeight="2dp"
+        app:tabBackground="@drawable/sel_custom_indicator"
+        app:tabSelectedTextColor="@color/common0"
+        android:background="@color/backgroundNormalNormal"
+        app:tabTextColor="@color/common0"
+
+        app:tabMode="scrollable"
+        app:tabGravity="fill" >
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="임신전"
+            />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="임신후" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="출산후" />
+    </com.google.android.material.tabs.TabLayout>
+
 
 
 
