@@ -16,6 +16,7 @@ import kr.pandadong2024.babya.home.policy.decoration.PolicyItemDecoration
 import kr.pandadong2024.babya.home.policy.viewmdole.PolicyViewModel
 import kr.pandadong2024.babya.home.todo_list.adapter.PolicyCategoryAdapter
 import kr.pandadong2024.babya.home.todo_list.decoration.PolicyCategoryItemDecoration
+import kr.pandadong2024.babya.util.BottomControllable
 
 class PolicyMainFragment : Fragment() {
     val TAG = "PolicyMainFragment"
@@ -49,7 +50,10 @@ class PolicyMainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentPolicyMainBinding.inflate(inflater, container, false)
-
+        (requireActivity() as BottomControllable).setBottomNavVisibility(false)
+        binding.backButton.setOnClickListener {
+            findNavController().navigate(R.id.action_policyMainFragment_to_mainFragment)
+        }
         viewModel.tagsList.observe(viewLifecycleOwner) {
             Log.d(TAG, "changed")
             setCategory(viewModel.tagsList.value!!)
@@ -105,5 +109,9 @@ class PolicyMainFragment : Fragment() {
             )
 
         }
+    }
+    override fun onPause() {
+        super.onPause()
+        (requireActivity() as BottomControllable).setBottomNavVisibility(true)
     }
 }

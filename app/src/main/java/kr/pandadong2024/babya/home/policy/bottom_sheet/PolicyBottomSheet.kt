@@ -58,18 +58,10 @@ class PolicyBottomSheet(
         savedInstanceState: Bundle?,
     ): View {
         _binding = PolicyBottomSheetBinding.inflate(inflater, container, false)
-//        var encodingSelects = encodingSelected(viewModel.tagsList.value!!)
-//        viewModel.tagsList.observe(viewLifecycleOwner){
-//            encodingSelects = encodingSelected(viewModel.tagsList.value!!)
-//            initZoneRecyclerview(encodingSelects)
-//        }
-//        Log.i("PolicyBottomSheet", "test : $encodingSelects")
 
         binding.searchButton.setOnClickListener {
-            //TODO : 바텀시트 닫기
             this.dismiss()
         }
-//        initZoneRecyclerview(viewModel.tagsList.value!!)
 
         viewModel.tagsList.observe(viewLifecycleOwner) {
 
@@ -116,20 +108,13 @@ class PolicyBottomSheet(
 
                 setOnClickListener { view ->
                     Log.d("test", "isChecked = ${(keyWord)}")
-                    if(keyWord == ""){
+                    if (keyWord == "") {
                         viewModel.inputLocal(it)
-                    }
-                    else{
-                        if(it == keyWord){
+                    } else {
+                        viewModel.removeAll()
+                        if (it == keyWord) {
                             viewModel.popLocal(keyWord)
-//                            if (binding.root.findViewById<Chip>(view.id).isChecked) {
-//                                viewModel.inputLocal(it)
-//                            } else {
-//                                viewModel.popLocal(keyWord)
-//                            }
-                        }
-                        else{
-                            viewModel.removeAll()
+                        } else {
                             viewModel.inputLocal(it)
                         }
 
