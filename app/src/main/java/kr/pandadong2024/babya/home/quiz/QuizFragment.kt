@@ -40,10 +40,10 @@ class QuizFragment : Fragment() {
         tokenDao = BabyaDB.getInstance(requireContext().applicationContext)?.tokenDao()!!
         getQuiz()
         (requireActivity() as BottomControllable).setBottomNavVisibility(false)
-        binding.trueButton.setOnClickListener {
+        binding.positiveButton.setOnClickListener {
             moveOtherView(false)
         }
-        binding.falseButton.setOnClickListener {
+        binding.negativeButton.setOnClickListener {
             moveOtherView(false)
         }
         binding.skipText.setOnClickListener {
