@@ -1,27 +1,81 @@
 package kr.pandadong2024.babya.home.policy
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentPolicyContentBinding
+import kr.pandadong2024.babya.home.policy.viewmdole.PolicyViewModel
+import kr.pandadong2024.babya.server.RetrofitBuilder
+import kr.pandadong2024.babya.util.BottomControllable
+import retrofit2.HttpException
 
 class PolicyContentFragment : Fragment() {
     var _binding: FragmentPolicyContentBinding? = null
-    private val binding get()= _binding!!
+    private val binding get() = _binding!!
+    private val viewModel by activityViewModels<PolicyViewModel>()
+    val TAG = "PolicyContentFragment"
+    var policyLink : String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentPolicyContentBinding.inflate(inflater, container, false)
-
+        setScreen(viewModel.policyList.value!![viewModel.policyId.value!!].policyId)
+        (requireActivity() as BottomControllable).setBottomNavVisibility(false)
         binding.signUpBackButton.setOnClickListener {
             findNavController().navigate(R.id.action_policyContentFragment_to_policyMainFragment)
         }
+
+        binding.linkButton.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(policyLink))
+            startActivity(intent)
+        }
+
         return binding.root
+    }
+
+    private fun setScreen(id: Int) {
+        lifecycleScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                RetrofitBuilder.getPolicyService().getPolicyContent(id)
+            }.onSuccess { result ->
+                if (result.status == 200) {
+                    withContext(Dispatchers.Main) {
+                        Log.d(TAG, "200,\nstatus : ${result.data}")
+                        policyLink = result.data!!.link
+                        binding.policyTitleText.text = result.data.title
+                        binding.policyDateRangeText.text = result.data.editDate
+
+                    }
+                } else {
+                    Log.d(TAG, "200이 아닌 다른 상태,\nstatus : ${result.status}")
+                }
+            }.onFailure { result ->
+                result.printStackTrace()
+                Log.e(TAG, "result = ${result.message}")
+                if (result is HttpException) {
+                    val errorBody = result.response()?.errorBody()?.string()
+                    Log.e(TAG, "Error body: $errorBody")
+                }
+            }
+
+        }
+    }
+    override fun onPause() {
+        super.onPause()
+        (requireActivity() as BottomControllable).setBottomNavVisibility(true)
     }
 }

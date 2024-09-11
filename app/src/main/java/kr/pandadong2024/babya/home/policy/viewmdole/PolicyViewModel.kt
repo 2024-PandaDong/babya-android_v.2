@@ -2,13 +2,13 @@ package kr.pandadong2024.babya.home.policy.viewmdole
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import kr.pandadong2024.babya.server.remote.responses.Policy.PolicyResponse
+import kr.pandadong2024.babya.server.remote.responses.Policy.PolicyListResponse
 
 class PolicyViewModel : ViewModel() {
     val tagsList = MutableLiveData<List<String>>().apply { value = listOf("대구광역시", "수성구")
     }
 
-    val policyList = MutableLiveData<List<PolicyResponse>>().apply { value = listOf()
+    val policyList = MutableLiveData<List<PolicyListResponse>>().apply { value = listOf()
     }
 
     val policyId = MutableLiveData<Int>().apply { value = -1 }
@@ -29,6 +29,10 @@ class PolicyViewModel : ViewModel() {
 
     fun setPolicyId(inputId :  Int){
         policyId.value = inputId
+    }
+
+    fun setPolicyList(inputList :  List<PolicyListResponse>){
+        policyList.value = inputList
     }
 
     fun removeAll(){

@@ -2,7 +2,7 @@ package kr.pandadong2024.babya.server.remote.responses.Policy
 
 import com.google.gson.annotations.SerializedName
 
-data class PolicyResponse(
+data class PolicyListResponse(
     @field:SerializedName("editDate")
     val editDate: String,
     @field:SerializedName("policyId")

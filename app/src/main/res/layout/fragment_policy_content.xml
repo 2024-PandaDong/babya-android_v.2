@@ -108,6 +108,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     android:layout_marginTop="7dp"
                     android:includeFontPadding="false"
+                    android:visibility="gone"
                     />
 
                 <TextView
@@ -122,6 +123,8 @@
                     app:layout_constraintStart_toEndOf="@id/policyOrganTitleText"
                     app:layout_constraintBottom_toBottomOf="@id/policyOrganTitleText"
                     android:includeFontPadding="false"
+                    android:visibility="gone"
+
                     />
                 <TextView
                     android:id="@+id/policyCategoryTitleText"
@@ -135,6 +138,8 @@
                     app:layout_constraintStart_toStartOf="parent"
                     android:layout_marginTop="7dp"
                     android:includeFontPadding="false"
+                    android:visibility="gone"
+
                     />
 
                 <TextView
@@ -149,6 +154,8 @@
                     app:layout_constraintStart_toEndOf="@id/policyCategoryTitleText"
                     app:layout_constraintBottom_toBottomOf="@id/policyCategoryTitleText"
                     android:includeFontPadding="false"
+                    android:visibility="gone"
+
                     />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -164,6 +171,8 @@
                 android:layout_marginTop="17dp"
                 android:layout_marginStart="10dp"
                 android:includeFontPadding="false"
+                android:visibility="gone"
+
                 />
             <TextView
                 android:id="@+id/supportAmountText"
@@ -177,6 +186,8 @@
                 android:layout_marginTop="6dp"
                 android:layout_marginStart="3dp"
                 android:includeFontPadding="false"
+                android:visibility="gone"
+
                 />
 
             <TextView
@@ -191,6 +202,8 @@
                 android:layout_marginTop="17dp"
                 android:layout_marginStart="10dp"
                 android:includeFontPadding="false"
+                android:visibility="gone"
+
                 />
             <TextView
                 android:id="@+id/supportPaymentText"
@@ -204,6 +217,8 @@
                 android:layout_marginTop="6dp"
                 android:layout_marginStart="3dp"
                 android:includeFontPadding="false"
+                android:visibility="gone"
+
                 />
 
             <TextView
@@ -218,6 +233,8 @@
                 android:layout_marginTop="17dp"
                 android:layout_marginStart="10dp"
                 android:includeFontPadding="false"
+                android:visibility="gone"
+
                 />
             <TextView
                 android:id="@+id/supportTargetText"
@@ -231,6 +248,8 @@
                 android:layout_marginTop="6dp"
                 android:layout_marginStart="3dp"
                 android:includeFontPadding="false"
+                android:visibility="gone"
+
                 />
             <TextView
                 android:id="@+id/supportWayTitleText"
@@ -238,7 +257,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/supportTargetText"
                 app:layout_constraintStart_toStartOf="parent"
-                android:text="지급방식"
+                android:text="내용"
                 android:textSize="16sp"
                 android:fontFamily="@font/notosanskr_semibold"
                 android:layout_marginTop="17dp"
@@ -268,6 +287,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
     <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/linkButton"
         android:enabled="true"
         android:background="@drawable/sel_button_background"
         android:layout_width="0dp"

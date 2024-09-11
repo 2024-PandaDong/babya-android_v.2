@@ -5,12 +5,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import kr.pandadong2024.babya.databinding.ItemPolicyListBinding
-import kr.pandadong2024.babya.server.remote.responses.Policy.PolicyResponse
+import kr.pandadong2024.babya.server.remote.responses.Policy.PolicyListResponse
 import kr.pandadong2024.babya.util.roundAll
 
-class PolicyRecyclerView (val policyList : List<PolicyResponse>,val tag : String, val onClick : (position : Int) -> Unit) : RecyclerView.Adapter<PolicyRecyclerView.PolicyViewHolder>() {
+class PolicyRecyclerView (val policyList : List<PolicyListResponse>, val tag : String, val onClick : (position : Int) -> Unit) : RecyclerView.Adapter<PolicyRecyclerView.PolicyViewHolder>() {
     inner class PolicyViewHolder(val binding : ItemPolicyListBinding) :RecyclerView.ViewHolder(binding.root){
-        fun policyBind(policyDate : PolicyResponse, position: Int){
+        fun policyBind(policyDate : PolicyListResponse, position: Int){
             binding.policyImage.load("https://file.thisisgame.com/upload/nboard/news/2023/08/14/20230814121422_4417w.jpg")
             roundAll(binding.policyImage, 10f)
             binding.termText.text = policyDate.editDate

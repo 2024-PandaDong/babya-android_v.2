@@ -21,7 +21,7 @@ import kr.pandadong2024.babya.home.policy.viewmdole.PolicyViewModel
 import kr.pandadong2024.babya.home.todo_list.adapter.PolicyCategoryAdapter
 import kr.pandadong2024.babya.home.todo_list.decoration.PolicyCategoryItemDecoration
 import kr.pandadong2024.babya.server.RetrofitBuilder
-import kr.pandadong2024.babya.server.remote.responses.Policy.PolicyResponse
+import kr.pandadong2024.babya.server.remote.responses.Policy.PolicyListResponse
 import kr.pandadong2024.babya.util.BottomControllable
 import retrofit2.HttpException
 
@@ -31,25 +31,7 @@ class PolicyMainFragment : Fragment() {
     var _binding: FragmentPolicyMainBinding? = null
     val binding get() = _binding!!
 
-    private var _policy: MutableList<String> = mutableListOf<String>(
-        "지역",
-        "지역",
-        "지역",
-        "지역",
-        "지역",
-        "지역",
-        "지역",
-        "지역",
-        "지역",
-        "지역",
-        "지역",
-        "지역",
-        "지역",
-        "지역",
-        "지역",
-        "지역",
-        "지역",
-    )
+
 
 
     override fun onCreateView(
@@ -84,7 +66,7 @@ class PolicyMainFragment : Fragment() {
         return binding.root
     }
 
-    private fun setRecyclerView(policyList: List<PolicyResponse>, tag: String) {
+    private fun setRecyclerView(policyList: List<PolicyListResponse>, tag: String) {
         val recyclerAdapter = PolicyRecyclerView(policyList = policyList, tag) {position ->
             viewModel.setPolicyId(position)
             findNavController().navigate(R.id.action_policyMainFragment_to_policyContentFragment)
@@ -105,13 +87,15 @@ class PolicyMainFragment : Fragment() {
         val tagNumber = encodingLocateNumber(tag)
         lifecycleScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                RetrofitBuilder.getPolicyService().getPolicy(tagNumber)
+                RetrofitBuilder.getPolicyService().getPolicyList(tagNumber)
             }.onSuccess { result ->
+                Log.d(TAG, "data : ${result.data}")
                 if (result.status == 200) {
                     withContext(Dispatchers.Main){
                         Log.d(TAG, "200,\nstatus : ${result.data}")
+                        viewModel.setPolicyList(result.data!!)
                         setRecyclerView(
-                            policyList = result.data!!,
+                            policyList = result.data,
                             tag = tag
                         )
                     }
@@ -156,26 +140,6 @@ class PolicyMainFragment : Fragment() {
     override fun onPause() {
         super.onPause()
         (requireActivity() as BottomControllable).setBottomNavVisibility(true)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.d(TAG, "onDestroy")
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        Log.d(TAG, "onSaveInstanceState")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Log.d(TAG, "onStop")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Log.d(TAG, "onResume")
     }
 
 
