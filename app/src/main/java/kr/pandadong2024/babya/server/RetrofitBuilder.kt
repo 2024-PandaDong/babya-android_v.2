@@ -13,6 +13,7 @@ import kr.pandadong2024.babya.server.remote.service.CompanyService
 import kr.pandadong2024.babya.server.remote.service.DashBoardService
 import kr.pandadong2024.babya.server.remote.service.DiaryService
 import kr.pandadong2024.babya.server.remote.service.MainService
+import kr.pandadong2024.babya.server.remote.service.PolicyService
 import kr.pandadong2024.babya.server.remote.service.QuizService
 import kr.pandadong2024.babya.server.remote.service.TodoListService
 import kr.pandadong2024.babya.server.service.ProfileService
@@ -34,6 +35,7 @@ class RetrofitBuilder {
         private var loginService: LoginService? = null
         private var signupService: SignupService? = null
         private var commonService: CommonService? = null
+        private var policyService: PolicyService? = null
         private var mainService: MainService? = null
         private var todoListService: TodoListService? = null
         private var diaryService: DiaryService? = null
@@ -158,6 +160,12 @@ class RetrofitBuilder {
                 companyService = getHttpRetrofit().create(CompanyService::class.java)
             }
             return companyService!!
+        }
+        fun getPolicyService(): PolicyService {
+            if (policyService == null){
+                policyService = getRetrofit().create(PolicyService::class.java)
+            }
+            return policyService!!
         }
 
         fun getQuizService() : QuizService {

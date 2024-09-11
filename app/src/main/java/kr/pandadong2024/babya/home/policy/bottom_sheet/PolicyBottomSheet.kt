@@ -12,7 +12,7 @@ import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.PolicyBottomSheetBinding
 import kr.pandadong2024.babya.home.policy.viewmdole.PolicyViewModel
 
-class PolicyBottomSheet(
+class PolicyBottomSheet(val submit : (tag : String)->Unit
 ) : BottomSheetDialogFragment() {
     private val viewModel by activityViewModels<PolicyViewModel>()
     private var _binding: PolicyBottomSheetBinding? = null
@@ -41,14 +41,15 @@ class PolicyBottomSheet(
 
     val countyList = mapOf<String, List<String>>(
         "대구광역시" to listOf(
-            "동구",
-            "서구",
             "남구",
+            "달서구",
+            "달성군",
+            "동구",
             "북구",
-            "중구",
+            "서구",
             "수성구",
+            "중구",
             "군위군",
-            "달성군"
         ), "부산광역시" to listOf("수영구", "동래구")
     )
 
@@ -60,24 +61,32 @@ class PolicyBottomSheet(
         _binding = PolicyBottomSheetBinding.inflate(inflater, container, false)
 
         binding.searchButton.setOnClickListener {
+            if(viewModel.tagsList.value!!.isEmpty()){
+                viewModel.initViewModel()
+            }
+            submit(viewModel.tagsList.value!![1])
+
             this.dismiss()
         }
 
         viewModel.tagsList.observe(viewLifecycleOwner) {
-
-            initZoneRecyclerview(viewModel.tagsList.value!!)
-            if (viewModel.tagsList.value!!.isNotEmpty()) {
-                if (countyList.keys.contains(viewModel.tagsList.value!![0])) {
+            Log.d("Test", "$it")
+            initZoneRecyclerview(it)
+            if (it.isNotEmpty()) {
+                if (countyList.keys.contains(it[0])) {
                     binding.localTitle.visibility = View.VISIBLE
                     binding.localChipGroup.visibility = View.VISIBLE
                     initSubZoneRecyclerView(
-                        countyList[viewModel.tagsList.value!![0]]!!,
-                        viewModel.tagsList.value!!
+                        countyList[it[0]]!!,
+                        it
                     )
                 } else {
                     binding.localTitle.visibility = View.GONE
                     binding.localChipGroup.visibility = View.GONE
                 }
+            }else {
+                binding.localTitle.visibility = View.GONE
+                binding.localChipGroup.visibility = View.GONE
             }
 
         }
@@ -129,6 +138,13 @@ class PolicyBottomSheet(
 
     private fun initSubZoneRecyclerView(subTagList: List<String>, selectedTags: List<String>) {
         binding.localChipGroup.removeAllViews()
+
+        val keyWord = if (subTagList.isEmpty()) {
+            ""
+        } else {
+            selectedTags[0]
+        }
+
         subTagList.forEach { localTag ->
             val localChipGroup = binding.localChipGroup
 
@@ -143,11 +159,16 @@ class PolicyBottomSheet(
                 chipStrokeWidth = 3f
 
                 setOnClickListener { view ->
-
-                    if (binding.root.findViewById<Chip>(view.id).isChecked) {
+                    Log.d("test", "isChecked = ${(keyWord)}")
+                    if (keyWord == "") {
                         viewModel.inputLocal(localTag)
                     } else {
-                        viewModel.popLocal(localTag)
+                        viewModel.removeSubTags()
+                        if (localTag == keyWord) {
+                            viewModel.popLocal(keyWord)
+                        } else {
+                            viewModel.inputLocal(localTag)
+                        }
                     }
                 }
             })
@@ -155,77 +176,37 @@ class PolicyBottomSheet(
         }
     }
 
-    private fun encodingSelected(selectedList: List<String>): SubmitList {
-        val mainSelectResult = mutableListOf<String>()
-        val subList = mutableListOf<List<String>>()
-        val subSelectResult = mutableListOf<String>()
-
-        selectedList.forEach {
-            Log.d("test", "subList1 = ${it in zoneList}")
-            Log.d("test", "subList2 = ${zoneList.contains(it)}")
-            if (it in zoneList) {
-                mainSelectResult.add(it)
-            } else {
-                Log.e("PolicyBottomSheet", "에러 : 존재하지 않는 태그")
-            }
-        }
-        if (mainSelectResult.size != 0) {
-            mainSelectResult.forEach { it ->
-                Log.d("test", "subList3 = $it")
-                Log.d("test", "subList4 = ${it}")
-
-                if (countyList.keys.contains(it)) {
-                    subList += countyList[it]!!
-                    Log.d("test", "subList5 = $subList")
-
-                    selectedList.forEach { it1 ->
-                        Log.d("test", "subList1 = ${it1 in zoneList}")
-                        Log.d("test", "subList2 = ${zoneList.contains(it1)}")
-                        if (it1 in subList[subList.lastIndex]) {
-                            subSelectResult.add(it1)
-                        } else {
-                            Log.e("PolicyBottomSheet", "에러 : 존재하지 않거나 다른지역의 태그")
-                        }
-                    }
-                }
-            }
-        } else {
-            Log.e("PolicyBottomSheet", "에러 : 존재할 수 없는 상황")
-        }
-
-
-
-
-
-        return SubmitList(
-            mainTagSelectedList = mainSelectResult,
-            subTagSelectedList = subSelectResult,
-            subTagList = subList
-        )
-
-    }
 
     private fun encodingLocateNumber(locationList: List<String>): MutableList<String> {
         val result = mutableListOf<String>()
         locationList.forEach {
             when (it) {
-                "서울특별시" -> result.add("11")
-                "부산광역시" -> result.add("21")
-                "대구광역시" -> result.add("22")
-                "인천광역시" -> result.add("23")
-                "광주광역시" -> result.add("24")
-                "대전광역시" -> result.add("25")
-                "울산광역시" -> result.add("26")
-                "경기도" -> result.add("31")
-                "세종특별자치시" -> result.add("29")
-                "강원도" -> result.add("32")
-                "충청북도" -> result.add("33")
-                "충청남도" -> result.add("34")
-                "전라북도" -> result.add("35")
-                "전라남도" -> result.add("36")
-                "경상북도" -> result.add("37")
-                "경상남도" -> result.add("38")
-                "제주특별자치도" -> result.add("39")
+                "남구" -> result.add("104010")
+                "달서구" -> result.add("104020")
+                "달성군" -> result.add("104030")
+                "동구" -> result.add("104040")
+                "북구" -> result.add("104050")
+                "서구" -> result.add("104060")
+                "수성구" -> result.add("104070")
+                "중구" -> result.add("104080")
+                "군위군" -> result.add("104090")
+//                "서울특별시" -> result.add("11")
+//                "부산광역시" -> result.add("21")
+//                "대구광역시" -> result.add("22")
+//                "인천광역시" -> result.add("23")
+//                "광주광역시" -> result.add("24")
+//                "대전광역시" -> result.add("25")
+//                "울산광역시" -> result.add("26")
+//                "경기도" -> result.add("31")
+//                "세종특별자치시" -> result.add("29")
+//                "강원도" -> result.add("32")
+//                "충청북도" -> result.add("33")
+//                "충청남도" -> result.add("34")
+//                "전라북도" -> result.add("35")
+//                "전라남도" -> result.add("36")
+//                "경상북도" -> result.add("37")
+//                "경상남도" -> result.add("38")
+//                "제주특별자치도" -> result.add("39")
             }
         }
         return result
@@ -263,6 +244,7 @@ class PolicyBottomSheet(
         val subTagSelectedList: List<String>,
         val subTagList: List<List<String>>
     )
+
 
 
 }
