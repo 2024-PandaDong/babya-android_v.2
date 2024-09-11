@@ -37,12 +37,12 @@ class QuizResultFragment : Fragment() {
 
     fun isRight(){
         if (quiz.answer == "Y"){
-            binding.resultText.text = "O"
-            binding.resultText.setTextColor(requireContext().getColor(R.color.green))
+            binding.answerText.text = "정답입니다!"
+            binding.answerText.setTextColor(requireContext().getColor(R.color.statusDestructive))
         }
         else{
-            binding.resultText.text = "X"
-            binding.resultText.setTextColor(requireContext().getColor(R.color.rad))
+            binding.answerText.text = "오답입니다!"
+            binding.answerText.setTextColor(requireContext().getColor(R.color.statusPositive))
         }
         binding.quizText.text = quiz.title
         binding.descriptionButton.text = quiz.quizCn
