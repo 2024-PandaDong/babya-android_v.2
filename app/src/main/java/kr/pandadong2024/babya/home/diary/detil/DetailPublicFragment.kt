@@ -18,6 +18,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentDetailPublicBinding
+import kr.pandadong2024.babya.home.diary.bottomsheet.CommentBottomSheet
 import kr.pandadong2024.babya.home.diary.diaryadapters.CommentsAdapter
 import kr.pandadong2024.babya.home.diary.diaryviewmodle.DiaryViewModel
 import kr.pandadong2024.babya.server.RetrofitBuilder
@@ -158,7 +159,7 @@ class DetailPublicFragment : Fragment() {
                     Log.e(TAG, "profile result : ${result.data}")
                     Log.e(TAG, "profile result : ${result.status}")
                     launch (Dispatchers.Main){
-                        binding.profileImage.load(result.data?.profileImg)
+//                        binding.profileImage.load(result.data?.profileImg)
                     }
 
                 }.onFailure { result ->
@@ -212,7 +213,12 @@ class DetailPublicFragment : Fragment() {
 
                     commentsAdapter = result.data?.let { CommentsAdapter(
                         commentsList = it.reversed(),
-                        ){}  }!!
+                        ){ id ->
+                        val commentBottomSheet =  CommentBottomSheet(id)
+//                        commentBottomSheet.setStyle( R.style.DialogStyle)
+                        commentBottomSheet.show(requireActivity().supportFragmentManager, commentBottomSheet.tag)
+
+                    }  }!!
                     commentsAdapter.notifyItemRemoved(0)
                     with(binding){
                         commentRecyclerView.adapter = commentsAdapter

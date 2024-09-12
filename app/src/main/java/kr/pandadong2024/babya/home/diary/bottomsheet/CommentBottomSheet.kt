@@ -15,6 +15,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.SubCommentBottomSheetBinding
 import kr.pandadong2024.babya.home.diary.diaryadapters.SubCommentAdapter
 import kr.pandadong2024.babya.home.diary.diaryviewmodle.DiaryViewModel
