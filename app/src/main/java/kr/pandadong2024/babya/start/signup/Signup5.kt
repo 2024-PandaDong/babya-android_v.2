@@ -6,23 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kr.pandadong2024.babya.R
-import kr.pandadong2024.babya.databinding.FragmentSignup2Binding
-import kr.pandadong2024.babya.databinding.FragmentSignup3Binding
 
-class Signup3 : Fragment() {
 
-    private var _binding: FragmentSignup3Binding? = null
-    private val binding get() = _binding!!
+class Signup5 : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        _binding = FragmentSignup3Binding.inflate(inflater, container, false)
-
-
-        return binding.root
+        return inflater.inflate(R.layout.fragment_signup5, container, false)
     }
 
 }

@@ -236,14 +236,14 @@
         android:layout_marginRight="50dp"
         android:background="@drawable/ic_arrow_14"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/agreementCheckBox4" />\
+        app:layout_constraintTop_toBottomOf="@id/agreementCheckBox4" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/nextBtn"
         android:layout_width="0dp"
         android:layout_height="43dp"
         android:layout_marginStart="18dp"
-        android:layout_marginEnd="48dp"
+        android:layout_marginEnd="18dp"
         android:layout_marginBottom="72dp"
         android:background="@drawable/sel_email_btn_selector"
         android:enabled="false"
@@ -251,10 +251,9 @@
         android:textColor="@color/white"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        />
-
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
