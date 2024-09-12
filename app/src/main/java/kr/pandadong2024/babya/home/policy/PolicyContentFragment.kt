@@ -18,9 +18,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentPolicyContentBinding
+import kr.pandadong2024.babya.home.policy.dialog.DeclarationDialog
 import kr.pandadong2024.babya.home.policy.viewmdole.PolicyViewModel
 import kr.pandadong2024.babya.server.RetrofitBuilder
-import kr.pandadong2024.babya.server.local.BabyaDB
 import kr.pandadong2024.babya.util.BottomControllable
 import retrofit2.HttpException
 import java.io.File
@@ -43,6 +43,11 @@ class PolicyContentFragment : Fragment() {
         setScreen(viewModel.policyList.value!![viewModel.policyId.value!!].policyId)
         binding.signUpBackButton.setOnClickListener {
             findNavController().navigate(R.id.action_policyContentFragment_to_policyMainFragment)
+        }
+
+        binding.declarationButton.setOnClickListener {
+            val dialog =  DeclarationDialog()
+            dialog.show(requireActivity().supportFragmentManager, dialog.tag)
         }
 
         binding.linkButton.setOnClickListener {
