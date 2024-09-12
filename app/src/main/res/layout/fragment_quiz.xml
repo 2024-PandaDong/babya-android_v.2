@@ -23,9 +23,16 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="일일퀴즈"
-            android:textSize="24sp"
-            android:fontFamily="@font/notosanskr_bold"/>
+            android:textSize="16sp"
+            android:includeFontPadding="false"
+            android:fontFamily="@font/notosanskr_medium"/>
     </androidx.appcompat.widget.Toolbar>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/neutral95"
+        app:layout_constraintTop_toBottomOf="@id/quizToolbar"
+        />
     <TextView
         android:id="@+id/quizText"
         android:layout_width="0dp"
@@ -35,16 +42,16 @@
         app:layout_constraintEnd_toEndOf="parent"
 
         android:layout_marginTop="40dp"
-        android:layout_marginStart="25dp"
-        android:layout_marginEnd="25dp"
+        android:layout_marginHorizontal="20dp"
 
-        android:fontFamily="@font/notosanskr_bold"
+        android:fontFamily="@font/notosanskr_semibold"
         android:autoSizeTextType="uniform"
-        android:textSize="24sp"
+        android:textSize="20sp"
         android:autoSizeMaxTextSize="24sp"
         android:autoSizeMinTextSize="12sp"
         android:text="Q.임산부에게 요가는 좋은 운동이다"
-        android:textAlignment="center"
+        android:textAlignment="textStart"
+        android:includeFontPadding="false"
         />
     <ImageView
         android:id="@+id/imageView"
@@ -54,39 +61,43 @@
         app:layout_constraintStart_toStartOf="@id/quizText"
         app:layout_constraintEnd_toEndOf="@id/quizText"
         android:src="@drawable/img_quize_illustration"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="53dp"
         />
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/trueButton"
+        android:id="@+id/positiveButton"
         android:layout_width="0dp"
-        android:layout_height="50dp"
-        app:layout_constraintStart_toStartOf="@id/imageView"
-        app:layout_constraintEnd_toEndOf="@id/imageView"
-        app:layout_constraintTop_toBottomOf="@id/imageView"
-        android:layout_marginTop="130dp"
-        android:backgroundTint="@color/blue"
+        android:layout_height="wrap_content"
+        android:includeFontPadding="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginHorizontal="20dp"
+        app:layout_constraintBottom_toTopOf="@id/negativeButton"
+        android:layout_marginBottom="12dp"
+
+        android:backgroundTint="@color/blue60"
         android:background="@drawable/sp_button_background"
         android:stateListAnimator="@null"
-        android:text="O"
-        android:fontFamily="@font/notosanskr_extrabold"
-        android:textSize="20sp"
-        android:textColor="@color/white"
-        />
-
+        android:text="o"
+        android:fontFamily="@font/notosanskr_bold"
+        android:textSize="16sp"
+        android:textColor="@color/white"/>
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/falseButton"
+        android:id="@+id/negativeButton"
         android:layout_width="0dp"
-        android:layout_height="50dp"
-        app:layout_constraintEnd_toEndOf="@id/imageView"
-        app:layout_constraintStart_toStartOf="@id/imageView"
-        app:layout_constraintTop_toBottomOf="@+id/trueButton"
-        android:layout_marginTop="28dp"
-        android:backgroundTint="@color/rad"
+        android:layout_height="wrap_content"
+        android:includeFontPadding="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginHorizontal="20dp"
+        app:layout_constraintBottom_toTopOf="@id/skipText"
+        android:layout_marginBottom="12dp"
+
+        android:backgroundTint="@color/red60"
         android:background="@drawable/sp_button_background"
         android:stateListAnimator="@null"
         android:text="X"
-        android:fontFamily="@font/notosanskr_extrabold"
-        android:textSize="20sp"
+        android:fontFamily="@font/notosanskr_bold"
+        android:textSize="16sp"
         android:textColor="@color/white"/>
 
     <TextView
@@ -94,11 +105,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="건너뛰기"
-        android:textSize="20sp"
-        android:fontFamily="@font/notosanskr_bold"
+        android:textSize="16sp"
+        android:fontFamily="@font/notosanskr_medium"
         android:textColor="@color/skip_gray"
-        app:layout_constraintTop_toBottomOf="@id/falseButton"
+        android:layout_marginBottom="53dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        android:includeFontPadding="false"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

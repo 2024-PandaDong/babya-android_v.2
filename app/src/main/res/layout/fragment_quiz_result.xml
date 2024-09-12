@@ -24,9 +24,16 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="일일퀴즈"
-            android:textSize="24sp"
-            android:fontFamily="@font/notosanskr_bold"/>
+            android:textSize="16sp"
+            android:includeFontPadding="false"
+            android:fontFamily="@font/notosanskr_medium"/>
     </androidx.appcompat.widget.Toolbar>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/neutral95"
+        app:layout_constraintTop_toBottomOf="@id/quizToolbar"
+        />
     <TextView
         android:id="@+id/quizText"
         android:layout_width="0dp"
@@ -35,17 +42,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
 
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="25dp"
-        android:layout_marginEnd="25dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginHorizontal="20dp"
 
-        android:fontFamily="@font/notosanskr_bold"
+        android:fontFamily="@font/notosanskr_semibold"
         android:autoSizeTextType="uniform"
-        android:textSize="24sp"
+        android:textSize="20sp"
         android:autoSizeMaxTextSize="24sp"
         android:autoSizeMinTextSize="12sp"
         android:text="Q.임산부에게 요가는 좋은 운동이다"
-        android:textAlignment="center"
+        android:textAlignment="textStart"
+        android:includeFontPadding="false"
         />
     <ImageView
         android:id="@+id/imageView"
@@ -55,36 +62,22 @@
         app:layout_constraintStart_toStartOf="@id/quizText"
         app:layout_constraintEnd_toEndOf="@id/quizText"
         android:src="@drawable/img_quize_illustration"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="53dp"
         />
     <TextView
         android:id="@+id/answerText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="정답 : "
+        android:text="정답입니다!"
         app:layout_constraintTop_toBottomOf="@id/imageView"
         app:layout_constraintStart_toStartOf="@id/imageView"
-        app:layout_constraintEnd_toStartOf="@id/resultText"
         android:layout_marginTop="38dp"
-
-        android:textSize="24sp"
-        android:fontFamily="@font/notosanskr_medium"
-
+        android:textSize="20sp"
+        android:fontFamily="@font/notosanskr_semibold"
+        android:includeFontPadding="false"
         app:layout_constraintHorizontal_chainStyle="packed"
         />
-    <TextView
-        android:id="@+id/resultText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/answerText"
-        app:layout_constraintStart_toEndOf="@id/answerText"
-        app:layout_constraintBottom_toBottomOf="@id/answerText"
 
-        android:text="O"
-        android:textSize="24sp"
-        android:fontFamily="@font/notosanskr_semibold"
-        android:textColor="@color/green"
-        />
     <androidx.core.widget.NestedScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -92,8 +85,9 @@
         android:layout_marginBottom="10dp"
         app:layout_constraintTop_toBottomOf="@id/answerText"
         app:layout_constraintBottom_toTopOf="@id/nextButton"
-        app:layout_constraintStart_toStartOf="@id/imageView"
-        app:layout_constraintEnd_toEndOf="@id/imageView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginHorizontal="20dp"
         >
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -102,8 +96,11 @@
                 android:id="@+id/descriptionButton"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="요가는 임신 중 불편함을 예방, 해소하고 출산 시 필요한 이완능력, 기력, 심폐기능을 높여 줍니다."
-                android:textAlignment="center"
+                android:text="요가는 임신 중 불편함을 예방, 해소하고, 출산 시 필요한 이완능력, 기력, 심폐기능을 높여 줍니다."
+                android:textAlignment="textStart"
+                android:includeFontPadding="false"
+                android:fontFamily="@font/notosanskr_regular"
+                android:textSize="16sp"
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
@@ -112,18 +109,21 @@
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/nextButton"
         android:layout_width="0dp"
-        android:layout_height="50dp"
-        app:layout_constraintEnd_toEndOf="@id/imageView"
-        app:layout_constraintStart_toStartOf="@id/imageView"
+        android:layout_height="wrap_content"
+        android:includeFontPadding="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginHorizontal="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="72dp"
+        android:layout_marginBottom="62dp"
+        android:paddingVertical="10dp"
 
-        android:backgroundTint="@color/yellow"
+        android:backgroundTint="@color/primaryLight"
         android:background="@drawable/sp_button_background"
         android:stateListAnimator="@null"
-        android:text="메인화면으로 가기"
-        android:fontFamily="@font/notosanskr_extrabold"
-        android:textSize="20sp"
+        android:text="넘어가기"
+        android:fontFamily="@font/notosanskr_bold"
+        android:textSize="16sp"
         android:textColor="@color/white"/>
 
 
