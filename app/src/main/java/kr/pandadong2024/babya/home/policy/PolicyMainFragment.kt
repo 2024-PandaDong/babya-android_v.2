@@ -116,6 +116,7 @@ class PolicyMainFragment : Fragment() {
 
                 launch(Dispatchers.Main) {
                     binding.titleText.text = "${result.data?.nickname}님을 위한 추천 정책"
+                    binding.tagTitleText.text = "${result.data?.nickname}님의 지역"
 //                    binding.argText.text = "나이: ${result.data?.age}살"
 //                    binding.dayText.text = "D-Day: ${result.data?.dDay}일"
 
