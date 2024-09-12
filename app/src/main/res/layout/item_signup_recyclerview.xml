@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/fetusEditText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@drawable/sp_signup_false_round"
+            android:enabled="false"
+            android:hint="동바오"
+            android:textColorHint="@color/black"
+            android:paddingStart="17dp"
+            android:fontFamily="@font/notosanskr_semibold"
+            android:includeFontPadding="false"
+            android:textSize="16dp"
+            android:inputType="textPassword"
+            />
+        
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>
