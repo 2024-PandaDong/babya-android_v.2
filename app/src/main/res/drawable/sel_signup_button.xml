@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:state_enabled="true"
+        android:drawable="@drawable/sp_signup_true_button"/>
+
+    <item
+        android:state_enabled="false"
+        android:drawable="@drawable/sp_signup_false_email_button"/>
+</selector>
