@@ -35,9 +35,9 @@ class PolicyMainFragment : Fragment() {
     var _binding: FragmentPolicyMainBinding? = null
     val binding get() = _binding!!
 
-    var tokenDao : TokenDAO? = null
+    var tokenDao: TokenDAO? = null
 
-    var isSearchActivated= false
+    var isSearchActivated = false
 
 
     override fun onCreateView(
@@ -51,7 +51,7 @@ class PolicyMainFragment : Fragment() {
             findNavController().navigate(R.id.action_policyMainFragment_to_mainFragment)
         }
 
-        binding.swipeRefreshLayout.setOnRefreshListener (
+        binding.swipeRefreshLayout.setOnRefreshListener(
             SwipeRefreshLayout.OnRefreshListener {
                 Log.d("", "atest")
                 setCategory(categoryList = viewModel.tagsList.value!!)
@@ -60,15 +60,14 @@ class PolicyMainFragment : Fragment() {
 
         binding.searchButton.setOnClickListener {
             Log.d(TAG, "searchButton")
-            if(isSearchActivated && binding.searchEditText.text.isNotBlank()){
+            if (isSearchActivated && binding.searchEditText.text.isNotBlank()) {
                 //TODO : 검색하기
                 Log.d(TAG, "searchButton1")
-            }
-            else{
-                if(isSearchActivated){
+            } else {
+                if (isSearchActivated) {
                     Log.d(TAG, "searchButton2")
                     binding.searchEditText.visibility = View.GONE
-                }else{
+                } else {
                     Log.d(TAG, "searchButton3")
                     binding.searchEditText.visibility = View.VISIBLE
                 }
@@ -137,7 +136,7 @@ class PolicyMainFragment : Fragment() {
 
 
     private fun setRecyclerView(policyList: List<PolicyListResponse>, tag: String) {
-        val recyclerAdapter = PolicyRecyclerView(policyList = policyList, tag) {position ->
+        val recyclerAdapter = PolicyRecyclerView(policyList = policyList, tag) { position ->
             viewModel.setPolicyId(position)
             findNavController().navigate(R.id.action_policyMainFragment_to_policyContentFragment)
         }
@@ -161,7 +160,7 @@ class PolicyMainFragment : Fragment() {
             }.onSuccess { result ->
                 Log.d(TAG, "data : ${result.data}")
                 if (result.status == 200) {
-                    withContext(Dispatchers.Main){
+                    withContext(Dispatchers.Main) {
                         Log.d(TAG, "200,\nstatus : ${result.data}")
                         viewModel.setPolicyList(result.data!!)
                         setRecyclerView(
@@ -170,7 +169,7 @@ class PolicyMainFragment : Fragment() {
                         )
 
                     }
-                }else{
+                } else {
                     Log.d(TAG, "200이 아닌 다른 상태,\nstatus : ${result.status}")
                 }
             }.onFailure { result ->
@@ -191,10 +190,7 @@ class PolicyMainFragment : Fragment() {
         val todoCategoryAdapter = PolicyCategoryAdapter(
             localCategoryList = categoryList,
             flash = { position, localCategoryList ->
-
                 setCategory(viewModel.tagsList.value!!)
-
-
             }
         )
         todoCategoryAdapter.notifyItemRemoved(0)
@@ -205,7 +201,7 @@ class PolicyMainFragment : Fragment() {
                 PolicyCategoryItemDecoration(10, 0, categoryList.size)
             )
 
-            if(binding.swipeRefreshLayout.isRefreshing){
+            if (binding.swipeRefreshLayout.isRefreshing) {
                 binding.swipeRefreshLayout.isRefreshing = false
             }
 
@@ -216,7 +212,6 @@ class PolicyMainFragment : Fragment() {
         super.onPause()
         (requireActivity() as BottomControllable).setBottomNavVisibility(true)
     }
-
 
 
     private fun encodingLocateNumber(locationList: String): String {
