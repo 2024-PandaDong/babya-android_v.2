@@ -101,7 +101,7 @@ class Signup8 : Fragment() {
         }
 
         if (childrenName.isNotEmpty()){
-            birthNameList.add(BirthName((childrenName), true))
+            birthNameList.add(BirthName((childrenName), false))
         }
 
         if (binding.fetusNameRv.adapter == null){
@@ -124,7 +124,7 @@ class Signup8 : Fragment() {
     private fun next() {
         viewModel.birthNameList.value = birthNameList
         viewModel.childrenNameList.value = childrenNameList
-        viewModel.birthDt.value = binding.fetusDayEditText.text.toString() // 이것도 파싱
+        viewModel.pregnancyDt.value = binding.fetusDayEditText.text.toString() // 이것도 파싱
         findNavController().navigate(R.id.action_signup8_to_signup92)
     }
 

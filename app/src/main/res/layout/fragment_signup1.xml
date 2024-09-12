@@ -4,7 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".start.signup.Signup1">
+    tools:context=".start.signup.Signup1"
+    android:background="@color/backgroundNormalNormal"
+    >
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/signUpToolbar"
@@ -221,7 +223,7 @@
         android:layout_marginTop="34dp"
         android:fontFamily="@font/notosanskr_medium"
         android:includeFontPadding="false"
-        android:text="마켓팅 알림 수신 동의(선택)"
+        android:text="광고성 정보 수신 동의(선택)"
         android:textAlignment="textStart"
         android:textColor="@color/black"
         android:textSize="14dp"

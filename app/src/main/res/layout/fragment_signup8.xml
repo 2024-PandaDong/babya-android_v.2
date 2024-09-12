@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/backgroundNormalNormal"
     tools:context=".start.signup.Signup8">
 
     <androidx.core.widget.NestedScrollView
@@ -93,6 +94,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/fetusEditText"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                android:enabled="false"
                 android:background="@drawable/sp_signup_false_round"
                 android:hint="2024년 1월 1일"
                 android:paddingStart="17dp"
@@ -244,14 +246,18 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/babyNameEditText" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                app:layout_constraintTop_toBottomOf="@id/babyNameRv"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"/>
+
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.core.widget.NestedScrollView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"/>
+
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/nextBtn"
