@@ -5,8 +5,8 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".home.diary.detil.DetailWriterFragment"
-
-    android:backgroundTint="@color/white">
+    android:background="@color/backgroundNormalStrong"
+    >
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/writerDiaryToolbar"
@@ -15,19 +15,12 @@
         android:layout_height="wrap_content"
         android:subtitle="title"
         android:title="test"
+        android:background="@color/backgroundNormalNormal"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/writerTitleText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:fontFamily="@font/notosanskr_bold"
-            android:text="2024.12.12"
-            android:textSize="19sp" />
 
         <ImageButton
             android:id="@+id/writerBackButton"
@@ -36,7 +29,8 @@
             android:layout_gravity="start"
             android:background="@null"
             android:rotation="180"
-            android:src="@drawable/ic_arrow_14" />
+            android:src="@drawable/ic_arrow_14"
+            android:padding="8dp"/>
 
         <ImageButton
             android:id="@+id/writerMoreButton"
@@ -58,306 +52,370 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             >
-            <androidx.cardview.widget.CardView
-                android:id="@+id/writerDiaryAddImageCardView"
-                android:layout_width="0dp"
-                android:layout_height="200dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="18dp"
-                android:layout_marginEnd="20dp"
-                android:background="@color/gray"
-                android:elevation="@null"
-                android:outlineProvider="none"
-                app:cardCornerRadius="10dp"
-                app:cardBackgroundColor="@color/gray"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-                <ImageView
-                    android:id="@+id/selectedImage"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/contentLayout"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/backgroundNormalNormal"
+                android:paddingBottom="18dp"
+                >
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/writerDiaryAddImageCardView"
+                    android:layout_width="0dp"
+                    android:layout_height="200dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginEnd="20dp"
+                    android:background="@color/gray"
+                    android:elevation="@null"
+                    app:cardCornerRadius="10dp"
+                    app:cardBackgroundColor="@color/gray"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+                    <ImageView
+                        android:id="@+id/selectedImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        />
+                </androidx.cardview.widget.CardView>
+                <TextView
+                    android:id="@+id/writerTitleText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginHorizontal="20dp"
+                    app:layout_constraintTop_toBottomOf="@id/writerDiaryAddImageCardView"
+                    android:fontFamily="@font/notosanskr_medium"
+                    android:includeFontPadding="false"
+                    android:layout_marginTop="18dp"
+                    android:text="2024.12.12"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/writerText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:includeFontPadding="false"
+                    android:textSize="14dp"
+                    android:layout_marginTop="18dp"
+                    android:fontFamily="@font/notosanskr_medium"
+                    android:textColor="@color/neutral90"
+                    app:layout_constraintTop_toBottomOf="@id/writerTitleText"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:text="푸바오파파"
+                    android:layout_marginStart="18dp"
+                    />
+
+                <TextView
+                    android:id="@+id/writerDateText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:includeFontPadding="false"
+                    android:textSize="14dp"
+                    android:layout_marginTop="18dp"
+                    android:fontFamily="@font/notosanskr_medium"
+                    android:textColor="@color/neutral90"
+                    app:layout_constraintTop_toBottomOf="@id/writerTitleText"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:text="2024/04/09"
+                    android:layout_marginEnd="36dp"
                     />
 
 
 
+                <TextView
+                    android:id="@+id/writerWeightText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/notosanskr_semibold"
+                    android:text="체중"
+                    android:includeFontPadding="false"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="@id/writerWeightInputText"
+                    app:layout_constraintEnd_toStartOf="@id/writerWeightInputText"
+                    android:layout_marginStart="20dp"
 
-            </androidx.cardview.widget.CardView>
-            <TextView
-                android:id="@+id/writerWeightText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/notosanskr_semibold"
-                android:text="체중"
-                android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="@id/writerWeightInputText"
-                app:layout_constraintEnd_toStartOf="@id/writerWeightInputText"
-                android:layout_marginStart="20dp"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/writerWeightInputText" />
 
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/writerWeightInputText" />
+                <TextView
+                    android:id="@+id/writerWeightInputText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/notosanskr_semibold"
+                    android:text="000"
+                    android:includeFontPadding="false"
+                    android:maxLength="3"
+                    android:paddingVertical="1dp"
+                    android:textAlignment="center"
+                    android:textSize="13sp"
+                    android:layout_marginTop="18dp"
 
-            <TextView
-                android:id="@+id/writerWeightInputText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/notosanskr_semibold"
-                android:text="000"
-                android:maxLength="3"
-                android:paddingVertical="1dp"
-                android:textAlignment="center"
-                android:textSize="13sp"
-                android:layout_marginTop="20dp"
+                    app:layout_constraintEnd_toStartOf="@id/writerWeightUnitText"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toEndOf="@id/writerWeightText"
+                    app:layout_constraintTop_toBottomOf="@id/writerDateText"/>
 
-                app:layout_constraintEnd_toStartOf="@id/writerWeightUnitText"
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toEndOf="@id/writerWeightText"
-                app:layout_constraintTop_toBottomOf="@id/writerDiaryAddImageCardView" />
+                <TextView
 
-            <TextView
+                    android:id="@+id/writerWeightUnitText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/notosanskr_bold"
+                    android:text="Kg"
+                    android:includeFontPadding="false"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="@id/writerWeightText"
 
-                android:id="@+id/writerWeightUnitText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/notosanskr_bold"
-                android:text="Kg"
-                android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="@id/writerWeightText"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toEndOf="@id/writerWeightInputText"
+                    app:layout_constraintTop_toTopOf="@id/writerWeightText" />
 
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toEndOf="@id/writerWeightInputText"
-                app:layout_constraintTop_toTopOf="@id/writerWeightText" />
+                <TextView
+                    android:id="@+id/bloodPressureText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/notosanskr_semibold"
+                    android:text="혈압"
+                    android:includeFontPadding="false"
+                    android:textSize="14sp"
+                    android:layout_marginStart="20dp"
+                    app:layout_constraintEnd_toStartOf="@id/writerBloodPressureHeightInputText"
 
-            <TextView
-                android:id="@+id/bloodPressureText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/notosanskr_semibold"
-                android:text="혈압"
-                android:textSize="14sp"
-                android:layout_marginStart="20dp"
-                app:layout_constraintEnd_toStartOf="@id/writerBloodPressureHeightInputText"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/writerBloodPressureHeightInputText" />
 
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/writerBloodPressureHeightInputText" />
+                <TextView
+                    android:id="@+id/writerBloodPressureHeightInputText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/notosanskr_semibold"
+                    android:text="000"
+                    android:includeFontPadding="false"
+                    android:maxLength="3"
+                    android:paddingVertical="1dp"
+                    android:textAlignment="center"
+                    android:textSize="13sp"
+                    android:layout_marginTop="10dp"
 
-            <TextView
-                android:id="@+id/writerBloodPressureHeightInputText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/notosanskr_semibold"
-                android:text="000"
-                android:maxLength="3"
-                android:paddingVertical="1dp"
-                android:textAlignment="center"
-                android:textSize="13sp"
-                android:layout_marginTop="10dp"
+                    app:layout_constraintEnd_toStartOf="@id/writerBloodPressureSplitText"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toEndOf="@id/bloodPressureText"
+                    app:layout_constraintTop_toBottomOf="@id/writerWeightInputText" />
 
-                app:layout_constraintEnd_toStartOf="@id/writerBloodPressureSplitText"
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toEndOf="@id/bloodPressureText"
-                app:layout_constraintTop_toBottomOf="@id/writerWeightInputText" />
+                <TextView
+                    android:id="@+id/writerBloodPressureSplitText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/notosanskr_bold"
+                    android:text="/"
+                    android:includeFontPadding="false"
+                    android:textSize="14sp"
 
-            <TextView
-                android:id="@+id/writerBloodPressureSplitText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/notosanskr_bold"
-                android:text="/"
-                android:textSize="14sp"
-
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toEndOf="@id/writerBloodPressureHeightInputText"
-                app:layout_constraintEnd_toStartOf="@id/writerBloodPressureLowInputText"
-                app:layout_constraintTop_toTopOf="@id/writerBloodPressureHeightInputText" />
-            <TextView
-                android:id="@+id/writerBloodPressureLowInputText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/notosanskr_semibold"
-                android:text="00"
-                android:maxLength="3"
-                android:paddingVertical="1dp"
-                android:textAlignment="center"
-                android:textSize="13sp"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toEndOf="@id/writerBloodPressureHeightInputText"
+                    app:layout_constraintEnd_toStartOf="@id/writerBloodPressureLowInputText"
+                    app:layout_constraintTop_toTopOf="@id/writerBloodPressureHeightInputText" />
+                <TextView
+                    android:id="@+id/writerBloodPressureLowInputText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/notosanskr_semibold"
+                    android:text="00"
+                    android:includeFontPadding="false"
+                    android:maxLength="3"
+                    android:paddingVertical="1dp"
+                    android:textAlignment="center"
+                    android:textSize="13sp"
 
 
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toEndOf="@id/writerBloodPressureSplitText"
-                app:layout_constraintTop_toTopOf="@id/writerBloodPressureHeightInputText"
-                app:layout_constraintBottom_toBottomOf="@id/writerBloodPressureHeightInputText"/>
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toEndOf="@id/writerBloodPressureSplitText"
+                    app:layout_constraintTop_toTopOf="@id/writerBloodPressureHeightInputText"
+                    app:layout_constraintBottom_toBottomOf="@id/writerBloodPressureHeightInputText"/>
 
-            <TextView
-                android:id="@+id/writerPregnancyText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/notosanskr_semibold"
-                android:text="임신주수"
-                android:layout_marginStart="50dp"
-                android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="@id/writerPregnancyInputText"
-                app:layout_constraintEnd_toStartOf="@id/writerPregnancyInputText"
+                <TextView
+                    android:id="@+id/writerPregnancyText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/notosanskr_semibold"
+                    android:text="임신주수"
+                    android:layout_marginStart="50dp"
+                    android:textSize="14sp"
+                    android:includeFontPadding="false"
+                    app:layout_constraintBottom_toBottomOf="@id/writerPregnancyInputText"
+                    app:layout_constraintEnd_toStartOf="@id/writerPregnancyInputText"
 
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toEndOf="@+id/writerWeightUnitText"
-                app:layout_constraintTop_toTopOf="@id/writerPregnancyInputText" />
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toEndOf="@+id/writerWeightUnitText"
+                    app:layout_constraintTop_toTopOf="@id/writerPregnancyInputText" />
 
-            <TextView
-                android:id="@+id/writerPregnancyInputText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/notosanskr_semibold"
-                android:text="000"
-                android:maxLength="3"
-                android:paddingVertical="1dp"
-                android:textAlignment="center"
-                android:textSize="13sp"
-                android:layout_marginTop="20dp"
+                <TextView
+                    android:id="@+id/writerPregnancyInputText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/notosanskr_semibold"
+                    android:text="000"
+                    android:maxLength="3"
+                    android:includeFontPadding="false"
+                    android:paddingVertical="1dp"
+                    android:textAlignment="center"
+                    android:textSize="13sp"
+                    android:layout_marginTop="20dp"
 
-                app:layout_constraintEnd_toStartOf="@id/writerPregnancyUnitText"
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toEndOf="@id/writerPregnancyText"
-                app:layout_constraintTop_toBottomOf="@id/writerDiaryAddImageCardView" />
+                    app:layout_constraintEnd_toStartOf="@id/writerPregnancyUnitText"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toEndOf="@id/writerPregnancyText"
+                    app:layout_constraintTop_toBottomOf="@id/writerDateText" />
 
-            <TextView
+                <TextView
 
-                android:id="@+id/writerPregnancyUnitText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/notosanskr_bold"
-                android:text="주"
-                android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="@id/writerPregnancyText"
+                    android:id="@+id/writerPregnancyUnitText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/notosanskr_bold"
+                    android:text="주"
+                    android:textSize="14sp"
+                    android:includeFontPadding="false"
+                    app:layout_constraintBottom_toBottomOf="@id/writerPregnancyText"
 
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toEndOf="@id/writerPregnancyInputText"
-                app:layout_constraintTop_toTopOf="@id/writerPregnancyText" />
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toEndOf="@id/writerPregnancyInputText"
+                    app:layout_constraintTop_toTopOf="@id/writerPregnancyText" />
 
-            <TextView
-                android:id="@+id/writerNextDayTitleText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/notosanskr_semibold"
-                android:text="다음진찰일"
-                android:textSize="14sp"
+                <TextView
+                    android:id="@+id/writerNextDayTitleText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/notosanskr_semibold"
+                    android:text="다음진찰일"
+                    android:includeFontPadding="false"
+                    android:textSize="14sp"
 
-                app:layout_constraintBottom_toBottomOf="@id/writerBloodPressureHeightInputText"
-                app:layout_constraintEnd_toStartOf="@id/writerNextDaySelectedText"
 
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toStartOf="@id/writerPregnancyText"
-                app:layout_constraintTop_toTopOf="@id/writerBloodPressureHeightInputText" />
+                    app:layout_constraintBottom_toBottomOf="@id/writerBloodPressureHeightInputText"
+                    app:layout_constraintEnd_toStartOf="@id/writerNextDaySelectedText"
 
-            <TextView
-                android:id="@+id/writerNextDaySelectedText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/notosanskr_semibold"
-                android:textAlignment="center"
-                android:textSize="13sp"
-                android:text="12/12"
-                android:textColor="@color/gray"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toStartOf="@id/writerPregnancyText"
+                    app:layout_constraintTop_toTopOf="@id/writerBloodPressureHeightInputText" />
 
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toEndOf="@id/writerNextDayTitleText"
-                android:paddingStart="3dp"
-                android:paddingEnd="3dp"
-                app:layout_constraintBottom_toBottomOf="@id/writerNextDayTitleText"/>
-            <ImageView
-                android:id="@+id/writerEmojiImage"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/writerDiaryAddImageCardView"
-                android:layout_marginTop="18dp"
-                android:layout_marginEnd="50dp"
-                app:layout_constraintBottom_toTopOf="@id/writerEmojiCode"
-                app:layout_constraintVertical_chainStyle="packed"/>
-            <TextView
-                android:id="@+id/writerEmojiCode"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/notosanskr_regular"
-                android:textSize="12sp"
-                app:layout_constraintTop_toBottomOf="@id/writerEmojiImage"
-                app:layout_constraintStart_toStartOf="@id/writerEmojiImage"
-                app:layout_constraintEnd_toEndOf="@id/writerEmojiImage"
-                android:text="좋음"/>
-            <TextView
-                android:id="@+id/writerFetalFindingsText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="18dp"
-                android:fontFamily="@font/notosanskr_bold"
-                android:text="태아소견"
-                android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="20dp"
-                app:layout_constraintTop_toBottomOf="@id/writerBloodPressureHeightInputText" />
-            <TextView
-                android:id="@+id/writerFetalFindingsContentText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/writerFetalFindingsText"
-                app:layout_constraintStart_toStartOf="@+id/writerFetalFindingsText"
-                android:textSize="14sp"
-                android:fontFamily="@font/notosanskr_semibold"
-                android:text="소견"
-                android:layout_marginStart="1dp"
-                android:layout_marginTop="3dp"
-                />
-            <TextView
-                android:id="@+id/writerDiaryContentText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="18dp"
-                android:fontFamily="@font/notosanskr_bold"
-                android:text="내용"
-                android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="20dp"
-                app:layout_constraintTop_toBottomOf="@id/writerFetalFindingsContentText" />
-            <TextView
-                android:id="@+id/writerContentContentText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/writerDiaryContentText"
-                android:textSize="14sp"
-                android:fontFamily="@font/notosanskr_semibold"
-                android:text="내용"
-                app:layout_constraintStart_toStartOf="@+id/writerFetalFindingsContentText"
-                android:layout_marginStart="1dp"
-                android:layout_marginTop="3dp"
-                />
-            <TextView
-                android:id="@+id/writerDateText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/writerContentContentText"
-                android:layout_marginEnd="18dp"
-                android:layout_marginTop="27dp"
-                android:text="2014/04/09"/>
-            <View
-                android:id="@+id/slicingLineView"
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                app:layout_constraintTop_toBottomOf="@id/writerDateText"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_margin="10dp"
-                android:background="@color/gray"
-                />
+                <TextView
+                    android:id="@+id/writerNextDaySelectedText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/notosanskr_semibold"
+                    android:textAlignment="center"
+                    android:textSize="13sp"
+                    android:text="12/12"
+                    android:includeFontPadding="false"
+                    android:textColor="@color/gray"
+
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toEndOf="@id/writerNextDayTitleText"
+                    android:paddingStart="3dp"
+                    android:paddingEnd="3dp"
+                    app:layout_constraintBottom_toBottomOf="@id/writerNextDayTitleText"/>
+                <ImageView
+                    android:id="@+id/writerEmojiImage"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/writerDateText"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginEnd="50dp"
+                    android:includeFontPadding="false"
+                    app:layout_constraintVertical_chainStyle="packed"/>
+                <TextView
+                    android:id="@+id/writerEmojiCode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/notosanskr_regular"
+                    android:textSize="12sp"
+                    app:layout_constraintTop_toBottomOf="@id/writerEmojiImage"
+                    app:layout_constraintStart_toStartOf="@id/writerEmojiImage"
+                    app:layout_constraintEnd_toEndOf="@id/writerEmojiImage"
+                    android:text="좋음"
+                    android:includeFontPadding="false"/>
+                <TextView
+                    android:id="@+id/writerFetalFindingsText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:fontFamily="@font/notosanskr_bold"
+                    android:text="태아소견"
+                    android:includeFontPadding="false"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="20dp"
+                    app:layout_constraintTop_toBottomOf="@id/writerBloodPressureHeightInputText" />
+                <TextView
+                    android:id="@+id/writerFetalFindingsContentText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/writerFetalFindingsText"
+                    app:layout_constraintStart_toStartOf="@+id/writerFetalFindingsText"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/notosanskr_semibold"
+                    android:text="소견"
+                    android:layout_marginStart="1dp"
+                    android:layout_marginTop="3dp"
+                    android:includeFontPadding="false"
+                    />
+                <TextView
+                    android:id="@+id/writerDiaryContentText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:fontFamily="@font/notosanskr_bold"
+                    android:text="내용"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="20dp"
+                    app:layout_constraintTop_toBottomOf="@id/writerFetalFindingsContentText"
+                    android:includeFontPadding="false"/>
+                <TextView
+                    android:id="@+id/writerContentContentText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/writerDiaryContentText"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/notosanskr_semibold"
+                    android:text="내용"
+                    android:includeFontPadding="false"
+                    app:layout_constraintStart_toStartOf="@+id/writerFetalFindingsContentText"
+                    android:layout_marginStart="1dp"
+                    android:layout_marginTop="3dp"
+                    />
+
+                <View
+                    android:id="@+id/slicingLineView"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    app:layout_constraintTop_toBottomOf="@id/writerContentContentText"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_margin="10dp"
+                    android:background="@color/gray"
+                    android:visibility="gone"
+                    />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/detailWitterRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/slicingLineView"
+                app:layout_constraintTop_toBottomOf="@+id/contentLayout"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="13dp"
+
                 />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -370,7 +428,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:background="@color/white">
+        android:background="@color/common100">
         <View
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -378,7 +436,7 @@
             app:layout_constraintStart_toStartOf="@id/sendButton"
             app:layout_constraintEnd_toEndOf="@id/sendButton"
             app:layout_constraintBottom_toBottomOf="@id/sendButton"
-            android:background="@color/yellow"
+            android:background="@color/primaryLight"
             />
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/sendButton"
@@ -387,7 +445,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:background="@color/yellow"
+            android:background="@color/primaryLight"
             android:src="@drawable/ic_send"
             />
         <View
@@ -408,16 +466,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:background="@color/gray"
             />
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/profileImage"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginStart="15dp"
-            android:src="@mipmap/ic_launcher"
-            />
 
 
         <com.google.android.material.textfield.TextInputLayout
@@ -426,7 +474,7 @@
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/sendSlicingLineView"
-            app:layout_constraintStart_toEndOf="@id/profileImage"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:hintEnabled="false"
             app:cursorColor="@color/blue"
