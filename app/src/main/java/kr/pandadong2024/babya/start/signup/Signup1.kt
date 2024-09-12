@@ -28,7 +28,8 @@ class Signup1 : Fragment() {
 
         binding.nextBtn.setOnClickListener {
             Log.d(TAG, "onCreateView: dddd")
-            findNavController().navigate(R.id.action_signup1_to_signup2)
+//            findNavController().navigate(R.id.action_signup1_to_signup2)
+            findNavController().navigate(R.id.action_signup1_to_signup5)
         }
 
 

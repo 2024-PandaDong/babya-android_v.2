@@ -74,13 +74,13 @@
                 android:visibility="gone"
                 android:background="@drawable/sp_signup_false_round"
                 android:enabled="false"
-                android:hint="1명"
+                android:hint="0명"
                 android:textColorHint="@color/black"
                 android:paddingStart="17dp"
                 android:fontFamily="@font/notosanskr_semibold"
                 android:includeFontPadding="false"
                 android:textSize="16dp"
-                android:inputType="textPassword"
+                android:inputType="text"
                 />
 
             <com.google.android.material.textfield.TextInputEditText
@@ -99,7 +99,7 @@
                 android:fontFamily="@font/notosanskr_semibold"
                 android:includeFontPadding="false"
                 android:textSize="16dp"
-                android:inputType="textPassword"
+                android:inputType="text"
                 />
 
             <androidx.appcompat.widget.AppCompatImageButton
@@ -130,7 +130,7 @@
                 android:fontFamily="@font/notosanskr_semibold"
                 android:includeFontPadding="false"
                 android:textSize="16dp"
-                android:inputType="textPassword"
+                android:inputType="text"
                 />
 
 
@@ -146,7 +146,7 @@
                 />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/fetusDayRv"
+                android:id="@+id/fetusNameRv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="27dp"

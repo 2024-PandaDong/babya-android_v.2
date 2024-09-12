@@ -159,7 +159,7 @@ class Signup2 : Fragment() {
             Toast.makeText(requireContext(), "이메일이 인증되었습니다", Toast.LENGTH_SHORT).show()
             binding.verificationCodeLayout.visibility = View.GONE
             binding.emailEditText.isEnabled = false
-            binding.emailEditText.setTextColor(Color.parseColor("#707070"))
+            binding.emailEditText.setTextColor(Color.parseColor("#FD7D7C"))
             emailCheck = true
             if (passwordCheck && emailCheck == true){
                 binding.nextBtn.isEnabled = true
