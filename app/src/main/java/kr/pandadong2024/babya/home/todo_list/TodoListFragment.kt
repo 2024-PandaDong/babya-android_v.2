@@ -1,5 +1,7 @@
 package kr.pandadong2024.babya.home.todo_list
 
+import android.graphics.Color
+import android.graphics.ColorFilter
 import android.icu.util.Calendar
 import android.os.Bundle
 import android.util.Log
@@ -14,10 +16,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentTodoListBinding
-import kr.pandadong2024.babya.home.todo_list.adapter.PolicyDayAdapter
 import kr.pandadong2024.babya.home.todo_list.adapter.TodoCategoryAdapter
+import kr.pandadong2024.babya.home.todo_list.adapter.TodoDayAdapter
 import kr.pandadong2024.babya.home.todo_list.decoration.CategoryItemDecoration
-import kr.pandadong2024.babya.home.todo_list.decoration.PolicyCategoryItemDecoration
+import kr.pandadong2024.babya.home.todo_list.decoration.TodoIDayItemDecoration
 import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.server.local.BabyaDB
 import kr.pandadong2024.babya.server.local.TokenDAO
@@ -57,7 +59,6 @@ class TodoListFragment : Fragment() {
         tokenDao = BabyaDB.getInstance(requireContext().applicationContext)?.tokenDao()!!
         (requireActivity() as BottomControllable).setBottomNavVisibility(false)
         getCategory()
-
         binding.todoListBackButton.setOnClickListener {
             findNavController().navigate(R.id.action_todoListFragment_to_mainFragment)
         }
@@ -115,6 +116,7 @@ class TodoListFragment : Fragment() {
         val todoCategoryAdapter = TodoCategoryAdapter(
             categoryList = categoryList,
             selectedItemPosition = selectedPosition,
+            context = requireContext(),
             flash = {position ->
                 selectedPosition = position
                 setCategory(categoryList)
@@ -156,7 +158,7 @@ class TodoListFragment : Fragment() {
 
     private fun initDayRecyclerView(todoList : Map<String, List<TodoResponses>>){
         Log.d(TAG, "$todoList")
-        val todoAdapter = PolicyDayAdapter(
+        val todoAdapter = TodoDayAdapter(
             todoList = todoList,
             context =  requireContext()
         ){type, todoData ->
@@ -182,6 +184,10 @@ class TodoListFragment : Fragment() {
         todoAdapter.notifyItemRemoved(0)
         with(binding){
             todoListRecyclerView.adapter = todoAdapter
+            if (todoListRecyclerView.itemDecorationCount == 0)todoListRecyclerView.addItemDecoration(
+                TodoIDayItemDecoration( todoList.size)
+            )
+            todoListRecyclerView.scrollToPosition(selectedPosition)
         }
     }
 
