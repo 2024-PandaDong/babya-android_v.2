@@ -43,6 +43,105 @@
         <action
             android:id="@+id/action_signup1_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_signup1_to_signup2"
+            app:destination="@id/signup2" />
+        <action
+            android:id="@+id/action_signup1_to_signup5"
+            app:destination="@id/signup5" />
+    </fragment>
+    <fragment
+        android:id="@+id/signup2"
+        android:name="kr.pandadong2024.babya.start.signup.Signup2"
+        android:label="fragment_signup2"
+        tools:layout="@layout/fragment_signup2" >
+        <action
+            android:id="@+id/action_signup2_to_signup1"
+            app:destination="@id/signup1" />
+        <action
+            android:id="@+id/action_signup2_to_signup3"
+            app:destination="@id/signup3" />
+    </fragment>
+    <fragment
+        android:id="@+id/signup3"
+        android:name="kr.pandadong2024.babya.start.signup.Signup3"
+        android:label="fragment_signup3"
+        tools:layout="@layout/fragment_signup3" >
+        <action
+            android:id="@+id/action_signup3_to_signup2"
+            app:destination="@id/signup2" />
+        <action
+            android:id="@+id/action_signup3_to_signup5"
+            app:destination="@id/signup5" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/signup5"
+        android:name="kr.pandadong2024.babya.start.signup.Signup5"
+        android:label="fragment_signup5"
+        tools:layout="@layout/fragment_signup5" >
+
+        <action
+            android:id="@+id/action_signup5_to_signup7"
+            app:destination="@id/signup7" />
+        <action
+            android:id="@+id/action_signup5_to_signup6"
+            app:destination="@id/signup6" />
+        <action
+            android:id="@+id/action_signup5_to_signup8"
+            app:destination="@id/signup8" />
+        <action
+            android:id="@+id/action_signup5_to_signup9"
+            app:destination="@id/signup9" />
+        <action
+            android:id="@+id/action_signup5_to_signup3"
+            app:destination="@id/signup3" />
+    </fragment>
+    <fragment
+        android:id="@+id/signup6"
+        android:name="kr.pandadong2024.babya.start.signup.Signup6"
+        android:label="fragment_signup6"
+        tools:layout="@layout/fragment_signup6" >
+        <action
+            android:id="@+id/action_signup6_to_signup5"
+            app:destination="@id/signup5" />
+        <action
+            android:id="@+id/action_signup6_to_signup9"
+            app:destination="@id/signup9" />
+    </fragment>
+    <fragment
+        android:id="@+id/signup7"
+        android:name="kr.pandadong2024.babya.start.signup.Signup7"
+        android:label="fragment_signup7"
+        tools:layout="@layout/fragment_signup7" >
+        <action
+            android:id="@+id/action_signup7_to_signup5"
+            app:destination="@id/signup5" />
+        <action
+            android:id="@+id/action_signup7_to_signup9"
+            app:destination="@id/signup9" />
+    </fragment>
+    <fragment
+        android:id="@+id/signup8"
+        android:name="kr.pandadong2024.babya.start.signup.Signup8"
+        android:label="fragment_signup8"
+        tools:layout="@layout/fragment_signup8" >
+        <action
+            android:id="@+id/action_signup8_to_signup5"
+            app:destination="@id/signup5" />
+        <action
+            android:id="@+id/action_signup8_to_signup92"
+            app:destination="@id/signup9" />
+    </fragment>
+    <fragment
+        android:id="@+id/signup9"
+        android:name="kr.pandadong2024.babya.start.signup.Signup9"
+        android:label="fragment_signup9"
+        tools:layout="@layout/fragment_signup9" >
+        <action
+            android:id="@+id/action_signup9_to_signup5"
+            app:destination="@id/signup5" />
     </fragment>
 
 </navigation>
