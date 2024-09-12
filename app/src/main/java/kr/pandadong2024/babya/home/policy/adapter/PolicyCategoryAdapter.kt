@@ -5,11 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import androidx.transition.Visibility
-import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.ItemPolicyListTagBinding
-import kr.pandadong2024.babya.databinding.ItemTodoListTagBinding
-import kr.pandadong2024.babya.util.roundAll
 
 class PolicyCategoryAdapter(val flash :(position:Int, localCategoryList : MutableList<String>)->Unit, private val localCategoryList : List<String>) :
     RecyclerView.Adapter<PolicyCategoryAdapter.CategoryViewHolder>() {
