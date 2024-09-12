@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import androidx.fragment.app.DialogFragment.STYLE_NORMAL
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -215,7 +216,6 @@ class DetailPublicFragment : Fragment() {
                         commentsList = it.reversed(),
                         ){ id ->
                         val commentBottomSheet =  CommentBottomSheet(id)
-//                        commentBottomSheet.setStyle( R.style.DialogStyle)
                         commentBottomSheet.show(requireActivity().supportFragmentManager, commentBottomSheet.tag)
 
                     }  }!!
