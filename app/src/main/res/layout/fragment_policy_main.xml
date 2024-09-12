@@ -69,7 +69,7 @@
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/policyTabLayout"
+        app:layout_constraintTop_toBottomOf="@id/diaryTabLayout"
         >
 
     <androidx.core.widget.NestedScrollView
@@ -190,7 +190,7 @@
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <com.google.android.material.tabs.TabLayout
-        android:id="@+id/policyTabLayout"
+        android:id="@+id/diaryTabLayout"
         android:layout_width="match_parent"
         app:layout_constraintTop_toBottomOf="@id/policyListToolbar"
         android:layout_height="wrap_content"
