@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import coil.load
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -49,6 +50,13 @@ class PolicyMainFragment : Fragment() {
         binding.backButton.setOnClickListener {
             findNavController().navigate(R.id.action_policyMainFragment_to_mainFragment)
         }
+
+        binding.swipeRefreshLayout.setOnRefreshListener (
+            SwipeRefreshLayout.OnRefreshListener {
+                Log.d("", "atest")
+                setCategory(categoryList = viewModel.tagsList.value!!)
+            }
+        )
 
         binding.searchButton.setOnClickListener {
             Log.d(TAG, "searchButton")
@@ -195,6 +203,10 @@ class PolicyMainFragment : Fragment() {
             if (categoryRecyclerView.itemDecorationCount == 0) categoryRecyclerView.addItemDecoration(
                 PolicyCategoryItemDecoration(10, 0, categoryList.size)
             )
+
+            if(binding.swipeRefreshLayout.isRefreshing){
+                binding.swipeRefreshLayout.isRefreshing = false
+            }
 
         }
     }
