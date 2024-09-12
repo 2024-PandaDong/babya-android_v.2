@@ -116,6 +116,7 @@ class Signup2 : Fragment() {
         val pw = binding.passwordEditText.text.toString()
         viewModel.email.value = email
         viewModel.pw.value = pw
+        viewModel.pushToken.value = ""
         findNavController().navigate(R.id.action_signup2_to_signup3)
     }
 

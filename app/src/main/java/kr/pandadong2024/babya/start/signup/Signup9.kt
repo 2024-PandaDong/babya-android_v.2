@@ -7,11 +7,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentSignup8Binding
 import kr.pandadong2024.babya.databinding.FragmentSignup9Binding
+import kr.pandadong2024.babya.server.RetrofitBuilder
+import kr.pandadong2024.babya.server.remote.request.SignUpRequest
 import kr.pandadong2024.babya.start.viewmodel.SignupViewModel
 
 class Signup9 : Fragment() {
@@ -41,12 +47,57 @@ class Signup9 : Fragment() {
 
         }
 
+        binding.nextBtn.setOnClickListener {
+            Signup()
+        }
+
         binding.signUpBackButton.setOnClickListener {
             findNavController().navigate(R.id.action_signup9_to_signup5)
         }
 
 
         return binding.root
+    }
+
+    private fun Signup(){
+        lifecycleScope.launch(Dispatchers.IO){
+            kotlin.runCatching {
+                RetrofitBuilder.getSignupService().postSignup(
+
+                    body = SignUpRequest(
+                        email = viewModel.email.value.toString(),
+                        pw = viewModel.pw.value.toString(),
+                        nickName = viewModel.nickName.value.toString(),
+                        marriedDt = viewModel.marriedDt.value.toString(),
+                        pregnancyDt = viewModel.pregnancyDt.value.toString(),
+                        birthDt = viewModel.birthDt.value.toString(),
+                        locationCode = viewModel.locationCode.value.toString(),
+                        pushToken = "", // fcm
+                        childList = (viewModel.birthNameList.value ?: emptyList()) + (viewModel.childrenNameList.value ?: emptyList())
+                    )
+                )
+
+            }.onSuccess {
+
+                Log.d(TAG, "Signup: 성공")
+                lifecycleScope.launch(Dispatchers.Main) {
+                    Toast.makeText(requireContext(), "회원가입에 성공했습니다", Toast.LENGTH_SHORT).show()
+
+                    // 회원가입 -> 홈(quiz)
+                    // val intent = Intent(requireContext(), QuizFragment::class.java)
+                    // startActivity(intent)
+
+                    // 회원가입 -> 로그인
+                    findNavController().navigate(R.id.action_signupFragment_to_loginFragment)
+                }
+            }.onFailure {
+                it.printStackTrace()
+                Log.d(TAG, "Signup: 실패")
+                Log.d(TAG, "Signup: ${it.stackTrace}")
+            }
+
+        }
+
     }
 
 }
