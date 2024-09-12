@@ -18,7 +18,6 @@ class SelectAdapter(
     inner class SelectViewHolder(private val binding: ItemPolicyListTagBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(tagText: String, position: Int) {
-            binding.itemLocalParent.visibility = View.GONE
             binding.policyTagText.text = tagText
             if(position+1 in selectList){
                 binding.itemPolicyParent.setBackgroundResource(R.drawable.sp_item_category_select_background)

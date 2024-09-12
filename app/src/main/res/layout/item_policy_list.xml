@@ -3,12 +3,102 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--        android:id="@+id/policyBackground"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="124dp"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        android:paddingVertical="17dp"-->
+<!--        android:paddingHorizontal="17dp"-->
+<!--        android:background="@color/backgroundNormalNormal"-->
+<!--        >-->
+<!--        <TextView-->
+<!--            android:id="@+id/titleText"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            android:fontFamily="@font/notosanskr_semibold"-->
+<!--            app:layout_constraintEnd_toStartOf="@+id/imageCardView"-->
+<!--            android:textSize="16dp"-->
+<!--            android:text="대충 정책 지원금 200만원"-->
+<!--            android:layout_marginEnd="17dp"-->
+<!--            android:includeFontPadding="false"/>-->
+<!--        <TextView-->
+<!--            android:id="@+id/localTagText"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:fontFamily="@font/notosanskr_semibold"-->
+<!--            android:textSize="14sp"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/titleText"-->
+<!--            app:layout_constraintStart_toStartOf="@id/titleText"-->
+<!--            android:layout_marginTop="3dp"-->
+<!--            android:layout_marginStart="1dp"-->
+<!--            android:text="대구"-->
+<!--            android:textColor="@color/neutral40"-->
+<!--            android:includeFontPadding="false"-->
+<!--            />-->
+<!--        <TextView-->
+<!--            android:id="@+id/locationText"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:layout_constraintStart_toEndOf="@id/localTagText"-->
+<!--            android:textColor="@color/neutral40"-->
+<!--            android:fontFamily="@font/notosanskr_medium"-->
+<!--            android:textSize="14sp"-->
+<!--            app:layout_constraintTop_toTopOf="@id/localTagText"-->
+<!--            android:layout_marginStart="9dp"-->
+<!--            android:text="대구광역시남구 보건소"-->
+<!--            android:includeFontPadding="false"-->
+<!--            />-->
+<!--        -->
+<!--        <TextView-->
+<!--            android:id="@+id/termText"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="2014-04-10 ~ 2024-04-10"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/localTagText"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            android:layout_marginTop="6dp"-->
+<!--            android:textSize="14sp"-->
+<!--            android:fontFamily="@font/notosanskr_medium"-->
+<!--            android:includeFontPadding="false"-->
+<!--            />-->
+<!--        <androidx.cardview.widget.CardView-->
+<!--            android:id="@+id/imageCardView"-->
+<!--            android:layout_width="80dp"-->
+<!--            android:layout_height="80dp"-->
+<!--            app:cardCornerRadius="10dp"-->
+<!--            android:outlineProvider="none"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            android:includeFontPadding="false"-->
+<!--            >-->
+<!--            <ImageView-->
+<!--                android:id="@+id/policyImage"-->
+<!--                android:layout_width="80dp"-->
+<!--                app:cardCornerRadius="100dp"-->
+<!--                android:layout_height="80dp"-->
+<!--                android:background="@color/neutral90"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:scaleType="centerCrop"-->
+
+<!--                />-->
+<!--        </androidx.cardview.widget.CardView>-->
+
+
+
+
+
+<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/policyBackground"
         android:layout_width="match_parent"
-        android:layout_height="124dp"
+        android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        android:paddingVertical="17dp"
+        android:paddingTop="17dp"
+        android:paddingBottom="33dp"
         android:paddingHorizontal="17dp"
         android:background="@color/backgroundNormalNormal"
         >
@@ -19,7 +109,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:fontFamily="@font/notosanskr_semibold"
-            app:layout_constraintEnd_toStartOf="@+id/imageCardView"
             android:textSize="16dp"
             android:text="대충 정책 지원금 200만원"
             android:layout_marginEnd="17dp"
@@ -32,60 +121,27 @@
             android:textSize="14sp"
             app:layout_constraintTop_toBottomOf="@id/titleText"
             app:layout_constraintStart_toStartOf="@id/titleText"
-            android:layout_marginTop="3dp"
+            android:layout_marginTop="5dp"
             android:layout_marginStart="1dp"
             android:text="대구"
             android:textColor="@color/neutral40"
             android:includeFontPadding="false"
             />
-        <TextView
-            android:id="@+id/locationText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toEndOf="@id/localTagText"
-            android:textColor="@color/neutral40"
-            android:fontFamily="@font/notosanskr_medium"
-            android:textSize="14sp"
-            app:layout_constraintTop_toTopOf="@id/localTagText"
-            android:layout_marginStart="9dp"
-            android:text="대구광역시남구 보건소"
-            android:includeFontPadding="false"
-            />
-        
+
+
         <TextView
             android:id="@+id/termText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="2014-04-10 ~ 2024-04-10"
+            android:text="최종수정일: 4월 1일"
             app:layout_constraintTop_toBottomOf="@id/localTagText"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="6dp"
+            app:layout_constraintStart_toStartOf="@id/localTagText"
             android:textSize="14sp"
+            android:textColor="@color/neutral40"
+            android:layout_marginTop="5dp"
             android:fontFamily="@font/notosanskr_medium"
             android:includeFontPadding="false"
             />
-        <androidx.cardview.widget.CardView
-            android:id="@+id/imageCardView"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            app:cardCornerRadius="10dp"
-            android:outlineProvider="none"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:includeFontPadding="false"
-            >
-            <ImageView
-                android:id="@+id/policyImage"
-                android:layout_width="80dp"
-                app:cardCornerRadius="100dp"
-                android:layout_height="80dp"
-                android:background="@color/neutral90"
-                android:layout_gravity="center"
-                android:scaleType="centerCrop"
-
-                />
-        </androidx.cardview.widget.CardView>
 
 
 

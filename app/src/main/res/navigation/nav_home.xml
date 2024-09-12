@@ -139,6 +139,9 @@
         <action
             android:id="@+id/action_policyMainFragment_to_policyContentFragment"
             app:destination="@id/policyContentFragment" />
+        <action
+            android:id="@+id/action_policyMainFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
 
     </fragment>
 

@@ -9,11 +9,20 @@
     >
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="630dp"
+            android:layout_height="790dp"
             android:background="@drawable/sp_policy_bottom_sheet"
             android:paddingHorizontal="25dp"
             android:paddingVertical="38dp"
             >
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    >
+
             <TextView
                 android:id="@+id/stateTitle"
                 android:layout_width="wrap_content"
@@ -22,6 +31,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:fontFamily="@font/notosanskr_semibold"
                 android:textSize="16sp"
+                android:includeFontPadding="false"
                 android:text="지역를 선택해주세요."
                 />
 
@@ -41,15 +51,20 @@
                 android:layout_marginTop="38dp"
                 android:fontFamily="@font/notosanskr_semibold"
                 android:textSize="16sp"
-                android:text="지역를 선택해주세요."
+                android:includeFontPadding="false"
+                android:text="군를 선택해주세요."
+                android:visibility="gone"
                 />
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/localChipGroup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/stateTitle"
+                app:layout_constraintTop_toBottomOf="@id/localTitle"
                 android:layout_marginTop="25dp"
                 />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.core.widget.NestedScrollView>
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/searchButton"
@@ -68,6 +83,7 @@
                 />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 
 

@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
@@ -17,6 +18,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.time.delay
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentMainBinding
+import kr.pandadong2024.babya.home.policy.viewmdole.PolicyViewModel
 import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.server.local.BabyaDB
 import kr.pandadong2024.babya.server.local.TokenDAO
@@ -37,6 +39,7 @@ class MainFragment : Fragment() {
     private lateinit var companyData : BaseResponse<List<CompanyDataResponses>>
     private lateinit var bannerAdapter : MainBannerAdapter
     private lateinit var rankAdapter : CompanyRankAdapter
+    private val policyViewModel by activityViewModels<PolicyViewModel>()
 
     private lateinit var tokenDao: TokenDAO
     private lateinit var statusAdapter : StatusAdapter
@@ -85,6 +88,7 @@ class MainFragment : Fragment() {
     ): View {
         _binding = FragmentMainBinding.inflate(inflater, container, false)
         tokenDao = BabyaDB.getInstance(requireContext().applicationContext)?.tokenDao()!!
+        policyViewModel.initViewModel()
         (requireActivity() as BottomControllable).setBottomNavVisibility(true)
         binding.maternityInfoRadioButton.setTextColor(requireContext().getColor(R.color.black))
         binding.LocaleInfoRadioButton.setTextColor(requireContext().getColor(R.color.gray))

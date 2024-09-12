@@ -38,7 +38,7 @@ class QuizResultFragment : Fragment() {
     fun isRight(){
         if (quiz.answer == "Y"){
             binding.answerText.text = "정답입니다!"
-            binding.answerText.setTextColor(requireContext().getColor(R.color.statusPositive))
+            binding.answerText.setTextColor(requireContext().getColor(R.color.statusDestructive))
         }
         else{
             binding.answerText.text = "오답입니다!"

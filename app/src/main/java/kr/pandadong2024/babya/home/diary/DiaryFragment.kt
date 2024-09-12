@@ -138,8 +138,6 @@ class DiaryFragment : Fragment() {
                     }
                 }.onFailure {
                     it.printStackTrace()
-                }.onSuccess {
-
                 }
             }
 
