@@ -35,7 +35,25 @@
             android:rotation="180"
             android:padding="8dp"
             android:src="@drawable/ic_arrow_14" />
+        
+        <EditText
+            android:id="@+id/searchEditText"
+            android:visibility="gone"
+            android:layout_width="270dp"
+            android:layout_height="40dp"
+            android:background="@drawable/sp_edit_text_backgroud"
+            android:layout_gravity="center"
+            android:textColor="@color/common0"
+            android:fontFamily="@font/notosanskr_regular"
+            android:textSize="13dp"
+            android:paddingStart="16dp"
+            android:hint="원하는 정책을 입력해주세요."
+
+
+            />
+
         <ImageButton
+            android:id="@+id/searchButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
