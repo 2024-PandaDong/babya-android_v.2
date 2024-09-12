@@ -21,17 +21,12 @@ class DashBoardCommentsAdapter(
     inner class CommentsViewHolder(private val binding : ItemCommentsBinding) : RecyclerView.ViewHolder(binding.root){
         fun setItemComments(commentData: DashBoardCommentResponses) {
             if (commentData.subCommentCnt != 0){
-                binding.subCommentRecyclerView.visibility = View.VISIBLE
                 Log.d("recycler", " test in sub")
-                val subCommentList = getSubComment(commentData.commentId!!,  1, 100)
-                val subCommentAdapter = SubCommentAdapter(
-                    subCommentList = subCommentList,
-                    replayComment = { replayComment(commentData.commentId) }
-                )
-                subCommentAdapter.notifyItemRemoved(0)
-                with(binding){
-                    subCommentRecyclerView.adapter = subCommentAdapter
-                }
+//                val subCommentList = getSubComment(commentData.commentId!!,  1, 100)
+//                val subCommentAdapter = SubCommentAdapter(
+//                    subCommentList = subCommentList,
+//                )
+//                subCommentAdapter.notifyItemRemoved(0)
             }
             binding.commentNameText.text = commentData.nickname
             if (commentData.profileImg == null){
