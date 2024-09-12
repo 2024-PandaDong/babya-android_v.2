@@ -43,7 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <RadioGroup
-                android:checkedButton="@id/diaryAllRadio"
+                android:checkedButton="@id/maternityInfoRadioButton"
                 android:id="@+id/radioGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

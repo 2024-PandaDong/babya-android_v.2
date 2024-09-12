@@ -48,31 +48,31 @@ class DiaryFragment : Fragment() {
     ): View {
         (requireActivity() as BottomControllable).setBottomNavVisibility(false)
         _binding = FragmentDiaryBinding.inflate(inflater, container, false)
-        initDiaryBannerView()
+//        initDiaryBannerView()
 
-        binding.diaryDisclosureButton.setOnClickListener {
-            Log.d(TAG, isPublic.toString())
-            changeGridView()
-        }
+//        binding.diaryDisclosureButton.setOnClickListener {
+//            Log.d(TAG, isPublic.toString())
+//            changeGridView()
+//        }
 
-        binding.diaryReloadButton.setOnClickListener {
-            when(viewModel.isPublic.value){
-                true -> getDiaryData(1, 100, 2)
-                false -> {
-                    isPublic = isPublic.not()
-                    getDiaryData(1, 100, 1)
-                }
-
-                else -> {}
-            }
-        }
+//        binding.diaryReloadButton.setOnClickListener {
+//            when(viewModel.isPublic.value){
+//                true -> getDiaryData(1, 100, 2)
+//                false -> {
+//                    isPublic = isPublic.not()
+//                    getDiaryData(1, 100, 1)
+//                }
+//
+//                else -> {}
+//            }
+//        }
 
         binding.diaryEditFloatingActionButton.setOnClickListener{
             findNavController().navigate(R.id.action_diaryFragment_to_editDiaryFragment)
         }
-        binding.diaryBackButton.setOnClickListener {
-            findNavController().navigate(R.id.action_diaryFragment_to_mainFragment)
-        }
+//        binding.diaryBackButton.setOnClickListener {
+//            findNavController().navigate(R.id.action_diaryFragment_to_mainFragment)
+//        }
         viewModel.isPublic.value = true
         viewModel.isPublic.observe(viewLifecycleOwner){
             when(it){
@@ -86,21 +86,21 @@ class DiaryFragment : Fragment() {
             }
         }
 
-        binding.radioGroup.setOnCheckedChangeListener { radioGroup, checkId ->
-            Log.d(TAG, "in setOnCheckedChangeListener")
-            when (checkId) {
-                binding.diaryAllRadio.id -> {
-                    binding.diaryDisclosureButton.visibility = View.GONE
-                    viewModel.isPublic.value = true
-                }
-
-                binding.diaryMyRadio.id -> {
-                    binding.diaryDisclosureButton.visibility = View.VISIBLE
-                    viewModel.isPublic.value = false
-
-                }
-            }
-        }
+//        binding.radioGroup.setOnCheckedChangeListener { radioGroup, checkId ->
+//            Log.d(TAG, "in setOnCheckedChangeListener")
+//            when (checkId) {
+//                binding.diaryAllRadio.id -> {
+//                    binding.diaryDisclosureButton.visibility = View.GONE
+//                    viewModel.isPublic.value = true
+//                }
+//
+//                binding.diaryMyRadio.id -> {
+//                    binding.diaryDisclosureButton.visibility = View.VISIBLE
+//                    viewModel.isPublic.value = false
+//
+//                }
+//            }
+//        }
 
         return binding.root
     }
@@ -147,41 +147,41 @@ class DiaryFragment : Fragment() {
         binding.DiaryGridView.adapter = diaryMainGridViewAdapter
     }
 
-    private fun changeGridView(){
-        val changeList = mutableListOf<DiaryDataResponses>()
-        when(isPublic){
-            true ->{
-                binding.diaryDisclosureText.setText("비공개")
-                binding.diaryDisclosureIcon.setImageResource(R.drawable.ic_lock)
-                diaryList?.forEach {
-                    if (it.isPublic == "Y"){
-                        changeList.add(it)
-                    }
-                }
-            }
-            false ->{
-                binding.diaryDisclosureText.setText("공개")
-                binding.diaryDisclosureIcon.setImageResource(R.drawable.ic_unlock)
-                diaryList?.forEach {
-                    if (it.isPublic == "N"){
-                        changeList.add(it)
-                    }
-                }
-            }
-        }
-        isPublic = isPublic.not()
-        diaryMainGridViewAdapter.setDiaryList(changeList)
-        diaryMainGridViewAdapter.notifyDataSetChanged()
-    }
+//    private fun changeGridView(){
+//        val changeList = mutableListOf<DiaryDataResponses>()
+//        when(isPublic){
+//            true ->{
+//                binding.diaryDisclosureText.setText("비공개")
+//                binding.diaryDisclosureIcon.setImageResource(R.drawable.ic_lock)
+//                diaryList?.forEach {
+//                    if (it.isPublic == "Y"){
+//                        changeList.add(it)
+//                    }
+//                }
+//            }
+//            false ->{
+//                binding.diaryDisclosureText.setText("공개")
+//                binding.diaryDisclosureIcon.setImageResource(R.drawable.ic_unlock)
+//                diaryList?.forEach {
+//                    if (it.isPublic == "N"){
+//                        changeList.add(it)
+//                    }
+//                }
+//            }
+//        }
+//        isPublic = isPublic.not()
+//        diaryMainGridViewAdapter.setDiaryList(changeList)
+//        diaryMainGridViewAdapter.notifyDataSetChanged()
+//    }
 
-    private fun initDiaryBannerView() {
-        diaryBannerAdapter = DiaryBannerAdapter(listOf(""), requireContext())
-        diaryBannerAdapter.notifyItemRemoved(0)
-        with(binding) {
-            binding.diaryBannerViewPager.adapter = diaryBannerAdapter
-            diaryBannerViewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
-        }
-    }
+//    private fun initDiaryBannerView() {
+//        diaryBannerAdapter = DiaryBannerAdapter(listOf(""), requireContext())
+//        diaryBannerAdapter.notifyItemRemoved(0)
+//        with(binding) {
+//            binding.diaryBannerViewPager.adapter = diaryBannerAdapter
+//            diaryBannerViewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+//        }
+//    }
 
 
     // type | 1 : my | 2 : all
@@ -238,7 +238,7 @@ class DiaryFragment : Fragment() {
                     initDiaryGridView()
                     if(type == 1){
                         delay(1)
-                        changeGridView()
+//                        changeGridView()
                     }
                 }
             }
