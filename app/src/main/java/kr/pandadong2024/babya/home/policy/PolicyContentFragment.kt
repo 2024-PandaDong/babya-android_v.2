@@ -20,6 +20,7 @@ import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentPolicyContentBinding
 import kr.pandadong2024.babya.home.policy.viewmdole.PolicyViewModel
 import kr.pandadong2024.babya.server.RetrofitBuilder
+import kr.pandadong2024.babya.server.local.BabyaDB
 import kr.pandadong2024.babya.util.BottomControllable
 import retrofit2.HttpException
 import java.io.File
@@ -31,6 +32,8 @@ class PolicyContentFragment : Fragment() {
     private val viewModel by activityViewModels<PolicyViewModel>()
     val TAG = "PolicyContentFragment"
     var policyLink : String = ""
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -80,7 +83,8 @@ class PolicyContentFragment : Fragment() {
                         Log.d(TAG, "200,\nstatus : ${result.data}")
                         policyLink = result.data!!.link
                         binding.policyTitleText.text = result.data.title
-                        binding.policyDateRangeText.text = result.data.editDate
+
+                        binding.policyDateRangeText.text = "최종수정일: ${result.data.editDate.substring(startIndex = 5, endIndex = 7)}월 ${result.data.editDate.substring(startIndex = 8, endIndex = 10)}일"
                         binding.htmlLodeText.loadDataWithBaseURL(null,result.data.content,"text/html","utf-8",null )
 
 

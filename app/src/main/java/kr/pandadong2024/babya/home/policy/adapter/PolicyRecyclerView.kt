@@ -11,7 +11,8 @@ import kr.pandadong2024.babya.util.roundAll
 class PolicyRecyclerView (val policyList : List<PolicyListResponse>, val tag : String, val onClick : (position : Int) -> Unit) : RecyclerView.Adapter<PolicyRecyclerView.PolicyViewHolder>() {
     inner class PolicyViewHolder(val binding : ItemPolicyListBinding) :RecyclerView.ViewHolder(binding.root){
         fun policyBind(policyDate : PolicyListResponse, position: Int){
-            binding.termText.text = policyDate.editDate
+            "2020-00-00"
+            binding.termText.text = "최종수정일: ${policyDate.editDate.substring(startIndex = 5, endIndex = 7)}월 ${policyDate.editDate.substring(startIndex = 8, endIndex = 10)}일"
 //            binding.locationText.text =tag
             binding.localTagText.text = tag
             binding.titleText.text = policyDate.title

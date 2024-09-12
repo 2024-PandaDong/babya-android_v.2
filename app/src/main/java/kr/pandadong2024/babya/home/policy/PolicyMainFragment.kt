@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import coil.load
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -21,6 +22,8 @@ import kr.pandadong2024.babya.home.policy.viewmdole.PolicyViewModel
 import kr.pandadong2024.babya.home.todo_list.adapter.PolicyCategoryAdapter
 import kr.pandadong2024.babya.home.todo_list.decoration.PolicyCategoryItemDecoration
 import kr.pandadong2024.babya.server.RetrofitBuilder
+import kr.pandadong2024.babya.server.local.BabyaDB
+import kr.pandadong2024.babya.server.local.TokenDAO
 import kr.pandadong2024.babya.server.remote.responses.Policy.PolicyListResponse
 import kr.pandadong2024.babya.util.BottomControllable
 import retrofit2.HttpException
@@ -31,7 +34,7 @@ class PolicyMainFragment : Fragment() {
     var _binding: FragmentPolicyMainBinding? = null
     val binding get() = _binding!!
 
-
+    var tokenDao : TokenDAO? = null
 
 
     override fun onCreateView(
@@ -39,10 +42,14 @@ class PolicyMainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentPolicyMainBinding.inflate(inflater, container, false)
+        tokenDao = BabyaDB.getInstance(requireContext())?.tokenDao()
         (requireActivity() as BottomControllable).setBottomNavVisibility(false)
         binding.backButton.setOnClickListener {
             findNavController().navigate(R.id.action_policyMainFragment_to_mainFragment)
         }
+
+        getProfileData()
+
         viewModel.tagsList.observe(viewLifecycleOwner) {
             Log.d(TAG, "changed")
             setCategory(categoryList = it)
@@ -65,6 +72,37 @@ class PolicyMainFragment : Fragment() {
 
         return binding.root
     }
+
+    private fun getProfileData() {
+        lifecycleScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                RetrofitBuilder.getProfileService().getProfile(
+                    accessToken = "Bearer ${tokenDao?.getMembers()?.accessToken.toString()}",
+                    email = "my"
+                )
+            }.onSuccess { result ->
+                Log.d(TAG, "getProfileData: ${result.data}")
+
+                launch(Dispatchers.Main) {
+                    binding.titleText.text = "${result.data?.nickname}님을 위한 추천 정책"
+//                    binding.argText.text = "나이: ${result.data?.age}살"
+//                    binding.dayText.text = "D-Day: ${result.data?.dDay}일"
+
+
+//                    binding.weddingYearText.text = if (result.data?.marriedYears == 0) {
+//                        "결혼: 미혼"
+//                    } else {
+//                        "결혼: ${result.data?.marriedYears}년차"
+//                    }
+                }
+            }.onFailure { result ->
+                Log.d(TAG, "onCreateView: ${result.message}")
+                result.printStackTrace()
+                Log.d(TAG, "onCreateView: 서버연결 실패")
+            }
+        }
+    }
+
 
     private fun setRecyclerView(policyList: List<PolicyListResponse>, tag: String) {
         val recyclerAdapter = PolicyRecyclerView(policyList = policyList, tag) {position ->
