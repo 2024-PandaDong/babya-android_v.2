@@ -7,18 +7,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import androidx.fragment.app.DialogFragment.STYLE_NORMAL
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import coil.load
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentDetailPublicBinding
+import kr.pandadong2024.babya.home.diary.bottomsheet.CommentBottomSheet
 import kr.pandadong2024.babya.home.diary.diaryadapters.CommentsAdapter
 import kr.pandadong2024.babya.home.diary.diaryviewmodle.DiaryViewModel
 import kr.pandadong2024.babya.server.RetrofitBuilder
@@ -44,7 +45,7 @@ class DetailPublicFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        diaryId = viewModel.id.value!!
+        diaryId = viewModel.diaryId.value!!
     }
 
     override fun onCreateView(
@@ -55,7 +56,7 @@ class DetailPublicFragment : Fragment() {
         _binding = FragmentDetailPublicBinding.inflate(inflater, container, false)
         tokenDao = BabyaDB.getInstance(requireContext().applicationContext)?.tokenDao()!!
         initView()
-        initCommentRecyclerView(1, 100, viewModel.id.value!!)
+        initCommentRecyclerView(1, 100, viewModel.diaryId.value!!)
 
         binding.backButton.setOnClickListener {
             findNavController().navigate(R.id.action_detailPublicFragment_to_diaryFragment)
@@ -111,7 +112,7 @@ class DetailPublicFragment : Fragment() {
                 Log.d(TAG, "status : ${result.status}")
                 Log.d(TAG, "data : ${result.data}")
                 delay(500)
-                initCommentRecyclerView(1, 100, viewModel.id.value!!)
+                initCommentRecyclerView(1, 100, viewModel.diaryId.value!!)
             }.onFailure { result ->
                 Log.e(TAG, "result : ${result.message}")
                 result.printStackTrace()
@@ -137,7 +138,7 @@ class DetailPublicFragment : Fragment() {
                 Log.d(TAG, "status : ${result.status}")
                 Log.d(TAG, "data : ${result.data}")
                 delay(500)
-                initCommentRecyclerView(1, 100, viewModel.id.value!!)
+                initCommentRecyclerView(1, 100, viewModel.diaryId.value!!)
             }.onFailure { result ->
                 Log.e(TAG, "result : ${result.message}")
                 result.printStackTrace()
@@ -159,7 +160,7 @@ class DetailPublicFragment : Fragment() {
                     Log.e(TAG, "profile result : ${result.data}")
                     Log.e(TAG, "profile result : ${result.status}")
                     launch (Dispatchers.Main){
-                        binding.profileImage.load(result.data?.profileImg)
+//                        binding.profileImage.load(result.data?.profileImg)
                     }
 
                 }.onFailure { result ->
@@ -171,7 +172,7 @@ class DetailPublicFragment : Fragment() {
             kotlin.runCatching {
                 RetrofitBuilder.getDiaryService().getDiaryData(
                     accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
-                    id = viewModel.id.value!!
+                    id = viewModel.diaryId.value!!
                 )
             }.onSuccess { result ->
                 Log.e(TAG, "result : ${result.message}")
@@ -213,17 +214,11 @@ class DetailPublicFragment : Fragment() {
 
                     commentsAdapter = result.data?.let { CommentsAdapter(
                         commentsList = it.reversed(),
-                        replayComment = {id ->
-                            binding.editCommentEditText.setHint("답글쓰기")
-                            selectedCommentId = id
-                            Log.d(TAG, "test in comment")
-                        }, getSubComment = { commentId, page, size ->
-                            getSubComment(
-                                commentId = commentId,
-                                page = page,
-                                size = size
-                            )
-                        })  }!!
+                        ){ id ->
+                        val commentBottomSheet =  CommentBottomSheet(id)
+                        commentBottomSheet.show(requireActivity().supportFragmentManager, commentBottomSheet.tag)
+
+                    }  }!!
                     commentsAdapter.notifyItemRemoved(0)
                     with(binding){
                         commentRecyclerView.adapter = commentsAdapter

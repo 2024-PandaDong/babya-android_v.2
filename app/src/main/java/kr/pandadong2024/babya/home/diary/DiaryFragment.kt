@@ -130,7 +130,7 @@ class DiaryFragment : Fragment() {
         diaryMainGridViewAdapter = DiaryMainGridViewAdapter(diaryList!!) { diaryId, memberId  ->
             lifecycleScope.launch(Dispatchers.Main){
                 kotlin.runCatching {
-                    viewModel.id.value = diaryId
+                    viewModel.diaryId.value = diaryId
                     if (memberId == myEmail) {
                         findNavController().navigate(R.id.action_diaryFragment_to_detailWriterFragment)
                     } else {

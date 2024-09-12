@@ -10,4 +10,11 @@
         <item name="cornerFamily">rounded</item>
 
     </style>
+
+    <style name="DialogStyle" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
+<!--        <item name="background">@drawable/sp_sub_comment_bottom_sheet</item>-->
+    </style>
 </resources>

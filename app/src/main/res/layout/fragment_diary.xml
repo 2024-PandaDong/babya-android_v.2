@@ -35,6 +35,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:text="산모일기"
+                    android:includeFontPadding="false"
                     android:textSize="19sp"
                     android:fontFamily="@font/notosanskr_bold"/>
                 <ImageButton
@@ -45,6 +46,7 @@
                     android:src="@drawable/ic_arrow_14"
                     android:background="@null"
                     android:rotation="180"
+                    android:padding="8dp"
                     />
                 <ImageButton
                     android:id="@+id/diaryReloadButton"
@@ -115,6 +117,7 @@
                     android:layout_height="25dp"
                     android:button="@null"
                     android:checked="true"
+                    android:includeFontPadding="false"
                     android:fontFamily="@font/notosanskr_regular"
                     android:gravity="center"
                     android:text="전체"
@@ -131,6 +134,7 @@
                     android:fontFamily="@font/notosanskr_regular"
                     android:paddingHorizontal="3dp"
                     android:text="나의 일기"
+
                     android:textAlignment="center"
                     android:background="@drawable/sel_main_underbar"
                     android:textSize="16sp" />
@@ -175,7 +179,9 @@
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="41dp"
         app:elevation="0dp"
-        app:backgroundTint="@color/yellow"
+        android:tintMode="src_in"
+        app:tint="@null"
+        app:backgroundTint="@color/primaryLight"
         app:shapeAppearance="@style/diaryActionButton"
         android:src="@drawable/ic_write"
 

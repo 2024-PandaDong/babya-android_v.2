@@ -2,7 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:id="@+id/backgroundLayout"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingBottom="3dp"
     >
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
@@ -13,7 +15,8 @@
         android:paddingBottom="10dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@color/backgroundNormalNormal">
         <androidx.cardview.widget.CardView
             android:id="@+id/commentProfileImageCardView"
             android:layout_width="35dp"
@@ -40,7 +43,9 @@
             android:layout_marginTop="1dp"
             android:layout_marginStart="7dp"
             android:text="name"
-            android:textSize="14sp"
+            android:includeFontPadding="false"
+            android:textSize="16sp"
+            android:textColor="@color/common0"
             android:fontFamily="@font/notosanskr_semibold"
             />
         <TextView
@@ -49,9 +54,11 @@
             android:layout_height="wrap_content"
             app:layout_constraintStart_toEndOf="@id/commentNameText"
             app:layout_constraintBottom_toBottomOf="@id/commentNameText"
-            android:textSize="11sp"
-            android:fontFamily="@font/notosanskr_semibold"
+            android:textSize="13sp"
+            android:fontFamily="@font/notosanskr_regular"
             android:text="n일"
+            android:textColor="@color/neutral90"
+            android:includeFontPadding="false"
             android:layout_marginStart="3dp"
             />
 
@@ -60,10 +67,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="2dp"
-            android:fontFamily="@font/notosanskr_medium"
+            android:fontFamily="@font/notosanskr_regular"
             android:text="대충내용"
-            android:textSize="12sp"
+            android:textSize="14sp"
+            android:textColor="@color/common0"
+            android:includeFontPadding="false"
             app:layout_constraintEnd_toEndOf="parent"
+
             app:layout_constraintVertical_chainStyle="packed"
             app:layout_constraintStart_toStartOf="@id/commentNameText"
             app:layout_constraintTop_toBottomOf="@id/commentNameText" />
@@ -72,30 +82,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="답글달기"
+            android:fontFamily="@font/notosanskr_regular"
+            android:textColor="@color/neutral90"
+            android:textSize="12sp"
+            android:includeFontPadding="false"
             app:layout_constraintTop_toBottomOf="@id/contentTextView"
             app:layout_constraintStart_toStartOf="@id/contentTextView"
+            android:paddingHorizontal="8dp"
+            android:paddingTop="3dp"
+            android:clickable="true"
+            android:layout_marginStart="-8dp"
+            android:paddingBottom="5dp"
             />
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/subCommentRecyclerView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@id/replayCommentText"
-            app:layout_constraintTop_toBottomOf="@id/replayCommentText"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:visibility="gone"
-            />
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <View
-        android:id="@+id/commentBottomLineView"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:background="@color/gray"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 
