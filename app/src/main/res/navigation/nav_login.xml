@@ -43,6 +43,30 @@
         <action
             android:id="@+id/action_signup1_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_signup1_to_signup2"
+            app:destination="@id/signup2" />
+    </fragment>
+    <fragment
+        android:id="@+id/signup2"
+        android:name="kr.pandadong2024.babya.start.signup.Signup2"
+        android:label="fragment_signup2"
+        tools:layout="@layout/fragment_signup2" >
+        <action
+            android:id="@+id/action_signup2_to_signup1"
+            app:destination="@id/signup1" />
+        <action
+            android:id="@+id/action_signup2_to_signup3"
+            app:destination="@id/signup3" />
+    </fragment>
+    <fragment
+        android:id="@+id/signup3"
+        android:name="kr.pandadong2024.babya.start.signup.Signup3"
+        android:label="fragment_signup3"
+        tools:layout="@layout/fragment_signup3" >
+        <action
+            android:id="@+id/action_signup3_to_signup2"
+            app:destination="@id/signup2" />
     </fragment>
 
 </navigation>
