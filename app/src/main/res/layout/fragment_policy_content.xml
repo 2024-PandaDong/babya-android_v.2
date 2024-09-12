@@ -37,6 +37,7 @@
             android:layout_marginEnd="17dp"
             android:background="@null"
             android:padding="8dp"
+            android:visibility="gone"
             android:src="@drawable/ic_declaration" />
 
     </androidx.appcompat.widget.Toolbar>

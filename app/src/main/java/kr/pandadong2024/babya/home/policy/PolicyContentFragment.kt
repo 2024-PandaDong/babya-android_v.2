@@ -47,7 +47,10 @@ class PolicyContentFragment : Fragment() {
 
         binding.declarationButton.setOnClickListener {
             val dialog =  DeclarationDialog()
+            dialog.isCancelable = false
+
             dialog.show(requireActivity().supportFragmentManager, dialog.tag)
+
         }
 
         binding.linkButton.setOnClickListener {
