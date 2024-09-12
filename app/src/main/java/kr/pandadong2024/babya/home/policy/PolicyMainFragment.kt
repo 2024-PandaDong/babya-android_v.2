@@ -36,6 +36,8 @@ class PolicyMainFragment : Fragment() {
 
     var tokenDao : TokenDAO? = null
 
+    var isSearchActivated= false
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,6 +49,27 @@ class PolicyMainFragment : Fragment() {
         binding.backButton.setOnClickListener {
             findNavController().navigate(R.id.action_policyMainFragment_to_mainFragment)
         }
+
+        binding.searchButton.setOnClickListener {
+            Log.d(TAG, "searchButton")
+            if(isSearchActivated && binding.searchEditText.text.isNotBlank()){
+                //TODO : 검색하기
+                Log.d(TAG, "searchButton1")
+            }
+            else{
+                if(isSearchActivated){
+                    Log.d(TAG, "searchButton2")
+                    binding.searchEditText.visibility = View.GONE
+                }else{
+                    Log.d(TAG, "searchButton3")
+                    binding.searchEditText.visibility = View.VISIBLE
+                }
+                Log.d(TAG, "searchButton4")
+                isSearchActivated = isSearchActivated.not()
+            }
+        }
+
+
 
         getProfileData()
 
