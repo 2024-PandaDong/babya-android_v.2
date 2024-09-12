@@ -1,6 +1,7 @@
 package kr.pandadong2024.babya.start.signup
 
 import android.app.DatePickerDialog
+import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -9,13 +10,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.DatePicker
 import android.widget.EditText
-import androidx.compose.ui.graphics.Color
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import kr.pandadong2024.babya.R
-import kr.pandadong2024.babya.databinding.FragmentSignup2Binding
 import kr.pandadong2024.babya.databinding.FragmentSignup3Binding
+import kr.pandadong2024.babya.home.policy.bottom_sheet.PolicyBottomSheet
+import kr.pandadong2024.babya.home.policy.viewmdole.PolicyViewModel
 import kr.pandadong2024.babya.start.viewmodel.SignupViewModel
 import java.util.Calendar
 import java.util.GregorianCalendar
@@ -25,6 +26,7 @@ class Signup3 : Fragment() {
     private var _binding: FragmentSignup3Binding? = null
     private val binding get() = _binding!!
     private val viewModel by activityViewModels<SignupViewModel>()
+    private val policyViewModel by activityViewModels<PolicyViewModel>()
     private val gregorianCalendar = GregorianCalendar()
     private val year = gregorianCalendar.get(Calendar.YEAR)
     private val date = gregorianCalendar.get(Calendar.DATE)
@@ -53,7 +55,25 @@ class Signup3 : Fragment() {
             next()
         }
 
+        policyViewModel.tagsList.observe(viewLifecycleOwner){
+            if (it.isNotEmpty()){
+                val location = encodingLocateNumber(it[0])
+                Log.d(TAG, "location: ${location}")
+                binding.locationEditText.setText(it[0])
+                viewModel.locationCode.value = location.toString()
+            }
+        }
+
         // 지역코드 해야함
+        binding.locationButton.setOnClickListener {
+            val bottomSheetDialog =
+                PolicyBottomSheet() { tag ->
+
+                }
+
+            bottomSheetDialog.show(requireActivity().supportFragmentManager, bottomSheetDialog.tag)
+            Log.d(TAG, "show aaa")
+        }
 
         kotlin.run {
             binding.nickNameEditText?.doAfterTextChanged {
@@ -72,6 +92,10 @@ class Signup3 : Fragment() {
 
         return binding.root
     }
+
+
+
+
 
     private fun dateService(edit : EditText){
         val dlg = DatePickerDialog(requireContext(), object : DatePickerDialog.OnDateSetListener {
@@ -111,5 +135,28 @@ class Signup3 : Fragment() {
         viewModel.marriedDt.value = marriedDt // yyyy-mm-dd로 바꿔서 줘야함
         viewModel.locationCode.value = locationCode
         findNavController().navigate(R.id.action_signup3_to_signup5)
+    }
+
+    private fun encodingLocateNumber(location: String): String {
+        return when (location) {
+            "서울특별시" -> "11"
+            "부산광역시" -> "21"
+            "대구광역시" -> "22"
+            "인천광역시" -> "23"
+            "광주광역시" -> "24"
+            "대전광역시" -> "25"
+            "울산광역시" -> "26"
+            "경기도" -> "31"
+            "세종특별자치시" -> "29"
+            "강원도" -> "32"
+            "충청북도" -> "33"
+            "충청남도" -> "34"
+            "전라북도" -> "35"
+            "전라남도" -> "36"
+            "경상북도" -> "37"
+            "경상남도" -> "38"
+            "제주특별자치도" -> "39"
+            else -> "-1"
+        }
     }
 }
