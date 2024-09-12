@@ -67,7 +67,6 @@
                 android:id="@+id/policySummaryLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="17dp"
                 android:background="@drawable/sp_card_background"
                 android:paddingHorizontal="17dp"
                 android:paddingVertical="12dp"
