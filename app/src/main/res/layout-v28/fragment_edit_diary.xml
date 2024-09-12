@@ -26,6 +26,7 @@
             android:layout_gravity="center_horizontal"
             android:fontFamily="@font/notosanskr_bold"
             android:text="2024.12.12"
+            android:includeFontPadding="false"
             android:textSize="19sp" />
 
         <ImageButton
@@ -34,6 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:background="@null"
+            android:padding="8dp"
             android:src="@drawable/ic_arrow_14"
             android:rotation="180"/>
 
@@ -47,7 +49,8 @@
             android:fontFamily="@font/notosanskr_bold"
             android:src="@drawable/ic_reload"
             android:text="등록"
-            android:textColor="@color/yellow"
+            android:includeFontPadding="false"
+            android:textColor="@color/primaryLight"
             android:textSize="11sp" />
     </androidx.appcompat.widget.Toolbar>
     <androidx.core.widget.NestedScrollView
@@ -103,6 +106,7 @@
                 android:layout_marginTop="18dp"
                 android:fontFamily="@font/notosanskr_bold"
                 android:text="제목"
+                android:includeFontPadding="false"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="@id/editDiaryAddImageCardView"
                 app:layout_constraintTop_toBottomOf="@id/editDiaryAddImageCardView" />
@@ -133,6 +137,7 @@
                 android:fontFamily="@font/notosanskr_semibold"
                 android:gravity="bottom"
                 android:hint="제목"
+                android:includeFontPadding="false"
                 android:inputType="textEmailAddress"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="@id/editDiaryAddImageCardView"
@@ -149,6 +154,7 @@
                 android:fontFamily="@font/notosanskr_semibold"
                 android:text="체중"
                 android:textSize="14sp"
+                android:includeFontPadding="false"
                 app:layout_constraintBottom_toBottomOf="@id/weightEditText"
                 app:layout_constraintEnd_toStartOf="@id/weightEditText"
 
@@ -163,6 +169,7 @@
                 android:fontFamily="@font/notosanskr_semibold"
                 android:hint="000"
                 android:maxLength="3"
+                android:includeFontPadding="false"
                 android:inputType="number"
                 android:paddingVertical="1dp"
                 android:textAlignment="center"
@@ -182,6 +189,7 @@
                 android:fontFamily="@font/notosanskr_bold"
                 android:text="Kg"
                 android:textSize="14sp"
+                android:includeFontPadding="false"
                 app:layout_constraintBottom_toBottomOf="@id/weightText"
 
                 app:layout_constraintHorizontal_chainStyle="packed"
@@ -196,7 +204,7 @@
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="@id/bloodPressureHeightInputText"
                 app:layout_constraintEnd_toStartOf="@id/bloodPressureHeightInputText"
-
+                android:includeFontPadding="false"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="@id/editDiaryAddImageCardView"
                 app:layout_constraintTop_toTopOf="@id/bloodPressureHeightInputText" />
@@ -208,6 +216,7 @@
                 android:fontFamily="@font/notosanskr_semibold"
                 android:hint="000"
                 android:maxLength="3"
+                android:includeFontPadding="false"
                 android:inputType="number"
                 android:paddingVertical="1dp"
                 android:textAlignment="center"
@@ -241,6 +250,7 @@
                 android:fontFamily="@font/notosanskr_semibold"
                 android:hint="00"
                 android:maxLength="3"
+                android:includeFontPadding="false"
                 android:inputType="number"
                 android:paddingVertical="1dp"
                 android:textAlignment="center"
@@ -260,6 +270,7 @@
                 android:text="임신주수"
                 android:layout_marginStart="50dp"
                 android:textSize="14sp"
+                android:includeFontPadding="false"
                 app:layout_constraintBottom_toBottomOf="@id/pregnancyEditText"
                 app:layout_constraintEnd_toStartOf="@id/pregnancyEditText"
 
@@ -275,6 +286,7 @@
                 android:hint="000"
                 android:maxLength="3"
                 android:inputType="number"
+                android:includeFontPadding="false"
                 android:paddingVertical="1dp"
                 android:textAlignment="center"
                 android:textSize="13sp"
@@ -293,6 +305,7 @@
                 android:fontFamily="@font/notosanskr_bold"
                 android:text="주"
                 android:textSize="14sp"
+                android:includeFontPadding="false"
                 app:layout_constraintBottom_toBottomOf="@id/pregnancyText"
 
                 app:layout_constraintHorizontal_chainStyle="packed"
@@ -306,6 +319,7 @@
                 android:fontFamily="@font/notosanskr_semibold"
                 android:text="다음진찰일"
                 android:textSize="14sp"
+                android:includeFontPadding="false"
 
                 app:layout_constraintBottom_toBottomOf="@id/bloodPressureHeightInputText"
                 app:layout_constraintEnd_toStartOf="@id/nextDaySelectedText"
@@ -323,7 +337,7 @@
                 android:textSize="13sp"
                 android:text="2024.12.12"
                 android:textColor="@color/gray"
-
+                android:includeFontPadding="false"
                 app:layout_constraintEnd_toStartOf="@id/nextDaySelectButton"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toEndOf="@id/nextDayTitleText"
@@ -336,8 +350,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_calendar"
-                android:background="@null"
-
+                android:layout_marginStart="-8dp"
+                android:background="@null" android:padding="8dp"
                 app:layout_constraintBottom_toBottomOf="@id/nextDayTitleText"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toEndOf="@id/nextDaySelectedText"
@@ -350,6 +364,7 @@
                 android:layout_marginTop="18dp"
                 android:fontFamily="@font/notosanskr_bold"
                 android:text="태아소견"
+                android:includeFontPadding="false"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="@id/editDiaryAddImageCardView"
                 app:layout_constraintTop_toBottomOf="@id/bloodPressureHeightInputText" />
@@ -384,6 +399,7 @@
                 android:gravity="bottom"
                 android:inputType="textMultiLine"
                 android:textSize="14sp"
+                android:includeFontPadding="false"
                 app:layout_constraintEnd_toEndOf="@id/editDiaryAddImageCardView"
                 app:layout_constraintStart_toStartOf="@id/editDiaryAddImageCardView"
                 app:layout_constraintTop_toBottomOf="@id/editDiaryFetalFindingsText"
@@ -398,6 +414,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/notosanskr_bold"
                 android:text="본문"
+                android:includeFontPadding="false"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="@id/editDiaryAddImageCardView"
                 app:layout_constraintTop_toBottomOf="@id/editDiaryFetalFindingsEditText" />
@@ -432,6 +449,7 @@
                 android:gravity="bottom"
                 android:inputType="textMultiLine"
                 android:textSize="14sp"
+                android:includeFontPadding="false"
                 app:layout_constraintEnd_toEndOf="@id/editDiaryAddImageCardView"
                 app:layout_constraintStart_toStartOf="@id/editDiaryAddImageCardView"
                 app:layout_constraintTop_toBottomOf="@id/editDiaryMainContentText"
@@ -450,6 +468,7 @@
                 android:fontFamily="@font/notosanskr_bold"
                 android:text="오늘 상태는?"
                 android:textSize="16sp"
+                android:includeFontPadding="false"
 
                 />
             <RadioGroup
@@ -475,6 +494,7 @@
                     android:button="@null"
                     android:drawableTop="@drawable/img_good"
                     android:layout_weight="1"
+                    android:includeFontPadding="false"
                     />
 
                 <RadioButton
@@ -487,6 +507,7 @@
                     android:fontFamily="@font/notosanskr_semibold"
                     android:textAlignment="center"
                     android:button="@null"
+                    android:includeFontPadding="false"
                     android:drawableTop="@drawable/img_normal"
                     android:layout_weight="1"
                     />
@@ -501,6 +522,7 @@
                     android:fontFamily="@font/notosanskr_semibold"
                     android:textAlignment="center"
                     android:button="@null"
+                    android:includeFontPadding="false"
                     android:drawableTop="@drawable/img_pain"
                     android:layout_weight="1"
                     />
@@ -515,6 +537,7 @@
                     android:fontFamily="@font/notosanskr_semibold"
                     android:textAlignment="center"
                     android:button="@null"
+                    android:includeFontPadding="false"
                     android:drawableTop="@drawable/img_tired"
                     android:layout_weight="1"
                     />
@@ -531,6 +554,7 @@
                     android:button="@null"
                     android:drawableTop="@drawable/img_unrest"
                     android:layout_weight="1"
+                    android:includeFontPadding="false"
                     />
             </RadioGroup>
 
@@ -579,8 +603,9 @@
             app:layout_constraintBottom_toBottomOf="@id/editDiaryIconLayout"
             app:layout_constraintStart_toEndOf="@id/editDiaryIconLayout"
             android:text="비공개 : 당신외엔 볼 수 없어요."
-            android:textColor="@color/yellow"
+            android:textColor="@color/primaryLight"
             android:textSize="14sp"
+            android:includeFontPadding="false"
             android:fontFamily="@font/notosanskr_bold"
             android:layout_marginStart="14dp"/>
 
