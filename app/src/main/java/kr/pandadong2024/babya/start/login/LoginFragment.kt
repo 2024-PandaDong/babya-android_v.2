@@ -26,9 +26,11 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentLoginBinding
+import kr.pandadong2024.babya.home.policy.bottom_sheet.PolicyBottomSheet
 import kr.pandadong2024.babya.server.local.BabyaDB
 import kr.pandadong2024.babya.server.local.TokenDAO
 import kr.pandadong2024.babya.server.local.TokenEntity
+import kr.pandadong2024.babya.util.setOnSingleClickListener
 
 private const val DATA_STORE_FILE_NAME = "user.pb"
 
@@ -56,14 +58,23 @@ class LoginFragment : Fragment() {
         viewModel = ViewModelProvider(requireActivity(), ProtoViewModelFactory(UserRepository(requireContext().test)))[LoginViewModel::class.java]
 
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
-        binding.passwordLayout?.setEndIconOnClickListener {
-            changeVisiblePassword()
-        }
-        binding.singeUpTextButton?.setOnClickListener{
-            singeUp()
-        }
-        binding.loginButton?.setOnClickListener{
-            login()
+//        binding.passwordLayout?.setEndIconOnClickListener {
+//            changeVisiblePassword()
+//        }
+//        binding.singeUpTextButton?.setOnClickListener{
+//            singeUp()
+//        }
+//        binding.loginButton?.setOnClickListener{
+//            login()
+//        }
+        binding.isLoginText!!.setOnSingleClickListener {
+            val bottomSheetDialog =
+                LoginBottomSheet() { email, password ->
+                    Log.d(TAG,"tag : ${tag}")
+                }
+
+            bottomSheetDialog.show(requireActivity().supportFragmentManager, bottomSheetDialog.tag)
+            Log.d(TAG, "show aaa")
         }
 
         return binding.root
@@ -91,9 +102,7 @@ class LoginFragment : Fragment() {
     }
 
 
-    private fun login() {
-        val emailText = binding.emailEditText?.text.toString()
-        val passwordText = binding.passwordEditText?.text.toString()
+    private fun login(emailText : String, passwordText : String) {
         var accessToken = ""
         var refreshToken = ""
         Log.d(TAG, "${passwordText.matches(Pattern.passwordRegex)}")
