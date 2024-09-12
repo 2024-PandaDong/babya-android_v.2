@@ -6,49 +6,79 @@
 
     android:layout_gravity="center">
     <androidx.cardview.widget.CardView
-        android:layout_width="170dp"
-        android:layout_height="100dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:id="@+id/imageCardView"
         app:cardElevation="0dp"
         app:cardCornerRadius="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/titleText"
 
         >
-        <ImageView
-            android:id="@+id/diaryMainImage"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@mipmap/ic_launcher"
-            android:scaleType="centerCrop"
-            />
+            android:paddingBottom="18dp">
+            <ImageView
+                android:id="@+id/diaryMainImage"
+                android:layout_width="170dp"
+                android:layout_height="100dp"
+                android:src="@mipmap/ic_launcher"
+                android:scaleType="centerCrop"
+                app:tint="#19000000"
+                android:tintMode="src_atop"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                />
+            <TextView
+                android:id="@+id/titleText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/diaryMainImage"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="title-----------------adsf-"
+                android:includeFontPadding="false"
+                android:layout_marginTop="9dp"
+                android:paddingHorizontal="9dp"
+                android:maxLines="1"
+                android:fontFamily="@font/notosanskr_medium"
+                android:textSize="16sp"
+                android:ellipsize="end"
+                />
+            <TextView
+                android:id="@+id/writerText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/titleText"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:textSize="14sp"
+                android:includeFontPadding="false"
+                android:fontFamily="@font/notosanskr_medium"
+                android:text="name"
+                android:paddingHorizontal="9dp"
+                android:maxLines="1"
+                />
+
+            <TextView
+                android:id="@+id/dayeText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/common100"
+                android:text="01/11"
+                android:includeFontPadding="false"
+                android:textSize="14sp"
+                android:fontFamily="@font/notosanskr_medium"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:padding="9dp"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
-    <TextView
-        android:id="@+id/titleText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@id/imageCardView"
-        app:layout_constraintTop_toBottomOf="@id/imageCardView"
-        app:layout_constraintEnd_toEndOf="@id/imageCardView"
-        android:text="title"
-        android:layout_marginTop="12dp"
-        android:layout_marginStart="6dp"
-        android:layout_marginEnd="6dp"
-        android:fontFamily="@font/notosanskr_semibold"
-        android:textSize="16sp"
-        />
-    <TextView
-        android:id="@+id/writerText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/titleText"
-        app:layout_constraintStart_toStartOf="@id/titleText"
-        android:textSize="13sp"
-        android:fontFamily="@font/notosanskr_medium"
-        android:text="name"
-        />
+
 
 
     

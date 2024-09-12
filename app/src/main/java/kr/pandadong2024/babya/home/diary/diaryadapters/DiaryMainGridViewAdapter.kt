@@ -39,6 +39,7 @@ class DiaryMainGridViewAdapter(
         }
         binding.titleText.text = data.title
         binding.writerText.text = data.title
+        binding.dayeText.text = data.writtenDt
         binding.root.setOnClickListener {
             if (!data.memberId.isNullOrBlank() && (data.diaryId != null)){
                 makeNewDisplay(
