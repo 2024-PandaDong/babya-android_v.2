@@ -39,7 +39,7 @@ class DiaryMainGridViewAdapter(
         }
         binding.titleText.text = data.title
         binding.writerText.text = data.title
-        binding.dayeText.text = data.writtenDt
+        binding.dayeText.text = "${data.writtenDt?.substring(startIndex = 5, endIndex = 7)}/${data.writtenDt?.substring(startIndex = 8, endIndex = 10)}"
         binding.root.setOnClickListener {
             if (!data.memberId.isNullOrBlank() && (data.diaryId != null)){
                 makeNewDisplay(
