@@ -31,7 +31,7 @@ import retrofit2.HttpException
 class FindCompanyFragment : Fragment() {
     private var _binding: FragmentFindCompanyBinding? = null
     private val binding get() = _binding!!
-    private var companyList: List<kr.pandadong2024.babya.server.remote.responses.company.CompanyListResponses>? = null
+    private var companyList: List<CompanyListResponses>? = null
     private lateinit var companyAdapter: FindCompanyAdapter
     private val viewModel by activityViewModels<FindCompanyViewModel>()
 
@@ -83,7 +83,7 @@ class FindCompanyFragment : Fragment() {
                 }
 
                 companyList = listOf(
-                    kr.pandadong2024.babya.server.remote.responses.company.CompanyListResponses()
+                    CompanyListResponses()
                 )
                 Log.d(TAG, "getDashBoardData: 실패")
                 lifecycleScope.launch(Dispatchers.Main) {

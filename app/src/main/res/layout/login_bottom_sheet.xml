@@ -86,7 +86,7 @@
                     android:layout_height="wrap_content"
                     android:hint="이메일 주소를 입력해주세요."
                     android:inputType="textEmailAddress"
-                    android:text="jinsic4568@gmail.com" />
+                    />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -115,7 +115,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="비밀번호를 입력해주세요."
-                    android:text="jinsic4568*"
                     android:inputType="textPassword" />
 
             </com.google.android.material.textfield.TextInputLayout>

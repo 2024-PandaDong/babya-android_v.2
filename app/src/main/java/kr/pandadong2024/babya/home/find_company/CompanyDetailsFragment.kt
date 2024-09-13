@@ -114,8 +114,8 @@ class CompanyDetailsFragment : Fragment() {
         entries.add(PieEntry(female!!.toFloat()))
         // 그래프 색상(데이터 순서)
         val colors = listOf(
-            Color.parseColor("#FFA7A6"),
-            Color.parseColor("#69AEE3")
+            Color.parseColor("#69AEE3"),
+            Color.parseColor("#FFA7A6")
         )
 
         // 데이터, 색상, 글자크기 및 색상 설정

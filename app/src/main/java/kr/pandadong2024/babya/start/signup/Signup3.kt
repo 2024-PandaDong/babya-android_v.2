@@ -13,6 +13,8 @@ import android.widget.EditText
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentSignup3Binding
 import kr.pandadong2024.babya.home.policy.bottom_sheet.PolicyBottomSheet
@@ -128,14 +130,46 @@ class Signup3 : Fragment() {
         val nickName = binding.nickNameEditText.text.toString()
         val birthDt = binding.birthDayEditText.text.toString()
         val marriedDt = binding.marriedDayEditText.text.toString()
+        main(birthDt)
+        main2(marriedDt)
+
         // 메인에 머지하고 ㄱㄱ
-        val locationCode = "";
         viewModel.nickName.value = nickName
-        viewModel.birthDt.value = birthDt //
-        viewModel.marriedDt.value = marriedDt // yyyy-mm-dd로 바꿔서 줘야함
-        viewModel.locationCode.value = locationCode
         findNavController().navigate(R.id.action_signup3_to_signup5)
     }
+
+
+
+
+    fun main(birthDt: String) {
+        val input = birthDt
+        // 입력 문자열의 포맷 정의
+        val inputFormatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일")
+        // 출력 문자열의 포맷 정의
+        val outputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+
+        // 문자열을 LocalDate로 변환한 후 원하는 형식으로 다시 변환
+        val date = LocalDate.parse(input, inputFormatter)
+        val formattedDate = date.format(outputFormatter)
+
+        viewModel.birthDt.value = birthDt
+    }
+
+    fun main2(marriedDt: String) {
+        val input = marriedDt
+        // 입력 문자열의 포맷 정의
+        val inputFormatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일")
+        // 출력 문자열의 포맷 정의
+        val outputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+
+        // 문자열을 LocalDate로 변환한 후 원하는 형식으로 다시 변환
+        val date = LocalDate.parse(input, inputFormatter)
+        val formattedDate = date.format(outputFormatter)
+
+        viewModel.marriedDt.value = marriedDt
+    }
+
+
 
     private fun encodingLocateNumber(location: String): String {
         return when (location) {

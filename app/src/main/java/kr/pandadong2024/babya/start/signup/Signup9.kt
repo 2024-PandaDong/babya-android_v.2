@@ -14,8 +14,9 @@ import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kr.pandadong2024.babya.R
-import kr.pandadong2024.babya.databinding.FragmentSignup8Binding
 import kr.pandadong2024.babya.databinding.FragmentSignup9Binding
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.server.remote.request.SignUpRequest
 import kr.pandadong2024.babya.start.viewmodel.SignupViewModel
@@ -44,7 +45,7 @@ class Signup9 : Fragment() {
             Log.d(TAG, "pushToken: ${viewModel.pushToken.value}")
             Log.d(TAG, "birthNameList: ${viewModel.birthNameList.value}")
             Log.d(TAG, "childrenNameList: ${viewModel.childrenNameList.value}")
-
+            main(viewModel.pregnancyDt.value)
         }
 
         binding.nextBtn.setOnClickListener {
@@ -58,6 +59,22 @@ class Signup9 : Fragment() {
 
         return binding.root
     }
+
+    fun main(value: String?) {
+        val input = value
+        // 입력 문자열의 포맷 정의
+        val inputFormatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일")
+        // 출력 문자열의 포맷 정의
+        val outputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+
+        // 문자열을 LocalDate로 변환한 후 원하는 형식으로 다시 변환
+        val date = LocalDate.parse(input, inputFormatter)
+        val formattedDate = date.format(outputFormatter)
+
+        viewModel.pregnancyDt.value = formattedDate
+
+    }
+
 
     private fun Signup(){
         lifecycleScope.launch(Dispatchers.IO){

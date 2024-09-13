@@ -8,7 +8,7 @@ import kr.pandadong2024.babya.databinding.ItemFindCompanyRecyclerviewBinding
 import kr.pandadong2024.babya.server.remote.responses.company.CompanyListResponses
 
 class FindCompanyAdapter(
-    private val items: List<kr.pandadong2024.babya.server.remote.responses.company.CompanyListResponses>,
+    private val items: List<CompanyListResponses>,
     private val onItemClick: (postId : Int) -> Unit
 ) : RecyclerView.Adapter<FindCompanyAdapter.Holder>(){
 
@@ -24,7 +24,7 @@ class FindCompanyAdapter(
     override fun getItemCount(): Int = items.size
 
     inner class Holder(private val binding: ItemFindCompanyRecyclerviewBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(CompanyListResponses: kr.pandadong2024.babya.server.remote.responses.company.CompanyListResponses) {
+        fun bind(CompanyListResponses: CompanyListResponses) {
             val data = items[position]
             binding.apply {
                 companyName.text = CompanyListResponses.companyName
