@@ -41,10 +41,12 @@ class QuizFragment : Fragment() {
         getQuiz()
         (requireActivity() as BottomControllable).setBottomNavVisibility(false)
         binding.positiveButton.setOnClickListener {
-            moveOtherView(true)
+            moveOtherView(false)
+            viewModel.answer.value = "Y"
         }
         binding.negativeButton.setOnClickListener {
             moveOtherView(false)
+            viewModel.answer.value = "N"
         }
         binding.skipText.setOnClickListener {
             moveOtherView(true)

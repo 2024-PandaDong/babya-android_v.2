@@ -1,16 +1,14 @@
-package kr.pandadong2024.babya
+package kr.pandadong2024.babya.home.quiz
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.ui.graphics.Color
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentQuizResultBinding
-import kr.pandadong2024.babya.home.quiz.QuizViewModel
 import kr.pandadong2024.babya.server.remote.responses.quiz.QuizResponses
 import kr.pandadong2024.babya.util.BottomControllable
 
@@ -35,10 +33,10 @@ class QuizResultFragment : Fragment() {
         return binding.root
     }
 
-    fun isRight(){
-        if (quiz.answer == "Y"){
+    private fun isRight(){
+        if (viewModel.answer.value == quiz.answer){
             binding.answerText.text = "정답입니다!"
-            binding.answerText.setTextColor(requireContext().getColor(R.color.statusDestructive))
+            binding.answerText.setTextColor(requireContext().getColor(R.color.statusPositive))
         }
         else{
             binding.answerText.text = "오답입니다!"

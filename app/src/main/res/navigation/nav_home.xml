@@ -122,7 +122,7 @@
     </fragment>
     <fragment
         android:id="@+id/quizResultFragment"
-        android:name="kr.pandadong2024.babya.QuizResultFragment"
+        android:name="kr.pandadong2024.babya.home.quiz.QuizResultFragment"
         android:label="fragment_quiz_result"
         tools:layout="@layout/fragment_quiz_result" >
         <action
