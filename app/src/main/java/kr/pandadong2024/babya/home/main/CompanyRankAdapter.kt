@@ -8,13 +8,13 @@ import coil.load
 import kr.pandadong2024.babya.databinding.ItemRecyclerviewBinding
 import kr.pandadong2024.babya.databinding.ItmeCompanyRankBinding
 import kr.pandadong2024.babya.databinding.ItmeMyStatusBinding
-import kr.pandadong2024.babya.server.remote.responses.CompanyDataResponses
+import kr.pandadong2024.babya.server.remote.responses.company.CompanyDataResponses
 
 class CompanyRankAdapter (val test: (Int) -> Unit) : RecyclerView.Adapter<CompanyRankAdapter.CompanyViewHolder>() {
-    private lateinit var companyList : List<CompanyDataResponses>
+    private lateinit var companyList : List<kr.pandadong2024.babya.server.remote.responses.company.CompanyDataResponses>
 
     inner class CompanyViewHolder(private val binding : ItmeCompanyRankBinding): RecyclerView.ViewHolder(binding.root){
-        fun bind(data : CompanyDataResponses, test: (Int) -> Unit, position: Int){
+        fun bind(data : kr.pandadong2024.babya.server.remote.responses.company.CompanyDataResponses, test: (Int) -> Unit, position: Int){
             binding.companyText.text = data.name
             binding.companyImage.load(data.link)
             binding.root.setOnClickListener {
@@ -23,7 +23,7 @@ class CompanyRankAdapter (val test: (Int) -> Unit) : RecyclerView.Adapter<Compan
         }
     }
 
-    fun setCompanyList(listData : List<CompanyDataResponses>){
+    fun setCompanyList(listData : List<kr.pandadong2024.babya.server.remote.responses.company.CompanyDataResponses>){
         companyList = listData
     }
 
