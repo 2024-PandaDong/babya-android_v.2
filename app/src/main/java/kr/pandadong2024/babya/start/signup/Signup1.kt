@@ -38,6 +38,10 @@ class Signup1 : Fragment() {
          //   findNavController().navigate(R.id.action_signup1_to_signup5)
         }
 
+        binding.signUpBackButton.setOnClickListener {
+            findNavController().navigate(R.id.action_signup1_to_loginFragment)
+        }
+
 
         return binding.root
     }

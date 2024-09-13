@@ -70,9 +70,11 @@ class ProfileFragment : Fragment() {
                 }
                 .setPositiveButton("로그아웃") { dialog, which ->
                     lifecycleScope.launch(Dispatchers.IO) {
-                        BabyaDB.getInstance(requireContext())?.tokenDao()?.getMembers()?.let { tokenEntity ->
-                            BabyaDB.getInstance(requireContext())?.tokenDao()?.deleteMember(tokenEntity)
-                        }
+                        BabyaDB.getInstance(requireContext())?.tokenDao()?.getMembers()
+                            ?.let { tokenEntity ->
+                                BabyaDB.getInstance(requireContext())?.tokenDao()
+                                    ?.deleteMember(tokenEntity)
+                            }
                     }
                     val intent = Intent(requireContext(), MainActivity::class.java)
                     startActivity(intent)
@@ -96,9 +98,11 @@ class ProfileFragment : Fragment() {
                             )
                         }.onSuccess {
                             Log.d(TAG, "onViewCreated: 성공")
-                            BabyaDB.getInstance(requireContext())?.tokenDao()?.getMembers()?.let { tokenEntity ->
-                                BabyaDB.getInstance(requireContext())?.tokenDao()?.deleteMember(tokenEntity)
-                            }
+                            BabyaDB.getInstance(requireContext())?.tokenDao()?.getMembers()
+                                ?.let { tokenEntity ->
+                                    BabyaDB.getInstance(requireContext())?.tokenDao()
+                                        ?.deleteMember(tokenEntity)
+                                }
                             // UI 스레드에서 프레그먼트 종료
                             withContext(Dispatchers.Main) {
                                 parentFragmentManager.popBackStack()
@@ -108,7 +112,11 @@ class ProfileFragment : Fragment() {
                             it.printStackTrace()
                             // 실패 시 UI 스레드에서 에러 메시지 표시
                             withContext(Dispatchers.Main) {
-                                Toast.makeText(requireContext(), "탈퇴에 실패했습니다. 다시 시도해주세요.", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(
+                                    requireContext(),
+                                    "탈퇴에 실패했습니다. 다시 시도해주세요.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }
                         }
                     }
@@ -116,16 +124,17 @@ class ProfileFragment : Fragment() {
                     startActivity(intent)
                 }
                 .show()
-        val packageInfo = context?.packageManager?.getPackageInfo(requireContext().packageName, 0)
-        val versionName = packageInfo?.versionName // 버전 이름 (예: "1.0")
+            val packageInfo =
+                context?.packageManager?.getPackageInfo(requireContext().packageName, 0)
+            val versionName = packageInfo?.versionName // 버전 이름 (예: "1.0")
 
-        binding.appVersionText.text = "v$versionName"
+            binding.appVersionText.text = "v$versionName"
 
 
 
-        binding.profileModifyView.setOnClickListener {
-            findNavController().navigate(R.id.action_profileFragment_to_profileModifyFragment)
-        }
+            binding.profileModifyView.setOnClickListener {
+                findNavController().navigate(R.id.action_profileFragment_to_profileModifyFragment)
+            }
 
 
 //        toolbar.setOnMenuItemClickListener{item ->
@@ -192,6 +201,7 @@ class ProfileFragment : Fragment() {
 //                else -> false
 //            }
 //        }
+        }
     }
 
     override fun onCreateView(
@@ -243,11 +253,10 @@ class ProfileFragment : Fragment() {
                 Log.d(TAG, "onCreateView: 서버연결 실패")
             }
         }
+
+
+
     }
-
-
-
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
