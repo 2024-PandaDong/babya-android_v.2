@@ -124,14 +124,19 @@ class ProfileFragment : Fragment() {
                     startActivity(intent)
                 }
                 .show()
-            val packageInfo =
-                context?.packageManager?.getPackageInfo(requireContext().packageName, 0)
-            val versionName = packageInfo?.versionName // 버전 이름 (예: "1.0")
+        }
+        val packageInfo = context?.packageManager?.getPackageInfo(requireContext().packageName, 0)
+        val versionName = packageInfo?.versionName // 버전 이름 (예: "1.0")
+
 
             binding.appVersionText.text = "v$versionName"
 
 
 
+        binding.profileModifyView.setOnClickListener {
+            Log.d("test", "teststsetst")
+            findNavController().navigate(R.id.action_profileFragment_to_profileModifyFragment)
+        }
             binding.profileModifyView.setOnClickListener {
                 findNavController().navigate(R.id.action_profileFragment_to_profileModifyFragment)
             }
@@ -202,7 +207,6 @@ class ProfileFragment : Fragment() {
 //            }
 //        }
         }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -222,6 +226,7 @@ class ProfileFragment : Fragment() {
 
         return binding.root
     }
+
 
     // 프로필 정보 받기
     private fun getProfileData() {

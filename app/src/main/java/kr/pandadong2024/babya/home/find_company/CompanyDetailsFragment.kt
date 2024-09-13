@@ -97,7 +97,7 @@ class CompanyDetailsFragment : Fragment() {
 
         val mpPieChart: PieChart = binding.Chart
 
-        Log.d(tag, "setCompany: ${male!!.toFloat()} ${female!!.toFloat()}")
+        Log.d(tag, "setCompany: ${male?.toFloat()} ${female?.toFloat()}")
 
         // 전체 인원 표시
         binding.entireCount.text = "$entire 명"

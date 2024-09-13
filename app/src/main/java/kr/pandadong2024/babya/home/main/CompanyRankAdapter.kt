@@ -1,22 +1,19 @@
 package kr.pandadong2024.babya.home.main
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import kr.pandadong2024.babya.databinding.ItemRecyclerviewBinding
-import kr.pandadong2024.babya.databinding.ItmeCompanyRankBinding
-import kr.pandadong2024.babya.databinding.ItmeMyStatusBinding
-import kr.pandadong2024.babya.server.remote.responses.company.CompanyDataResponses
+import kr.pandadong2024.babya.databinding.ItemFindCompanyRecyclerviewBinding
 
 class CompanyRankAdapter (val test: (Int) -> Unit) : RecyclerView.Adapter<CompanyRankAdapter.CompanyViewHolder>() {
     private lateinit var companyList : List<kr.pandadong2024.babya.server.remote.responses.company.CompanyDataResponses>
 
-    inner class CompanyViewHolder(private val binding : ItmeCompanyRankBinding): RecyclerView.ViewHolder(binding.root){
+    inner class CompanyViewHolder(private val binding : ItemFindCompanyRecyclerviewBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(data : kr.pandadong2024.babya.server.remote.responses.company.CompanyDataResponses, test: (Int) -> Unit, position: Int){
-            binding.companyText.text = data.name
-            binding.companyImage.load(data.link)
+            binding.companyName.text = data.name
+            binding.address.text = data.link
+            binding.logoImg.load(data.link)
             binding.root.setOnClickListener {
                 test(position)
             }
@@ -32,7 +29,7 @@ class CompanyRankAdapter (val test: (Int) -> Unit) : RecyclerView.Adapter<Compan
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CompanyViewHolder {
-        val binding  = ItmeCompanyRankBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+        val binding  = ItemFindCompanyRecyclerviewBinding.inflate(LayoutInflater.from(parent.context),parent,false)
         return CompanyViewHolder(binding)
     }
 
