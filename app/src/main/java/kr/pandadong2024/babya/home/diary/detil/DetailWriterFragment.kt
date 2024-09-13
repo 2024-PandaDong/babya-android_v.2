@@ -248,6 +248,7 @@ class DetailWriterFragment : Fragment() {
                     binding.writerDateText.text = diaryData?.writtenDt?.replace('-', '/')
                     binding.writerContentContentText.text = diaryData?.content
                     binding.writerEmojiCode.text = diaryData?.emojiCode
+                    binding.writerText.text = diaryData?.nickname
 
                     binding.writerEmojiImage.load(when(diaryData?.emojiCode){
                         "좋음"->R.drawable.img_good

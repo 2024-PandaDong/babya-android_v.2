@@ -36,6 +36,7 @@ import kotlin.math.ceil
 
 class MainFragment : Fragment() {
     val TAG = "MainFragment"
+
     private lateinit var bannerList: List<BannerResponses>
     private lateinit var companyList: List<CompanyDataResponses>
     private lateinit var companyData: BaseResponse<List<CompanyDataResponses>>
@@ -43,6 +44,7 @@ class MainFragment : Fragment() {
     private lateinit var bannerAdapter: MainBannerAdapter
     private lateinit var rankAdapter: CompanyRankAdapter
     private lateinit var policyAdapter: PolicyRecyclerView
+
     private val policyViewModel by activityViewModels<PolicyViewModel>()
 
     private lateinit var tokenDao: TokenDAO

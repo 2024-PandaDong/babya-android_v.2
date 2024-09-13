@@ -92,7 +92,12 @@ class PolicyContentFragment : Fragment() {
                         policyLink = result.data!!.link
                         binding.policyTitleText.text = result.data.title
 
-                        binding.policyDateRangeText.text = "최종수정일: ${result.data.editDate.substring(startIndex = 5, endIndex = 7)}월 ${result.data.editDate.substring(startIndex = 8, endIndex = 10)}일"
+                        if(result.data.editDate == null){
+                            binding.policyDateRangeText.visibility = View.GONE
+                        }
+                       else{
+                            binding.policyDateRangeText.text = "최종수정일: ${result.data.editDate.substring(startIndex = 5, endIndex = 7)}월 ${result.data.editDate.substring(startIndex = 8, endIndex = 10)}일"
+                        }
                         binding.htmlLodeText.loadDataWithBaseURL(null,result.data.content,"text/html","utf-8",null )
 
 

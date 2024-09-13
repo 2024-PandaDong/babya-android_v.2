@@ -93,6 +93,7 @@ class PolicyMainFragment : Fragment() {
             val bottomSheetDialog =
                 PolicyBottomSheet() { tag ->
                     selectPolicy(tag)
+                    Log.d(TAG,"tag : ${tag}")
                 }
 
             bottomSheetDialog.show(requireActivity().supportFragmentManager, bottomSheetDialog.tag)
