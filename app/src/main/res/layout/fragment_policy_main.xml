@@ -16,16 +16,16 @@
         app:layout_constraintTop_toTopOf="parent"
         android:background="@color/backgroundNormalNormal"
         >
-<!--        <TextView-->
-<!--            android:id="@+id/todoListTitleText"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_gravity="center"-->
-<!--            android:fontFamily="@font/notosanskr_bold"-->
-<!--            android:text="지역"-->
-<!--            android:textSize="16sp"-->
-<!--            android:includeFontPadding="false"-->
-<!--            android:backgroundTint="@color/backgroundNormalNormal"/>-->
+        <!--        <TextView-->
+        <!--            android:id="@+id/todoListTitleText"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_gravity="center"-->
+        <!--            android:fontFamily="@font/notosanskr_bold"-->
+        <!--            android:text="지역"-->
+        <!--            android:textSize="16sp"-->
+        <!--            android:includeFontPadding="false"-->
+        <!--            android:backgroundTint="@color/backgroundNormalNormal"/>-->
         <ImageButton
             android:id="@+id/backButton"
             android:layout_width="wrap_content"
@@ -35,7 +35,7 @@
             android:rotation="180"
             android:padding="8dp"
             android:src="@drawable/ic_arrow_14" />
-        
+
         <EditText
             android:id="@+id/searchEditText"
             android:visibility="gone"
@@ -69,158 +69,158 @@
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/diaryTabLayout"
+        app:layout_constraintTop_toBottomOf="@id/policyListToolbar"
         >
 
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-
-        app:layout_constraintBottom_toBottomOf="parent"
-        >
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="0dp"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            >
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/categoryLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="23dp"
-                android:paddingBottom="20dp"
-                app:layout_constraintTop_toTopOf="parent"
-                android:background="@color/backgroundNormalNormal"
-                >
-                <TextView
-                    android:id="@+id/tagTitleText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="박규민님의 지역"
-                    android:textSize="16sp"
-                    android:fontFamily="@font/notosanskr_semibold"
-                    android:includeFontPadding="false"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginStart="23dp"
-                    android:textColor="@color/common0"
-                    />
-                <TextView
-                    android:id="@+id/tagEditText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="편집하기"
-                    android:textSize="11sp"
-                    android:fontFamily="@font/notosanskr_medium"
-                    android:includeFontPadding="false"
-                    app:layout_constraintTop_toTopOf="@id/tagTitleText"
-                    app:layout_constraintBottom_toBottomOf="@id/tagTitleText"
-                    android:textColor="@color/bottom_bar_gray"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:padding="8dp"
-                    android:layout_marginEnd="15dp"
-                    />
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/category_recycler_view"
+                android:layout_height="match_parent">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/categoryLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/tagTitleText"
+                    android:paddingTop="23dp"
+                    android:paddingBottom="20dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:background="@color/backgroundNormalNormal"
+                    >
+                    <TextView
+                        android:id="@+id/tagTitleText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="박규민님의 지역"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/notosanskr_semibold"
+                        android:includeFontPadding="false"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginStart="23dp"
+                        android:textColor="@color/common0"
+                        />
+                    <TextView
+                        android:id="@+id/tagEditText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="편집하기"
+                        android:textSize="11sp"
+                        android:fontFamily="@font/notosanskr_medium"
+                        android:includeFontPadding="false"
+                        app:layout_constraintTop_toTopOf="@id/tagTitleText"
+                        app:layout_constraintBottom_toBottomOf="@id/tagTitleText"
+                        android:textColor="@color/bottom_bar_gray"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:padding="8dp"
+                        android:layout_marginEnd="15dp"
+                        />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/category_recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/tagTitleText"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="16dp"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        android:background="@color/backgroundNormalNormal"
+                        />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/policyTitleLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/categoryLayout"
+                    android:layout_marginTop="10dp"
+                    android:paddingTop="23dp"
+                    android:paddingBottom="10dp"
+                    android:paddingStart="21dp"
+                    android:background="@color/backgroundNormalNormal"
+                    >
+                    <TextView
+                        android:id="@+id/titleText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/common0"
+                        android:fontFamily="@font/notosanskr_semibold"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:textSize="16sp"
+                        android:text="박규민님을 위한 추천 정책"
+                        android:includeFontPadding="false"
+                        />
+                    <TextView
+                        android:id="@+id/subTitleText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/bottom_bar_gray"
+                        android:fontFamily="@font/notosanskr_medium"
+                        android:textSize="11sp"
+                        app:layout_constraintTop_toBottomOf="@id/titleText"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:text="지역에 따라 정책을 모았어요"
+                        android:layout_marginStart="1dp"
+                        android:layout_marginTop="4dp"
+                        android:includeFontPadding="false"
+                        />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/policyListRecyclerView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintTop_toBottomOf="@id/policyTitleLayout"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="16dp"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    android:background="@color/backgroundNormalNormal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+
                     />
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/policyTitleLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/categoryLayout"
-                android:layout_marginTop="10dp"
-                android:paddingTop="23dp"
-                android:paddingBottom="10dp"
-                android:paddingStart="21dp"
-                android:background="@color/backgroundNormalNormal"
-                >
-                <TextView
-                    android:id="@+id/titleText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/common0"
-                    android:fontFamily="@font/notosanskr_semibold"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:textSize="16sp"
-                    android:text="박규민님을 위한 추천 정책"
-                    android:includeFontPadding="false"
-                    />
-                <TextView
-                    android:id="@+id/subTitleText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/bottom_bar_gray"
-                    android:fontFamily="@font/notosanskr_medium"
-                    android:textSize="11sp"
-                    app:layout_constraintTop_toBottomOf="@id/titleText"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:text="지역에 따라 정책을 모았어요"
-                    android:layout_marginStart="1dp"
-                    android:layout_marginTop="4dp"
-                    android:includeFontPadding="false"
-                    />
-
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/policyListRecyclerView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintTop_toBottomOf="@id/policyTitleLayout"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-
-                />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
+        </androidx.core.widget.NestedScrollView>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/diaryTabLayout"
-        android:layout_width="match_parent"
-        app:layout_constraintTop_toBottomOf="@id/policyListToolbar"
-        android:layout_height="wrap_content"
-        app:tabTextAppearance="@style/tabBarTextStyle"
-        app:tabIndicatorColor="@color/primaryNormal"
-        app:tabIndicatorHeight="2dp"
-        app:tabBackground="@drawable/sel_custom_indicator"
-        app:tabSelectedTextColor="@color/common0"
-        android:background="@color/backgroundNormalNormal"
-        app:tabTextColor="@color/common0"
+    <!--    <com.google.android.material.tabs.TabLayout-->
+    <!--        android:id="@+id/diaryTabLayout"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@id/policyListToolbar"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        app:tabTextAppearance="@style/tabBarTextStyle"-->
+    <!--        app:tabIndicatorColor="@color/primaryNormal"-->
+    <!--        app:tabIndicatorHeight="2dp"-->
+    <!--        app:tabBackground="@drawable/sel_custom_indicator"-->
+    <!--        app:tabSelectedTextColor="@color/common0"-->
+    <!--        android:background="@color/backgroundNormalNormal"-->
+    <!--        app:tabTextColor="@color/common0"-->
 
-        app:tabMode="scrollable"
-        app:tabGravity="fill" >
+    <!--        app:tabMode="scrollable"-->
+    <!--        app:tabGravity="fill" >-->
 
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="임신전"
-            />
+    <!--        <com.google.android.material.tabs.TabItem-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:text="임신전"-->
+    <!--            />-->
 
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="임신후" />
+    <!--        <com.google.android.material.tabs.TabItem-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:text="임신후" />-->
 
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="출산후" />
-    </com.google.android.material.tabs.TabLayout>
+    <!--        <com.google.android.material.tabs.TabItem-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:text="출산후" />-->
+    <!--    </com.google.android.material.tabs.TabLayout>-->
 
 
 
