@@ -96,9 +96,11 @@ class ProfileFragment : Fragment() {
                             )
                         }.onSuccess {
                             Log.d(TAG, "onViewCreated: 성공")
-                            BabyaDB.getInstance(requireContext())?.tokenDao()?.getMembers()?.let { tokenEntity ->
-                                BabyaDB.getInstance(requireContext())?.tokenDao()?.deleteMember(tokenEntity)
-                            }
+                            BabyaDB.getInstance(requireContext())?.tokenDao()?.getMembers()
+                                ?.let { tokenEntity ->
+                                    BabyaDB.getInstance(requireContext())?.tokenDao()
+                                        ?.deleteMember(tokenEntity)
+                                }
                             // UI 스레드에서 프레그먼트 종료
                             withContext(Dispatchers.Main) {
                                 parentFragmentManager.popBackStack()
@@ -108,7 +110,11 @@ class ProfileFragment : Fragment() {
                             it.printStackTrace()
                             // 실패 시 UI 스레드에서 에러 메시지 표시
                             withContext(Dispatchers.Main) {
-                                Toast.makeText(requireContext(), "탈퇴에 실패했습니다. 다시 시도해주세요.", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(
+                                    requireContext(),
+                                    "탈퇴에 실패했습니다. 다시 시도해주세요.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }
                         }
                     }
@@ -116,6 +122,7 @@ class ProfileFragment : Fragment() {
                     startActivity(intent)
                 }
                 .show()
+        }
         val packageInfo = context?.packageManager?.getPackageInfo(requireContext().packageName, 0)
         val versionName = packageInfo?.versionName // 버전 이름 (예: "1.0")
 
@@ -124,6 +131,7 @@ class ProfileFragment : Fragment() {
 
 
         binding.profileModifyView.setOnClickListener {
+            Log.d("test", "teststsetst")
             findNavController().navigate(R.id.action_profileFragment_to_profileModifyFragment)
         }
 
@@ -212,6 +220,7 @@ class ProfileFragment : Fragment() {
 
         return binding.root
     }
+
 
     // 프로필 정보 받기
     private fun getProfileData() {

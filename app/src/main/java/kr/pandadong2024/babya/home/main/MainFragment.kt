@@ -2,22 +2,21 @@ package kr.pandadong2024.babya.home.main
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
-import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.time.delay
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentMainBinding
+import kr.pandadong2024.babya.home.find_company.find_company_viewModel.FindCompanyViewModel
 import kr.pandadong2024.babya.home.policy.adapter.PolicyRecyclerView
 import kr.pandadong2024.babya.home.policy.viewmdole.PolicyViewModel
 import kr.pandadong2024.babya.server.RetrofitBuilder
@@ -25,12 +24,10 @@ import kr.pandadong2024.babya.server.local.BabyaDB
 import kr.pandadong2024.babya.server.local.TokenDAO
 import kr.pandadong2024.babya.server.remote.responses.BannerResponses
 import kr.pandadong2024.babya.server.remote.responses.BaseResponse
-import kr.pandadong2024.babya.server.remote.responses.CompanyDataResponses
 import kr.pandadong2024.babya.server.remote.responses.Policy.PolicyListResponse
 import kr.pandadong2024.babya.server.remote.responses.UserDataResponses
-import kr.pandadong2024.babya.server.remote.responses.main.UserWeekStatus
+import kr.pandadong2024.babya.server.remote.responses.company.CompanyDataResponses
 import kr.pandadong2024.babya.util.BottomControllable
-import retrofit2.HttpException
 import java.time.Duration
 import kotlin.math.ceil
 
@@ -44,6 +41,7 @@ class MainFragment : Fragment() {
     private lateinit var bannerAdapter: MainBannerAdapter
     private lateinit var rankAdapter: CompanyRankAdapter
     private lateinit var policyAdapter: PolicyRecyclerView
+    private val findCompanyViewModel by activityViewModels<FindCompanyViewModel>()
 
     private val policyViewModel by activityViewModels<PolicyViewModel>()
 
@@ -234,11 +232,14 @@ class MainFragment : Fragment() {
                     list.add(companyList[i])
                 }
             }
-            rankAdapter = CompanyRankAdapter(
+            rankAdapter = CompanyRankAdapter()
                 { position ->
-                    //TODO 프레그먼트로 띄우게 하기
-                },
-            )
+                    kotlin.runCatching {
+                        findCompanyViewModel.id.value = position
+                        findNavController().navigate(R.id.action_mainFragment_to_companyDetailsFragment)
+                    }
+                }
+
         }
 
         rankAdapter.setCompanyList(list)
@@ -261,7 +262,13 @@ class MainFragment : Fragment() {
                 }
             }
         }
-        policyAdapter = PolicyRecyclerView(list.toList(), "") {
+        policyViewModel.setPolicyList(list)
+        policyAdapter = PolicyRecyclerView(list.toList(), "") {position->
+
+            kotlin.runCatching {
+                policyViewModel.setPolicyId(position)
+                findNavController().navigate(R.id.action_mainFragment_to_policyContentFragment)
+            }
         }
         policyAdapter.notifyItemRemoved(0)
         with(binding) {
@@ -299,15 +306,15 @@ class MainFragment : Fragment() {
     private fun initCompanyList() {
         lifecycleScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                companyData = RetrofitBuilder.getMainService().getCompanyData(
+                 RetrofitBuilder.getMainService().getCompanyData(
                     accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
                     page = 1,
                     size = 10
                 )
-                Log.e(TAG, "initCompanyRecyclerView: ${companyData.status}")
-                Log.e(TAG, "initCompanyRecyclerView: ${companyData.message}")
-                companyList = companyData.data!!
             }.onSuccess {
+                companyData = it
+                companyList = it.data!!
+                Log.d(TAG, "initCompanyRecyclerView: ${it.data}")
                 launch(Dispatchers.Main) {
                     setCompanyRecyclerView()
                 }
