@@ -7,6 +7,17 @@
     android:background="@color/backgroundNormalNormal"
     tools:context=".start.login.LoginFragment">
 
+    <ImageView
+        android:id="@+id/logoImage"
+        android:layout_width="85dp"
+        android:layout_height="85dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/logo_primary"
+        android:layout_marginTop="90dp"
+        />
+
     <TextView
         android:id="@+id/titleWelcomeText"
         android:layout_width="wrap_content"
@@ -17,9 +28,10 @@
         android:textAlignment="textStart"
         android:textColor="@color/common0"
         android:textSize="20sp"
+        app:layout_constraintTop_toBottomOf="@id/logoImage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="26dp"/>
 
     <TextView
         android:id="@+id/titleIntroductionText"
@@ -42,7 +54,7 @@
         android:layout_height="43dp"
         android:layout_marginStart="18dp"
         android:layout_marginEnd="18dp"
-        android:layout_marginBottom="72dp"
+        android:layout_marginBottom="82dp"
         android:background="@drawable/sel_email_btn_selector"
         android:enabled="true"
         android:text="회원가입"
@@ -62,10 +74,11 @@
         android:text="이미 회원이십니까?"
         android:textColor="@color/common0"
         android:textSize="13sp"
-        app:layout_constraintEnd_toStartOf="isLoginText"
+        app:layout_constraintBottom_toBottomOf="@+id/isLoginText"
+        app:layout_constraintEnd_toStartOf="@+id/isLoginText"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/registBtn" />
+        app:layout_constraintTop_toTopOf="@id/isLoginText" />
 
     <TextView
         android:id="@+id/isLoginText"
@@ -73,15 +86,15 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/notosanskr_regular"
         android:includeFontPadding="false"
+        android:padding="8dp"
         android:text="로그인하세요"
         android:textColor="@color/primaryLight"
         android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toEndOf="@id/isCostomerText"
-        app:layout_constraintTop_toBottomOf="@id/registBtn"
-
-        />
+        app:layout_constraintTop_toBottomOf="@id/registBtn" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

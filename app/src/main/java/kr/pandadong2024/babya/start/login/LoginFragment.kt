@@ -34,7 +34,7 @@ import kr.pandadong2024.babya.util.setOnSingleClickListener
 
 private const val DATA_STORE_FILE_NAME = "user.pb"
 
-private val Context.test : DataStore<User> by dataStore(
+private val Context.test: DataStore<User> by dataStore(
     fileName = DATA_STORE_FILE_NAME,
     serializer = UserSerializer
 )
@@ -55,7 +55,10 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
 
-        viewModel = ViewModelProvider(requireActivity(), ProtoViewModelFactory(UserRepository(requireContext().test)))[LoginViewModel::class.java]
+        viewModel = ViewModelProvider(
+            requireActivity(),
+            ProtoViewModelFactory(UserRepository(requireContext().test))
+        )[LoginViewModel::class.java]
 
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
 //        binding.passwordLayout?.setEndIconOnClickListener {
@@ -67,12 +70,21 @@ class LoginFragment : Fragment() {
 //        binding.loginButton?.setOnClickListener{
 //            login()
 //        }
-        binding.isLoginText!!.setOnSingleClickListener {
-            val bottomSheetDialog =
-                LoginBottomSheet() { email, password ->
-                    Log.d(TAG,"tag : ${tag}")
-                }
 
+        binding.registBtn?.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_signup1)
+        }
+
+        binding.isLoginText?.setOnClickListener {
+            val bottomSheetDialog =
+                LoginBottomSheet(login = { emailText, passwordText ->
+                    login(
+                        emailText = emailText,
+                        passwordText = passwordText
+                    )
+                }, moveSignUp =  {
+                    findNavController().navigate(R.id.action_loginFragment_to_signup1)
+                })
             bottomSheetDialog.show(requireActivity().supportFragmentManager, bottomSheetDialog.tag)
             Log.d(TAG, "show aaa")
         }
@@ -98,33 +110,23 @@ class LoginFragment : Fragment() {
 //    }
 
 
-
     }
 
 
-    private fun login(emailText : String, passwordText : String) {
+    private fun login(emailText: String, passwordText: String) {
         var accessToken = ""
         var refreshToken = ""
         Log.d(TAG, "${passwordText.matches(Pattern.passwordRegex)}")
         Log.d(TAG, "${emailText.matches(Pattern.email)}")
-        if(emailText.matches(Pattern.email)){
-            binding.emailLayout?.error = null
-        }
-        else{
-            binding.emailLayout?.error = "등록되지 않은 이메일입니다."
-        }
-        if(passwordText.matches(Pattern.passwordRegex)){
-            binding.passwordLayout?.error = null
-        }else{
-            binding.passwordLayout?.error = "비밀번호를 잘못 입력하셨습니다."
-        }
+
 
 //        emailText.matches(Pattern.email) && passwordText.matches(Pattern.passwordRegex)
-        if(emailText.matches(Pattern.email) && passwordText.matches(Pattern.passwordRegex)) {
+        if (emailText.matches(Pattern.email) && passwordText.matches(Pattern.passwordRegex)) {
 //            moveScreen()
             lifecycleScope.launch(Dispatchers.IO) {
                 kotlin.runCatching {
-                    RetrofitBuilder.getLoginService().postLogin(LoginRequest(emailText, passwordText))
+                    RetrofitBuilder.getLoginService()
+                        .postLogin(LoginRequest(emailText, passwordText))
                         .let { result ->
                             Log.d(TAG, "${result.data}")
                             accessToken = result.data!!.accessToken
@@ -134,14 +136,19 @@ class LoginFragment : Fragment() {
                     lifecycleScope.launch(Dispatchers.Main) {
                         Log.d(TAG, "성공 $it")
                         Toast.makeText(requireContext(), "성공.", Toast.LENGTH_SHORT).show()
-                        saveToken(accessToken,refreshToken)
+                        saveToken(
+                            accessToken = accessToken,
+                            refreshToken = refreshToken,
+                            emailText = emailText
+                        )
                         moveScreen()
                     }
                 }.onFailure { throwable ->
                     Log.e(TAG, "$throwable")
                     throwable.message
                     launch(Dispatchers.Main) {
-                        Toast.makeText(requireContext(), "유저정보가 일치하지 않습니다.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "유저정보가 일치하지 않습니다.", Toast.LENGTH_SHORT)
+                            .show()
                     }
                 }
             }
@@ -160,37 +167,37 @@ class LoginFragment : Fragment() {
         findNavController().navigate(R.id.action_loginFragment_to_signup1)
     }
 
-    private fun changeVisiblePassword(){
-        var lastIndex : Int = 0
-        if (binding.passwordEditText?.text?.lastIndex != null){
-            lastIndex = binding.passwordEditText?.text?.lastIndex!!+1
-        }
-
-        isVisible = if(isVisible){
-            binding.passwordLayout?.setEndIconDrawable(R.drawable.ic_visibility)
-            binding.passwordEditText?.inputType = 0x00000081
-            binding.passwordEditText?.setSelection(lastIndex)
-            false
-        } else{
-
-            binding.passwordLayout?.setEndIconDrawable(R.drawable.ic_visibility_off)
-            binding.passwordEditText?.inputType = 0x00000091
-            binding.passwordEditText?.setSelection(lastIndex)
-            true
-        }
-    }
-    private fun moveScreen(){
+    //    private fun changeVisiblePassword(){
+//        var lastIndex : Int = 0
+//        if (binding.passwordEditText?.text?.lastIndex != null){
+//            lastIndex = binding.passwordEditText?.text?.lastIndex!!+1
+//        }
+//
+//        isVisible = if(isVisible){
+//            binding.passwordLayout?.setEndIconDrawable(R.drawable.ic_visibility)
+//            binding.passwordEditText?.inputType = 0x00000081
+//            binding.passwordEditText?.setSelection(lastIndex)
+//            false
+//        } else{
+//
+//            binding.passwordLayout?.setEndIconDrawable(R.drawable.ic_visibility_off)
+//            binding.passwordEditText?.inputType = 0x00000091
+//            binding.passwordEditText?.setSelection(lastIndex)
+//            true
+//        }
+//    }
+    private fun moveScreen() {
         startActivity(Intent(requireContext(), HomeActivity::class.java))
         requireActivity().finish()
     }
 
-    private fun saveToken(accessToken : String, refreshToken:String){
+    private fun saveToken(accessToken: String, refreshToken: String, emailText: String) {
         CoroutineScope(Dispatchers.IO).launch {
             BabyaDB.getInstance(requireContext().applicationContext)?.tokenDao()?.insertMember(
                 TokenEntity(
                     id = 1,
                     accessToken = accessToken,
-                    email = binding.emailEditText?.text.toString(),
+                    email = emailText,
                     refreshToken = refreshToken
                 )
             )
