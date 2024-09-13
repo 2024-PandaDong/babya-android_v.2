@@ -40,7 +40,7 @@ class PolicyContentFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentPolicyContentBinding.inflate(inflater, container, false)
-        setScreen(viewModel.policyList.value!![viewModel.policyId.value!!].policyId)
+        viewModel.policyList.value!![viewModel.policyId.value!!].policyId?.let { setScreen(it) }
         binding.signUpBackButton.setOnClickListener {
             findNavController().navigate(R.id.action_policyContentFragment_to_policyMainFragment)
         }
