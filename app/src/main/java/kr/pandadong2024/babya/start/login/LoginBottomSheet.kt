@@ -7,15 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.google.android.material.chip.Chip
-import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.LoginBottomSheetBinding
-import kr.pandadong2024.babya.databinding.PolicyBottomSheetBinding
 import kr.pandadong2024.babya.home.policy.viewmdole.PolicyViewModel
 import kr.pandadong2024.babya.util.setOnSingleClickListener
+
 //todo : 에러 핸들링하기
 class LoginBottomSheet(
     val login : (email : String, password : String)->Unit,

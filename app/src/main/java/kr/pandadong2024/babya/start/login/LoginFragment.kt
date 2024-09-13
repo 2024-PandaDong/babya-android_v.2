@@ -4,33 +4,31 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.datastore.core.DataStore
 import androidx.datastore.dataStore
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import kr.pandadong2024.babya.HomeActivity
 import com.example.babya_android.datastore.User
-import kr.pandadong2024.babya.server.local.proto.UserRepository
-import kr.pandadong2024.babya.server.local.proto.UserSerializer
-import kr.pandadong2024.babya.server.RetrofitBuilder
-import kr.pandadong2024.babya.server.remote.request.LoginRequest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import kr.pandadong2024.babya.HomeActivity
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentLoginBinding
-import kr.pandadong2024.babya.home.policy.bottom_sheet.PolicyBottomSheet
+import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.server.local.BabyaDB
 import kr.pandadong2024.babya.server.local.TokenDAO
 import kr.pandadong2024.babya.server.local.TokenEntity
-import kr.pandadong2024.babya.util.setOnSingleClickListener
+import kr.pandadong2024.babya.server.local.proto.UserRepository
+import kr.pandadong2024.babya.server.local.proto.UserSerializer
+import kr.pandadong2024.babya.server.remote.request.LoginRequest
 
 private const val DATA_STORE_FILE_NAME = "user.pb"
 
@@ -85,6 +83,7 @@ class LoginFragment : Fragment() {
                 }, moveSignUp =  {
                     findNavController().navigate(R.id.action_loginFragment_to_signup1)
                 })
+            bottomSheetDialog
             bottomSheetDialog.show(requireActivity().supportFragmentManager, bottomSheetDialog.tag)
             Log.d(TAG, "show aaa")
         }
