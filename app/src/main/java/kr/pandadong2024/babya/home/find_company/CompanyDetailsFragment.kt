@@ -2,6 +2,7 @@ package kr.pandadong2024.babya.home.find_company
 
 import android.graphics.Color
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,12 +10,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentCompanyDetailsBinding
 import kr.pandadong2024.babya.home.find_company.find_company_viewModel.FindCompanyViewModel
 import kr.pandadong2024.babya.server.RetrofitBuilder
@@ -31,6 +34,7 @@ class CompanyDetailsFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel by activityViewModels<FindCompanyViewModel>()
     private lateinit var tokenDao: TokenDAO
+    private var isExpanded = false
 
     private val tag = "CompanyDetailsFragment"
     override fun onCreateView(
@@ -43,6 +47,25 @@ class CompanyDetailsFragment : Fragment() {
         tokenDao = BabyaDB.getInstance(requireContext().applicationContext)?.tokenDao()!!
         initView()
 
+        binding.backBtn.setOnClickListener {
+            findNavController().navigate(R.id.action_companyDetailsFragment_to_findCompanyFragment)
+        }
+
+        binding.editExplanation.setOnClickListener {
+            if (isExpanded) {
+                // 축약된 상태로 변경
+                binding.explanation.maxLines = 2
+                binding.explanation.ellipsize = TextUtils.TruncateAt.END
+                binding.editExplanation.text = "더보기"
+            } else {
+                // 전체 텍스트를 보여주는 상태로 변경
+                binding.explanation.maxLines = Int.MAX_VALUE
+                binding.explanation.ellipsize = null
+                binding.editExplanation.text = "닫기"
+            }
+            // 상태 변경
+            isExpanded = !isExpanded
+        }
 
 
 
@@ -60,6 +83,7 @@ class CompanyDetailsFragment : Fragment() {
                 setCompany(result)
             }
         }
+
     }
 
     private fun people(male: Int?, female: Int?) {
