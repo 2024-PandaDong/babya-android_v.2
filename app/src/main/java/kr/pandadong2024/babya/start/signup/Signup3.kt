@@ -135,38 +135,40 @@ class Signup3 : Fragment() {
 
         // 메인에 머지하고 ㄱㄱ
         viewModel.nickName.value = nickName
+        viewModel.pregnancyDt.value = ""
         findNavController().navigate(R.id.action_signup3_to_signup5)
     }
 
 
 
+    fun main(value: String) {
+        // 입력 형식: "2024년 09월 13일" 또는 "2024년 9월 1일" 등
+        val year = value.substring(0, 4) // 연도 부분
+        val monthStart = value.indexOf("년") + 2
+        val monthEnd = value.indexOf("월")
+        val month = value.substring(monthStart, monthEnd).padStart(2, '0') // 월 부분, 두 자리로 보장
 
-    fun main(birthDt: String) {
-        val input = birthDt
-        // 입력 문자열의 포맷 정의
-        val inputFormatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일")
-        // 출력 문자열의 포맷 정의
-        val outputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        val dayStart = value.indexOf("월") + 2
+        val dayEnd = value.indexOf("일")
+        val day = value.substring(dayStart, dayEnd).padStart(2, '0') // 일 부분, 두 자리로 보장
 
-        // 문자열을 LocalDate로 변환한 후 원하는 형식으로 다시 변환
-        val date = LocalDate.parse(input, inputFormatter)
-        val formattedDate = date.format(outputFormatter)
-
-        viewModel.birthDt.value = birthDt
+        // 새로운 형식으로 조합하여 반환
+        viewModel.birthDt.value = "$year-$month-$day"
     }
 
-    fun main2(marriedDt: String) {
-        val input = marriedDt
-        // 입력 문자열의 포맷 정의
-        val inputFormatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일")
-        // 출력 문자열의 포맷 정의
-        val outputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    fun main2(value: String) {
+        // 입력 형식: "2024년 09월 13일" 또는 "2024년 9월 1일" 등
+        val year = value.substring(0, 4) // 연도 부분
+        val monthStart = value.indexOf("년") + 2
+        val monthEnd = value.indexOf("월")
+        val month = value.substring(monthStart, monthEnd).padStart(2, '0') // 월 부분, 두 자리로 보장
 
-        // 문자열을 LocalDate로 변환한 후 원하는 형식으로 다시 변환
-        val date = LocalDate.parse(input, inputFormatter)
-        val formattedDate = date.format(outputFormatter)
+        val dayStart = value.indexOf("월") + 2
+        val dayEnd = value.indexOf("일")
+        val day = value.substring(dayStart, dayEnd).padStart(2, '0') // 일 부분, 두 자리로 보장
 
-        viewModel.marriedDt.value = marriedDt
+        // 새로운 형식으로 조합하여 반환
+        viewModel.marriedDt.value = "$year-$month-$day"
     }
 
 

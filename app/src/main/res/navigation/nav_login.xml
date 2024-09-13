@@ -142,6 +142,9 @@
         <action
             android:id="@+id/action_signup9_to_signup5"
             app:destination="@id/signup5" />
+        <action
+            android:id="@+id/action_signup9_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
 
 </navigation>
