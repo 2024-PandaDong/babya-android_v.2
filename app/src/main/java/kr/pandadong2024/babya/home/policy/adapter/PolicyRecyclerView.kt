@@ -1,6 +1,8 @@
 package kr.pandadong2024.babya.home.policy.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
@@ -12,7 +14,14 @@ class PolicyRecyclerView (val policyList : List<PolicyListResponse>, val tag : S
     inner class PolicyViewHolder(val binding : ItemPolicyListBinding) :RecyclerView.ViewHolder(binding.root){
         fun policyBind(policyDate : PolicyListResponse, position: Int){
             "2020-00-00"
-            binding.termText.text = "최종수정일: ${policyDate.editDate.substring(startIndex = 5, endIndex = 7)}월 ${policyDate.editDate.substring(startIndex = 8, endIndex = 10)}일"
+            Log.d("test", "data : $policyDate")
+            if(policyDate.editDate == null){
+                binding.termText.visibility = View.GONE
+            }
+            else{
+                binding.termText.text = "최종수정일: ${policyDate.editDate.substring(startIndex = 5, endIndex = 7)}월 ${policyDate.editDate.substring(startIndex = 8, endIndex = 10)}일"
+            }
+
 //            binding.locationText.text =tag
             binding.localTagText.text = tag
             binding.titleText.text = policyDate.title

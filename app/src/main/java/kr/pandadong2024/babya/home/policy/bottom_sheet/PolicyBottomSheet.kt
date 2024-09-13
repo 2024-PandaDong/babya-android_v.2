@@ -74,11 +74,11 @@ class PolicyBottomSheet(val submit : (tag : String)->Unit
         _binding = PolicyBottomSheetBinding.inflate(inflater, container, false)
 
         binding.searchButton.setOnClickListener {
-            if(viewModel.tagsList.value!!.isEmpty() or (viewModel.tagsList.value!!.size != 0)){
+            submit(viewModel.tagsList.value!![1])
+            if(viewModel.tagsList.value!!.isEmpty() ){
                 viewModel.initViewModel()
             }
 
-            submit(viewModel.tagsList.value!![1])
 
             this.dismiss()
         }

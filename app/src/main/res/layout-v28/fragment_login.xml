@@ -1,212 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".start.login.LoginFragment"
-    android:background="#F5F5F5">
+    android:background="@color/backgroundNormalNormal"
+    tools:context=".start.login.LoginFragment">
 
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <ImageView
+        android:id="@+id/logoImage"
+        android:layout_width="85dp"
+        android:layout_height="85dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/logo_primary"
+        android:layout_marginTop="90dp"
+        />
+
+    <TextView
+        android:id="@+id/titleWelcomeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/notosanskr_semibold"
+        android:includeFontPadding="false"
+        android:text="애기야에 오신것을 환영합니다."
+        android:textAlignment="textStart"
+        android:textColor="@color/common0"
+        android:textSize="20sp"
+        app:layout_constraintTop_toBottomOf="@id/logoImage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_marginTop="26dp"/>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/titleIntroductionText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="55dp"
+        android:fontFamily="@font/notosanskr_medium"
+        android:includeFontPadding="false"
+        android:text="저희는 임산부 여러분이 정책을\n
+쉽게 이해하고, 필요한 지원을 받으실\n
+수 있도록 도와드리는 도우미입니다."
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/titleWelcomeText" />
 
-            <ImageView
-                android:id="@+id/circleImg"
-                android:layout_width="689dp"
-                android:layout_height="529dp"
-                android:layout_marginStart="-150dp"
-                android:layout_marginTop="-273dp"
-                android:src="@drawable/sp_yellow_circle_login"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/registBtn"
+        android:layout_width="0dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginEnd="18dp"
+        android:layout_marginBottom="82dp"
+        android:background="@drawable/sel_email_btn_selector"
+        android:enabled="true"
+        android:text="회원가입"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
 
+    <TextView
+        android:id="@+id/isCostomerText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/notosanskr_regular"
+        android:includeFontPadding="false"
+        android:text="이미 회원이십니까?"
+        android:textColor="@color/common0"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="@+id/isLoginText"
+        app:layout_constraintEnd_toStartOf="@+id/isLoginText"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/isLoginText" />
 
-            <TextView
-                android:id="@+id/firstText1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="36dp"
-                android:layout_marginTop="50dp"
-                android:text="애기야에 오신걸"
-                android:textColor="@color/white"
-                android:textSize="32dp"
-                app:layout_constraintBottom_toTopOf="@id/firstText2"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_chainStyle="packed" />
-
-            <TextView
-                android:id="@+id/firstText2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="환영합니다"
-                android:textColor="@color/white"
-                android:textSize="32dp"
-                app:layout_constraintEnd_toEndOf="@id/firstText1"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@id/firstText1"
-                app:layout_constraintTop_toBottomOf="@id/firstText1" />
-
-
-            <TextView
-                android:id="@+id/firstText3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="26dp"
-                android:text="로그인 방식을 선택해 주세요."
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="@id/firstText1"
-                app:layout_constraintTop_toBottomOf="@id/firstText2" />
-
-
-            <TextView
-                android:id="@+id/infoText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="43dp"
-                android:text="당신의 정보를 입력해주세요."
-                android:textColor="#989898"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toTopOf="@id/emailLayout"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/circleImg" />
-
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/emailLayout"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="36dp"
-                android:layout_marginStart="43dp"
-                android:layout_marginEnd="43dp"
-                android:labelFor="@id/test"
-                android:outlineAmbientShadowColor="@color/yellow"
-                android:textColorHint="#A0A0A0"
-                app:boxBackgroundColor="#F5F5F5"
-                app:boxBackgroundMode="filled"
-                app:boxStrokeColor="@color/yellow"
-                app:cursorColor="@color/yellow"
-                app:errorEnabled="true"
-                app:hintTextColor="@color/yellow"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/infoText"
-
-                >
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/emailEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="이메일"
-                    android:text="jinsic4568@gmail.com"
-                    android:inputType="textEmailAddress" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/passwordLayout"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="18dp"
-                android:labelFor="@id/test"
-                android:textColorHint="#A0A0A0"
-                app:boxBackgroundColor="#F5F5F5"
-                app:boxBackgroundMode="filled"
-                app:boxStrokeColor="@color/yellow"
-                app:cursorColor="@color/yellow"
-                app:endIconCheckable="true"
-                app:endIconDrawable="@drawable/ic_visibility"
-                app:endIconMode="custom"
-                app:endIconTint="#A0A0A0"
-                app:errorEnabled="true"
-                app:hintTextColor="@color/yellow"
-                app:layout_constraintEnd_toEndOf="@id/emailLayout"
-                app:layout_constraintStart_toStartOf="@id/emailLayout"
-                app:layout_constraintTop_toBottomOf="@id/emailLayout"
-
-
-                >
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/passwordEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="비밀번호"
-                    android:text="jinsic4568*"
-                    android:inputType="textPassword" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:contextClickable="false"
-                android:id="@+id/loginButton"
-                android:layout_width="0dp"
-                android:layout_height="54dp"
-                android:layout_marginStart="36dp"
-                android:layout_marginTop="52dp"
-                android:layout_marginEnd="36dp"
-                android:background="@drawable/sp_rectangle_login"
-                android:shadowRadius="0"
-                android:stateListAnimator="@null"
-                android:text="로그인"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/passwordLayout" />
-
-            <TextView
-                android:id="@+id/singeUpText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="계정이 없으신가요? "
-                android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="@id/singeUpTextButton"
-                app:layout_constraintEnd_toStartOf="@id/singeUpTextButton"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toStartOf="@id/loginButton"
-
-                app:layout_constraintTop_toTopOf="@id/singeUpTextButton" />
-
-            <TextView
-                android:id="@+id/singeUpTextButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="15dp"
-                android:text="회원가입"
-                android:textColor="#F6A723"
-                android:textSize="12sp"
-                app:layout_constraintEnd_toEndOf="@id/loginButton"
-                app:layout_constraintStart_toEndOf="@id/singeUpText"
-                app:layout_constraintTop_toBottomOf="@id/loginButton" />
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
-
-
-
-
-
-
-
+    <TextView
+        android:id="@+id/isLoginText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/notosanskr_regular"
+        android:includeFontPadding="false"
+        android:padding="8dp"
+        android:text="로그인하세요"
+        android:textColor="@color/primaryLight"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toEndOf="@id/isCostomerText"
+        app:layout_constraintTop_toBottomOf="@id/registBtn" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,10 +11,12 @@
 
     </style>
 
-    <style name="DialogStyle" parent="Theme.Design.Light.BottomSheetDialog">
+    <style name="DialogStyle" parent="Theme.Design.BottomSheetDialog">
         <item name="android:windowIsFloating">false</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowIsFloating">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
-<!--        <item name="background">@drawable/sp_sub_comment_bottom_sheet</item>-->
+        <item name="background">@color/invisible</item>
     </style>
 </resources>
