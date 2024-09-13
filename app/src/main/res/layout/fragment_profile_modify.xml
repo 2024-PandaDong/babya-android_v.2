@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ProfileModifyFragment"
+    tools:context=".home.profile.ProfileModifyFragment"
     android:background="@color/backgroundNormalStrong">
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/profileSettingToolbar"
@@ -52,15 +52,17 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/profileView1"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:background="@color/backgroundNormalNormal"
+                android:paddingHorizontal="40dp"
                 android:paddingTop="60dp"
                 android:paddingBottom="32dp"
-                app:layout_constraintTop_toTopOf="parent"
-                android:paddingHorizontal="40dp">
+                app:layout_constraintTop_toTopOf="parent">
+
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/profileImage"
                     android:layout_width="110dp"
@@ -80,8 +82,8 @@
                     android:includeFontPadding="false"
                     android:text="이름"
                     android:textAlignment="textStart"
-                    android:textSize="16sp"
                     android:textColor="@color/neutral40"
+                    android:textSize="16sp"
 
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/profileImage" />
@@ -96,43 +98,43 @@
                     android:includeFontPadding="false"
                     android:text="이름"
                     android:textAlignment="textEnd"
-                    android:textSize="16sp"
                     android:textColor="@color/labelAlternative"
+                    android:textSize="16sp"
 
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/nameTitleText" />
 
                 <TextView
-                    android:id="@+id/zoneTitleText"
+                    android:id="@+id/ageTitleText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="25dp"
 
                     android:fontFamily="@font/notosanskr_medium"
                     android:includeFontPadding="false"
-                    android:text="지역"
+                    android:text="나이"
                     android:textAlignment="textStart"
-                    android:textSize="16sp"
                     android:textColor="@color/neutral40"
+                    android:textSize="16sp"
 
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/nameTitleText" />
 
                 <TextView
-                    android:id="@+id/zoneText"
+                    android:id="@+id/ageText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
 
                     android:fontFamily="@font/notosanskr_regular"
                     android:includeFontPadding="false"
-                    android:text="부산"
+                    android:text="18살"
                     android:textAlignment="textEnd"
-                    android:textSize="16sp"
                     android:textColor="@color/labelAlternative"
+                    android:textSize="16sp"
 
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/zoneTitleText" />
+                    app:layout_constraintTop_toTopOf="@id/ageTitleText" />
 
                 <TextView
                     android:id="@+id/birthDateTitleText"
@@ -144,11 +146,11 @@
                     android:includeFontPadding="false"
                     android:text="생년월일"
                     android:textAlignment="textStart"
-                    android:textSize="16sp"
                     android:textColor="@color/neutral40"
+                    android:textSize="16sp"
 
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/zoneTitleText" />
+                    app:layout_constraintTop_toBottomOf="@+id/ageTitleText" />
 
                 <TextView
                     android:id="@+id/birthDateText"
@@ -160,8 +162,8 @@
                     android:includeFontPadding="false"
                     android:text="1985.01.20"
                     android:textAlignment="textEnd"
-                    android:textSize="16sp"
                     android:textColor="@color/labelAlternative"
+                    android:textSize="16sp"
 
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/birthDateTitleText" />
@@ -176,8 +178,8 @@
                     android:includeFontPadding="false"
                     android:text="이메일"
                     android:textAlignment="textStart"
-                    android:textSize="16sp"
                     android:textColor="@color/neutral40"
+                    android:textSize="16sp"
 
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/birthDateTitleText" />
@@ -192,8 +194,8 @@
                     android:includeFontPadding="false"
                     android:text="kyumin7487@gmail.com"
                     android:textAlignment="textEnd"
-                    android:textSize="16sp"
                     android:textColor="@color/labelAlternative"
+                    android:textSize="16sp"
 
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/emailTitleText" />
@@ -231,7 +233,7 @@
 
                     android:fontFamily="@font/notosanskr_medium"
                     android:includeFontPadding="false"
-                    android:text="결혼일"
+                    android:text="결혼주년"
                     android:textAlignment="textStart"
                     android:textSize="16sp"
                     android:textColor="@color/neutral40"
