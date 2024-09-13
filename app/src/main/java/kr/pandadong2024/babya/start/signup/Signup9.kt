@@ -71,7 +71,7 @@ class Signup9 : Fragment() {
                         marriedDt = viewModel.marriedDt.value.toString(),
                         pregnancyDt = viewModel.pregnancyDt.value.toString(),
                         birthDt = viewModel.birthDt.value.toString(),
-                        locationCode = "",
+                        locationCode = "22",
                         pushToken = "", // fcm
                         childList = (viewModel.birthNameList.value ?: emptyList()) + (viewModel.childrenNameList.value ?: emptyList())
                     )
