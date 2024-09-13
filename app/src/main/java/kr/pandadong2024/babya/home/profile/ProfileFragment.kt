@@ -70,9 +70,11 @@ class ProfileFragment : Fragment() {
                 }
                 .setPositiveButton("로그아웃") { dialog, which ->
                     lifecycleScope.launch(Dispatchers.IO) {
-                        BabyaDB.getInstance(requireContext())?.tokenDao()?.getMembers()?.let { tokenEntity ->
-                            BabyaDB.getInstance(requireContext())?.tokenDao()?.deleteMember(tokenEntity)
-                        }
+                        BabyaDB.getInstance(requireContext())?.tokenDao()?.getMembers()
+                            ?.let { tokenEntity ->
+                                BabyaDB.getInstance(requireContext())?.tokenDao()
+                                    ?.deleteMember(tokenEntity)
+                            }
                     }
                     val intent = Intent(requireContext(), MainActivity::class.java)
                     startActivity(intent)
@@ -126,7 +128,8 @@ class ProfileFragment : Fragment() {
         val packageInfo = context?.packageManager?.getPackageInfo(requireContext().packageName, 0)
         val versionName = packageInfo?.versionName // 버전 이름 (예: "1.0")
 
-        binding.appVersionText.text = "v$versionName"
+
+            binding.appVersionText.text = "v$versionName"
 
 
 
@@ -134,6 +137,9 @@ class ProfileFragment : Fragment() {
             Log.d("test", "teststsetst")
             findNavController().navigate(R.id.action_profileFragment_to_profileModifyFragment)
         }
+            binding.profileModifyView.setOnClickListener {
+                findNavController().navigate(R.id.action_profileFragment_to_profileModifyFragment)
+            }
 
 
 //        toolbar.setOnMenuItemClickListener{item ->
@@ -200,7 +206,7 @@ class ProfileFragment : Fragment() {
 //                else -> false
 //            }
 //        }
-    }
+        }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -252,11 +258,10 @@ class ProfileFragment : Fragment() {
                 Log.d(TAG, "onCreateView: 서버연결 실패")
             }
         }
+
+
+
     }
-
-
-
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
