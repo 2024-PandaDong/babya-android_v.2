@@ -5,22 +5,23 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import kr.pandadong2024.babya.databinding.ItemFindCompanyRecyclerviewBinding
+import kr.pandadong2024.babya.server.remote.responses.company.CompanyListResponses
 
 class CompanyRankAdapter (val test: (Int) -> Unit) : RecyclerView.Adapter<CompanyRankAdapter.CompanyViewHolder>() {
-    private lateinit var companyList : List<kr.pandadong2024.babya.server.remote.responses.company.CompanyDataResponses>
+    private lateinit var companyList : List<CompanyListResponses>
 
     inner class CompanyViewHolder(private val binding : ItemFindCompanyRecyclerviewBinding): RecyclerView.ViewHolder(binding.root){
-        fun bind(data : kr.pandadong2024.babya.server.remote.responses.company.CompanyDataResponses, test: (Int) -> Unit, position: Int){
-            binding.companyName.text = data.name
+        fun bind(data : CompanyListResponses, test: (Int) -> Unit, position: Int){
+            binding.companyName.text = data.companyName
             binding.address.text = data.address
-            binding.logoImg.load(data.link?.get(0))
+            binding.logoImg.load(data.logoImg?.get(0))
             binding.root.setOnClickListener {
                 test(position)
             }
         }
     }
 
-    fun setCompanyList(listData : List<kr.pandadong2024.babya.server.remote.responses.company.CompanyDataResponses>){
+    fun setCompanyList(listData : List<CompanyListResponses>){
         companyList = listData
     }
 

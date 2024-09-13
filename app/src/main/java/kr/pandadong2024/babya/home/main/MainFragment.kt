@@ -27,6 +27,7 @@ import kr.pandadong2024.babya.server.remote.responses.BaseResponse
 import kr.pandadong2024.babya.server.remote.responses.Policy.PolicyListResponse
 import kr.pandadong2024.babya.server.remote.responses.UserDataResponses
 import kr.pandadong2024.babya.server.remote.responses.company.CompanyDataResponses
+import kr.pandadong2024.babya.server.remote.responses.company.CompanyListResponses
 import kr.pandadong2024.babya.util.BottomControllable
 import java.time.Duration
 import kotlin.math.ceil
@@ -35,8 +36,8 @@ class MainFragment : Fragment() {
     val TAG = "MainFragment"
 
     private lateinit var bannerList: List<BannerResponses>
-    private lateinit var companyList: List<CompanyDataResponses>
-    private lateinit var companyData: BaseResponse<List<CompanyDataResponses>>
+    private lateinit var companyList: List<CompanyListResponses>
+    private lateinit var companyData: BaseResponse<List<CompanyListResponses>>
     private lateinit var policyData: List<PolicyListResponse>
     private lateinit var bannerAdapter: MainBannerAdapter
     private lateinit var rankAdapter: CompanyRankAdapter
@@ -231,13 +232,14 @@ class MainFragment : Fragment() {
 
 
     private fun setCompanyRecyclerView() {
-        val list = mutableListOf<CompanyDataResponses>()
+        val list = mutableListOf<CompanyListResponses>()
+//        findCompanyViewModel.
         if (companyList.isNotEmpty()) {
             for (i in 0..2) {
                 if (companyList.size == i + 1) {
                     break
                 } else {
-                    list.add(companyList[i])
+                    list.add(companyList[i+2])
                 }
             }
             rankAdapter = CompanyRankAdapter()
@@ -250,7 +252,7 @@ class MainFragment : Fragment() {
 
         }
 
-        rankAdapter.setCompanyList(list)
+        rankAdapter.setCompanyList(list.toMutableList())
         rankAdapter.notifyItemRemoved(0)
         with(binding) {
 //            companyRecyclerView.addItemDecoration(CompanyOffsetItemDecoration(25))
@@ -314,7 +316,7 @@ class MainFragment : Fragment() {
     private fun initCompanyList() {
         lifecycleScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                 RetrofitBuilder.getMainService().getCompanyData(
+                 RetrofitBuilder.getCompanyService().getCompanyList(
                     accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
                     page = 1,
                     size = 10
@@ -329,7 +331,7 @@ class MainFragment : Fragment() {
             }.onFailure {
                 it.stackTrace
                 companyList =
-                    listOf(CompanyDataResponses(), CompanyDataResponses(), CompanyDataResponses())
+                    listOf(CompanyListResponses(), CompanyListResponses(), CompanyListResponses())
                 Log.e(TAG, "initCompanyRecyclerView: ${it.message.toString()}")
                 launch(Dispatchers.Main) {
                     setCompanyRecyclerView()
