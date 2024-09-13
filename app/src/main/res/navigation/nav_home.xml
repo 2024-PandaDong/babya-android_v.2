@@ -49,7 +49,14 @@
         android:id="@+id/profileFragment"
         android:name="kr.pandadong2024.babya.home.profile.ProfileFragment"
         android:label="f"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_profileModifyFragment"
+            app:destination="@id/profileModifyFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
     <fragment
         android:id="@+id/mainFragment"
         android:name="kr.pandadong2024.babya.home.main.MainFragment"
@@ -143,6 +150,15 @@
             android:id="@+id/action_policyMainFragment_to_mainFragment"
             app:destination="@id/mainFragment" />
 
+    </fragment>
+    <fragment
+        android:id="@+id/profileModifyFragment"
+        android:name="kr.pandadong2024.babya.home.profile.ProfileModifyFragment"
+        android:label="fragment_profile_modify"
+        tools:layout="@layout/fragment_profile_modify" >
+        <action
+            android:id="@+id/action_profileModifyFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
 
 </navigation>

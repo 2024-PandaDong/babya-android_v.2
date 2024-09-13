@@ -21,16 +21,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:background="@color/backgroundNormalNormal">
 
-        <TextView
-            android:id="@+id/todoListTitleText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:fontFamily="@font/notosanskr_medium"
-            android:text="프로필"
-            android:textSize="16sp"
-            android:backgroundTint="@color/backgroundNormalNormal"
-            android:includeFontPadding="false"/>
+
 
 
         <ImageButton
