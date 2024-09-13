@@ -5,14 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
 import kr.pandadong2024.babya.databinding.ItemPolicyListBinding
 import kr.pandadong2024.babya.server.remote.responses.Policy.PolicyListResponse
-import kr.pandadong2024.babya.util.roundAll
 
 class PolicyRecyclerView (val policyList : List<PolicyListResponse>, val tag : String, val onClick : (position : Int) -> Unit) : RecyclerView.Adapter<PolicyRecyclerView.PolicyViewHolder>() {
     inner class PolicyViewHolder(val binding : ItemPolicyListBinding) :RecyclerView.ViewHolder(binding.root){
         fun policyBind(policyDate : PolicyListResponse, position: Int){
+
+            binding.localTagText.text = "${tag}보건소"
             "2020-00-00"
             Log.d("test", "data : $policyDate")
             if(policyDate.editDate == null){
