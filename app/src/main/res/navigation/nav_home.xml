@@ -68,6 +68,12 @@
         <action
             android:id="@+id/action_mainFragment_to_policyContentFragment"
             app:destination="@id/policyContentFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_findCompanyFragment2"
+            app:destination="@id/findCompanyFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_policyMainFragment"
+            app:destination="@id/policyMainFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailPublicFragment"

@@ -95,6 +95,14 @@ class MainFragment : Fragment() {
         tokenDao = BabyaDB.getInstance(requireContext().applicationContext)?.tokenDao()!!
         policyViewModel.initViewModel()
         (requireActivity() as BottomControllable).setBottomNavVisibility(true)
+
+
+        binding.policyMoreText.setOnClickListener {
+            findNavController().navigate(R.id.action_mainFragment_to_policyMainFragment)
+        }
+        binding.companyMoreText.setOnClickListener {
+            findNavController().navigate(R.id.action_mainFragment_to_findCompanyFragment2)
+        }
 //        binding.maternityInfoRadioButton.setTextColor(requireContext().getColor(R.color.black))
 //        binding.LocaleInfoRadioButton.setTextColor(requireContext().getColor(R.color.gray))
 //        binding.radioGroup.setOnCheckedChangeListener { radioGroup, checkId ->

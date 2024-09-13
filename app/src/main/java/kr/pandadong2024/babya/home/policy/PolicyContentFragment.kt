@@ -42,7 +42,8 @@ class PolicyContentFragment : Fragment() {
         _binding = FragmentPolicyContentBinding.inflate(inflater, container, false)
         viewModel.policyList.value!![viewModel.policyId.value!!].policyId?.let { setScreen(it) }
         binding.signUpBackButton.setOnClickListener {
-            findNavController().navigate(R.id.action_policyContentFragment_to_policyMainFragment)
+            requireActivity().supportFragmentManager.popBackStack()
+//            findNavController().navigate(R.id.action_policyContentFragment_to_policyMainFragment)
         }
 
         binding.declarationButton.setOnClickListener {
