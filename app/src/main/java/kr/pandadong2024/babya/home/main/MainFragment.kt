@@ -24,7 +24,7 @@ import kr.pandadong2024.babya.server.local.BabyaDB
 import kr.pandadong2024.babya.server.local.TokenDAO
 import kr.pandadong2024.babya.server.remote.responses.BannerResponses
 import kr.pandadong2024.babya.server.remote.responses.BaseResponse
-import kr.pandadong2024.babya.server.remote.responses.CompanyDataResponses
+import kr.pandadong2024.babya.server.remote.responses.company.CompanyDataResponses
 import kr.pandadong2024.babya.server.remote.responses.UserDataResponses
 import kr.pandadong2024.babya.server.remote.responses.main.UserWeekStatus
 import kr.pandadong2024.babya.util.BottomControllable
@@ -35,8 +35,8 @@ import kotlin.math.ceil
 class MainFragment : Fragment() {
     val TAG = "MainFragment"
     private lateinit var bannerList : List<BannerResponses>
-    private lateinit var companyList : List<CompanyDataResponses>
-    private lateinit var companyData : BaseResponse<List<CompanyDataResponses>>
+    private lateinit var companyList : List<kr.pandadong2024.babya.server.remote.responses.company.CompanyDataResponses>
+    private lateinit var companyData : BaseResponse<List<kr.pandadong2024.babya.server.remote.responses.company.CompanyDataResponses>>
     private lateinit var bannerAdapter : MainBannerAdapter
     private lateinit var rankAdapter : CompanyRankAdapter
     private val policyViewModel by activityViewModels<PolicyViewModel>()
@@ -275,7 +275,11 @@ class MainFragment : Fragment() {
                 }
             }.onFailure {
                 it.stackTrace
-                companyList = listOf(CompanyDataResponses(), CompanyDataResponses(), CompanyDataResponses())
+                companyList = listOf(
+                    kr.pandadong2024.babya.server.remote.responses.company.CompanyDataResponses(),
+                    kr.pandadong2024.babya.server.remote.responses.company.CompanyDataResponses(),
+                    kr.pandadong2024.babya.server.remote.responses.company.CompanyDataResponses()
+                )
                 Log.e(TAG, "initCompanyRecyclerView: ${it.message.toString()}")
                 launch(Dispatchers.Main) {
                     setCompanyRecyclerView()
