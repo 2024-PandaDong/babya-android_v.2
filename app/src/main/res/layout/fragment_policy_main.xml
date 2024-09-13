@@ -69,7 +69,7 @@
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/diaryTabLayout"
+        app:layout_constraintTop_toBottomOf="@id/policyListToolbar"
         >
 
     <androidx.core.widget.NestedScrollView
@@ -189,38 +189,38 @@
     </androidx.core.widget.NestedScrollView>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/diaryTabLayout"
-        android:layout_width="match_parent"
-        app:layout_constraintTop_toBottomOf="@id/policyListToolbar"
-        android:layout_height="wrap_content"
-        app:tabTextAppearance="@style/tabBarTextStyle"
-        app:tabIndicatorColor="@color/primaryNormal"
-        app:tabIndicatorHeight="2dp"
-        app:tabBackground="@drawable/sel_custom_indicator"
-        app:tabSelectedTextColor="@color/common0"
-        android:background="@color/backgroundNormalNormal"
-        app:tabTextColor="@color/common0"
+<!--    <com.google.android.material.tabs.TabLayout-->
+<!--        android:id="@+id/diaryTabLayout"-->
+<!--        android:layout_width="match_parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/policyListToolbar"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:tabTextAppearance="@style/tabBarTextStyle"-->
+<!--        app:tabIndicatorColor="@color/primaryNormal"-->
+<!--        app:tabIndicatorHeight="2dp"-->
+<!--        app:tabBackground="@drawable/sel_custom_indicator"-->
+<!--        app:tabSelectedTextColor="@color/common0"-->
+<!--        android:background="@color/backgroundNormalNormal"-->
+<!--        app:tabTextColor="@color/common0"-->
 
-        app:tabMode="scrollable"
-        app:tabGravity="fill" >
+<!--        app:tabMode="scrollable"-->
+<!--        app:tabGravity="fill" >-->
 
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="임신전"
-            />
+<!--        <com.google.android.material.tabs.TabItem-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="임신전"-->
+<!--            />-->
 
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="임신후" />
+<!--        <com.google.android.material.tabs.TabItem-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="임신후" />-->
 
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="출산후" />
-    </com.google.android.material.tabs.TabLayout>
+<!--        <com.google.android.material.tabs.TabItem-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="출산후" />-->
+<!--    </com.google.android.material.tabs.TabLayout>-->
 
 
 

@@ -82,12 +82,19 @@ class EditDiaryFragment : Fragment() {
         }
 
         binding.diaryEditSubmitButton.setOnClickListener {
-            Log.d(TAG,  (!binding.editDiaryTitleEditText.text.isNullOrBlank()&&!binding.editDiaryMainContentEditText.text.isNullOrBlank()&&!binding.weightEditText.text.isNullOrBlank()&&!binding.editDiaryFetalFindingsEditText.text.isNullOrBlank()&&binding.editDiaryStatusRadioGroup.checkedRadioButtonId != -1).toString())
+//            Log.d(TAG, "${!binding.editDiaryTitleEditText.text.isNullOrBlank()}\n"+
+//                            "&&${!binding.editDiaryMainContentEditText.text.isNullOrBlank()}\n"+
+//                            "&&${!binding.weightEditText.text.isNullOrBlank()}\n"+
+//                            "&&${!binding.editDiaryFetalFindingsEditText.text.isNullOrBlank()}\n"+
+//                            "&&${binding.editDiaryStatusRadioGroup.checkedRadioButtonId != -1}\n"+
+//                "=${!binding.editDiaryTitleEditText.text.isNullOrBlank() &&!binding.editDiaryMainContentEditText.text.isNullOrBlank()!binding.weightEditText.text.isNullOrBlank()!binding.editDiaryFetalFindingsEditText.text.isNullOrBlank()
+//                            binding.editDiaryStatusRadioGroup.checkedRadioButtonId != -1}"
+//            )
             if (
-                (binding.editDiaryTitleEditText.text.isNullOrBlank()
-                        &&binding.editDiaryMainContentEditText.text.isNullOrBlank()
-                        &&binding.weightEditText.text.isNullOrBlank()
-                        &&binding.editDiaryFetalFindingsEditText.text.isNullOrBlank()
+                (!binding.editDiaryTitleEditText.text.isNullOrBlank()
+                        &&!binding.editDiaryMainContentEditText.text.isNullOrBlank()
+                        &&!binding.weightEditText.text.isNullOrBlank()
+                        &&!binding.editDiaryFetalFindingsEditText.text.isNullOrBlank()
                         &&binding.editDiaryStatusRadioGroup.checkedRadioButtonId == -1)
             ){
                 submit()
