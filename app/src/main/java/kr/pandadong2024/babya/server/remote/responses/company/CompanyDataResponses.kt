@@ -6,7 +6,7 @@ data class CompanyDataResponses(
     @field:SerializedName("name")
     val name: String? = "",
     @field:SerializedName("link")
-    val link: String? ="",
+    val link: List<String>? = listOf("-1"),
     @field:SerializedName("description")
     val description: String? = "",
     @field:SerializedName("mtrLvPeriod")
@@ -29,7 +29,8 @@ data class CompanyDataResponses(
     val subsdType: String? = "",
     @field:SerializedName("subsdMoney")
     val subsdMoney: Int? = -1,
-
+    @field:SerializedName("address")
+    val address: String? = "",
 
     @field:SerializedName("companyId")
     val companyId: Int? = -1,

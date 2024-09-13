@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import coil.load
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
@@ -137,6 +138,7 @@ class CompanyDetailsFragment : Fragment() {
     private fun setCompany(result: BaseResponse<CompanyResponses>) {
         lifecycleScope.launch(Dispatchers.Main){
             binding.companyName.text = result.data?.name
+            binding.mainImage.load(result.data?.link?.get(0))
             binding.explanation.text = result.data?.description
             binding.standard.text = result.data?.salaryYear.toString()+"년"
 

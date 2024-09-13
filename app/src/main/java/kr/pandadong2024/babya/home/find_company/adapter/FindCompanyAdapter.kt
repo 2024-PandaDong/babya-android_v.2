@@ -29,7 +29,7 @@ class FindCompanyAdapter(
             binding.apply {
                 companyName.text = CompanyListResponses.companyName
                 address.text = CompanyListResponses.address
-                logoImg.load(CompanyListResponses.logoImg)
+                logoImg.load(CompanyListResponses.logoImg?.get(0))
 
 
                 root.setOnClickListener {

@@ -488,7 +488,7 @@
                 android:textSize="12dp"
                 android:fontFamily="@font/notosanskr_semibold"
                 android:includeFontPadding="false"
-                app:layout_constraintTop_toBottomOf="@+id/locationText"
+                app:layout_constraintTop_toBottomOf="@+id/location"
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginTop="9dp"
                 android:layout_marginStart="18dp"
@@ -506,7 +506,7 @@
                 android:textColor="#A7A7A8"
                 android:textSize="12dp"
                 app:layout_constraintStart_toEndOf="@+id/ceoText"
-                app:layout_constraintTop_toBottomOf="@+id/locationText" />
+                app:layout_constraintTop_toBottomOf="@+id/location" />
 
             <TextView
                 android:id="@+id/contentText"

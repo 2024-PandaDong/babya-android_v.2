@@ -12,8 +12,8 @@ class CompanyRankAdapter (val test: (Int) -> Unit) : RecyclerView.Adapter<Compan
     inner class CompanyViewHolder(private val binding : ItemFindCompanyRecyclerviewBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(data : kr.pandadong2024.babya.server.remote.responses.company.CompanyDataResponses, test: (Int) -> Unit, position: Int){
             binding.companyName.text = data.name
-            binding.address.text = data.link
-            binding.logoImg.load(data.link)
+            binding.address.text = data.address
+            binding.logoImg.load(data.link?.get(0))
             binding.root.setOnClickListener {
                 test(position)
             }
