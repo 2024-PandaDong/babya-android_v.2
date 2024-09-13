@@ -1,4 +1,4 @@
-package kr.pandadong2024.babya.server.remote.responses
+package kr.pandadong2024.babya.server.remote.responses.company
 
 import com.google.gson.annotations.SerializedName
 

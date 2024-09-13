@@ -23,7 +23,7 @@ import kr.pandadong2024.babya.home.find_company.find_company_viewModel.FindCompa
 import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.server.local.BabyaDB
 import kr.pandadong2024.babya.server.remote.responses.BaseResponse
-import kr.pandadong2024.babya.server.remote.responses.CompanyListResponses
+import kr.pandadong2024.babya.server.remote.responses.company.CompanyListResponses
 import kr.pandadong2024.babya.server.remote.responses.dash_board.DashBoardResponses
 import kr.pandadong2024.babya.util.BottomControllable
 import retrofit2.HttpException
@@ -31,7 +31,7 @@ import retrofit2.HttpException
 class FindCompanyFragment : Fragment() {
     private var _binding: FragmentFindCompanyBinding? = null
     private val binding get() = _binding!!
-    private var companyList: List<CompanyListResponses>? = null
+    private var companyList: List<kr.pandadong2024.babya.server.remote.responses.company.CompanyListResponses>? = null
     private lateinit var companyAdapter: FindCompanyAdapter
     private val viewModel by activityViewModels<FindCompanyViewModel>()
 
@@ -62,7 +62,7 @@ class FindCompanyFragment : Fragment() {
     private fun findCompany(){
         lifecycleScope.launch(Dispatchers.IO){
             kotlin.runCatching {
-                var companyData : BaseResponse<List<CompanyListResponses>>? = null
+                var companyData : BaseResponse<List<kr.pandadong2024.babya.server.remote.responses.company.CompanyListResponses>>? = null
                 val token = BabyaDB.getInstance(requireContext())?.tokenDao()?.getMembers()?.accessToken
                 companyData = RetrofitBuilder.getCompanyService().getCompanyList(
                     accessToken = "Bearer ${token}",
@@ -83,7 +83,7 @@ class FindCompanyFragment : Fragment() {
                 }
 
                 companyList = listOf(
-                    CompanyListResponses()
+                    kr.pandadong2024.babya.server.remote.responses.company.CompanyListResponses()
                 )
                 Log.d(TAG, "getDashBoardData: 실패")
                 lifecycleScope.launch(Dispatchers.Main) {
@@ -98,6 +98,7 @@ class FindCompanyFragment : Fragment() {
             lifecycleScope.launch(Dispatchers.Main){
                 kotlin.runCatching {
                     viewModel.id.value = id
+                    findNavController().navigate(R.id.action_findCompanyFragment_to_companyDetailsFragment)
                 }
             }
         }
