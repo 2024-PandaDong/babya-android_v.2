@@ -19,6 +19,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:background="@drawable/sp_signup_false_round"
             android:enabled="false"
+            android:textColor="@color/black"
             android:hint="동바오"
             android:textColorHint="@color/black"
             android:paddingStart="17dp"

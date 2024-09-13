@@ -71,7 +71,7 @@ class Signup9 : Fragment() {
                         marriedDt = viewModel.marriedDt.value.toString(),
                         pregnancyDt = viewModel.pregnancyDt.value.toString(),
                         birthDt = viewModel.birthDt.value.toString(),
-                        locationCode = viewModel.locationCode.value.toString(),
+                        locationCode = "",
                         pushToken = "", // fcm
                         childList = (viewModel.birthNameList.value ?: emptyList()) + (viewModel.childrenNameList.value ?: emptyList())
                     )
@@ -91,6 +91,7 @@ class Signup9 : Fragment() {
                     findNavController().navigate(R.id.action_signupFragment_to_loginFragment)
                 }
             }.onFailure {
+                Log.d(TAG, "Signup: ${it.message}")
                 it.printStackTrace()
                 Log.d(TAG, "Signup: 실패")
                 Log.d(TAG, "Signup: ${it.stackTrace}")

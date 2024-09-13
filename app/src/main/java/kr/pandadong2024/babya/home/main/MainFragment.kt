@@ -27,10 +27,6 @@ import kr.pandadong2024.babya.server.remote.responses.BaseResponse
 import kr.pandadong2024.babya.server.remote.responses.Policy.PolicyListResponse
 import kr.pandadong2024.babya.server.remote.responses.UserDataResponses
 import kr.pandadong2024.babya.server.remote.responses.company.CompanyDataResponses
-<<<<<<< Updated upstream
-=======
-import kr.pandadong2024.babya.server.remote.responses.main.UserWeekStatus
->>>>>>> Stashed changes
 import kr.pandadong2024.babya.util.BottomControllable
 import java.time.Duration
 import kotlin.math.ceil
