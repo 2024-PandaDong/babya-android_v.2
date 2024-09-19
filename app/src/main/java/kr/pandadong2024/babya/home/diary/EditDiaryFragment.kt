@@ -82,21 +82,25 @@ class EditDiaryFragment : Fragment() {
         }
 
         binding.diaryEditSubmitButton.setOnClickListener {
-            Log.d(TAG,  (!binding.editDiaryTitleEditText.text.isNullOrBlank()&&!binding.editDiaryMainContentEditText.text.isNullOrBlank()&&!binding.weightEditText.text.isNullOrBlank()&&!binding.editDiaryFetalFindingsEditText.text.isNullOrBlank()&&binding.editDiaryStatusRadioGroup.checkedRadioButtonId != -1).toString())
-            if (
-                (binding.editDiaryTitleEditText.text.isNullOrBlank()
-                        &&binding.editDiaryMainContentEditText.text.isNullOrBlank()
-                        &&binding.weightEditText.text.isNullOrBlank()
-                        &&binding.editDiaryFetalFindingsEditText.text.isNullOrBlank()
-                        &&binding.editDiaryStatusRadioGroup.checkedRadioButtonId == -1)
-            ){
+//            Log.d(TAG,  (!binding.editDiaryTitleEditText.text.isNullOrBlank()
+//                    && !binding.editDiaryMainContentEditText.text.isNullOrBlank()
+//                    && !binding.weightEditText.text.isNullOrBlank()
+//                    && !binding.editDiaryFetalFindingsEditText.text.isNullOrBlank()
+//                    && binding.editDiaryStatusRadioGroup.checkedRadioButtonId != -1).toString())
+
+            // 조건을 반대로 수정: 모든 필드가 채워졌을 때만 submit() 호출
+            if (!binding.editDiaryTitleEditText.text.isNullOrBlank()
+                && !binding.editDiaryMainContentEditText.text.isNullOrBlank()
+                && !binding.weightEditText.text.isNullOrBlank()
+                && !binding.editDiaryFetalFindingsEditText.text.isNullOrBlank()
+                && binding.editDiaryStatusRadioGroup.checkedRadioButtonId != -1
+            ) {
                 submit()
-            }
-            else{
+            } else {
                 Toast.makeText(requireContext(), "전부 입력했는지 다시 확인해 주십시오.", Toast.LENGTH_SHORT).show()
             }
-
         }
+
         return binding.root
     }
 
@@ -190,7 +194,8 @@ class EditDiaryFragment : Fragment() {
                     diastolicPressure = binding.bloodPressureLowInputText.text.toString().toInt(),
                     fetusComment = binding.editDiaryFetalFindingsEditText.text.toString(),
                     isPublic = !binding.SwitchCompat.isChecked,
-                    url = uploadFile(listOf(selectedImageUri!!))
+                    url = uploadFile(if(selectedImageUri == null) {
+                        listOf<Uri>()} else{ listOf(selectedImageUri!!)})
                 )
 //                diaryRequestBody = PostDiaryRequest()
                 Log.d(TAG, "title = ${diaryRequestBody.title!!::class.simpleName}, ${diaryRequestBody.title}\n" +
