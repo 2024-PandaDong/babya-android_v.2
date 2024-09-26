@@ -131,6 +131,7 @@ class Signup2 : Fragment() {
                 )
             }.onSuccess {
                 Log.d(TAG, "emailCheck: 성공")
+                binding.emailCheckButton.setText("재인증")
             }.onFailure {
                 it.printStackTrace()
             }
@@ -158,6 +159,7 @@ class Signup2 : Fragment() {
     private fun emailCheckSuccess() {
         lifecycleScope.launch(Dispatchers.Main) {
             Toast.makeText(requireContext(), "이메일이 인증되었습니다", Toast.LENGTH_SHORT).show()
+            binding.emailCheckButton.setText("완료")
             binding.verificationCodeLayout.visibility = View.GONE
             binding.emailEditText.isEnabled = false
             binding.emailEditText.setTextColor(Color.parseColor("#FD7D7C"))

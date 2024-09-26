@@ -136,7 +136,7 @@
             android:fontFamily="@font/notosanskr_semibold"
             android:includeFontPadding="false"
             android:textSize="16dp"
-            android:inputType="textPassword"
+            android:inputType="textVisiblePassword|textCapCharacters"
             />
 
         <androidx.appcompat.widget.AppCompatButton
