@@ -69,7 +69,7 @@
 
                     android:fontFamily="@font/notosanskr_medium"
                     android:includeFontPadding="false"
-                    android:text="승혁이 아빠님 반가워요!"
+
                     android:textAlignment="textStart"
                     android:textSize="20sp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -81,7 +81,7 @@
                     android:id="@+id/profileImage"
                     android:layout_width="110dp"
                     android:layout_height="110dp"
-                    android:src="@mipmap/ic_launcher"
+
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -216,7 +216,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     android:textColor="@color/commonBlack"
-                    android:text="프로필 수정하기"
+                    android:text="개인정보 처리방침"
                     android:fontFamily="@font/notosanskr_medium"
                     android:textSize="16sp"
                     android:includeFontPadding="false"
@@ -264,7 +264,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     android:textColor="@color/componentMaterialDimmer"
-                    android:text="v0.0.1"
+                    android:text=""
                     android:fontFamily="@font/notosanskr_medium"
                     android:textSize="16sp"
                     android:textAlignment="textEnd"

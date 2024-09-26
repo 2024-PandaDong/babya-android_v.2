@@ -88,7 +88,7 @@ class PolicyMainFragment : Fragment() {
         viewModel.policyList.observe(viewLifecycleOwner) {
             setRecyclerView(it, viewModel.tagsList.value!![1])
         }
-        selectPolicy(viewModel.tagsList.value!![1])
+        selectPolicy(viewModel.tagsList.value!![1] ?: "수성구")
         binding.tagEditText.setOnClickListener {
             val bottomSheetDialog =
                 PolicyBottomSheet() { tag ->
