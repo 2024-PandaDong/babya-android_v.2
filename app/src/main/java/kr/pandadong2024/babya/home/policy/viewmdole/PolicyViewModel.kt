@@ -14,6 +14,9 @@ class PolicyViewModel : ViewModel() {
 
     val policyId = MutableLiveData<Int>().apply { value = -1 }
 
+    val policySearchKeyWord = MutableLiveData<String>().apply { value = "" }
+
+
 
 
     fun inputLocal(tagName : String){
@@ -32,6 +35,10 @@ class PolicyViewModel : ViewModel() {
         policyId.value = inputId
     }
 
+    fun setPolicySearchKeyWord(inputKeyWord : String){
+        policySearchKeyWord.value = inputKeyWord
+    }
+
     fun setPolicyList(inputList :  List<PolicyListResponse>){
         policyList.value = inputList
     }
@@ -47,6 +54,10 @@ class PolicyViewModel : ViewModel() {
 
     fun initViewModel(){
         tagsList.value = listOf("대구", "수성구")
+    }
+
+    fun initKeyword(){
+        policySearchKeyWord.value = ""
     }
 
 }

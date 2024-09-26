@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.runtime.key
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -38,6 +39,8 @@ class PolicyMainFragment : Fragment() {
 
     var isSearchActivated = false
 
+    var searchKeyWord : String = ""
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,6 +51,7 @@ class PolicyMainFragment : Fragment() {
         (requireActivity() as BottomControllable).setBottomNavVisibility(false)
         binding.backButton.setOnClickListener {
             findNavController().navigate(R.id.action_policyMainFragment_to_mainFragment)
+            viewModel.initKeyword()
         }
 
         binding.swipeRefreshLayout.setOnRefreshListener(
@@ -57,20 +61,24 @@ class PolicyMainFragment : Fragment() {
             }
         )
 
+        viewModel.policySearchKeyWord.observe(viewLifecycleOwner){
+            searchKeyWord = it
+            selectPolicy(mainTag = viewModel.tagsList.value!![0] ?: "대구광역시", subTag = viewModel.tagsList.value!![1] ?: "수성구",  keyWord =  searchKeyWord)
+        }
+
         binding.searchButton.setOnClickListener {
             Log.d(TAG, "searchButton")
             if (isSearchActivated && binding.searchEditText.text.isNotBlank()) {
-                //TODO : 검색하기
+                viewModel.setPolicySearchKeyWord(binding.searchEditText.text.toString())
+
                 Log.d(TAG, "searchButton1")
             } else {
                 if (isSearchActivated) {
-                    Log.d(TAG, "searchButton2")
                     binding.searchEditText.visibility = View.GONE
                 } else {
-                    Log.d(TAG, "searchButton3")
                     binding.searchEditText.visibility = View.VISIBLE
                 }
-                Log.d(TAG, "searchButton4")
+
                 isSearchActivated = isSearchActivated.not()
             }
         }
@@ -84,14 +92,19 @@ class PolicyMainFragment : Fragment() {
             setCategory(categoryList = it)
         }
 
+        //결과 나왔을 때 리사이 클러뷰 업데이트
         viewModel.policyList.observe(viewLifecycleOwner) {
             setRecyclerView(it, viewModel.tagsList.value!![1])
         }
-        selectPolicy(viewModel.tagsList.value!![1] ?: "수성구")
+
+        selectPolicy(viewModel.tagsList.value!![0] ?: "대구광역시",viewModel.tagsList.value!![1] ?: "수성구", "")
+
         binding.tagEditText.setOnClickListener {
             val bottomSheetDialog =
                 PolicyBottomSheet() { tag ->
-                    selectPolicy(tag)
+
+                    selectPolicy(mainTag = viewModel.tagsList.value!![0] ?: "대구광역시", subTag = tag,  keyWord =  "")
+                    viewModel.initKeyword()
                     Log.d(TAG,"tag : ${tag}")
                 }
 
@@ -152,11 +165,11 @@ class PolicyMainFragment : Fragment() {
 
     }
 
-    private fun selectPolicy(tag: String) {
-        val tagNumber = encodingLocateNumber(tag)
+    private fun selectPolicy(mainTag: String, subTag : String, keyWord : String) {
+        val tagNumber = getCodeByRegion("${mainTag}_${subTag}")
         lifecycleScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                RetrofitBuilder.getPolicyService().getPolicyList(tagNumber)
+                RetrofitBuilder.getPolicyService().getPolicyList(tagNumber, keyWord)
             }.onSuccess { result ->
                 Log.d(TAG, "data : ${result.data}")
                 if (result.status == 200) {
@@ -214,38 +227,18 @@ class PolicyMainFragment : Fragment() {
     }
 
 
-    private fun encodingLocateNumber(locationCode: String): String {
-        return when (locationCode) {
-            "남구" -> "104010"
-            "달서구" -> "104020"
-            "달성군" -> "104030"
-            "동구" -> "104040"
-            "북구" -> "104050"
-            "서구" -> "104060"
-            "수성구" -> "104070"
-            "중구" -> "104080"
-            "군위군" -> "104090"
-            else -> "달성군"
-        }
-    }
-
-    private fun decodingLocateNumber( locationList: Int): List<String> {
-        val list = mutableListOf<String>()
-        list.add(1, when (locationList) {
-            104010 ->  "남구"
-            104020  -> "달서구"
-            104030  -> "달성군"
-            104040 ->  "동구"
-            104050 ->  "북구"
-            104060 ->  "서구"
-            104070  -> "수성구"
-            104080 ->  "중구"
-            104090  -> "군위군"
-
-            else -> {
-                "104030"
-            }
-        })
-        return list.toList()
-    }
+//    private fun encodingLocateNumber(locationCode: String): String {
+//        return when (locationCode) {
+//            "남구" -> "104010"
+//            "달서구" -> "104020"
+//            "달성군" -> "104030"
+//            "동구" -> "104040"
+//            "북구" -> "104050"
+//            "서구" -> "104060"
+//            "수성구" -> "104070"
+//            "중구" -> "104080"
+//            "군위군" -> "104090"
+//            else -> "달성군"
+//        }
+//    }
 }

@@ -18,6 +18,7 @@ import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentMainBinding
 import kr.pandadong2024.babya.home.find_company.find_company_viewModel.FindCompanyViewModel
 import kr.pandadong2024.babya.home.policy.adapter.PolicyRecyclerView
+import kr.pandadong2024.babya.home.policy.getRegionByCode
 import kr.pandadong2024.babya.home.policy.viewmdole.PolicyViewModel
 import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.server.local.BabyaDB
@@ -26,7 +27,6 @@ import kr.pandadong2024.babya.server.remote.responses.BannerResponses
 import kr.pandadong2024.babya.server.remote.responses.BaseResponse
 import kr.pandadong2024.babya.server.remote.responses.Policy.PolicyListResponse
 import kr.pandadong2024.babya.server.remote.responses.UserDataResponses
-import kr.pandadong2024.babya.server.remote.responses.company.CompanyDataResponses
 import kr.pandadong2024.babya.server.remote.responses.company.CompanyListResponses
 import kr.pandadong2024.babya.util.BottomControllable
 import java.time.Duration
@@ -340,11 +340,33 @@ class MainFragment : Fragment() {
         }
     }
 
-    private fun initPolicyList() {
+    private fun initPolicyList(){
+        lifecycleScope.launch (Dispatchers.IO){
+            kotlin.runCatching {
+                RetrofitBuilder.getProfileService().getLocalCode(
+                    accessToken = "Bearer ${tokenDao.getMembers().accessToken}"
+                )
+            }.onSuccess { result ->
+                val response = result.data
+
+                if (response?.length == 2){
+                    getPolicyList(getRegionByCode(response))
+                }else{
+                    getPolicyList(response ?: "115040")
+                }
+
+            }.onFailure {
+
+            }
+        }
+    }
+
+    private fun getPolicyList(local : String) {
         lifecycleScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 RetrofitBuilder.getPolicyService().getPolicyList(
-                    type = "104030"
+                    type = local,
+                    keyword = ""
                 )
             }.onSuccess {
                 policyData = it.data!!

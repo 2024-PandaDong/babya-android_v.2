@@ -4,9 +4,9 @@ import com.google.gson.annotations.SerializedName
 
 data class PolicyListResponse(
     @field:SerializedName("editDate")
-    val editDate: String? = "2014-12-12",
+    val editDate: String? = "",
     @field:SerializedName("policyId")
-    val policyId: Int? = -1,
+    val policyId: Int? = 0,
     @field:SerializedName("title")
-    val title: String? = "없음"
+    val title: String? = "데이터가 없습니다."
 )
