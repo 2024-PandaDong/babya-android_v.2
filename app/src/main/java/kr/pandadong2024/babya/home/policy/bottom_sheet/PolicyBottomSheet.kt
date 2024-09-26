@@ -82,7 +82,9 @@ class PolicyBottomSheet(val submit : (tag : String)->Unit
 
             this.dismiss()
         }
-
+        viewModel.tagsList.observe(viewLifecycleOwner){
+            binding.searchButton.isEnabled = it.size > 1
+        }
         viewModel.tagsList.observe(viewLifecycleOwner) {
             Log.d("Test", "$it")
             initZoneRecyclerview(it)

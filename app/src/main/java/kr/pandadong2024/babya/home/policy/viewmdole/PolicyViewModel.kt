@@ -5,7 +5,8 @@ import androidx.lifecycle.ViewModel
 import kr.pandadong2024.babya.server.remote.responses.Policy.PolicyListResponse
 
 class PolicyViewModel : ViewModel() {
-    val tagsList = MutableLiveData<List<String>>().apply { value = listOf("대구광역시", "수성구")
+    // 항상 0번째가 기초자치단체( 시, 군, 구 ) 1번째가 행정구 or 행정 군
+    val tagsList = MutableLiveData<List<String>>().apply { value = listOf()
     }
 
     val policyList = MutableLiveData<List<PolicyListResponse>>().apply { value = listOf()
@@ -45,7 +46,7 @@ class PolicyViewModel : ViewModel() {
     }
 
     fun initViewModel(){
-        tagsList.value = listOf("대구광역시", "수성구")
+        tagsList.value = listOf()
     }
 
 }

@@ -11,6 +11,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kr.pandadong2024.babya.databinding.LoginBottomSheetBinding
 import kr.pandadong2024.babya.home.policy.viewmdole.PolicyViewModel
+import kr.pandadong2024.babya.util.Pattern
 import kr.pandadong2024.babya.util.setOnSingleClickListener
 
 //todo : 에러 핸들링하기
