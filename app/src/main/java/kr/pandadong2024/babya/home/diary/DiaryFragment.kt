@@ -2,22 +2,20 @@ package kr.pandadong2024.babya.home.diary
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentDiaryBinding
-import kr.pandadong2024.babya.home.diary.diaryadapters.DiaryBannerAdapter
 import kr.pandadong2024.babya.home.diary.diaryadapters.DiaryMainGridViewAdapter
 import kr.pandadong2024.babya.home.diary.diaryviewmodle.DiaryViewModel
 import kr.pandadong2024.babya.server.RetrofitBuilder
@@ -54,8 +52,6 @@ class DiaryFragment : Fragment() {
 
         binding.swipeRefreshLayout.setOnRefreshListener (
             SwipeRefreshLayout.OnRefreshListener {
-                Log.d("", "atest")
-
                 val type = if(viewModel.isPublic.value!!){
                     2
                 }
@@ -68,7 +64,6 @@ class DiaryFragment : Fragment() {
                     size=100,
                     type = type
                 )
-
             }
         )
 
@@ -111,6 +106,10 @@ class DiaryFragment : Fragment() {
             }
         }
 
+        binding.backButton.setOnClickListener {
+            findNavController().navigate(R.id.action_diaryFragment_to_mainFragment)
+        }
+
 
         return binding.root
     }
@@ -125,12 +124,6 @@ class DiaryFragment : Fragment() {
         _binding = null
         (requireActivity() as BottomControllable).setBottomNavVisibility(true)
     }
-
-//    override fun onPause() {
-//        super.onPause()
-//        (requireActivity() as BottomControllable).setBottomNavVisibility(true)
-//    }
-
 
     private fun initDiaryGridView() {
 
@@ -225,6 +218,5 @@ class DiaryFragment : Fragment() {
                 }
             }
         }
-
     }
 }

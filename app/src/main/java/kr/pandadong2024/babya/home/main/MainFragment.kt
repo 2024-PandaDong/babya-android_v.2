@@ -239,7 +239,7 @@ class MainFragment : Fragment() {
                 if (companyList.size == i + 1) {
                     break
                 } else {
-                    list.add(companyList[i+2])
+                    list.add(companyList[i])
                 }
             }
             rankAdapter = CompanyRankAdapter()

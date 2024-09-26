@@ -62,12 +62,15 @@ class LoginBottomSheet(
             }else{
                 binding.passwordLayout.error = "비밀번호를 잘못 입력하셨습니다."
             }
-            if (binding.emailEditText.text?.toString()?.isNotEmpty()!! && binding.passwordEditText.text?.toString()?.isNotEmpty()!!)
-            login(
-                binding.emailEditText.text?.toString()!!,
-                binding.passwordEditText.text?.toString()!!
-            ) // TODO : 내부에 값 넣기
-            dismiss()
+            if (
+                binding.emailEditText.text?.toString()?.isNotEmpty()!! && binding.passwordEditText.text?.toString()?.isNotEmpty()!!
+                ){
+                login(
+                    binding.emailEditText.text?.toString()!!,
+                    binding.passwordEditText.text?.toString()!!
+                ) // TODO : 내부에 값 넣기
+                dismiss()
+            }
         }
 
         binding.passwordEditText.doAfterTextChanged { text ->
