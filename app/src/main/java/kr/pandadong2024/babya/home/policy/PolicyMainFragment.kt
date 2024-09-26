@@ -10,7 +10,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import coil.load
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -215,9 +214,8 @@ class PolicyMainFragment : Fragment() {
     }
 
 
-    private fun encodingLocateNumber(locationList: String): String {
-
-        return when (locationList) {
+    private fun encodingLocateNumber(locationCode: String): String {
+        return when (locationCode) {
             "남구" -> "104010"
             "달서구" -> "104020"
             "달성군" -> "104030"
@@ -227,9 +225,27 @@ class PolicyMainFragment : Fragment() {
             "수성구" -> "104070"
             "중구" -> "104080"
             "군위군" -> "104090"
+            else -> "달성군"
+        }
+    }
+
+    private fun decodingLocateNumber( locationList: Int): List<String> {
+        val list = mutableListOf<String>()
+        list.add(1, when (locationList) {
+            104010 ->  "남구"
+            104020  -> "달서구"
+            104030  -> "달성군"
+            104040 ->  "동구"
+            104050 ->  "북구"
+            104060 ->  "서구"
+            104070  -> "수성구"
+            104080 ->  "중구"
+            104090  -> "군위군"
+
             else -> {
                 "104030"
             }
-        }
+        })
+        return list.toList()
     }
 }
