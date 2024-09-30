@@ -107,7 +107,7 @@ class PolicyMainFragment : Fragment() {
             setRecyclerView(it, viewModel.tagsList.value!![1])
         }
 
-        selectPolicy(viewModel.tagsList.value!![0] ?: "대구광역시",viewModel.tagsList.value!![1] ?: "수성구", "")
+        selectPolicy(viewModel.tagsList.value?.get(0) ?: "대구광역시",viewModel.tagsList.value?.get(1) ?: "수성구", "")
 
         binding.tagEditText.setOnClickListener {
             val bottomSheetDialog =
