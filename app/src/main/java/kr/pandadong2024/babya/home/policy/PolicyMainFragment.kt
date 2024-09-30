@@ -62,7 +62,7 @@ class PolicyMainFragment : Fragment() {
 
         viewModel.policySearchKeyWord.observe(viewLifecycleOwner){
             searchKeyWord = it
-            selectPolicy(mainTag = viewModel.tagsList.value!![0] ?: "대구광역시", subTag = viewModel.tagsList.value!![1] ?: "수성구",  keyWord =  searchKeyWord)
+            selectPolicy(mainTag = viewModel.userRegionList.value?.get(0) ?: "알 수 없음", subTag =viewModel.userRegionList.value?.get(1) ?: "알 수 없음",  keyWord =  searchKeyWord)
         }
 
         viewModel.isOpenSearchView.observe(viewLifecycleOwner){
