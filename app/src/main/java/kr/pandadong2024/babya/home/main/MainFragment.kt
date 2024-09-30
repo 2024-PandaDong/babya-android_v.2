@@ -19,7 +19,9 @@ import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentMainBinding
 import kr.pandadong2024.babya.home.find_company.find_company_viewModel.FindCompanyViewModel
 import kr.pandadong2024.babya.home.policy.adapter.PolicyRecyclerView
+import kr.pandadong2024.babya.home.policy.getLocalByCode
 import kr.pandadong2024.babya.home.policy.getMemberLocalCode
+import kr.pandadong2024.babya.home.policy.getRegionByCode
 import kr.pandadong2024.babya.home.policy.viewmdole.PolicyViewModel
 import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.server.local.BabyaDB
@@ -353,6 +355,7 @@ class MainFragment : Fragment() {
                 if (response?.length == 2){
                     withContext(Dispatchers.Main){
                         policyViewModel.setTagList(getMemberLocalCode(response))
+                        policyViewModel.setUserRegionList(listOf(getLocalByCode(getMemberLocalCode(response).toString()), getRegionByCode(getMemberLocalCode(response))))
                         getPolicyList()
                     }
                 }else{

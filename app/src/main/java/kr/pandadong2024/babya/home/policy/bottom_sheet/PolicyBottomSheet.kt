@@ -1,6 +1,7 @@
 package kr.pandadong2024.babya.home.policy.bottom_sheet
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -178,7 +179,7 @@ class PolicyBottomSheet(val submit : (tag : String)->Unit
     private fun initSubZoneRecyclerView(subTagList: List<String>, selectedTags: List<String>) {
         binding.localChipGroup.removeAllViews()
 
-        val keyWord = if (subTagList.isEmpty() or (subTagList.size < 2)) {
+        val keyWord = if (subTagList.isEmpty()) {
             ""
         } else {
             selectedTags[0]
@@ -190,7 +191,7 @@ class PolicyBottomSheet(val submit : (tag : String)->Unit
             localChipGroup.addView(Chip(requireContext()).apply {
                 text = localTag  // text 세팅
                 isCheckable = true
-                isChecked = localTag in selectedTags && selectedTags.size > 1
+                isChecked = localTag in selectedTags && selectedTags.size >= 2
                 setChipBackgroundColorResource(R.color.backgroundNormalNormal)
                 setTextColor(resources.getColorStateList(R.color.chip_color, null))
                 setChipStrokeColorResource(R.color.chip_color)
@@ -200,12 +201,15 @@ class PolicyBottomSheet(val submit : (tag : String)->Unit
                 setOnClickListener { view ->
                     if (keyWord == "") {
                         viewModel.inputLocal(localTag)
+                        Log.d("test", "1")
                     } else {
                         viewModel.removeSubTags()
-                        if (localTag == keyWord) {
+                        if (localTag == keyWord && (subTagList.size > 1)) {
+                            Log.d("test", "3")
                             viewModel.popLocal(keyWord)
                         } else {
                             viewModel.inputLocal(localTag)
+                            Log.d("test", "2")
                         }
                     }
                 }

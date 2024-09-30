@@ -20,6 +20,8 @@ class PolicyViewModel : ViewModel() {
 
     val isOpenSearchView = MutableLiveData<Boolean>().apply { value = false  }
 
+    val userRegionList = MutableLiveData<List<String>>().apply { value = listOf() }
+
 
 
 
@@ -27,6 +29,12 @@ class PolicyViewModel : ViewModel() {
         val list =  tagsList.value?.toMutableList()
         list?.add(tagName)
         tagsList.value = list
+    }
+
+    fun setUserRegionList(localList :List<String>) {
+        val list = userRegionList.value?.toMutableList()
+        list?.addAll(localList)
+        userRegionList.value = list
     }
 
     fun changeOpenSearchView(){

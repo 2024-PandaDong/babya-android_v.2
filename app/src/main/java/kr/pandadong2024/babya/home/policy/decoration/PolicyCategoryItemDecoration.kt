@@ -1,4 +1,4 @@
-package kr.pandadong2024.babya.home.todo_list.decoration
+package kr.pandadong2024.babya.home.policy.decoration
 
 import android.graphics.Rect
 import android.view.View

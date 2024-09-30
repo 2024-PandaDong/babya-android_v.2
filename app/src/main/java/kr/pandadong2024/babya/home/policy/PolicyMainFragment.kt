@@ -2,11 +2,10 @@ package kr.pandadong2024.babya.home.policy
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.runtime.key
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -18,10 +17,10 @@ import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentPolicyMainBinding
 import kr.pandadong2024.babya.home.policy.adapter.PolicyRecyclerView
 import kr.pandadong2024.babya.home.policy.bottom_sheet.PolicyBottomSheet
+import kr.pandadong2024.babya.home.policy.decoration.PolicyCategoryItemDecoration
 import kr.pandadong2024.babya.home.policy.decoration.PolicyItemDecoration
 import kr.pandadong2024.babya.home.policy.viewmdole.PolicyViewModel
 import kr.pandadong2024.babya.home.todo_list.adapter.PolicyCategoryAdapter
-import kr.pandadong2024.babya.home.todo_list.decoration.PolicyCategoryItemDecoration
 import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.server.local.BabyaDB
 import kr.pandadong2024.babya.server.local.TokenDAO
@@ -112,10 +111,8 @@ class PolicyMainFragment : Fragment() {
         binding.tagEditText.setOnClickListener {
             val bottomSheetDialog =
                 PolicyBottomSheet() { tag ->
-
                     selectPolicy(mainTag = viewModel.tagsList.value!![0] ?: "대구광역시", subTag = tag,  keyWord =  "")
                     viewModel.initKeyword()
-                    Log.d(TAG,"tag : ${tag}")
                 }
 
             bottomSheetDialog.show(requireActivity().supportFragmentManager, bottomSheetDialog.tag)
@@ -139,15 +136,6 @@ class PolicyMainFragment : Fragment() {
                 launch(Dispatchers.Main) {
                     binding.titleText.text = "${result.data?.nickname}님을 위한 추천 정책"
                     binding.tagTitleText.text = "${result.data?.nickname}님의 지역"
-//                    binding.argText.text = "나이: ${result.data?.age}살"
-//                    binding.dayText.text = "D-Day: ${result.data?.dDay}일"
-
-
-//                    binding.weddingYearText.text = if (result.data?.marriedYears == 0) {
-//                        "결혼: 미혼"
-//                    } else {
-//                        "결혼: ${result.data?.marriedYears}년차"
-//                    }
                 }
             }.onFailure { result ->
                 Log.d(TAG, "onCreateView: ${result.message}")
@@ -177,6 +165,7 @@ class PolicyMainFragment : Fragment() {
 
     private fun selectPolicy(mainTag: String, subTag : String, keyWord : String) {
         val tagNumber = getCodeByRegion("${mainTag}_${subTag}")
+        if( tagNumber != "-1"){
         lifecycleScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 RetrofitBuilder.getPolicyService().getPolicyList(tagNumber, keyWord)
@@ -186,11 +175,13 @@ class PolicyMainFragment : Fragment() {
                     withContext(Dispatchers.Main) {
                         Log.d(TAG, "200,\nstatus : ${result.data}")
                         viewModel.setPolicyList(result.data!!)
+                     if (!viewModel.tagsList.value.isNullOrEmpty()) {
+
                         setRecyclerView(
                             policyList = result.data,
-                            tag = "${viewModel.tagsList.value!![0]} ${viewModel.tagsList.value!![1]} 보건소"
+                            tag = "${viewModel.tagsList.value?.get(0)} ${viewModel.tagsList.value?.get(1)} 보건소"
                         )
-
+                     }
                     }
                 } else {
                     Log.d(TAG, "200이 아닌 다른 상태,\nstatus : ${result.status}")
@@ -204,7 +195,7 @@ class PolicyMainFragment : Fragment() {
                 }
 
             }
-        }
+        }}
     }
 
     private fun setCategory(
