@@ -2,11 +2,13 @@ package kr.pandadong2024.babya.home.policy.viewmdole
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import kr.pandadong2024.babya.home.policy.getLocalByCode
+import kr.pandadong2024.babya.home.policy.getRegionByCode
 import kr.pandadong2024.babya.server.remote.responses.Policy.PolicyListResponse
 
 class PolicyViewModel : ViewModel() {
     // 항상 0번째가 기초자치단체( 시, 군, 구 ) 1번째가 행정구 or 행정 군
-    val tagsList = MutableLiveData<List<String>>().apply { value = listOf("대구", "수성구")
+    val tagsList = MutableLiveData<List<String>>().apply { value = listOf()
     }
 
     val policyList = MutableLiveData<List<PolicyListResponse>>().apply { value = listOf()
@@ -16,6 +18,8 @@ class PolicyViewModel : ViewModel() {
 
     val policySearchKeyWord = MutableLiveData<String>().apply { value = "" }
 
+    val isOpenSearchView = MutableLiveData<Boolean>().apply { value = false  }
+
 
 
 
@@ -23,6 +27,14 @@ class PolicyViewModel : ViewModel() {
         val list =  tagsList.value?.toMutableList()
         list?.add(tagName)
         tagsList.value = list
+    }
+
+    fun changeOpenSearchView(){
+        isOpenSearchView.value = isOpenSearchView.value?.not() ?: false
+    }
+
+    fun setTagList(code : Int){
+        tagsList.value = listOf(getLocalByCode(code.toString()), getRegionByCode(code), )
     }
 
     fun popLocal(tagName : String){
@@ -53,7 +65,7 @@ class PolicyViewModel : ViewModel() {
     }
 
     fun initViewModel(){
-        tagsList.value = listOf("대구", "수성구")
+        tagsList.value = listOf()
     }
 
     fun initKeyword(){

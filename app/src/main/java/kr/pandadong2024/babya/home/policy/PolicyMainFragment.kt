@@ -66,6 +66,15 @@ class PolicyMainFragment : Fragment() {
             selectPolicy(mainTag = viewModel.tagsList.value!![0] ?: "대구광역시", subTag = viewModel.tagsList.value!![1] ?: "수성구",  keyWord =  searchKeyWord)
         }
 
+        viewModel.isOpenSearchView.observe(viewLifecycleOwner){
+            isSearchActivated = it
+            if (it) {
+                binding.searchEditText.visibility = View.GONE
+            } else {
+                binding.searchEditText.visibility = View.VISIBLE
+            }
+        }
+
         binding.searchButton.setOnClickListener {
             Log.d(TAG, "searchButton")
             if (isSearchActivated && binding.searchEditText.text.isNotBlank()) {
@@ -73,13 +82,14 @@ class PolicyMainFragment : Fragment() {
 
                 Log.d(TAG, "searchButton1")
             } else {
-                if (isSearchActivated) {
-                    binding.searchEditText.visibility = View.GONE
-                } else {
-                    binding.searchEditText.visibility = View.VISIBLE
-                }
+//                if (isSearchActivated) {
+//                    binding.searchEditText.visibility = View.GONE
+//                } else {
+//                    binding.searchEditText.visibility = View.VISIBLE
+//                }
+                viewModel.changeOpenSearchView()
 
-                isSearchActivated = isSearchActivated.not()
+//                isSearchActivated = isSearchActivated.not()
             }
         }
 

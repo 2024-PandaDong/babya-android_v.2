@@ -14,11 +14,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.time.delay
+import kotlinx.coroutines.withContext
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentMainBinding
 import kr.pandadong2024.babya.home.find_company.find_company_viewModel.FindCompanyViewModel
 import kr.pandadong2024.babya.home.policy.adapter.PolicyRecyclerView
-import kr.pandadong2024.babya.home.policy.getRegionByCode
+import kr.pandadong2024.babya.home.policy.getMemberLocalCode
 import kr.pandadong2024.babya.home.policy.viewmdole.PolicyViewModel
 import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.server.local.BabyaDB
@@ -350,22 +351,32 @@ class MainFragment : Fragment() {
                 val response = result.data
 
                 if (response?.length == 2){
-                    getPolicyList(getRegionByCode(response))
+                    withContext(Dispatchers.Main){
+                        policyViewModel.setTagList(getMemberLocalCode(response))
+                        getPolicyList()
+                    }
                 }else{
-                    getPolicyList(response ?: "115040")
+                    policyViewModel.setTagList(response?.toInt()?:0)
+                    getPolicyList()
                 }
 
             }.onFailure {
-
+                it.stackTrace
+                companyList =
+                    listOf(CompanyListResponses(), CompanyListResponses(), CompanyListResponses())
+                Log.e(TAG, "initCompanyRecyclerView: ${it.message.toString()}")
+                launch(Dispatchers.Main) {
+                    setCompanyRecyclerView()
+                }
             }
         }
     }
 
-    private fun getPolicyList(local : String) {
+    private fun getPolicyList() {
         lifecycleScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 RetrofitBuilder.getPolicyService().getPolicyList(
-                    type = local,
+                    type = policyViewModel.policyId.value.toString(),
                     keyword = ""
                 )
             }.onSuccess {

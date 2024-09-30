@@ -1,5 +1,7 @@
 package kr.pandadong2024.babya.home.policy
 
+import android.util.Log
+
 fun getRegionByCode(code : Int) : String {
     return when (code){
     101010 -> "강남구"
@@ -573,8 +575,8 @@ fun getMemberLocalCode(code : String) : Int{
 
 }
 
-fun getRegionByCode(code: String): String {
-    return when (code) {
+fun getLocalByCode(code: String): String {
+    return when (code.substring(1, 3)) {
         "01" -> "서울특별시"
         "02" -> "경기도"
         "03" -> "광주광역시"
