@@ -63,6 +63,9 @@ class DetailWriterFragment : Fragment() {
             selectedCommentId = null
         }
 
+        binding.writerBloodPressureSplitText.text = "/"
+        binding.writerWeightUnitText.text = "KG"
+
         binding.sendButton.setOnClickListener {
             if(selectedCommentId == null){
                 if (binding.editCommentEditText.text.toString().isNotBlank()) {
@@ -240,6 +243,7 @@ class DetailWriterFragment : Fragment() {
                     }else{
                         binding.selectedImage.load(diaryData?.files?.get(0)?.url)
                     }
+                    binding.writerPregnancyText.text = diaryData?.pregnancyWeeks.toString()
                     binding.writerWeightInputText.text = diaryData?.weight.toString()
                     binding.writerFetalFindingsContentText.text = diaryData?.fetusComment
                     binding.writerBloodPressureHeightInputText.text = diaryData?.systolicPressure.toString()

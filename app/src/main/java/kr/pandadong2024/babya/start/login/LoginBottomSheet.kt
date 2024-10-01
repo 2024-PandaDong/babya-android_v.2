@@ -14,7 +14,6 @@ import kr.pandadong2024.babya.home.policy.viewmdole.PolicyViewModel
 import kr.pandadong2024.babya.util.Pattern
 import kr.pandadong2024.babya.util.setOnSingleClickListener
 
-//todo : 에러 핸들링하기
 class LoginBottomSheet(
     val login : (email : String, password : String)->Unit,
     val moveSignUp : ()->Unit
