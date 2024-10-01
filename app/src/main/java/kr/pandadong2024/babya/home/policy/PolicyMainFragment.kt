@@ -55,14 +55,18 @@ class PolicyMainFragment : Fragment() {
 
         binding.swipeRefreshLayout.setOnRefreshListener(
             SwipeRefreshLayout.OnRefreshListener {
-                Log.d("", "atest")
                 setCategory(categoryList = viewModel.tagsList.value!!)
             }
         )
 
         viewModel.policySearchKeyWord.observe(viewLifecycleOwner){
             searchKeyWord = it
-            selectPolicy(mainTag = viewModel.userRegionList.value?.get(0) ?: "알 수 없음", subTag =viewModel.userRegionList.value?.get(1) ?: "알 수 없음",  keyWord =  searchKeyWord)
+            if (viewModel.tagsList.value?.isNotEmpty() == true){
+                selectPolicy(mainTag = viewModel.tagsList.value?.get(0) ?: "알 수 없음", subTag =viewModel.tagsList.value?.get(1) ?: "알 수 없음",  keyWord =  searchKeyWord)
+            }
+            else{
+                selectPolicy(mainTag = viewModel.userRegionList.value?.get(0) ?: "알 수 없음", subTag =viewModel.userRegionList.value?.get(1) ?: "알 수 없음",  keyWord =  searchKeyWord)
+            }
         }
 
         viewModel.isOpenSearchView.observe(viewLifecycleOwner){
@@ -75,20 +79,10 @@ class PolicyMainFragment : Fragment() {
         }
 
         binding.searchButton.setOnClickListener {
-            Log.d(TAG, "searchButton")
             if (isSearchActivated && binding.searchEditText.text.isNotBlank()) {
                 viewModel.setPolicySearchKeyWord(binding.searchEditText.text.toString())
-
-                Log.d(TAG, "searchButton1")
             } else {
-//                if (isSearchActivated) {
-//                    binding.searchEditText.visibility = View.GONE
-//                } else {
-//                    binding.searchEditText.visibility = View.VISIBLE
-//                }
                 viewModel.changeOpenSearchView()
-
-//                isSearchActivated = isSearchActivated.not()
             }
         }
 
@@ -97,7 +91,6 @@ class PolicyMainFragment : Fragment() {
         getProfileData()
 
         viewModel.tagsList.observe(viewLifecycleOwner) {
-            Log.d(TAG, "changed")
             setCategory(categoryList = it)
         }
 
@@ -106,7 +99,7 @@ class PolicyMainFragment : Fragment() {
             setRecyclerView(it, viewModel.tagsList.value!![1])
         }
 
-        selectPolicy(viewModel.tagsList.value?.get(0) ?: "대구광역시",viewModel.tagsList.value?.get(1) ?: "수성구", "")
+//        selectPolicy(viewModel.tagsList.value?.get(0) ?: "대구광역시",viewModel.tagsList.value?.get(1) ?: "수성구", "")
 
         binding.tagEditText.setOnClickListener {
             val bottomSheetDialog =
@@ -116,7 +109,6 @@ class PolicyMainFragment : Fragment() {
                 }
 
             bottomSheetDialog.show(requireActivity().supportFragmentManager, bottomSheetDialog.tag)
-            Log.d(TAG, "show aaa")
         }
 
 
@@ -132,7 +124,6 @@ class PolicyMainFragment : Fragment() {
                 )
             }.onSuccess { result ->
                 Log.d(TAG, "getProfileData: ${result.data}")
-
                 launch(Dispatchers.Main) {
                     binding.titleText.text = "${result.data?.nickname}님을 위한 추천 정책"
                     binding.tagTitleText.text = "${result.data?.nickname}님의 지역"
@@ -165,6 +156,7 @@ class PolicyMainFragment : Fragment() {
 
     private fun selectPolicy(mainTag: String, subTag : String, keyWord : String) {
         val tagNumber = getCodeByRegion("${mainTag}_${subTag}")
+        Log.d("policy", "test : $tagNumber")
         if( tagNumber != "-1"){
         lifecycleScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
@@ -188,7 +180,7 @@ class PolicyMainFragment : Fragment() {
                 }
             }.onFailure { result ->
                 result.printStackTrace()
-                Log.e(TAG, "result = ${result.message}")
+                Log.e(TAG, "result : ${result.message}")
                 if (result is HttpException) {
                     val errorBody = result.response()?.errorBody()?.string()
                     Log.e(TAG, "Error body: $errorBody")
@@ -226,20 +218,4 @@ class PolicyMainFragment : Fragment() {
         super.onPause()
         (requireActivity() as BottomControllable).setBottomNavVisibility(true)
     }
-
-
-//    private fun encodingLocateNumber(locationCode: String): String {
-//        return when (locationCode) {
-//            "남구" -> "104010"
-//            "달서구" -> "104020"
-//            "달성군" -> "104030"
-//            "동구" -> "104040"
-//            "북구" -> "104050"
-//            "서구" -> "104060"
-//            "수성구" -> "104070"
-//            "중구" -> "104080"
-//            "군위군" -> "104090"
-//            else -> "달성군"
-//        }
-//    }
 }

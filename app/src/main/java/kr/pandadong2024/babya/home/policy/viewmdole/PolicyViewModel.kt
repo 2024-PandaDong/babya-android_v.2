@@ -68,7 +68,7 @@ class PolicyViewModel : ViewModel() {
     }
 
     fun removeSubTags(){
-        val list = listOf(tagsList.value!![0])
+        val list = listOf(tagsList.value?.get(0) ?: "알 수 없음")
         tagsList.value = list
     }
 

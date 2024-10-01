@@ -44,7 +44,6 @@ class PolicyContentFragment : Fragment() {
         viewModel.policyList.value!![viewModel.policyId.value!!].policyId?.let { setScreen(it) }
         binding.signUpBackButton.setOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()
-//            findNavController().navigate(R.id.action_policyContentFragment_to_policyMainFragment)
         }
 
         binding.declarationButton.setOnClickListener {
@@ -74,21 +73,6 @@ class PolicyContentFragment : Fragment() {
                 RetrofitBuilder.getPolicyService().getPolicyContent(id)
             }.onSuccess { result ->
                 if (result.status == 200) {
-//                    val file = File(context?.filesDir, "index.html")
-//                    if(file.exists()){
-//                        FileOutputStream(file).use { output ->
-//                            output.write("".toByteArray())  // 빈 문자열을 씀
-//                        }
-//                    }
-//                    else{
-//                        file.createNewFile()
-//                    }
-//                    listFilesInInternalStorage(requireContext())
-//
-//                    val html = Jsoup.parse(result.data!!.content).html()
-//                    FileOutputStream(file).use { output ->
-//                        output.write(html.toByteArray())
-//                    }
                     withContext(Dispatchers.Main) {
                         Log.d(TAG, "200,\nstatus : ${result.data}")
                         policyLink = result.data!!.link
