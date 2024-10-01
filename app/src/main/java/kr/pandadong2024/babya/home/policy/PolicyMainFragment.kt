@@ -72,9 +72,9 @@ class PolicyMainFragment : Fragment() {
         viewModel.isOpenSearchView.observe(viewLifecycleOwner){
             isSearchActivated = it
             if (it) {
-                binding.searchEditText.visibility = View.GONE
-            } else {
                 binding.searchEditText.visibility = View.VISIBLE
+            } else {
+                binding.searchEditText.visibility = View.GONE
             }
         }
 
