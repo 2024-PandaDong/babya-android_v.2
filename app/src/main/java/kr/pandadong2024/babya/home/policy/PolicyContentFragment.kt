@@ -86,7 +86,7 @@ class PolicyContentFragment : Fragment() {
                         }
                         var tagSample = result.data.content.toString().indexOf("<table ")
                         var tabRes = result.data.content.toString().replace("<td", "<td style='border : 1px solid black '")
-                        tabRes = tabRes.replace("<thead", "\uFF02").replace("<th", "<th style='border : 1px solid black '").replace("\uFF02", "<thead")
+                        tabRes = tabRes.replace("<thead", "\u2664").replace("<th", "<th style='border : 1px solid black '").replace("\u2664", "<thead")
                         tabRes = tabRes.replace("<table", "<table style='border-collapse : collapse; '")
                         Log.d(TAG, "tagSample : $tabRes")
 
