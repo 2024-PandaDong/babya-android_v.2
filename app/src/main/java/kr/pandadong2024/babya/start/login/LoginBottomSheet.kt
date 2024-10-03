@@ -11,9 +11,9 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kr.pandadong2024.babya.databinding.LoginBottomSheetBinding
 import kr.pandadong2024.babya.home.policy.viewmdole.PolicyViewModel
+import kr.pandadong2024.babya.util.Pattern
 import kr.pandadong2024.babya.util.setOnSingleClickListener
 
-//todo : 에러 핸들링하기
 class LoginBottomSheet(
     val login : (email : String, password : String)->Unit,
     val moveSignUp : ()->Unit
@@ -62,12 +62,15 @@ class LoginBottomSheet(
             }else{
                 binding.passwordLayout.error = "비밀번호를 잘못 입력하셨습니다."
             }
-            if (binding.emailEditText.text?.toString()?.isNotEmpty()!! && binding.passwordEditText.text?.toString()?.isNotEmpty()!!)
-            login(
-                binding.emailEditText.text?.toString()!!,
-                binding.passwordEditText.text?.toString()!!
-            ) // TODO : 내부에 값 넣기
-            dismiss()
+            if (
+                binding.emailEditText.text?.toString()?.isNotEmpty()!! && binding.passwordEditText.text?.toString()?.isNotEmpty()!!
+                ){
+                login(
+                    binding.emailEditText.text?.toString()!!,
+                    binding.passwordEditText.text?.toString()!!
+                ) // TODO : 내부에 값 넣기
+                dismiss()
+            }
         }
 
         binding.passwordEditText.doAfterTextChanged { text ->

@@ -14,10 +14,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.time.delay
+import kotlinx.coroutines.withContext
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentMainBinding
 import kr.pandadong2024.babya.home.find_company.find_company_viewModel.FindCompanyViewModel
 import kr.pandadong2024.babya.home.policy.adapter.PolicyRecyclerView
+import kr.pandadong2024.babya.home.policy.getLocalByCode
+import kr.pandadong2024.babya.home.policy.getMemberLocalCode
+import kr.pandadong2024.babya.home.policy.getRegionByCode
 import kr.pandadong2024.babya.home.policy.viewmdole.PolicyViewModel
 import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.server.local.BabyaDB
@@ -26,7 +30,6 @@ import kr.pandadong2024.babya.server.remote.responses.BannerResponses
 import kr.pandadong2024.babya.server.remote.responses.BaseResponse
 import kr.pandadong2024.babya.server.remote.responses.Policy.PolicyListResponse
 import kr.pandadong2024.babya.server.remote.responses.UserDataResponses
-import kr.pandadong2024.babya.server.remote.responses.company.CompanyDataResponses
 import kr.pandadong2024.babya.server.remote.responses.company.CompanyListResponses
 import kr.pandadong2024.babya.util.BottomControllable
 import java.time.Duration
@@ -239,7 +242,7 @@ class MainFragment : Fragment() {
                 if (companyList.size == i + 1) {
                     break
                 } else {
-                    list.add(companyList[i+2])
+                    list.add(companyList[i])
                 }
             }
             rankAdapter = CompanyRankAdapter()
@@ -340,11 +343,44 @@ class MainFragment : Fragment() {
         }
     }
 
-    private fun initPolicyList() {
+    private fun initPolicyList(){
+        lifecycleScope.launch (Dispatchers.IO){
+            kotlin.runCatching {
+                RetrofitBuilder.getProfileService().getLocalCode(
+                    accessToken = "Bearer ${tokenDao.getMembers().accessToken}"
+                )
+            }.onSuccess { result ->
+                val response = result.data
+
+                if (response?.length == 2){
+                    withContext(Dispatchers.Main){
+                        policyViewModel.setTagList(getMemberLocalCode(response))
+                        policyViewModel.setUserRegionList(listOf(getLocalByCode(getMemberLocalCode(response).toString()), getRegionByCode(getMemberLocalCode(response))))
+                        getPolicyList()
+                    }
+                }else{
+                    policyViewModel.setTagList(response?.toInt()?:0)
+                    getPolicyList()
+                }
+
+            }.onFailure {
+                it.stackTrace
+                companyList =
+                    listOf(CompanyListResponses(), CompanyListResponses(), CompanyListResponses())
+                Log.e(TAG, "initCompanyRecyclerView: ${it.message.toString()}")
+                launch(Dispatchers.Main) {
+                    setCompanyRecyclerView()
+                }
+            }
+        }
+    }
+
+    private fun getPolicyList() {
         lifecycleScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 RetrofitBuilder.getPolicyService().getPolicyList(
-                    type = "104030"
+                    type = policyViewModel.policyId.value.toString(),
+                    keyword = ""
                 )
             }.onSuccess {
                 policyData = it.data!!

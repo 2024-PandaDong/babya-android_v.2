@@ -10,21 +10,17 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.room.Database
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentFindCompanyBinding
-import kr.pandadong2024.babya.databinding.FragmentMainBinding
-import kr.pandadong2024.babya.home.dash_board.adapter.DashBoardAdapter
-import kr.pandadong2024.babya.home.dash_board.dash_boardViewModel.DashBoardViewModel
 import kr.pandadong2024.babya.home.find_company.adapter.FindCompanyAdapter
 import kr.pandadong2024.babya.home.find_company.find_company_viewModel.FindCompanyViewModel
 import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.server.local.BabyaDB
 import kr.pandadong2024.babya.server.remote.responses.BaseResponse
 import kr.pandadong2024.babya.server.remote.responses.company.CompanyListResponses
-import kr.pandadong2024.babya.server.remote.responses.dash_board.DashBoardResponses
 import kr.pandadong2024.babya.util.BottomControllable
 import retrofit2.HttpException
 
@@ -46,6 +42,12 @@ class FindCompanyFragment : Fragment() {
             findNavController().navigate(R.id.action_findCompanyFragment_to_mainFragment)
         }
 
+        binding.swipeRefreshLayout.setOnRefreshListener (
+            SwipeRefreshLayout.OnRefreshListener {
+                findCompany()
+            }
+        )
+
         kotlin.run {
             findCompany()
         }
@@ -65,7 +67,7 @@ class FindCompanyFragment : Fragment() {
                 var companyData : BaseResponse<List<kr.pandadong2024.babya.server.remote.responses.company.CompanyListResponses>>? = null
                 val token = BabyaDB.getInstance(requireContext())?.tokenDao()?.getMembers()?.accessToken
                 companyData = RetrofitBuilder.getCompanyService().getCompanyList(
-                    accessToken = "Bearer ${token}",
+                    accessToken = "Bearer $token",
                     page = 1,
                     size = 100
                 )
@@ -74,6 +76,7 @@ class FindCompanyFragment : Fragment() {
             }.onSuccess {
                 lifecycleScope.launch(Dispatchers.Main) {
                     companyRecyclerView()
+                    binding.swipeRefreshLayout.isRefreshing = false
                 }
             }.onFailure {
                 it.printStackTrace()

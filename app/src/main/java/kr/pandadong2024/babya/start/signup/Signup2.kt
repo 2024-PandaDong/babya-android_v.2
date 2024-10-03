@@ -2,7 +2,6 @@ package kr.pandadong2024.babya.start.signup
 
 import android.graphics.Color
 import android.os.Bundle
-import android.renderscript.ScriptGroup.Binding
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,16 +11,13 @@ import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kr.pandadong2024.babya.R
-import kr.pandadong2024.babya.R.drawable.sp_signup_true_round
 import kr.pandadong2024.babya.databinding.FragmentSignup2Binding
-import kr.pandadong2024.babya.databinding.FragmentSignupBinding
 import kr.pandadong2024.babya.server.RetrofitBuilder
-import kr.pandadong2024.babya.start.login.Pattern
+import kr.pandadong2024.babya.util.Pattern
 import kr.pandadong2024.babya.start.viewmodel.SignupViewModel
 
 class Signup2 : Fragment() {

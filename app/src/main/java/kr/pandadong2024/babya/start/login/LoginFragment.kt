@@ -29,6 +29,7 @@ import kr.pandadong2024.babya.server.local.TokenEntity
 import kr.pandadong2024.babya.server.local.proto.UserRepository
 import kr.pandadong2024.babya.server.local.proto.UserSerializer
 import kr.pandadong2024.babya.server.remote.request.LoginRequest
+import kr.pandadong2024.babya.util.Pattern
 
 private const val DATA_STORE_FILE_NAME = "user.pb"
 

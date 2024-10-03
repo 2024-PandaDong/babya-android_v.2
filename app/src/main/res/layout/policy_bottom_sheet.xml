@@ -12,7 +12,8 @@
             android:layout_height="790dp"
             android:background="@drawable/sp_policy_bottom_sheet"
             android:paddingHorizontal="25dp"
-            android:paddingVertical="38dp"
+            android:paddingTop="38dp"
+            android:paddingBottom="52dp"
             >
             <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"

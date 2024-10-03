@@ -3,8 +3,7 @@ package kr.pandadong2024.babya.server.service
 import kr.pandadong2024.babya.server.remote.responses.BaseResponse
 import kr.pandadong2024.babya.server.remote.responses.profile.ProfileMyDashBoardResponses
 import kr.pandadong2024.babya.server.remote.responses.profile.ProfileMyDiaryResponses
-import kr.pandadong2024.babya.server.responses.ProfileData
-import retrofit2.http.Body
+import kr.pandadong2024.babya.server.remote.responses.ProfileData
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -37,4 +36,9 @@ interface ProfileService {
     suspend fun deleteMember(
         @Header("Authorization")accessToken : String
     ):BaseResponse<Unit>
+
+    @GET("/member/lc")
+    suspend fun getLocalCode(
+        @Header("Authorization")accessToken : String
+    ):BaseResponse<String>
 }

@@ -33,8 +33,6 @@ class MainBannerAdapter(
                 }
             }
 
-            binding.typeText.text = bannerData.subTitle
-            binding.sourceText.text = bannerData.source
             binding.root.setOnClickListener{
                 val intent = Intent(Intent.ACTION_VIEW)
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)

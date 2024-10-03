@@ -67,7 +67,7 @@
                     android:id="@+id/profileImage"
                     android:layout_width="110dp"
                     android:layout_height="110dp"
-                    android:src="@mipmap/ic_launcher"
+
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -96,7 +96,7 @@
 
                     android:fontFamily="@font/notosanskr_regular"
                     android:includeFontPadding="false"
-                    android:text="이름"
+                    android:text=""
                     android:textAlignment="textEnd"
                     android:textColor="@color/labelAlternative"
                     android:textSize="16sp"
@@ -128,7 +128,7 @@
 
                     android:fontFamily="@font/notosanskr_regular"
                     android:includeFontPadding="false"
-                    android:text="18살"
+                    android:text=""
                     android:textAlignment="textEnd"
                     android:textColor="@color/labelAlternative"
                     android:textSize="16sp"
@@ -160,7 +160,7 @@
 
                     android:fontFamily="@font/notosanskr_regular"
                     android:includeFontPadding="false"
-                    android:text="1985.01.20"
+                    android:text=""
                     android:textAlignment="textEnd"
                     android:textColor="@color/labelAlternative"
                     android:textSize="16sp"
@@ -192,7 +192,7 @@
 
                     android:fontFamily="@font/notosanskr_regular"
                     android:includeFontPadding="false"
-                    android:text="kyumin7487@gmail.com"
+                    android:text=""
                     android:textAlignment="textEnd"
                     android:textColor="@color/labelAlternative"
                     android:textSize="16sp"
@@ -249,7 +249,7 @@
 
                     android:fontFamily="@font/notosanskr_regular"
                     android:includeFontPadding="false"
-                    android:text="2007.01.20"
+                    android:text=""
                     android:textAlignment="textEnd"
                     android:textSize="16sp"
                     android:textColor="@color/labelAlternative"
@@ -281,7 +281,7 @@
 
                     android:fontFamily="@font/notosanskr_regular"
                     android:includeFontPadding="false"
-                    android:text="2009.01.20"
+                    android:text=""
                     android:textAlignment="textEnd"
                     android:textSize="16sp"
                     android:textColor="@color/labelAlternative"
@@ -313,7 +313,7 @@
 
                     android:fontFamily="@font/notosanskr_regular"
                     android:includeFontPadding="false"
-                    android:text="동바오"
+                    android:text=""
                     android:textAlignment="textEnd"
                     android:textSize="16sp"
                     android:textColor="@color/labelAlternative"
@@ -345,7 +345,7 @@
 
                     android:fontFamily="@font/notosanskr_regular"
                     android:includeFontPadding="false"
-                    android:text="이승혁"
+                    android:text=""
                     android:textAlignment="textEnd"
                     android:textSize="16sp"
                     android:textColor="@color/labelAlternative"

@@ -80,7 +80,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/notosanskr_semibold"
                     android:includeFontPadding="false"
-                    android:text="policyTitle"
+                    android:text=""
                     android:textColor="@color/commonBlack"
                     android:textSize="20dp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -92,7 +92,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/notosanskr_medium"
                     android:includeFontPadding="false"
-                    android:text="0000.00.00 ~ 0000.00.00"
+                    android:text=""
                     android:textColor="@color/neutral90"
                     android:textSize="14dp"
 
@@ -268,7 +268,7 @@
                 android:layout_marginTop="17dp"
                 android:fontFamily="@font/notosanskr_semibold"
                 android:includeFontPadding="false"
-                android:text="내용"
+                android:text=""
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/supportTargetText" />

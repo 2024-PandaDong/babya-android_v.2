@@ -3,6 +3,7 @@ package kr.pandadong2024.babya.server.remote.service
 import kr.pandadong2024.babya.server.remote.responses.BaseResponse
 import kr.pandadong2024.babya.server.remote.responses.UserDataResponses
 import okhttp3.MultipartBody
+import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Multipart
@@ -23,4 +24,11 @@ interface CommonService {
         @Header("Authorization") accessToken: String,
         @Path("email") email : String
     ) : BaseResponse<UserDataResponses>
+
+    @POST("/auth/reissue")
+    suspend fun requestRefresh(
+        @Body refreshToken : String
+    ) : BaseResponse<String>
+
+
 }

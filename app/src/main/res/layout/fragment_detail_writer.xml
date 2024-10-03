@@ -93,7 +93,7 @@
                     android:fontFamily="@font/notosanskr_medium"
                     android:includeFontPadding="false"
                     android:layout_marginTop="18dp"
-                    android:text="2024.12.12"
+                    android:text=""
                     android:textSize="16sp" />
 
                 <TextView
@@ -107,7 +107,7 @@
                     android:textColor="@color/neutral90"
                     app:layout_constraintTop_toBottomOf="@id/writerTitleText"
                     app:layout_constraintStart_toStartOf="parent"
-                    android:text="푸바오파파"
+
                     android:layout_marginStart="18dp"
                     />
 
@@ -122,7 +122,7 @@
                     android:textColor="@color/neutral90"
                     app:layout_constraintTop_toBottomOf="@id/writerTitleText"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:text="2024/04/09"
+                    android:text=""
                     android:layout_marginEnd="36dp"
                     />
 
@@ -149,7 +149,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/notosanskr_semibold"
-                    android:text="000"
+                    android:text=""
                     android:includeFontPadding="false"
                     android:maxLength="3"
                     android:paddingVertical="1dp"
@@ -168,7 +168,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/notosanskr_bold"
-                    android:text="Kg"
+                    android:text=""
                     android:includeFontPadding="false"
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="@id/writerWeightText"
@@ -197,7 +197,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/notosanskr_semibold"
-                    android:text="000"
+                    android:text=""
                     android:includeFontPadding="false"
                     android:maxLength="3"
                     android:paddingVertical="1dp"
@@ -215,7 +215,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/notosanskr_bold"
-                    android:text="/"
+                    android:text=""
                     android:includeFontPadding="false"
                     android:textSize="14sp"
 
@@ -228,7 +228,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/notosanskr_semibold"
-                    android:text="00"
+                    android:text=""
                     android:includeFontPadding="false"
                     android:maxLength="3"
                     android:paddingVertical="1dp"
@@ -262,7 +262,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/notosanskr_semibold"
-                    android:text="000"
+                    android:text=""
                     android:maxLength="3"
                     android:includeFontPadding="false"
                     android:paddingVertical="1dp"
@@ -314,7 +314,7 @@
                     android:fontFamily="@font/notosanskr_semibold"
                     android:textAlignment="center"
                     android:textSize="13sp"
-                    android:text="12/12"
+                    android:text=""
                     android:includeFontPadding="false"
                     android:textColor="@color/gray"
 
@@ -342,7 +342,7 @@
                     app:layout_constraintTop_toBottomOf="@id/writerEmojiImage"
                     app:layout_constraintStart_toStartOf="@id/writerEmojiImage"
                     app:layout_constraintEnd_toEndOf="@id/writerEmojiImage"
-                    android:text="좋음"
+                    android:text=""
                     android:includeFontPadding="false"/>
                 <TextView
                     android:id="@+id/writerFetalFindingsText"
@@ -363,8 +363,8 @@
                     app:layout_constraintTop_toBottomOf="@+id/writerFetalFindingsText"
                     app:layout_constraintStart_toStartOf="@+id/writerFetalFindingsText"
                     android:textSize="14sp"
-                    android:fontFamily="@font/notosanskr_semibold"
-                    android:text="소견"
+                    android:fontFamily="@font/notosanskr_regular"
+                    android:text=""
                     android:layout_marginStart="1dp"
                     android:layout_marginTop="3dp"
                     android:includeFontPadding="false"
@@ -387,8 +387,8 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toBottomOf="@+id/writerDiaryContentText"
                     android:textSize="14sp"
-                    android:fontFamily="@font/notosanskr_semibold"
-                    android:text="내용"
+                    android:fontFamily="@font/notosanskr_regular"
+                    android:text=""
                     android:includeFontPadding="false"
                     app:layout_constraintStart_toStartOf="@+id/writerFetalFindingsContentText"
                     android:layout_marginStart="1dp"
