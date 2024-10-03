@@ -50,6 +50,10 @@ class DiaryFragment : Fragment() {
         (requireActivity() as BottomControllable).setBottomNavVisibility(false)
         _binding = FragmentDiaryBinding.inflate(inflater, container, false)
 
+        binding.backButton.setOnClickListener {
+            findNavController().navigate(R.id.action_diaryFragment_to_mainFragment)
+        }
+
         binding.swipeRefreshLayout.setOnRefreshListener (
             SwipeRefreshLayout.OnRefreshListener {
                 val type = if(viewModel.isPublic.value!!){
