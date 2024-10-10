@@ -3,7 +3,6 @@ package kr.pandadong2024.babya.start.login
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,15 +38,15 @@ private val Context.test: DataStore<User> by dataStore(
 )
 
 private lateinit var viewModel: LoginViewModel
+private var bottomSheetDialog: LoginBottomSheet? = null
 
 class LoginFragment : Fragment() {
     private lateinit var token: String
     private lateinit var tokenDao: TokenDAO
 
-    private val TAG = "LoginFragment"
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
-    private var isVisible = false
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -70,23 +69,25 @@ class LoginFragment : Fragment() {
 //            login()
 //        }
 
+
         binding.registBtn?.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_signup1)
         }
 
         binding.isLoginText?.setOnClickListener {
-            val bottomSheetDialog =
+            bottomSheetDialog =
                 LoginBottomSheet(login = { emailText, passwordText ->
                     login(
                         emailText = emailText,
                         passwordText = passwordText
                     )
-                }, moveSignUp =  {
+                }, moveSignUp = {
                     findNavController().navigate(R.id.action_loginFragment_to_signup1)
                 })
-            bottomSheetDialog
-            bottomSheetDialog.show(requireActivity().supportFragmentManager, bottomSheetDialog.tag)
-            Log.d(TAG, "show aaa")
+            bottomSheetDialog?.show(
+                requireActivity().supportFragmentManager,
+                bottomSheetDialog?.tag
+            )
         }
 
         return binding.root
@@ -96,55 +97,44 @@ class LoginFragment : Fragment() {
         Toast.makeText(requireContext(), "제작중...", Toast.LENGTH_SHORT).show()
         //TODO oAuth로그인 하기
         runBlocking(Dispatchers.IO) {
-            val dao = BabyaDB.getInstance(requireContext())!!
-            tokenDao = dao.tokenDao()
+            val dao = BabyaDB.getInstance(requireContext())
+            if (dao != null) {
+                tokenDao = dao.tokenDao()
+            }
             token = tokenDao.getMembers().accessToken
-            Log.d(TAG, "${token}")
-            Log.d(TAG, "email : ${tokenDao.getMembers().email}")
         }
-//        lifecycleScope.launch {
-//        viewModel.flow.collectLatest {
-//                userProto ->
-//            Log.d(TAG, "${userProto.accessToken}, ${userProto.refreshToken}")
-//        }
-//    }
-
-
     }
 
 
     private fun login(emailText: String, passwordText: String) {
         var accessToken = ""
         var refreshToken = ""
-        Log.d(TAG, "${passwordText.matches(Pattern.passwordRegex)}")
-        Log.d(TAG, "${emailText.matches(Pattern.email)}")
 
-
-//        emailText.matches(Pattern.email) && passwordText.matches(Pattern.passwordRegex)
         if (emailText.matches(Pattern.email) && passwordText.matches(Pattern.passwordRegex)) {
-//            moveScreen()
             lifecycleScope.launch(Dispatchers.IO) {
                 kotlin.runCatching {
                     RetrofitBuilder.getLoginService()
                         .postLogin(LoginRequest(emailText, passwordText))
-                        .let { result ->
-                            Log.d(TAG, "${result.data}")
-                            accessToken = result.data!!.accessToken
-                            refreshToken = result.data.refreshToken
-                        }
-                }.onSuccess {
+
+                }.onSuccess { result ->
+                    accessToken = result.data?.accessToken ?: ""
+                    refreshToken = result.data?.refreshToken ?: ""
                     lifecycleScope.launch(Dispatchers.Main) {
-                        Log.d(TAG, "성공 $it")
-                        Toast.makeText(requireContext(), "성공.", Toast.LENGTH_SHORT).show()
-                        saveToken(
-                            accessToken = accessToken,
-                            refreshToken = refreshToken,
-                            emailText = emailText
-                        )
-                        moveScreen()
+                        if (result.status == 200) {
+                            saveToken(
+                                accessToken = accessToken,
+                                refreshToken = refreshToken,
+                                emailText = emailText
+                            )
+                            bottomSheetDialog?.dismiss()
+                            moveScreen()
+                        } else {
+                            Toast.makeText(requireContext(), "유저정보가 일치하지 않습니다.", Toast.LENGTH_SHORT)
+                                .show()
+                        }
+
                     }
                 }.onFailure { throwable ->
-                    Log.e(TAG, "$throwable")
                     throwable.message
                     launch(Dispatchers.Main) {
                         Toast.makeText(requireContext(), "유저정보가 일치하지 않습니다.", Toast.LENGTH_SHORT)
@@ -155,37 +145,6 @@ class LoginFragment : Fragment() {
         }
     }
 
-//    사용했던 코드
-//    lifecycleScope.launch {
-//        viewModel.flow.collectLatest {
-//                userProto ->
-//            Log.d(TAG, "${userProto.accessToken}, ${userProto.refreshToken}")
-//        }
-//    }
-
-    private fun singeUp() {
-        findNavController().navigate(R.id.action_loginFragment_to_signup1)
-    }
-
-    //    private fun changeVisiblePassword(){
-//        var lastIndex : Int = 0
-//        if (binding.passwordEditText?.text?.lastIndex != null){
-//            lastIndex = binding.passwordEditText?.text?.lastIndex!!+1
-//        }
-//
-//        isVisible = if(isVisible){
-//            binding.passwordLayout?.setEndIconDrawable(R.drawable.ic_visibility)
-//            binding.passwordEditText?.inputType = 0x00000081
-//            binding.passwordEditText?.setSelection(lastIndex)
-//            false
-//        } else{
-//
-//            binding.passwordLayout?.setEndIconDrawable(R.drawable.ic_visibility_off)
-//            binding.passwordEditText?.inputType = 0x00000091
-//            binding.passwordEditText?.setSelection(lastIndex)
-//            true
-//        }
-//    }
     private fun moveScreen() {
         startActivity(Intent(requireContext(), HomeActivity::class.java))
         requireActivity().finish()

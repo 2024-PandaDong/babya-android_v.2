@@ -2,12 +2,11 @@ package kr.pandadong2024.babya.home.diary.detil
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -109,13 +108,9 @@ class DetailWriterFragment : Fragment() {
                     )
                 )
             }.onSuccess {result ->
-                Log.d(TAG, "message : ${result.message}")
-                Log.d(TAG, "status : ${result.status}")
-                Log.d(TAG, "data : ${result.data}")
                 delay(500)
                 initCommentRecyclerView(1, 100, viewModel.diaryId.value!!)
             }.onFailure { result ->
-                Log.e(TAG, "result : ${result.message}")
                 result.printStackTrace()
             }
 
@@ -135,13 +130,9 @@ class DetailWriterFragment : Fragment() {
                     )
                 )
             }.onSuccess {result ->
-                Log.d(TAG, "message : ${result.message}")
-                Log.d(TAG, "status : ${result.status}")
-                Log.d(TAG, "data : ${result.data}")
                 delay(500)
                 initCommentRecyclerView(1, 100, viewModel.diaryId.value!!)
             }.onFailure { result ->
-                Log.e(TAG, "result : ${result.message}")
                 result.printStackTrace()
             }
 
@@ -158,9 +149,6 @@ class DetailWriterFragment : Fragment() {
                     diaryId = parentId
                 )
             }.onSuccess { result ->
-                Log.d(TAG, "message : ${result.message}")
-                Log.d(TAG, "status : ${result.status}")
-                Log.d(TAG, "data : ${result.data}")
                 launch(Dispatchers.Main) {
 
                     commentsAdapter = result.data?.let { CommentsAdapter(
@@ -169,7 +157,6 @@ class DetailWriterFragment : Fragment() {
                             selectedCommentId = id
                             val commentBottomSheet =  CommentBottomSheet(id)
                             commentBottomSheet.show(requireActivity().supportFragmentManager, commentBottomSheet.tag)
-                            Log.d(TAG, "test in comment")
                         },
                     ) }!!
                     commentsAdapter.notifyItemRemoved(0)
@@ -180,7 +167,6 @@ class DetailWriterFragment : Fragment() {
 
             }.onFailure { result ->
                 result.printStackTrace()
-                Log.d(TAG, "message : ${result.message}")
 
             }
         }
@@ -198,14 +184,12 @@ class DetailWriterFragment : Fragment() {
                         size = size
                     ) }.onSuccess {result ->
                     commentResult = result.data!!
-                    Log.d(TAG, "subcomment result : $result")
                 }.onFailure { result ->
                     result.printStackTrace()
                 }
             }
         }
 
-        Log.d(TAG, "subcomment result : $commentResult")
         return commentResult
     }
 
@@ -221,7 +205,6 @@ class DetailWriterFragment : Fragment() {
 
 
                 }.onFailure { result ->
-                    Log.e(TAG, "result : ${result.message}")
                     result.printStackTrace()
                 }
             }
@@ -231,13 +214,11 @@ class DetailWriterFragment : Fragment() {
                     id = viewModel.diaryId.value!!
                 )
             }.onSuccess { result ->
-                Log.e(TAG, "result : ${result.message}")
                 val diaryData = result.data
                 lifecycleScope.launch (Dispatchers.Main) {
 
                     binding.writerTitleText.text = diaryData?.title
                     if (diaryData?.files?.get(0)?.url.isNullOrBlank()){
-                        Log.d(TAG, "in if")
                         binding.selectedImage.visibility = View.GONE
                         binding.writerDiaryAddImageCardView.visibility = View.GONE
                     }else{
@@ -265,7 +246,6 @@ class DetailWriterFragment : Fragment() {
                 }
 
             }.onFailure { result ->
-                Log.e(TAG, "result : ${result.message}")
                 result.printStackTrace()
             }
         }
