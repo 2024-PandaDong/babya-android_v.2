@@ -47,8 +47,6 @@ class LoginBottomSheet(
         binding.loginBtn.setOnSingleClickListener {
             val emailText = binding.emailEditText.text?.toString()!!
             val passwordText = binding.passwordEditText.text?.toString()!!
-            Log.d("TAG", "${passwordText.matches(Pattern.passwordRegex)}")
-            Log.d("TAG", "${emailText.matches(Pattern.email)}")
             if (emailText.matches(Pattern.email)) {
                 binding.emailLayout.error = null
             } else {
@@ -72,7 +70,7 @@ class LoginBottomSheet(
 
         binding.passwordEditText.doAfterTextChanged { text ->
             val email = binding.emailEditText.toString()
-            if (text != null) {
+            if (text != null && text.matches(Pattern.passwordRegex)) {
                 binding.loginBtn.isEnabled =
                     text.isNotEmpty() && text.matches(Pattern.passwordRegex) && email.isNotEmpty()
             }
@@ -80,7 +78,7 @@ class LoginBottomSheet(
 
         binding.emailEditText.doAfterTextChanged { text ->
             val password = binding.passwordEditText.toString()
-            if (text != null) {
+            if (text != null && text.matches(Pattern.email)) {
                 binding.loginBtn.isEnabled =
                     password.isNotEmpty() && password.matches(Pattern.passwordRegex) && text.isNotEmpty()
             }
