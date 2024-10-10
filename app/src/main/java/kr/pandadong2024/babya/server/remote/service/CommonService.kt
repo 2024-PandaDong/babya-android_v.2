@@ -24,11 +24,4 @@ interface CommonService {
         @Header("Authorization") accessToken: String,
         @Path("email") email : String
     ) : BaseResponse<UserDataResponses>
-
-    @POST("/auth/reissue")
-    suspend fun requestRefresh(
-        @Body refreshToken : String
-    ) : BaseResponse<String>
-
-
 }

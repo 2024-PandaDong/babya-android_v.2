@@ -1,9 +1,7 @@
 package kr.pandadong2024.babya.server.remote.interceptor
 
-import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
-import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.server.local.BabyaDB
 import kr.pandadong2024.babya.server.local.TokenDAO
 import okhttp3.Interceptor
@@ -21,8 +19,6 @@ class TokenInterceptor : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
         runBlocking(Dispatchers.IO) {
-//            val dao = BabyaDB.getInstanceOrNull()!!
-//            Log.d( "test", "${dao.tokenDao().getMembers()}")
             val dao = BabyaDB.getInstanceOrNull()?: throw RuntimeException()
             tokenDao = dao.tokenDao()
             token = tokenDao.getMembers().accessToken
@@ -30,8 +26,6 @@ class TokenInterceptor : Interceptor {
         val request = chain.request().newBuilder()
             .addHeader(TOKEN_HEADER, token)
             .build()
-
-        Log.d("test", "in ${token}")
 
         var response = chain.proceed(request)
         if (response.code == TOKEN_ERROR) {
@@ -48,13 +42,7 @@ class TokenInterceptor : Interceptor {
                         .body("{\"status\":401,\"message\":\"세션이 만료되었습니다.\"}".toResponseBody())
                         .build()
                 } else {
-//                     재발급
-//                    token = RetrofitBuilder.getTokenService().postRefreshToken(
-//                        TokenRequest(refreshToken)
-//                    ).accessToken
 
-
-                    // 재발급된 토큰으로 재실행
                     val newToken = chain.request().newBuilder()
                         .addHeader(TOKEN_HEADER, "bearer $token")
                         .build()

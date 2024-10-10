@@ -26,7 +26,8 @@ import kr.pandadong2024.babya.server.local.BabyaDB
 import kr.pandadong2024.babya.server.local.TokenDAO
 import kr.pandadong2024.babya.server.remote.responses.Policy.PolicyListResponse
 import kr.pandadong2024.babya.util.BottomControllable
-import retrofit2.HttpException
+import kr.pandadong2024.babya.util.shortToast
+
 
 class PolicyMainFragment : Fragment() {
     val TAG = "PolicyMainFragment"
@@ -123,15 +124,13 @@ class PolicyMainFragment : Fragment() {
                     email = "my"
                 )
             }.onSuccess { result ->
-                Log.d(TAG, "getProfileData: ${result.data}")
                 launch(Dispatchers.Main) {
                     binding.titleText.text = "${result.data?.nickname}님을 위한 추천 정책"
                     binding.tagTitleText.text = "${result.data?.nickname}님의 지역"
                 }
             }.onFailure { result ->
-                Log.d(TAG, "onCreateView: ${result.message}")
                 result.printStackTrace()
-                Log.d(TAG, "onCreateView: 서버연결 실패")
+                requireContext().shortToast("인터넷 연결을 확인해 주세요")
             }
         }
     }
@@ -145,7 +144,6 @@ class PolicyMainFragment : Fragment() {
         with(binding) {
             recyclerAdapter.notifyItemRemoved(0)
             policyListRecyclerView.adapter = recyclerAdapter
-            Log.d("TAG", "itemDecorationCount : ${policyListRecyclerView.itemDecorationCount}")
             if (policyListRecyclerView.itemDecorationCount == 0) policyListRecyclerView.addItemDecoration(
                 PolicyItemDecoration(policyList.size)
             )
@@ -156,16 +154,13 @@ class PolicyMainFragment : Fragment() {
 
     private fun selectPolicy(mainTag: String, subTag : String, keyWord : String) {
         val tagNumber = getCodeByRegion("${mainTag}_${subTag}")
-        Log.d("policy", "test : $tagNumber")
         if( tagNumber != "-1"){
         lifecycleScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 RetrofitBuilder.getPolicyService().getPolicyList(tagNumber, keyWord)
             }.onSuccess { result ->
-                Log.d(TAG, "data : ${result.data}")
                 if (result.status == 200) {
                     withContext(Dispatchers.Main) {
-                        Log.d(TAG, "200,\nstatus : ${result.data}")
                         viewModel.setPolicyList(result.data!!)
                      if (!viewModel.tagsList.value.isNullOrEmpty()) {
 
@@ -180,12 +175,7 @@ class PolicyMainFragment : Fragment() {
                 }
             }.onFailure { result ->
                 result.printStackTrace()
-                Log.e(TAG, "result : ${result.message}")
-                if (result is HttpException) {
-                    val errorBody = result.response()?.errorBody()?.string()
-                    Log.e(TAG, "Error body: $errorBody")
-                }
-
+                requireContext().shortToast("인터넷 연결을 확인해 주세요")
             }
         }}
     }
@@ -202,7 +192,6 @@ class PolicyMainFragment : Fragment() {
         todoCategoryAdapter.notifyItemRemoved(0)
         with(binding) {
             categoryRecyclerView.adapter = todoCategoryAdapter
-            Log.d("TAG", "itemDecorationCount : ${categoryRecyclerView.itemDecorationCount}")
             if (categoryRecyclerView.itemDecorationCount == 0) categoryRecyclerView.addItemDecoration(
                 PolicyCategoryItemDecoration(10, 0, categoryList.size)
             )

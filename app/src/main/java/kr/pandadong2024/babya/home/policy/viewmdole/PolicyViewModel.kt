@@ -41,6 +41,7 @@ class PolicyViewModel : ViewModel() {
         isOpenSearchView.value = isOpenSearchView.value?.not() ?: false
     }
 
+
     fun setTagList(code : Int){
         tagsList.value = listOf(getLocalByCode(code.toString()), getRegionByCode(code), )
     }
@@ -78,6 +79,7 @@ class PolicyViewModel : ViewModel() {
 
     fun initKeyword(){
         policySearchKeyWord.value = ""
+        isOpenSearchView.value = false
     }
 
 }
