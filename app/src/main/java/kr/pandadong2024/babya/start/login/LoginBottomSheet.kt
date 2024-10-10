@@ -69,18 +69,28 @@ class LoginBottomSheet(
         }
 
         binding.passwordEditText.doAfterTextChanged { text ->
-            val email = binding.emailEditText.toString()
-            if (text != null && text.matches(Pattern.passwordRegex)) {
+            val email = binding.emailEditText.text.toString()
+            Log.d("doTest", "password.isNotEmpty() : ${text?.isNotEmpty()},\n" +
+                    "password.matches(Pattern.passwordRegex) : ${text?.matches(Pattern.passwordRegex)},\n" +
+                    "email.isNotEmpty() : ${email.isNotEmpty()}" +
+                    "email : ${email},\n" +
+                    "password : ${text.toString()}")
+            if (text != null) {
                 binding.loginBtn.isEnabled =
-                    text.isNotEmpty() && text.matches(Pattern.passwordRegex) && email.isNotEmpty()
+                    text.isNotEmpty() && text.matches(Pattern.passwordRegex) && email.isNotEmpty() && email.matches(Pattern.email)
             }
         }
 
         binding.emailEditText.doAfterTextChanged { text ->
-            val password = binding.passwordEditText.toString()
-            if (text != null && text.matches(Pattern.email)) {
+            val password = binding.passwordEditText.text.toString()
+            Log.i("doTest", "email.isNotEmpty() : ${text?.isNotEmpty()},\n" +
+                    "email.matches(Pattern.passwordRegex) : ${password.matches(Pattern.passwordRegex)},\n" +
+                    "password.isNotEmpty() : ${text?.isNotEmpty()},\n" +
+                    "email : ${text.toString()},\n" +
+                    "password : $password")
+            if (text != null ) {
                 binding.loginBtn.isEnabled =
-                    password.isNotEmpty() && password.matches(Pattern.passwordRegex) && text.isNotEmpty()
+                    password.isNotEmpty() && password.matches(Pattern.passwordRegex) && text.isNotEmpty() && text.matches(Pattern.email)
             }
         }
 
