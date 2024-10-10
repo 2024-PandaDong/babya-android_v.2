@@ -190,6 +190,21 @@
         android:inputType="textPassword"
         />
 
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/visiblePassword"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintTop_toTopOf="@id/passwordEditText"
+        app:layout_constraintEnd_toEndOf="@id/passwordEditText"
+        android:padding="5dp"
+        android:textColor="@color/white"
+        android:backgroundTint="#C4C4C4"
+        android:background="@drawable/ic_visibility"
+        />
+
+
     <TextView
         android:id="@+id/passwordText"
         android:layout_width="0dp"
@@ -226,6 +241,22 @@
         android:includeFontPadding="false"
         android:textSize="16dp"
         android:inputType="textPassword"
+        />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/visiblePassword2"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintTop_toTopOf="@id/passwordCheckEditText"
+        app:layout_constraintEnd_toEndOf="@id/passwordCheckEditText"
+        android:padding="5dp"
+        android:includeFontPadding="false"
+        android:textSize="12dp"
+        android:textColor="@color/white"
+        android:backgroundTint="#C4C4C4"
+        android:background="@drawable/ic_visibility"
         />
 
     <TextView
