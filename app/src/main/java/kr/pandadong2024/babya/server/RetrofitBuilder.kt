@@ -1,7 +1,7 @@
 package kr.pandadong2024.babya.server
 
 import android.util.Log
-import com.babya.server.service.LoginService
+import kr.pandadong2024.babya.server.remote.service.LoginService
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import kr.pandadong2024.babya.server.local.BabyaDB
@@ -152,7 +152,7 @@ class RetrofitBuilder {
             return okhttpBuilder.build()
         }
 
-        fun getLoginService(): LoginService{
+        fun getLoginService(): LoginService {
             if (loginService == null){
                 loginService = getRetrofit().create(LoginService::class.java)
             }
