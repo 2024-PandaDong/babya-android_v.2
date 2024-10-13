@@ -98,7 +98,7 @@
                 android:enabled="false"
                 android:textColor="@color/black"
                 android:background="@drawable/sp_signup_false_round"
-                android:hint="2024년 1월 1일"
+                android:hint="태아를 가지게 된 날을 선택해주세요!"
                 android:paddingStart="17dp"
                 android:fontFamily="@font/notosanskr_semibold"
                 android:includeFontPadding="false"
