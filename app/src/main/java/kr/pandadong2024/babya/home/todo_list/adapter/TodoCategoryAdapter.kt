@@ -11,9 +11,6 @@ import kr.pandadong2024.babya.databinding.ItemTodoListTagBinding
 class TodoCategoryAdapter(val flash :(position:Int)->Unit, val categoryList : List<String>, val context: Context, val selectedItemPosition : Int) : RecyclerView.Adapter<TodoCategoryAdapter.CategoryViewHolder>() {
     inner class CategoryViewHolder(private val binding : ItemTodoListTagBinding) :  RecyclerView.ViewHolder(binding.root){
         fun bind(themeText : String, position: Int){
-            binding.root.setOnClickListener {
-//                flash(position)
-            }
             binding.itemTodoParent.setOnClickListener {
                 flash(position)
             }

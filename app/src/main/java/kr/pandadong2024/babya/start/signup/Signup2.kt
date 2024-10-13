@@ -36,7 +36,7 @@ class Signup2 : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentSignup2Binding.inflate(inflater, container, false)
 
@@ -69,29 +69,17 @@ class Signup2 : Fragment() {
 
 
         binding.run {
-            binding.emailEditText?.doAfterTextChanged { text ->
-                Log.d(TAG, "onCreateView: 12345")
+            binding.emailEditText.doAfterTextChanged { text ->
                 val emailText = text.toString()
-                if (emailText.isNotEmpty() && emailText.matches(Pattern.email)) {
-                    Log.d(TAG, "onCreateView: 성공!!")
-                    binding.emailCheckButton.isEnabled = true
-                } else {
-                    binding.emailCheckButton.isEnabled = false
-                }
+                binding.emailCheckButton.isEnabled = emailText.isNotEmpty() && emailText.matches(Pattern.email)
             }
-            binding.verificationCodeEditText?.doAfterTextChanged { text ->
+            binding.verificationCodeEditText.doAfterTextChanged { text ->
                 Log.d(TAG, "onCreateView: 12345")
                 val reemailText = text.toString()
-                if (reemailText.length == 6){
-                    Log.d(TAG, "onCreateView: 성공!!")
-                    binding.verificationCodeSendButton.isEnabled = true
-                } else{
-                    binding.verificationCodeSendButton.isEnabled = false
-                    Log.d(TAG, "onCreateView: 실패!!")
-                }
+                binding.verificationCodeSendButton.isEnabled = reemailText.length == 6
             }
 
-            binding.passwordEditText?.doAfterTextChanged { text ->
+            binding.passwordEditText.doAfterTextChanged { text ->
                 val passwordText = text.toString()
                 if (passwordText.isNotEmpty() && passwordText.matches(Pattern.passwordRegex)) {
                     binding.passwordText.visibility = View.GONE
@@ -100,17 +88,16 @@ class Signup2 : Fragment() {
                 }
             }
 
-            binding.passwordCheckEditText?.doAfterTextChanged { text ->
+            binding.passwordCheckEditText.doAfterTextChanged { text ->
                 val pw = binding.passwordEditText.text.toString()
                 val pwCheck = text.toString()
                 if (pw == pwCheck){
                     binding.passwordCheckText.visibility = View.GONE
                     passwordCheck = true
-                    if (passwordCheck && emailCheck == true){
+                    if (passwordCheck && emailCheck){
                         binding.nextBtn.isEnabled = true
                     }
-                }
-                else {
+                } else {
                     binding.passwordCheckText.visibility = View.VISIBLE
                 }
             }
@@ -171,7 +158,7 @@ class Signup2 : Fragment() {
             binding.emailEditText.isEnabled = false
             binding.emailEditText.setTextColor(Color.parseColor("#FD7D7C"))
             emailCheck = true
-            if (passwordCheck && emailCheck == true){
+            if (passwordCheck && emailCheck){
                 binding.nextBtn.isEnabled = true
             }
         }

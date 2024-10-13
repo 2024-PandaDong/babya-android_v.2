@@ -30,7 +30,6 @@ class RefreshInterceptor : Interceptor {
                     }.onSuccess { result ->
                         if (result.data != null) {
                             token = result.data
-
                         }
                     }.onFailure {
                         it.printStackTrace()

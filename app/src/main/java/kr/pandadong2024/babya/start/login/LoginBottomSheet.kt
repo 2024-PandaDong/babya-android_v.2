@@ -23,10 +23,12 @@ class LoginBottomSheet(
         super.onStart()
         if (dialog != null) {
             val bottomSheet =
-                dialog!!.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
-            val behavior = BottomSheetBehavior.from(bottomSheet)
-            behavior.state = BottomSheetBehavior.STATE_EXPANDED
-            behavior.skipCollapsed = true
+                dialog?.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
+            val behavior = bottomSheet?.let { BottomSheetBehavior.from(it) }
+            if (behavior != null) {
+                behavior.state = BottomSheetBehavior.STATE_EXPANDED
+                behavior.skipCollapsed = true
+            }
         }
     }
 
@@ -42,8 +44,8 @@ class LoginBottomSheet(
             dismiss()
         }
         binding.loginBtn.setOnSingleClickListener {
-            val emailText = binding.emailEditText.text?.toString()!!
-            val passwordText = binding.passwordEditText.text?.toString()!!
+            val emailText = binding.emailEditText.text?.toString() ?: ""
+            val passwordText = binding.passwordEditText.text?.toString() ?: ""
             if (emailText.matches(Pattern.email)) {
                 binding.emailLayout.error = null
             } else {

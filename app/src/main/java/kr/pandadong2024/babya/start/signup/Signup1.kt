@@ -24,14 +24,12 @@ class Signup1 : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentSignup1Binding.inflate(inflater, container, false)
 
 
         // 처음에는 버튼을 비활성화
-
-
         binding.nextBtn.setOnClickListener {
             Log.d(TAG, "onCreateView: dddd")
             findNavController().navigate(R.id.action_signup1_to_signup2)
