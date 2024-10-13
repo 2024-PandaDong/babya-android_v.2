@@ -82,19 +82,24 @@ class EditDiaryFragment : Fragment() {
         }
 
         binding.diaryEditSubmitButton.setOnClickListener {
-//            Log.d(TAG,  (!binding.editDiaryTitleEditText.text.isNullOrBlank()
-//                    && !binding.editDiaryMainContentEditText.text.isNullOrBlank()
-//                    && !binding.weightEditText.text.isNullOrBlank()
-//                    && !binding.editDiaryFetalFindingsEditText.text.isNullOrBlank()
-//                    && binding.editDiaryStatusRadioGroup.checkedRadioButtonId != -1).toString())
+//            Log.d(TAG, "${!binding.editDiaryTitleEditText.text.isNullOrBlank()}\n"+
+//                            "&&${!binding.editDiaryMainContentEditText.text.isNullOrBlank()}\n"+
+//                            "&&${!binding.weightEditText.text.isNullOrBlank()}\n"+
+//                            "&&${!binding.editDiaryFetalFindingsEditText.text.isNullOrBlank()}\n"+
+//                            "&&${binding.editDiaryStatusRadioGroup.checkedRadioButtonId != -1}\n"+
+//                "=${!binding.editDiaryTitleEditText.text.isNullOrBlank() &&!binding.editDiaryMainContentEditText.text.isNullOrBlank()!binding.weightEditText.text.isNullOrBlank()!binding.editDiaryFetalFindingsEditText.text.isNullOrBlank()
+//                            binding.editDiaryStatusRadioGroup.checkedRadioButtonId != -1}"
+//            )
 
             // 조건을 반대로 수정: 모든 필드가 채워졌을 때만 submit() 호출
-            if (!binding.editDiaryTitleEditText.text.isNullOrBlank()
-                && !binding.editDiaryMainContentEditText.text.isNullOrBlank()
-                && !binding.weightEditText.text.isNullOrBlank()
-                && !binding.editDiaryFetalFindingsEditText.text.isNullOrBlank()
-                && binding.editDiaryStatusRadioGroup.checkedRadioButtonId != -1
-            ) {
+            if (
+                (!binding.editDiaryTitleEditText.text.isNullOrBlank()
+                        &&!binding.editDiaryMainContentEditText.text.isNullOrBlank()
+                        &&!binding.weightEditText.text.isNullOrBlank()
+                        &&!binding.editDiaryFetalFindingsEditText.text.isNullOrBlank()
+                        &&binding.editDiaryStatusRadioGroup.checkedRadioButtonId == -1)
+            ){
+
                 submit()
             } else {
                 Toast.makeText(requireContext(), "전부 입력했는지 다시 확인해 주십시오.", Toast.LENGTH_SHORT).show()

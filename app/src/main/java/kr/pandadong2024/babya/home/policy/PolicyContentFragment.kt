@@ -22,6 +22,7 @@ import kr.pandadong2024.babya.home.policy.dialog.DeclarationDialog
 import kr.pandadong2024.babya.home.policy.viewmdole.PolicyViewModel
 import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.util.BottomControllable
+import okhttp3.internal.indexOfFirstNonAsciiWhitespace
 import retrofit2.HttpException
 import java.io.File
 
@@ -43,7 +44,6 @@ class PolicyContentFragment : Fragment() {
         viewModel.policyList.value!![viewModel.policyId.value!!].policyId?.let { setScreen(it) }
         binding.signUpBackButton.setOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()
-//            findNavController().navigate(R.id.action_policyContentFragment_to_policyMainFragment)
         }
 
         binding.declarationButton.setOnClickListener {
@@ -73,21 +73,6 @@ class PolicyContentFragment : Fragment() {
                 RetrofitBuilder.getPolicyService().getPolicyContent(id)
             }.onSuccess { result ->
                 if (result.status == 200) {
-//                    val file = File(context?.filesDir, "index.html")
-//                    if(file.exists()){
-//                        FileOutputStream(file).use { output ->
-//                            output.write("".toByteArray())  // 빈 문자열을 씀
-//                        }
-//                    }
-//                    else{
-//                        file.createNewFile()
-//                    }
-//                    listFilesInInternalStorage(requireContext())
-//
-//                    val html = Jsoup.parse(result.data!!.content).html()
-//                    FileOutputStream(file).use { output ->
-//                        output.write(html.toByteArray())
-//                    }
                     withContext(Dispatchers.Main) {
                         Log.d(TAG, "200,\nstatus : ${result.data}")
                         policyLink = result.data!!.link
@@ -99,7 +84,13 @@ class PolicyContentFragment : Fragment() {
                        else{
                             binding.policyDateRangeText.text = "최종수정일: ${result.data.editDate.substring(startIndex = 5, endIndex = 7)}월 ${result.data.editDate.substring(startIndex = 8, endIndex = 10)}일"
                         }
-                        binding.htmlLodeText.loadDataWithBaseURL(null,result.data.content,"text/html","utf-8",null )
+                        var tagSample = result.data.content.toString().indexOf("<table ")
+                        var tabRes = result.data.content.toString().replace("<td", "<td style='border : 1px solid black '")
+                        tabRes = tabRes.replace("<thead", "\u2664").replace("<th", "<th style='border : 1px solid black '").replace("\u2664", "<thead")
+                        tabRes = tabRes.replace("<table", "<table style='border-collapse : collapse; '")
+                        Log.d(TAG, "tagSample : $tabRes")
+
+                        binding.htmlLodeText.loadDataWithBaseURL(null,tabRes,"text/html","utf-8",null )
 
 
 //                        binding.htmlLodeText.addInternalLinkPrefix(result.data.content)

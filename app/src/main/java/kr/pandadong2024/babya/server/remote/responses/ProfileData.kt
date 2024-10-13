@@ -1,6 +1,7 @@
-package kr.pandadong2024.babya.server.responses
+package kr.pandadong2024.babya.server.remote.responses
 
 import com.google.gson.annotations.SerializedName
+import kr.pandadong2024.babya.server.responses.ProfileChildrenData
 
 data class ProfileData (
     @field:SerializedName("nickname")

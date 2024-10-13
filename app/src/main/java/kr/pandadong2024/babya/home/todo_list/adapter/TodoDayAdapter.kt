@@ -2,7 +2,6 @@ package kr.pandadong2024.babya.home.todo_list.adapter
 
 import android.content.Context
 import android.icu.util.Calendar
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -52,7 +51,6 @@ class TodoDayAdapter(
         private fun openItem(key: String){
             val adapter = TodoItemAdapter(itemData!!){ type, todoId ->
                 work(type, todoId)
-                //TODO : 지워지고 수정되는거 이쪽에서 맡아서 하기
             }
 
 
@@ -76,7 +74,6 @@ class TodoDayAdapter(
                 adapter.notifyItemRemoved(0)
 
                 binding.todoDayItemRecyclerView.adapter = adapter
-                Log.d("itemDecorationCount", "itemDecorationCount : ${binding.todoDayItemRecyclerView.itemDecorationCount}")
                 if (isHavingDecoList[key]!!.not()) {
                     binding.todoDayItemRecyclerView.addItemDecoration(
                         TodoItemDecoration(

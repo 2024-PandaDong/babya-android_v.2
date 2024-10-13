@@ -1,27 +1,26 @@
 package kr.pandadong2024.babya.server
 
-import android.util.Log
-import com.babya.server.service.LoginService
-import kr.pandadong2024.babya.server.remote.service.SignupService
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import kr.pandadong2024.babya.server.local.BabyaDB
 import kr.pandadong2024.babya.server.local.TokenDAO
+import kr.pandadong2024.babya.server.remote.interceptor.RefreshInterceptor
 import kr.pandadong2024.babya.server.remote.interceptor.TokenInterceptor
 import kr.pandadong2024.babya.server.remote.service.CommonService
 import kr.pandadong2024.babya.server.remote.service.CompanyService
 import kr.pandadong2024.babya.server.remote.service.DashBoardService
 import kr.pandadong2024.babya.server.remote.service.DiaryService
+import kr.pandadong2024.babya.server.remote.service.LoginService
 import kr.pandadong2024.babya.server.remote.service.MainService
 import kr.pandadong2024.babya.server.remote.service.PolicyService
 import kr.pandadong2024.babya.server.remote.service.QuizService
+import kr.pandadong2024.babya.server.remote.service.SignupService
 import kr.pandadong2024.babya.server.remote.service.TodoListService
 import kr.pandadong2024.babya.server.service.ProfileService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 import java.security.SecureRandom
 import java.security.cert.X509Certificate
 import javax.net.ssl.SSLContext
@@ -67,7 +66,6 @@ class RetrofitBuilder {
         }
         @Synchronized
         fun getHttpRetrofit(): Retrofit {
-            Log.d("test", "in get")
             if (retrofit == null) {
                 retrofit = Retrofit.Builder()
                     .baseUrl(Url.serverUrl)
@@ -95,10 +93,11 @@ class RetrofitBuilder {
             val interceptor = HttpLoggingInterceptor().apply {
                 level = HttpLoggingInterceptor.Level.BODY
             }
+
+            val refreshInterceptor = RefreshInterceptor()
             tokenDao = BabyaDB.getInstanceOrNull()?.tokenDao()
             val httpClient = OkHttpClient.Builder().apply {
                 addNetworkInterceptor { chain ->
-                    Log.i("TAG", "${chain.request()}")
                     tokenDao?.getMembers()?.let {
                         val request = chain.request().newBuilder().addHeader(
                             "Authorization",
@@ -109,13 +108,17 @@ class RetrofitBuilder {
                 }
             }
 //            httpClient.addNetworkInterceptor()
-            return httpClient.build()
+            return httpClient
+                .addInterceptor(refreshInterceptor)
+                .addInterceptor(interceptor)
+                .build()
         }
 
         @Synchronized // 로그인 일회용
         fun getTokenOkHttpClient(): OkHttpClient {
-            val interceptor = HttpLoggingInterceptor()
-            interceptor.level = HttpLoggingInterceptor.Level.BODY
+            val interceptor = HttpLoggingInterceptor().apply {
+                level = HttpLoggingInterceptor.Level.BODY
+            }
             val okhttpBuilder = OkHttpClient().newBuilder()
                 .addInterceptor(interceptor)
                 .addInterceptor(TokenInterceptor())
@@ -148,7 +151,7 @@ class RetrofitBuilder {
             return okhttpBuilder.build()
         }
 
-        fun getLoginService(): LoginService{
+        fun getLoginService(): LoginService {
             if (loginService == null){
                 loginService = getRetrofit().create(LoginService::class.java)
             }

@@ -51,7 +51,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginHorizontal="18dp"
                 android:layout_marginTop="18dp"
-                android:text="test"
+                android:text=""
                 android:includeFontPadding="false"
                 android:textSize="16sp"
                 android:fontFamily="@font/notosanskr_medium"/>
@@ -59,7 +59,7 @@
                 android:id="@+id/contentText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="본문 내용"
+                android:text=""
                 app:layout_constraintTop_toBottomOf="@id/dateText"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -80,7 +80,7 @@
                 android:textColor="@color/neutral90"
                 app:layout_constraintTop_toBottomOf="@id/publicTitleText"
                 app:layout_constraintStart_toStartOf="parent"
-                android:text="푸바오파파"
+                android:text=""
                 android:layout_marginStart="18dp"
                 />
 
@@ -96,7 +96,7 @@
                 android:textColor="@color/neutral90"
                 android:includeFontPadding="false"
                 android:fontFamily="sans-serif-condensed-medium"
-                android:text="2014/04/09"/>
+                android:text=""/>
             <View
                 android:id="@+id/slicingLineView"
                 android:layout_width="0dp"

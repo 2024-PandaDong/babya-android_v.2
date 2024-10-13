@@ -41,7 +41,7 @@ class CompanyDetailsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentCompanyDetailsBinding.inflate(inflater, container, false)
         (requireActivity() as BottomControllable).setBottomNavVisibility(false)
@@ -111,8 +111,8 @@ class CompanyDetailsFragment : Fragment() {
 
         // 그래프에 나타낼 데이터
         val entries = ArrayList<PieEntry>()
-        entries.add(PieEntry(male!!.toFloat()))
-        entries.add(PieEntry(female!!.toFloat()))
+        entries.add(PieEntry(male?.toFloat() ?: 0f))
+        entries.add(PieEntry(female?.toFloat()?: 0f))
         // 그래프 색상(데이터 순서)
         val colors = listOf(
             Color.parseColor("#69AEE3"),
@@ -157,7 +157,6 @@ class CompanyDetailsFragment : Fragment() {
             binding.type.text = result.data?.companyType
 
             // 해택 및 복지 추가
-
         }
     }
 

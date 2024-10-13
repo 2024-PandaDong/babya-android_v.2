@@ -10,7 +10,8 @@ import retrofit2.http.Query
 interface PolicyService {
     @GET("/policy")
     suspend fun getPolicyList(
-        @Query("region") type: String
+        @Query("region") type: String,
+        @Query("keyword") keyword: String,
     ): BaseResponse<List<PolicyListResponse>>
 
     @GET("/policy/{id}")

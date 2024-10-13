@@ -2,15 +2,13 @@ package kr.pandadong2024.babya.home.dash_board
 
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import coil.load
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -20,7 +18,6 @@ import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentDetailDashBoardBinding
 import kr.pandadong2024.babya.home.dash_board.adapter.DashBoardCommentsAdapter
 import kr.pandadong2024.babya.home.dash_board.dash_boardViewModel.DashBoardViewModel
-import kr.pandadong2024.babya.home.diary.diaryadapters.CommentsAdapter
 import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.server.local.BabyaDB
 import kr.pandadong2024.babya.server.local.TokenDAO
@@ -110,7 +107,6 @@ class DetailDashBoardFragment : Fragment() {
                 initCommentRecyclerView(1, 100, viewModel.id.value!!)
 
             }.onFailure {result ->
-                Log.d(TAG, "postSubComment: 실패")
                 result.printStackTrace()
             }
         }
@@ -132,7 +128,6 @@ class DetailDashBoardFragment : Fragment() {
                 initCommentRecyclerView(1, 100, viewModel.id.value!!)
 
             }.onFailure {result ->
-                Log.d(TAG, "postComment: 실패")
                 result.printStackTrace()
             }
 
@@ -149,10 +144,6 @@ class DetailDashBoardFragment : Fragment() {
                     postId = postId
                 )
             }.onSuccess {result ->
-                Log.d(TAG, "initCommentRecyclerView1 : 성공 ")
-                Log.d(TAG, "message : ${result.message}")
-                Log.d(TAG, "status : ${result.status}")
-                Log.d(TAG, "data : ${result.data}")
                 launch(Dispatchers.Main) {
                     commentsAdapter = result.data?.let { DashBoardCommentsAdapter(
                         commentsList = it.reversed(),
@@ -161,7 +152,6 @@ class DetailDashBoardFragment : Fragment() {
                             selectedCommentId = id
                         },
                         getSubComment = { commentId, page, size ->
-                            Log.d(TAG, "test in in in in in ")
                             getSubComment(
                                 commentId = commentId,
                                 page = page,
@@ -175,9 +165,7 @@ class DetailDashBoardFragment : Fragment() {
                     }
                 }
             }.onFailure { result ->
-                Log.d(TAG, "initCommentRecyclerView1: 실패")
                 result.printStackTrace()
-                Log.d(TAG, "message : ${result.message}")
             }
         }
     }
@@ -194,15 +182,12 @@ class DetailDashBoardFragment : Fragment() {
                         size = size
                     ) }.onSuccess {result ->
                     commentResult = result.data!!
-                    Log.d(TAG, "subcomment result : $result")
-                    Log.d(TAG, "2")
                 }.onFailure { result ->
                     result.printStackTrace()
                 }
             }
         }
 
-        Log.d(TAG, "subcomment result : $commentResult")
         return commentResult
 
     }
@@ -233,27 +218,18 @@ class DetailDashBoardFragment : Fragment() {
                         email = BabyaDB.getInstance(requireContext())?.tokenDao()?.getMembers()?.email.toString()
                     )
                 }.onSuccess { result ->
-                    Log.e(TAG, "profile result : ${result.message}")
-                    Log.e(TAG, "profile result : ${result.data}")
-                    Log.e(TAG, "profile result : ${result.status}")
                     launch(Dispatchers.Main) {
                         binding.profileImage.load(result.data?.profileImg)
                     }
                 }.onFailure {result ->
-                    Log.d(TAG, "initView: 실패")
-                    Log.e(TAG, "result : ${result.message}")
                     result.printStackTrace()
                 }
                 kotlin.runCatching {
-                    Log.d(TAG, "initCommentRecyclerView: ${viewModel.id.value!!}")
                     RetrofitBuilder.getDashBoardService().getDashBoard(
                         accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
                         id = viewModel.id.value!!
                     )
                 }.onSuccess {result ->
-                    Log.d(TAG, "initCommentRecyclerView2 : 성공")
-                    Log.e(TAG, "result : ${result.message}")
-                    Log.d(TAG, "data : ${result.data}")
                     val dashBoardData = result.data
                     lifecycleScope.launch(Dispatchers.Main){
 
@@ -281,8 +257,6 @@ class DetailDashBoardFragment : Fragment() {
 
                     }
                 }.onFailure {result ->
-                    Log.d(TAG, "initCommentRecyclerView2: 실패")
-                    Log.e(TAG, "result : ${result.message}")
                     result.printStackTrace()
                 }
             }
