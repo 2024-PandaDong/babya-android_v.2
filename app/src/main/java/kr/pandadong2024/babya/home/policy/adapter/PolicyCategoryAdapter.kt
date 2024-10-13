@@ -1,4 +1,4 @@
-package kr.pandadong2024.babya.home.todo_list.adapter
+package kr.pandadong2024.babya.home.policy.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -15,10 +15,7 @@ class PolicyCategoryAdapter(val flash :(position:Int, localCategoryList : Mutabl
                 binding.itemPolicyParent.setOnClickListener {
                     flash(position, localCategoryList.toMutableList())
                 }
-
         }
-
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {

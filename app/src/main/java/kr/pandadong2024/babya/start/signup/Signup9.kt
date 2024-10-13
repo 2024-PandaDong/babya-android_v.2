@@ -3,11 +3,11 @@ package kr.pandadong2024.babya.start.signup
 import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -15,8 +15,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentSignup9Binding
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.server.remote.request.SignUpRequest
 import kr.pandadong2024.babya.start.viewmodel.SignupViewModel
@@ -30,32 +28,21 @@ class Signup9 : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentSignup9Binding.inflate(inflater, container, false)
 
         kotlin.run {
-            Log.d(TAG, "email: ${viewModel.email.value}")
-            Log.d(TAG, "pw: ${viewModel.pw.value}")
-            Log.d(TAG, "nickName: ${viewModel.nickName.value}")
-            Log.d(TAG, "marriedDt: ${viewModel.marriedDt.value}")
-            Log.d(TAG, "pregnancyDt: ${viewModel.pregnancyDt.value}")
-            Log.d(TAG, "birthDt: ${viewModel.birthDt.value}")
-            Log.d(TAG, "locationCode: ${viewModel.locationCode.value}")
-            Log.d(TAG, "pushToken: ${viewModel.pushToken.value}")
-            Log.d(TAG, "birthNameList: ${viewModel.birthNameList.value}")
-            Log.d(TAG, "childrenNameList: ${viewModel.childrenNameList.value}")
             viewModel.pregnancyDt.value?.let { main(it) }
         }
 
         binding.nextBtn.setOnClickListener {
-            Signup()
+            signup()
         }
 
         binding.signUpBackButton.setOnClickListener {
             findNavController().navigate(R.id.action_signup9_to_signup5)
         }
-
 
         return binding.root
     }
@@ -65,7 +52,6 @@ class Signup9 : Fragment() {
         // 먼저 입력 값이 비어 있지 않은지 확인
         if (value.isBlank()) {
             // 빈 문자열인 경우 처리할 로직 추가
-
             return
         }
 
@@ -91,11 +77,10 @@ class Signup9 : Fragment() {
     }
 
 
-    private fun Signup(){
-        lifecycleScope.launch(Dispatchers.IO){
+    private fun signup() {
+        lifecycleScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 RetrofitBuilder.getSignupService().postSignup(
-
                     body = SignUpRequest(
                         email = viewModel.email.value.toString(),
                         pw = viewModel.pw.value.toString(),
@@ -105,10 +90,10 @@ class Signup9 : Fragment() {
                         birthDt = viewModel.birthDt.value.toString(),
                         locationCode = "22",
                         pushToken = "", // fcm
-                        childList = (viewModel.birthNameList.value ?: emptyList()) + (viewModel.childrenNameList.value ?: emptyList())
+                        childList = (viewModel.birthNameList.value
+                            ?: emptyList()) + (viewModel.childrenNameList.value ?: emptyList())
                     )
                 )
-
             }.onSuccess {
 
                 Log.d(TAG, "Signup: 성공")
@@ -128,9 +113,6 @@ class Signup9 : Fragment() {
                 Log.d(TAG, "Signup: 실패")
                 Log.d(TAG, "Signup: ${it.stackTrace}")
             }
-
         }
-
     }
-
 }

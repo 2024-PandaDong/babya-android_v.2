@@ -12,17 +12,14 @@ import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentPolicyContentBinding
 import kr.pandadong2024.babya.home.policy.dialog.DeclarationDialog
 import kr.pandadong2024.babya.home.policy.viewmdole.PolicyViewModel
 import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.util.BottomControllable
-import okhttp3.internal.indexOfFirstNonAsciiWhitespace
 import retrofit2.HttpException
 import java.io.File
 
@@ -32,8 +29,7 @@ class PolicyContentFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel by activityViewModels<PolicyViewModel>()
     val TAG = "PolicyContentFragment"
-    var policyLink : String = ""
-
+    var policyLink: String = ""
 
 
     override fun onCreateView(
@@ -41,13 +37,17 @@ class PolicyContentFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentPolicyContentBinding.inflate(inflater, container, false)
-        viewModel.policyList.value!![viewModel.policyId.value!!].policyId?.let { setScreen(it) }
+        viewModel.policyList.value?.get(viewModel.policyId.value ?: -1)?.policyId?.let {
+            setScreen(
+                it
+            )
+        }
         binding.signUpBackButton.setOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()
         }
 
         binding.declarationButton.setOnClickListener {
-            val dialog =  DeclarationDialog()
+            val dialog = DeclarationDialog()
             dialog.isCancelable = false
 
             dialog.show(requireActivity().supportFragmentManager, dialog.tag)
@@ -75,39 +75,35 @@ class PolicyContentFragment : Fragment() {
                 if (result.status == 200) {
                     withContext(Dispatchers.Main) {
                         Log.d(TAG, "200,\nstatus : ${result.data}")
-                        policyLink = result.data!!.link
-                        binding.policyTitleText.text = result.data.title
+                        policyLink = result.data?.link.toString()
+                        binding.policyTitleText.text = result.data?.title
 
-                        if(result.data.editDate == null){
+                        if (result.data?.editDate == null) {
                             binding.policyDateRangeText.visibility = View.GONE
+                        } else {
+                            binding.policyDateRangeText.text = "최종수정일: ${
+                                result.data?.editDate.substring(
+                                    startIndex = 5,
+                                    endIndex = 7
+                                )
+                            }월 ${result.data?.editDate?.substring(startIndex = 8, endIndex = 10)}일"
                         }
-                       else{
-                            binding.policyDateRangeText.text = "최종수정일: ${result.data.editDate.substring(startIndex = 5, endIndex = 7)}월 ${result.data.editDate.substring(startIndex = 8, endIndex = 10)}일"
-                        }
-                        var tagSample = result.data.content.toString().indexOf("<table ")
-                        var tabRes = result.data.content.toString().replace("<td", "<td style='border : 1px solid black '")
-                        tabRes = tabRes.replace("<thead", "\u2664").replace("<th", "<th style='border : 1px solid black '").replace("\u2664", "<thead")
-                        tabRes = tabRes.replace("<table", "<table style='border-collapse : collapse; '")
-                        Log.d(TAG, "tagSample : $tabRes")
+                        var tagSample = result.data?.content.toString().indexOf("<table ")
+                        var tabRes = result.data?.content.toString()
+                            .replace("<td", "<td style='border : 1px solid black '")
+                        tabRes = tabRes.replace("<thead", "\u2664")
+                            .replace("<th", "<th style='border : 1px solid black '")
+                            .replace("\u2664", "<thead")
+                        tabRes =
+                            tabRes.replace("<table", "<table style='border-collapse : collapse; '")
 
-                        binding.htmlLodeText.loadDataWithBaseURL(null,tabRes,"text/html","utf-8",null )
-
-
-//                        binding.htmlLodeText.addInternalLinkPrefix(result.data.content)
-
-
-                        val filePath = requireContext().getExternalFilesDir(null)?.absolutePath
-                        Log.d(TAG, "Internal File Path: $filePath")
-
-
-//                        var prefix: String = indexUrl.toString()
-//                        Log.d(TAG, prefix)
-//                        val cut = prefix.lastIndexOf('/')
-//                        prefix = prefix.substring(0, cut + 1)
-//                        binding.htmlLodeText.addInternalLinkPrefix(prefix)
-//                        binding.htmlLodeText.loadHtml(indexUrl)
-
-
+                        binding.htmlLodeText.loadDataWithBaseURL(
+                            null,
+                            tabRes,
+                            "text/html",
+                            "utf-8",
+                            null
+                        )
                     }
                 } else {
                     Log.d(TAG, "200이 아닌 다른 상태,\nstatus : ${result.status}")
@@ -137,6 +133,7 @@ class PolicyContentFragment : Fragment() {
             println("No files found in the directory.")
         }
     }
+
     override fun onPause() {
         super.onPause()
         (requireActivity() as BottomControllable).setBottomNavVisibility(true)

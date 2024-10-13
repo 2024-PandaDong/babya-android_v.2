@@ -1,17 +1,15 @@
 package kr.pandadong2024.babya.start.signup
 
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doAfterTextChanged
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import kr.pandadong2024.babya.R
-import kr.pandadong2024.babya.databinding.FragmentSignup5Binding
 import kr.pandadong2024.babya.databinding.FragmentSignup7Binding
 import kr.pandadong2024.babya.start.viewmodel.SignupViewModel
 
@@ -26,7 +24,7 @@ class Signup7 : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentSignup7Binding.inflate(inflater, container, false)
 
@@ -43,9 +41,9 @@ class Signup7 : Fragment() {
         }
 
         binding.run {
-            binding.babyEditText?.doAfterTextChanged { text ->
+            binding.babyEditText.doAfterTextChanged { text ->
                 val size = text.toString()
-                if (size == "0명"){
+                if (size == "0명") {
                     binding.babyEditText.visibility = View.GONE
                 } else {
                     binding.babyEditText.visibility = View.VISIBLE
@@ -66,24 +64,27 @@ class Signup7 : Fragment() {
     private fun addChildren() {
         val childrenName = binding.babyNameEditText.text.toString()
 
-        if (binding.babyNameRv.adapter != null){
+        if (binding.babyNameRv.adapter != null) {
             childrenNameList = (binding.babyNameRv.adapter as BriNmAdapter).birthNameList
         }
 
-        if (childrenName.isNotEmpty()){
+        if (childrenName.isNotEmpty()) {
             childrenNameList.add(BirthName((childrenName), true))
         }
 
-        if (binding.babyNameRv.adapter == null){
+        if (binding.babyNameRv.adapter == null) {
             val adapter = BriNmAdapter(childrenNameList)
             binding.babyNameRv.adapter = adapter
             binding.babyNameRv.layoutManager = LinearLayoutManager(requireContext())
-        } else{
+        } else {
 
             (binding.babyNameRv.adapter as BriNmAdapter).notifyDataSetChanged()
         }
 
-        binding.babyEditText.setText(childrenNameList.size.toString()+"명")
+        val numberOfChildren =
+            childrenNameList.size.toString() + "명" // 안드로이드 개발 권장으로 변경하기 위해 로컬 변수 추가 (내용 : setText로 표시된 텍스트를 연결하지 마십시오. 자리 표시자와 함께 리소스 문자열을 사용합니다.)
+
+        binding.babyEditText.setText(numberOfChildren)
         binding.babyNameEditText.text?.clear()
         binding.nextBtn.isEnabled = true
     }

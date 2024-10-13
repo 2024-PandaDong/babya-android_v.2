@@ -1,7 +1,6 @@
 package kr.pandadong2024.babya.home.diary.diaryadapters
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,8 +17,7 @@ class SubCommentAdapter(
     inner class SubCommentViewHolder(val binding: ItemCommentsBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun setItemComments(commentData: SubCommentResponses, position: Int) {
-            if(position == 0){
-                Log.d("test", "pos : ${position}")
+            if (position == 0) {
                 binding.backgroundLayout.background = context.getDrawable(R.color.invisible)
             }
             binding.commentNameText.text = commentData.nickname
@@ -31,7 +29,8 @@ class SubCommentAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SubCommentViewHolder {
-        val binding = ItemCommentsBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+        val binding =
+            ItemCommentsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return SubCommentViewHolder(binding)
     }
 

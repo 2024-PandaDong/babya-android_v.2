@@ -56,7 +56,7 @@ class DiaryFragment : Fragment() {
 
         binding.swipeRefreshLayout.setOnRefreshListener (
             SwipeRefreshLayout.OnRefreshListener {
-                val type = if(viewModel.isPublic.value!!){
+                val type = if(viewModel.isPublic.value == true){
                     2
                 }
                 else{
@@ -73,8 +73,7 @@ class DiaryFragment : Fragment() {
 
         binding.diaryTabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                Log.d(TAG, "tab : ${tab!!.text}")
-                when (tab.text) {
+                when (tab?.text) {
                     "공개" -> {
                         viewModel.isPublic.value = true
                     }
@@ -131,7 +130,7 @@ class DiaryFragment : Fragment() {
 
     private fun initDiaryGridView() {
 
-        diaryMainGridViewAdapter = DiaryMainGridViewAdapter(diaryList!!) { diaryId, memberId ->
+        diaryMainGridViewAdapter = DiaryMainGridViewAdapter(diaryList ?: listOf()) { diaryId, memberId ->
             lifecycleScope.launch(Dispatchers.Main) {
                 kotlin.runCatching {
                     viewModel.diaryId.value = diaryId
@@ -156,7 +155,7 @@ class DiaryFragment : Fragment() {
 
         isPublic = isPublic.not()
         Log.d(TAG, "list : $changeList")
-        diaryMainGridViewAdapter.setDiaryList(diaryList!!.toMutableList())
+        diaryMainGridViewAdapter.setDiaryList(diaryList?.toMutableList() ?: mutableListOf())
         diaryMainGridViewAdapter.notifyDataSetChanged()
     }
 

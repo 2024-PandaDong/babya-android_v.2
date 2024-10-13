@@ -1,4 +1,4 @@
-package kr.pandadong2024.babya.server.local.proto
+package kr.pandadong2024.babya.server.local
 
 
 

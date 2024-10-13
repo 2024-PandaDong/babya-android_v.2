@@ -15,5 +15,5 @@ data class ProfileData (
     @field:SerializedName("children")
     val children: List<ProfileChildrenData>,
     @field:SerializedName("profileImg")
-    val profileImg: String
+    val profileImg: String?
 )
