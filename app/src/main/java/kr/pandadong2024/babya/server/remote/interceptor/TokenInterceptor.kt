@@ -19,7 +19,7 @@ class TokenInterceptor : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
         runBlocking(Dispatchers.IO) {
-            val dao = BabyaDB.getInstanceOrNull()?: throw RuntimeException()
+            val dao = BabyaDB.getInstanceOrNull() ?: throw RuntimeException()
             tokenDao = dao.tokenDao()
             token = tokenDao.getMembers().accessToken
         }

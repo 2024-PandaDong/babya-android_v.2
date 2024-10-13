@@ -9,25 +9,37 @@ class OnSingleClickListener (
 
     companion object {
         // 버튼 사이에 허용하는 시간간격
-        const val INTERVAL = 200L
+        const val INTERVAL = 500L
     }
 
     // 이전 클릭 시간 기록
     private var lastClickedTime = 0L
 
-    override fun onClick(view: View) {
-        // 클릭 시간
-        val onClickedTime = SystemClock.elapsedRealtime()
-        // 간격보다 작으면 클릭 no
-        if ((onClickedTime-lastClickedTime) < INTERVAL) { return }
+    private fun isSafe(): Boolean {
+        return System.currentTimeMillis() - lastClickedTime > INTERVAL
+    }
 
-        lastClickedTime = onClickedTime
-        onClickListener.invoke(view)
+    override fun onClick(v: View?) {
+        if (isSafe() && v != null) {
+            onClickListener(v)
+        }
+        lastClickedTime = System.currentTimeMillis()
     }
 }
 
 fun View.setOnSingleClickListener(
     onClickListener: (view: View) -> Unit
 ) {
-    setOnClickListener(OnSingleClickListener(onClickListener))
+
+    val popupClickListener = OnSingleClickListener {
+        onClickListener(it)
+    }
+    setOnClickListener(popupClickListener)
+
+//    val popupClickListener = OnSingleClickListener {
+//
+//
+//        onClickListener(it)
+//    }
+//    setOnClickListener(OnSingleClickListener(onClickListener))
 }

@@ -7,8 +7,6 @@ import kotlinx.coroutines.launch
 
 
 class LoginViewModel(private val repository: UserRepository): ViewModel() {
-    val flow = repository.flow
-
     fun setUserData(accessToken : String, refreshToken : String){
         viewModelScope.launch { repository.updateUserData(accessToken, refreshToken) }
     }

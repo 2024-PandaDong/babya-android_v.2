@@ -8,14 +8,14 @@ import kr.pandadong2024.babya.databinding.ItemTodoListContentBinding
 import kr.pandadong2024.babya.server.remote.responses.todo.TodoResponses
 
 class TodoItemAdapter(
-    val todoList : List<TodoResponses>,
-    val work : (type : Int, todoData : TodoResponses) -> Unit,
-    )
-    : RecyclerView.Adapter<TodoItemAdapter.TodoItemViewHolder>() {
+    private val todoList: List<TodoResponses>,
+    val work: (type: Int, todoData: TodoResponses) -> Unit,
+) : RecyclerView.Adapter<TodoItemAdapter.TodoItemViewHolder>() {
 
-    inner class TodoItemViewHolder(val binding : ItemTodoListContentBinding) : RecyclerView.ViewHolder(binding.root){
-        fun bind(itemDate : TodoResponses){
-            Log.d("itme adapte","item data $itemDate")
+    inner class TodoItemViewHolder(val binding: ItemTodoListContentBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(itemDate: TodoResponses) {
+            Log.d("itme adapte", "item data $itemDate")
             binding.todoCheckRadio.isChecked = itemDate.isChecked!!
             binding.todoCheckRadio.text = itemDate.content
             binding.todoCheckRadio.setOnClickListener {
@@ -24,23 +24,21 @@ class TodoItemAdapter(
                 Log.d("teat", "check : ${itemDate.isChecked}")
                 work(3, itemDate)
             }
+
             binding.swipeView.setOnClickListener {
                 Log.d("tageg", "swipeView")
             }
-
-
-
 
             binding.deleteButton.setOnClickListener {
                 Log.d("tageg", "deleteButton")
                 work(1, itemDate)
             }
+
             binding.modifyButton.setOnClickListener {
                 Log.d("tageg", "modifyButton")
                 work(2, itemDate)
             }
         }
-
 
 
     }
@@ -49,11 +47,12 @@ class TodoItemAdapter(
         parent: ViewGroup,
         viewType: Int,
     ): TodoItemViewHolder {
-        val binding = ItemTodoListContentBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+        val binding =
+            ItemTodoListContentBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return TodoItemViewHolder(binding)
     }
 
-    override fun getItemCount() : Int = todoList.size
+    override fun getItemCount(): Int = todoList.size
 
     override fun onBindViewHolder(holder: TodoItemViewHolder, position: Int) {
         holder.bind(todoList[position])

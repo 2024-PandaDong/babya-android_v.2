@@ -17,8 +17,5 @@ class PolicyItemDecoration(private val lastPos : Int) : RecyclerView.ItemDecorat
         if(position != lastPos){
             outRect.bottom = 5
         }
-
-
-
     }
 }

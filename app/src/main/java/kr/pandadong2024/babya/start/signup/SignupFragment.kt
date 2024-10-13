@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,16 +12,18 @@ import android.widget.EditText
 import android.widget.NumberPicker
 import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import kr.pandadong2024.babya.util.Pattern
-import kr.pandadong2024.babya.server.RetrofitBuilder
-import kr.pandadong2024.babya.server.remote.request.SignUpRequest
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentSignupBinding
+import kr.pandadong2024.babya.server.RetrofitBuilder
+import kr.pandadong2024.babya.server.remote.request.SignUpRequest
+import kr.pandadong2024.babya.util.Pattern
+import java.util.Locale
 
 
 class SignupFragment : Fragment() {
@@ -44,7 +45,6 @@ class SignupFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentSignupBinding.inflate(inflater, container, false)
 
-
         binding.birthDayBtn.setOnClickListener {
             dateService(binding.birthDayEdit)
         }
@@ -61,7 +61,7 @@ class SignupFragment : Fragment() {
             locationSave(binding.cityEdit)
         }
 
-        binding.signUpBackButton.setOnClickListener{
+        binding.signUpBackButton.setOnClickListener {
             findNavController().navigate(R.id.action_signupFragment_to_loginFragment)
         }
 
@@ -86,7 +86,7 @@ class SignupFragment : Fragment() {
         }
 
         // 아이 추가
-        binding.childrenCheckBth.setOnClickListener{
+        binding.childrenCheckBth.setOnClickListener {
             addChildren()
             binding.childrenEdit.setText("")
         }
@@ -97,7 +97,7 @@ class SignupFragment : Fragment() {
         }
 
         // 아이여부 체크
-        binding.childrenRadioGroup.setOnCheckedChangeListener {vgroup, checkedId ->
+        binding.childrenRadioGroup.setOnCheckedChangeListener { vgroup, checkedId ->
             childrenCheck(checkedId)
         }
 
@@ -106,7 +106,7 @@ class SignupFragment : Fragment() {
             val isChecked = binding.fullAgreementCheckBox.isChecked
             binding.agreementCheckBox1.isChecked = isChecked
         }
-        binding.agreementCheckBox1.setOnClickListener{
+        binding.agreementCheckBox1.setOnClickListener {
             val isChecked = binding.agreementCheckBox1.isChecked
             binding.fullAgreementCheckBox.isChecked = isChecked
         }
@@ -118,7 +118,7 @@ class SignupFragment : Fragment() {
 
         // email, password
         binding.run {
-            binding.emailEdit?.doAfterTextChanged { text ->
+            binding.emailEdit.doAfterTextChanged { text ->
                 val emailText = text.toString()
                 if (emailText.isNotEmpty() && emailText.matches(Pattern.email)) {
                     binding.reemailBtn.isEnabled = true
@@ -126,19 +126,19 @@ class SignupFragment : Fragment() {
                     binding.reemailBtn.isEnabled = false
                 }
             }
-            binding.reemailEdit?.doAfterTextChanged { text ->
+            binding.reemailEdit.doAfterTextChanged { text ->
                 Log.d(TAG, "onCreateView: 12345")
                 val reemailText = text.toString()
-                if (reemailText.length == 6){
+                if (reemailText.length == 6) {
                     Log.d(TAG, "onCreateView: 성공!!")
                     binding.checkEmail.isEnabled = true
-                } else{
+                } else {
                     binding.checkEmail.isEnabled = false
                     Log.d(TAG, "onCreateView: 실패!!")
                 }
             }
 
-            binding.passWordEdit?.doAfterTextChanged { text ->
+            binding.passWordEdit.doAfterTextChanged { text ->
                 val passwordText = text.toString()
                 if (passwordText.isNotEmpty() && passwordText.matches(Pattern.passwordRegex)) {
                     passwordCheck = true
@@ -154,16 +154,16 @@ class SignupFragment : Fragment() {
     }
 
     // 날짜 지정
-    private fun dateService(edit : EditText) {
+    private fun dateService(edit: EditText) {
         val dialog = AlertDialog.Builder(context).create()
-        val edialog : LayoutInflater = LayoutInflater.from(context)
-        val mView : View = edialog.inflate(R.layout.calendar_dialog_view, null)
+        val edialog: LayoutInflater = LayoutInflater.from(context)
+        val mView: View = edialog.inflate(R.layout.calendar_dialog_view, null)
 
-        val year : NumberPicker = mView.findViewById(R.id.yearDatePicker)
-        val month : NumberPicker = mView.findViewById(R.id.monthDatePicker)
-        val day : NumberPicker = mView.findViewById(R.id.dayDatePicker)
-        val cancel : Button = mView.findViewById(R.id.cancelBtn)
-        val save : Button = mView.findViewById(R.id.saveBtn)
+        val year: NumberPicker = mView.findViewById(R.id.yearDatePicker)
+        val month: NumberPicker = mView.findViewById(R.id.monthDatePicker)
+        val day: NumberPicker = mView.findViewById(R.id.dayDatePicker)
+        val cancel: Button = mView.findViewById(R.id.cancelBtn)
+        val save: Button = mView.findViewById(R.id.saveBtn)
 
 
         year.wrapSelectorWheel = false
@@ -201,7 +201,11 @@ class SignupFragment : Fragment() {
 
         save.setOnClickListener {
             val selectedYear = years[year.value]
-            val selectedDate = "$selectedYear-${String.format("%02d", month.value)}-${String.format("%02d", day.value)}"
+            val selectedDate = "$selectedYear-${String.format(Locale.KOREA, "%02d", month.value)}-${
+                String.format(
+                    Locale.KOREA, "%02d", day.value
+                )
+            }"
             edit.setText(selectedDate)
             dialog.dismiss()
             dialog.cancel()
@@ -213,16 +217,34 @@ class SignupFragment : Fragment() {
         dialog.show()
     }
 
-    private fun locationSave(edit : EditText){
+    private fun locationSave(edit: EditText) {
         val dialog = AlertDialog.Builder(context).create()
-        val edialog : LayoutInflater = LayoutInflater.from(context)
-        val mView : View = edialog.inflate(R.layout.zone_dialog_view, null)
+        val edialog: LayoutInflater = LayoutInflater.from(context)
+        val mView: View = edialog.inflate(R.layout.zone_dialog_view, null)
 
-        val city : NumberPicker = mView.findViewById(R.id.cityPicker)
-        val cancel : Button = mView.findViewById(R.id.cancelBtn)
-        val save : Button = mView.findViewById(R.id.saveBtn)
+        val city: NumberPicker = mView.findViewById(R.id.cityPicker)
+        val cancel: Button = mView.findViewById(R.id.cancelBtn)
+        val save: Button = mView.findViewById(R.id.saveBtn)
 
-        val cities = arrayOf("서울특별시", "부산광역시", "대구광역시", "인천광역시", "광주광역시", "대전광역시", "울산광역시", "세종특별시", "경기도", "강원도", "충청북도", "충청남도", "전라북도", "전라남도", "경상북도", "경상남도", "제주특별자치도")
+        val cities = arrayOf(
+            "서울특별시",
+            "부산광역시",
+            "대구광역시",
+            "인천광역시",
+            "광주광역시",
+            "대전광역시",
+            "울산광역시",
+            "세종특별시",
+            "경기도",
+            "강원도",
+            "충청북도",
+            "충청남도",
+            "전라북도",
+            "전라남도",
+            "경상북도",
+            "경상남도",
+            "제주특별자치도"
+        )
         city.minValue = 0
         city.maxValue = cities.size - 1
         city.displayedValues = cities
@@ -260,19 +282,19 @@ class SignupFragment : Fragment() {
         val childrenName = binding.childrenEdit.text.toString()
 
 
-        if (binding.childrenRv.adapter != null){
+        if (binding.childrenRv.adapter != null) {
             childrenNameList = (binding.childrenRv.adapter as BriNmAdapter).birthNameList
         }
 
-        if (childrenName.isNotEmpty()){
+        if (childrenName.isNotEmpty()) {
             childrenNameList.add(BirthName((childrenName), true))
         }
 
-        if (binding.childrenRv.adapter == null){
+        if (binding.childrenRv.adapter == null) {
             val adapter = BriNmAdapter(childrenNameList)
             binding.childrenRv.adapter = adapter
             binding.childrenRv.layoutManager = LinearLayoutManager(requireContext())
-        } else{
+        } else {
             (binding.childrenRv.adapter as BriNmAdapter).notifyDataSetChanged()
         }
     }
@@ -285,7 +307,7 @@ class SignupFragment : Fragment() {
             birthNameList = (binding.birthDayRv.adapter as BriNmAdapter).birthNameList
         }
 
-        if (birthName.isNotEmpty()){
+        if (birthName.isNotEmpty()) {
             birthNameList.add(BirthName((birthName), false))
         }
 
@@ -302,7 +324,7 @@ class SignupFragment : Fragment() {
     private fun reemail() {
         val email = binding.emailEdit.text.toString()
         binding.reemailLayout.visibility = View.VISIBLE
-        lifecycleScope.launch(Dispatchers.IO){
+        lifecycleScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 RetrofitBuilder.getSignupService().postEmailSend(
                     email = email
@@ -364,6 +386,7 @@ class SignupFragment : Fragment() {
             R.id.pregnancyRadioYesButton -> {
                 binding.pregnancyLayout.visibility = View.VISIBLE
             }
+
             R.id.pregnancyRadioNoButton -> {
                 binding.pregnancyLayout.visibility = View.GONE
             }
@@ -378,7 +401,6 @@ class SignupFragment : Fragment() {
             R.id.childrenRadioNoButton -> binding.childrenLayout.visibility = View.GONE
         }
     }
-
 
 
     // 지역코드로 변환
@@ -407,7 +429,7 @@ class SignupFragment : Fragment() {
 
 
     // 회원가입
-    private fun Signup(){
+    private fun Signup() {
         // 필수 항목
         val email = binding.emailEdit.text.toString()
         val password = binding.passWordEdit.text.toString()
@@ -418,11 +440,11 @@ class SignupFragment : Fragment() {
         val checkBox1 = binding.agreementCheckBox1.isChecked
 
         // 선택 항목
-        val marriedDay :String = binding.weddingDayEdit.text.toString()
+        val marriedDay: String = binding.weddingDayEdit.text.toString()
 
 
-        if (name.isNotEmpty() && birthDay.isNotEmpty() && locationCode.isNotEmpty() && passwordCheck == true && checkBox1 == true && emailCheck == true){
-            lifecycleScope.launch(Dispatchers.IO){
+        if (name.isNotEmpty() && birthDay.isNotEmpty() && locationCode.isNotEmpty() && passwordCheck == true && checkBox1 == true && emailCheck == true) {
+            lifecycleScope.launch(Dispatchers.IO) {
                 kotlin.runCatching {
                     RetrofitBuilder.getSignupService().postSignup(
                         body = SignUpRequest(
@@ -457,8 +479,7 @@ class SignupFragment : Fragment() {
                     Log.d(TAG, "Signup: ${it.stackTrace}")
                 }
             }
-        }
-        else{
+        } else {
             Toast.makeText(requireContext(), "회원정보를 전부 입력해주세요", Toast.LENGTH_SHORT).show()
         }
     }

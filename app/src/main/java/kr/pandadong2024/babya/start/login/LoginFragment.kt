@@ -17,10 +17,10 @@ import com.example.babya_android.datastore.User
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import kr.pandadong2024.babya.HomeActivity
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentLoginBinding
+import kr.pandadong2024.babya.home.viewmodel.CommonViewModel
 import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.server.local.BabyaDB
 import kr.pandadong2024.babya.server.local.TokenDAO
@@ -37,7 +37,8 @@ private val Context.test: DataStore<User> by dataStore(
     serializer = UserSerializer
 )
 
-private lateinit var viewModel: LoginViewModel
+private lateinit var loginViewModel: LoginViewModel
+private lateinit var commonViewModel: CommonViewModel
 private var bottomSheetDialog: LoginBottomSheet? = null
 
 class LoginFragment : Fragment() {
@@ -53,22 +54,12 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
 
-        viewModel = ViewModelProvider(
-            requireActivity(),
-            ProtoViewModelFactory(UserRepository(requireContext().test))
-        )[LoginViewModel::class.java]
+//        loginViewModel = ViewModelProvider(
+//            requireActivity(),
+//            ProtoViewModelFactory(UserRepository(requireContext().test))
+//        )[LoginViewModel::class.java]
 
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
-//        binding.passwordLayout?.setEndIconOnClickListener {
-//            changeVisiblePassword()
-//        }
-//        binding.singeUpTextButton?.setOnClickListener{
-//            singeUp()
-//        }
-//        binding.loginButton?.setOnClickListener{
-//            login()
-//        }
-
 
         binding.registBtn?.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_signup1)
@@ -93,19 +84,6 @@ class LoginFragment : Fragment() {
         return binding.root
     }
 
-    private fun oAuthLogin() {
-        Toast.makeText(requireContext(), "제작중...", Toast.LENGTH_SHORT).show()
-        //TODO oAuth로그인 하기
-        runBlocking(Dispatchers.IO) {
-            val dao = BabyaDB.getInstance(requireContext())
-            if (dao != null) {
-                tokenDao = dao.tokenDao()
-            }
-            token = tokenDao.getMembers().accessToken
-        }
-    }
-
-
     private fun login(emailText: String, passwordText: String) {
         var accessToken = ""
         var refreshToken = ""
@@ -129,16 +107,14 @@ class LoginFragment : Fragment() {
                             bottomSheetDialog?.dismiss()
                             moveScreen()
                         } else {
-                            Toast.makeText(requireContext(), "유저정보가 일치하지 않습니다.", Toast.LENGTH_SHORT)
-                                .show()
+                            commonViewModel.setToastMessage("유저정보가 일치하지 않습니다")
                         }
 
                     }
                 }.onFailure { throwable ->
                     throwable.message
                     launch(Dispatchers.Main) {
-                        Toast.makeText(requireContext(), "유저정보가 일치하지 않습니다.", Toast.LENGTH_SHORT)
-                            .show()
+                        commonViewModel.setToastMessage("인터넷이 연결되어있는지 확인해 주십시오")
                     }
                 }
             }
@@ -160,8 +136,8 @@ class LoginFragment : Fragment() {
                     refreshToken = refreshToken
                 )
             )
-            viewModel.clearUserData()
-            viewModel.setUserData(accessToken = accessToken, refreshToken = refreshToken)
+            loginViewModel.clearUserData()
+            loginViewModel.setUserData(accessToken = accessToken, refreshToken = refreshToken)
         }
     }
 

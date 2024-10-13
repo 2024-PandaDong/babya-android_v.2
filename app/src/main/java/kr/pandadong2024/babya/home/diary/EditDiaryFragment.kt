@@ -115,20 +115,20 @@ class EditDiaryFragment : Fragment() {
             for (uri in selectedUri) {
                 val test = lifecycleScope.async(Dispatchers.IO) {
                     kotlin.runCatching {
-                        RetrofitBuilder.getCommonService().fileUpload(
-                            accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
-                            file = prepareFilePart(uri)!!
-                        )
+                        prepareFilePart(uri)?.let {
+                            RetrofitBuilder.getCommonService().fileUpload(
+                                accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
+                                file = it
+                            )
+                        }
                     }.onSuccess { result ->
-                        Log.d(TAG, "result : ${result.data}")
                     }.onFailure { result ->
-                        Log.e(TAG, "result = ${result.message}")
                         result.printStackTrace()
                     }
                 }.await()
-                Log.d(TAG, "test :  ${test.onSuccess { it.data }}")
+                Log.d(TAG, "test :  ${test.onSuccess { it?.data }}")
                 test.onSuccess { result ->
-                    imageLinkList.add(result.data!!)
+                    imageLinkList.add(result?.data ?: "")
                 }
             }
         }
@@ -202,18 +202,17 @@ class EditDiaryFragment : Fragment() {
                     url = uploadFile(if(selectedImageUri == null) {
                         listOf<Uri>()} else{ listOf(selectedImageUri!!)})
                 )
-//                diaryRequestBody = PostDiaryRequest()
-                Log.d(TAG, "title = ${diaryRequestBody.title!!::class.simpleName}, ${diaryRequestBody.title}\n" +
-                        "content = ${diaryRequestBody.content!!::class.simpleName}, ${diaryRequestBody.content}\n" +
-                        "pregnancyWeeks = ${diaryRequestBody.pregnancyWeeks!!.toInt()::class.simpleName}, ${diaryRequestBody.pregnancyWeeks!!.toInt()}\n" +
-                        "weight = ${diaryRequestBody.weight!!::class.simpleName}, ${diaryRequestBody.weight}\n" +
-                        "systolicPressure = ${diaryRequestBody.systolicPressure!!::class.simpleName}, ${diaryRequestBody.systolicPressure}\n"+
-                        "diastolicPressure = ${diaryRequestBody.diastolicPressure!!::class.simpleName}, ${diaryRequestBody.diastolicPressure}\n"+
-                        "nextAppointment = ${diaryRequestBody.nextAppointment!!::class.simpleName}, ${diaryRequestBody.nextAppointment}\n" +
-                        "emoji = ${diaryRequestBody.emoji!!::class.simpleName}, ${diaryRequestBody.emoji}\n" +
-                        "fetusComment = ${diaryRequestBody.fetusComment!!::class.simpleName}, ${diaryRequestBody.fetusComment}\n" +
-                        "isPublic = ${diaryRequestBody.isPublic!!::class.simpleName}, ${diaryRequestBody.isPublic}\n"+
-                        "url = ${diaryRequestBody.url!!::class.simpleName}, ${diaryRequestBody.url}")
+//                Log.d(TAG, "title = ${diaryRequestBody.title!!::class.simpleName}, ${diaryRequestBody.title}\n" +
+//                        "content = ${diaryRequestBody.content!!::class.simpleName}, ${diaryRequestBody.content}\n" +
+//                        "pregnancyWeeks = ${diaryRequestBody.pregnancyWeeks!!.toInt()::class.simpleName}, ${diaryRequestBody.pregnancyWeeks!!.toInt()}\n" +
+//                        "weight = ${diaryRequestBody.weight!!::class.simpleName}, ${diaryRequestBody.weight}\n" +
+//                        "systolicPressure = ${diaryRequestBody.systolicPressure!!::class.simpleName}, ${diaryRequestBody.systolicPressure}\n"+
+//                        "diastolicPressure = ${diaryRequestBody.diastolicPressure!!::class.simpleName}, ${diaryRequestBody.diastolicPressure}\n"+
+//                        "nextAppointment = ${diaryRequestBody.nextAppointment!!::class.simpleName}, ${diaryRequestBody.nextAppointment}\n" +
+//                        "emoji = ${diaryRequestBody.emoji!!::class.simpleName}, ${diaryRequestBody.emoji}\n" +
+//                        "fetusComment = ${diaryRequestBody.fetusComment!!::class.simpleName}, ${diaryRequestBody.fetusComment}\n" +
+//                        "isPublic = ${diaryRequestBody.isPublic!!::class.simpleName}, ${diaryRequestBody.isPublic}\n"+
+//                        "url = ${diaryRequestBody.url!!::class.simpleName}, ${diaryRequestBody.url}")
                 Log.i(TAG, diaryRequestBody.toString())
                 kotlin.runCatching {
 
@@ -223,8 +222,6 @@ class EditDiaryFragment : Fragment() {
                     )
                     result
                 }.onSuccess {result ->
-                    Log.d(TAG, "message : ${result.message}")
-                    Log.d(TAG, "status : ${result.status}")
                     if (result.status in 200 .. 299){
                         lifecycleScope.launch (Dispatchers.Main){
                             findNavController().navigate(R.id.action_editDiaryFragment_to_diaryFragment)

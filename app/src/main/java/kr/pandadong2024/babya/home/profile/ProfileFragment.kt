@@ -6,7 +6,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -15,18 +14,14 @@ import coil.load
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import kr.pandadong2024.babya.MainActivity
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentProfileBinding
-import kr.pandadong2024.babya.home.dash_board.dash_boardViewModel.DashBoardViewModel
-import kr.pandadong2024.babya.home.diary.diaryviewmodle.DiaryViewModel
-import kr.pandadong2024.babya.home.profile.adapter.ProfileBoardAdapter
-import kr.pandadong2024.babya.home.profile.adapter.ProfileDiaryAdapter
+import kr.pandadong2024.babya.home.viewmodel.CommonViewModel
 import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.server.local.BabyaDB
-import kr.pandadong2024.babya.server.remote.responses.profile.ProfileMyDashBoardResponses
-import kr.pandadong2024.babya.server.remote.responses.profile.ProfileMyDiaryResponses
 import kr.pandadong2024.babya.util.BottomControllable
 import kr.pandadong2024.babya.util.setOnSingleClickListener
 
@@ -36,20 +31,17 @@ class ProfileFragment : Fragment() {
     private val binding get() = _binding!!
     private val TAG = "ProfileFragment"
     private lateinit var token: String
-    private lateinit var boardAdapter: ProfileBoardAdapter
-    private var boardList: List<ProfileMyDashBoardResponses>? = null
-    private lateinit var diaryAdapter: ProfileDiaryAdapter
-    private var diaryList: List<ProfileMyDiaryResponses>? = null
-
-    private val dashBoardViewModel by activityViewModels<DashBoardViewModel>()
-    private val diaryViewModel by activityViewModels<DiaryViewModel>()
+    private val commonViewModel by activityViewModels<CommonViewModel>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // 메인 스레드가 아닌 IO 스레드에서 데이터베이스에 접근하도록 수정
-        lifecycleScope.launch(Dispatchers.IO) {
-            token = BabyaDB.getInstance(requireContext())?.tokenDao()?.getMembers()?.accessToken.toString()
+        runBlocking {
+            lifecycleScope.launch(Dispatchers.IO) {
+                token = BabyaDB.getInstance(requireContext())?.tokenDao()
+                    ?.getMembers()?.accessToken.toString()
+            }
         }
     }
 
@@ -97,26 +89,25 @@ class ProfileFragment : Fragment() {
                                 accessToken = "Bearer $token"
                             )
                         }.onSuccess {
-                            Log.d(TAG, "onViewCreated: 성공")
-                            BabyaDB.getInstance(requireContext())?.tokenDao()?.getMembers()
-                                ?.let { tokenEntity ->
-                                    BabyaDB.getInstance(requireContext())?.tokenDao()
-                                        ?.deleteMember(tokenEntity)
+                            if (it.status == 200) {
+                                BabyaDB.getInstance(requireContext())?.tokenDao()?.getMembers()
+                                    ?.let { tokenEntity ->
+                                        BabyaDB.getInstance(requireContext())?.tokenDao()
+                                            ?.deleteMember(tokenEntity)
+                                    }
+                                // UI 스레드에서 프레그먼트 종료
+                                withContext(Dispatchers.Main) {
+                                    parentFragmentManager.popBackStack()
                                 }
-                            // UI 스레드에서 프레그먼트 종료
-                            withContext(Dispatchers.Main) {
-                                parentFragmentManager.popBackStack()
+                            } else {
+                                commonViewModel.setToastMessage("회원탈퇴 도중 문제가 발생했습니다. CDOE : ${it.status}")
                             }
                         }.onFailure {
                             Log.d(TAG, "onViewCreated: 실패")
                             it.printStackTrace()
                             // 실패 시 UI 스레드에서 에러 메시지 표시
                             withContext(Dispatchers.Main) {
-                                Toast.makeText(
-                                    requireContext(),
-                                    "탈퇴에 실패했습니다. 다시 시도해주세요.",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                commonViewModel.setToastMessage("인터넷이 연결되어있는지 확인해 주십시오")
                             }
                         }
                     }
@@ -129,17 +120,16 @@ class ProfileFragment : Fragment() {
         val versionName = packageInfo?.versionName // 버전 이름 (예: "1.0")
 
 
-            binding.appVersionText.text = "v$versionName"
+        binding.appVersionText.text = "v$versionName"
 
 
 
         binding.profileModifyView.setOnClickListener {
-            Log.d("test", "teststsetst")
             findNavController().navigate(R.id.action_profileFragment_to_profileModifyFragment)
         }
-            binding.profileModifyView.setOnClickListener {
-                findNavController().navigate(R.id.action_profileFragment_to_profileModifyFragment)
-            }
+        binding.profileModifyView.setOnClickListener {
+            findNavController().navigate(R.id.action_profileFragment_to_profileModifyFragment)
+        }
 
 
 //        toolbar.setOnMenuItemClickListener{item ->
@@ -206,7 +196,7 @@ class ProfileFragment : Fragment() {
 //                else -> false
 //            }
 //        }
-        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -238,30 +228,33 @@ class ProfileFragment : Fragment() {
                     email = "my"
                 )
             }.onSuccess { result ->
-                Log.d(TAG, "status : ${result.status}")
-                Log.d(TAG, "message : ${result.message}")
-                Log.d(TAG, "getProfileData: ${result.data}")
+                if (result.status == 200) {
 
-                launch(Dispatchers.Main) {
-                    binding.welcomeText.text = "${result.data?.nickname}님 반가워요!"
+                    Log.d(TAG, "status : ${result.status}")
+                    Log.d(TAG, "message : ${result.message}")
+                    Log.d(TAG, "getProfileData: ${result.data}")
 
-                    if (result.data?.profileImg == null) {
-                        binding.profileImage.load(R.drawable.ic_basic_profile)
-                    } else {
-                        binding.profileImage.load(result.data.profileImg)
+                    launch(Dispatchers.Main) {
+                        binding.welcomeText.text = "${result.data?.nickname}님 반가워요!"
+
+                        if (result.data?.profileImg == null) {
+                            binding.profileImage.load(R.drawable.ic_basic_profile)
+                        } else {
+                            binding.profileImage.load(result.data.profileImg)
+                        }
                     }
-
+                } else {
+                    commonViewModel.setToastMessage("프로필 정보를 불러오는 도중 문제가 발생했습니다. CODE : ${result.status}")
                 }
             }.onFailure { result ->
-                Log.d(TAG, "onCreateView: ${result.message}")
                 result.printStackTrace()
-                Log.d(TAG, "onCreateView: 서버연결 실패")
+                commonViewModel.setToastMessage("인터넷이 연결되어있는지 확인해 주십시오")
             }
         }
 
 
-
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

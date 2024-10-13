@@ -1,14 +1,12 @@
 package kr.pandadong2024.babya.start.signup
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import kr.pandadong2024.babya.R
-import kr.pandadong2024.babya.databinding.FragmentSignup2Binding
-import kr.pandadong2024.babya.databinding.FragmentSignup3Binding
 import kr.pandadong2024.babya.databinding.FragmentSignup5Binding
 
 
@@ -20,7 +18,7 @@ class Signup5 : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentSignup5Binding.inflate(inflater, container, false)
 

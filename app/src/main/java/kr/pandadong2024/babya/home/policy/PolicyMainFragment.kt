@@ -20,7 +20,7 @@ import kr.pandadong2024.babya.home.policy.bottom_sheet.PolicyBottomSheet
 import kr.pandadong2024.babya.home.policy.decoration.PolicyCategoryItemDecoration
 import kr.pandadong2024.babya.home.policy.decoration.PolicyItemDecoration
 import kr.pandadong2024.babya.home.policy.viewmdole.PolicyViewModel
-import kr.pandadong2024.babya.home.todo_list.adapter.PolicyCategoryAdapter
+import kr.pandadong2024.babya.home.policy.adapter.PolicyCategoryAdapter
 import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.server.local.BabyaDB
 import kr.pandadong2024.babya.server.local.TokenDAO
@@ -161,11 +161,11 @@ class PolicyMainFragment : Fragment() {
             }.onSuccess { result ->
                 if (result.status == 200) {
                     withContext(Dispatchers.Main) {
-                        viewModel.setPolicyList(result.data!!)
+                        viewModel.setPolicyList(result.data ?: listOf())
                      if (!viewModel.tagsList.value.isNullOrEmpty()) {
 
                         setRecyclerView(
-                            policyList = result.data,
+                            policyList = result.data ?: listOf(),
                             tag = "${viewModel.tagsList.value?.get(0)} ${viewModel.tagsList.value?.get(1)} 보건소"
                         )
                      }

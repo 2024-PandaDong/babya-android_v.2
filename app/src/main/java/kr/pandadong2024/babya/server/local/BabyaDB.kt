@@ -10,6 +10,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 @Database(entities = [TokenEntity::class], version = 5)
 abstract class BabyaDB : RoomDatabase() {
     abstract fun tokenDao(): TokenDAO
+
     companion object {
 
         private var instance: BabyaDB? = null
@@ -19,12 +20,14 @@ abstract class BabyaDB : RoomDatabase() {
             if (instance == null) {
                 instance = Room.databaseBuilder(
                     context.applicationContext,
-                    BabyaDB::class.java, "database")
+                    BabyaDB::class.java, "database"
+                )
                     .addMigrations(MIGRATION_4_5)
                     .build()
             }
             return instance
         }
+
         private val MIGRATION_4_5 = object : Migration(4, 5) {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL(
