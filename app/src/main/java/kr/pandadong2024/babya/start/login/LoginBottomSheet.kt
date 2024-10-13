@@ -57,9 +57,9 @@ class LoginBottomSheet(
                 binding.passwordLayout.error = "비밀번호를 잘못 입력하셨습니다."
             }
             if (
-                (binding.emailEditText.text?.toString()
-                    ?.isNotEmpty() == true) && (binding.passwordEditText.text?.toString()
-                    ?.isNotEmpty() == true)
+                binding.emailEditText.text?.toString()
+                    ?.isNotEmpty() == true && binding.passwordEditText.text?.toString()
+                    ?.isNotEmpty() == true
             ) {
                 login(
                     binding.emailEditText.text?.toString() ?: "",
