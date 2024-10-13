@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "token_table")
 data class TokenEntity(
     @PrimaryKey
-    val id : Int,
+    val id: Int,
 
     @ColumnInfo(name = "accessToken")
     val accessToken: String,

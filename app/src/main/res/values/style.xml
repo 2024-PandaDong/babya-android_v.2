@@ -18,4 +18,8 @@
         <item name="android:windowSoftInputMode">adjustResize</item>
         <item name="background">@color/invisible</item>
     </style>
+
+    <style name="editTextDialogStyle" parent="@style/Theme.AppCompat.Dialog">
+
+    </style>
 </resources>

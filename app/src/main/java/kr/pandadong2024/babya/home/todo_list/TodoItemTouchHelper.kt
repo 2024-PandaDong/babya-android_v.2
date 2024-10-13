@@ -9,7 +9,7 @@ import kr.pandadong2024.babya.home.todo_list.adapter.TodoItemAdapter
 import kotlin.math.max
 import kotlin.math.min
 
-class TodoItemTouchHelper (
+class TodoItemTouchHelper(
 ) : ItemTouchHelper.Callback() {
 
     private var currentPosition: Int? = null
@@ -21,7 +21,6 @@ class TodoItemTouchHelper (
         recyclerView: RecyclerView,
         viewHolder: RecyclerView.ViewHolder,
     ): Int {
-        val view = getView(viewHolder)
         clamp = 360f
         Log.d("TAG", "clamp = $clamp")
         return makeMovementFlags(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT)
@@ -36,7 +35,6 @@ class TodoItemTouchHelper (
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        Log.d("onSwiped", "onSwiped!!")
     }
 
     override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
@@ -61,11 +59,11 @@ class TodoItemTouchHelper (
         actionState: Int,
         isCurrentlyActive: Boolean
     ) {
-        if(actionState == ItemTouchHelper.ACTION_STATE_SWIPE){
+        if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
 
             val view = getView(viewHolder)
             val isClamped = getTag(viewHolder)
-            val x =  clampViewPositionHorizontal(view, dX, isClamped, isCurrentlyActive)
+            val x = clampViewPositionHorizontal(view, dX, isClamped, isCurrentlyActive)
 
             currentDx = x
             getDefaultUIUtil().onDraw(
@@ -87,10 +85,9 @@ class TodoItemTouchHelper (
         dX: Float,
         isClamped: Boolean,
         isCurrentlyActive: Boolean
-    ) : Float {
+    ): Float {
         // View의 가로 길이의 절반까지만 swipe 되도록
         val min: Float = -360f
-        Log.d("TAG", min.toString())
         // RIGHT 방향으로 swipe 막기
         val max: Float = 0f
 
@@ -126,7 +123,7 @@ class TodoItemTouchHelper (
         viewHolder.itemView.tag = isClamped
     }
 
-    private fun getTag(viewHolder: RecyclerView.ViewHolder) : Boolean {
+    private fun getTag(viewHolder: RecyclerView.ViewHolder): Boolean {
         return viewHolder.itemView.tag as? Boolean ?: false
     }
 

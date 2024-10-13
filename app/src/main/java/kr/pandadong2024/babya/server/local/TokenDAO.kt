@@ -8,7 +8,7 @@ import androidx.room.Query
 import androidx.room.Update
 
 @Dao
-interface TokenDAO{
+interface TokenDAO {
     @Query("SELECT * FROM token_table")
     fun getMembers(): TokenEntity
 

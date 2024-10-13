@@ -1,20 +1,18 @@
 package kr.pandadong2024.babya.home.quiz
 
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kr.pandadong2024.babya.R
-import kr.pandadong2024.babya.databinding.FragmentMainBinding
 import kr.pandadong2024.babya.databinding.FragmentQuizBinding
-import kr.pandadong2024.babya.home.diary.diaryviewmodle.DiaryViewModel
+import kr.pandadong2024.babya.home.viewmodel.CommonViewModel
 import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.server.local.BabyaDB
 import kr.pandadong2024.babya.server.local.TokenDAO
@@ -25,9 +23,9 @@ import retrofit2.HttpException
 class QuizFragment : Fragment() {
     private var _binding: FragmentQuizBinding? = null
     private val binding get() = _binding!!
-    private var quiz : QuizResponses = QuizResponses()
-    private val viewModel : QuizViewModel by activityViewModels<QuizViewModel>()
-    val TAG = "QuizFragment"
+    private var quiz: QuizResponses = QuizResponses()
+    private val commonViewModel by activityViewModels<CommonViewModel>()
+    private val viewModel: QuizViewModel by activityViewModels<QuizViewModel>()
     private lateinit var tokenDao: TokenDAO
 
 
@@ -52,45 +50,45 @@ class QuizFragment : Fragment() {
             moveOtherView(true)
         }
 
-        
+
         return binding.root
     }
 
-    private  fun moveOtherView(isSkip : Boolean){
-        if (isSkip){
+    private fun moveOtherView(isSkip: Boolean) {
+        if (isSkip) {
             findNavController().navigate(R.id.action_quizFragment_to_mainFragment)
-        }else{
+        } else {
             viewModel.quizData.value = quiz
             findNavController().navigate(R.id.action_quizFragment_to_quizResultFragment)
         }
 
     }
 
-    private fun getQuiz(){
-        lifecycleScope.launch (Dispatchers.IO) {
+    private fun getQuiz() {
+        lifecycleScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 RetrofitBuilder.getQuizService().getQuiz(
                     accessToken = "Bearer ${tokenDao.getMembers().accessToken}"
                 )
             }.onSuccess { result ->
-                if (result.data != null){
-                    quiz = result.data
-                }
-                else{
-                    quiz = QuizResponses()
-                }
+                if (result.status == 200) {
+                    quiz = result.data ?: QuizResponses()
 
-                launch (Dispatchers.Main){
-                    binding.quizText.text = quiz.title
+                    launch(Dispatchers.Main) {
+                        binding.quizText.text = quiz.title
+                    }
+                } else {
+                    commonViewModel.setToastMessage("데이터를 불러오는 도중 문제가 발생했습니다. CODE : ${result.status}")
                 }
-            }.onFailure {result ->
+            }.onFailure { result ->
                 result.printStackTrace()
-                Log.e(TAG, "resutl : ${result.message}")
                 if (result is HttpException) {
                     val errorBody = result.response()?.raw()?.request
-                    Log.e(TAG, "Error body: $errorBody")
                 }
-                launch (Dispatchers.Main){
+
+                commonViewModel.setToastMessage("인터넷이 연결되어있는지 확인해 주십시오")
+
+                launch(Dispatchers.Main) {
                     binding.quizText.text = quiz.title
                 }
 

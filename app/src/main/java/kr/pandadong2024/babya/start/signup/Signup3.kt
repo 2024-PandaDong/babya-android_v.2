@@ -4,17 +4,14 @@ import android.app.DatePickerDialog
 import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.DatePicker
 import android.widget.EditText
 import androidx.core.widget.doAfterTextChanged
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentSignup3Binding
 import kr.pandadong2024.babya.home.policy.bottom_sheet.PolicyBottomSheet
@@ -37,7 +34,7 @@ class Signup3 : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentSignup3Binding.inflate(inflater, container, false)
 
@@ -59,10 +56,9 @@ class Signup3 : Fragment() {
             next()
         }
 
-        policyViewModel.tagsList.observe(viewLifecycleOwner){
-            if (it.isNotEmpty()){
+        policyViewModel.tagsList.observe(viewLifecycleOwner) {
+            if (it.isNotEmpty()) {
                 val location = encodingLocateNumber(it[0])
-                Log.d(TAG, "location: ${location}")
                 binding.locationEditText.setText(it[0])
                 viewModel.locationCode.value = location.toString()
             }
@@ -80,16 +76,16 @@ class Signup3 : Fragment() {
         }
 
         kotlin.run {
-            binding.nickNameEditText?.doAfterTextChanged {
+            binding.nickNameEditText.doAfterTextChanged {
                 check()
             }
-            binding.birthDayEditText?.doAfterTextChanged {
+            binding.birthDayEditText.doAfterTextChanged {
                 check()
             }
-            binding.marriedDayEditText?.doAfterTextChanged {
+            binding.marriedDayEditText.doAfterTextChanged {
                 check()
             }
-            binding.locationEditText?.doAfterTextChanged {
+            binding.locationEditText.doAfterTextChanged {
                 check()
             }
         }
@@ -97,25 +93,24 @@ class Signup3 : Fragment() {
         return binding.root
     }
 
+    private fun dateService(edit: EditText) {
+        val dlg = DatePickerDialog(requireContext(),
+            { view, year, month, dayOfMonth -> //month는 +1 해야 함
+                Log.d("MAIN", "${year}, ${month + 1}, ${dayOfMonth}")
 
-
-
-
-    private fun dateService(edit : EditText){
-
-        val bottomSheetDialog =
-            SignupBottomSheet(){d->
-                edit.setText(d)
-            }
-        bottomSheetDialog.show(requireActivity().supportFragmentManager, bottomSheetDialog.tag)
+                val parsedDate = String.format("%d년 %02d월 %02d일", year, month + 1, dayOfMonth)
+                edit.setText(parsedDate)
+            }, year, month, date
+        )
+        dlg.show()
     }
 
-    private fun check(){
+    private fun check() {
         val nickName = binding.nickNameEditText.text.toString()
         val birthDt = binding.birthDayEditText.text.toString()
         val marriedDt = binding.marriedDayEditText.text.toString()
         // 메인에 머지하고 ㄱㄱ
-        val locationCode = binding.locationEditText.text.toString();
+        val locationCode = binding.locationEditText.text.toString()
 
         if (nickName.isNotEmpty() && birthDt.isNotEmpty() && marriedDt.isNotEmpty() && locationCode.isNotEmpty()) {
             binding.nextBtn.isEnabled = true
@@ -136,7 +131,6 @@ class Signup3 : Fragment() {
     }
 
 
-
     fun main(value: String) {
         // 입력 형식: "2024년 09월 13일" 또는 "2024년 9월 1일" 등
         val year = value.substring(0, 4) // 연도 부분
@@ -152,7 +146,7 @@ class Signup3 : Fragment() {
         viewModel.birthDt.value = "$year-$month-$day"
     }
 
-    fun main2(value: String) {
+    private fun main2(value: String) {
         // 입력 형식: "2024년 09월 13일" 또는 "2024년 9월 1일" 등
         val year = value.substring(0, 4) // 연도 부분
         val monthStart = value.indexOf("년") + 2
@@ -166,7 +160,6 @@ class Signup3 : Fragment() {
         // 새로운 형식으로 조합하여 반환
         viewModel.marriedDt.value = "$year-$month-$day"
     }
-
 
 
     private fun encodingLocateNumber(location: String): String {

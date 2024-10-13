@@ -14,6 +14,5 @@ class CompanyOffsetItemDecoration(private val padding : Int) : RecyclerView.Item
         super.getItemOffsets(outRect, view, parent, state)
         outRect.left = padding
         outRect.right = padding
-
     }
 }

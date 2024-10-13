@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -21,19 +20,18 @@ class MainBannerAdapter(
     private val context: Context,
     private val bannerList: List<BannerResponses>
 ) : RecyclerView.Adapter<MainBannerAdapter.PagerViewHolder>() {
-    inner class PagerViewHolder(private val binding : ItemBanerCardBinding): RecyclerView.ViewHolder(binding.root){
-        fun bind(bannerData : BannerResponses, context: Context){
-            Log.d("mainbannder", "data : $bannerData")
-            if(bannerData.image != null){
-                if(bannerData.image.extension!!.uppercase() == "SVG"){
+    inner class PagerViewHolder(private val binding: ItemBanerCardBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(bannerData: BannerResponses, context: Context) {
+            if (bannerData.image != null) {
+                if (bannerData.image.extension?.uppercase() == "SVG") {
                     bannerData.image.url?.let { binding.itemImage.loadImageFromUrl(it) }
-                }
-                else{
+                } else {
                     binding.itemImage.load(bannerData.image.url)
                 }
             }
 
-            binding.root.setOnClickListener{
+            binding.root.setOnClickListener {
                 val intent = Intent(Intent.ACTION_VIEW)
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                 intent.setPackage("com.android.chrome")
@@ -41,11 +39,11 @@ class MainBannerAdapter(
                 context.startActivity(intent)
             }
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PagerViewHolder {
-        val binding = ItemBanerCardBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+        val binding =
+            ItemBanerCardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return PagerViewHolder(binding)
     }
 
@@ -60,6 +58,7 @@ class MainBannerAdapter(
             holder.bind(bannerList[p], context)
         }
     }
+
     fun ImageView.loadImageFromUrl(imageUrl: String) {
         val imageLoader = ImageLoader.Builder(this.context)
             .components {

@@ -2,24 +2,20 @@ package kr.pandadong2024.babya.start.start
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kr.pandadong2024.babya.HomeActivity
 import kr.pandadong2024.babya.R
-import kr.pandadong2024.babya.databinding.FragmentDashBoardBinding
 import kr.pandadong2024.babya.databinding.FragmentStartBinding
 import kr.pandadong2024.babya.server.local.BabyaDB
-import kr.pandadong2024.babya.util.BottomControllable
 
 class StartFragment : Fragment() {
 
@@ -29,13 +25,14 @@ class StartFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentStartBinding.inflate(inflater, container, false)
 
 
-        lifecycleScope.launch(Dispatchers.IO){
-            val accessToken = BabyaDB.getInstance(requireContext())?.tokenDao()?.getMembers()?.accessToken
+        lifecycleScope.launch(Dispatchers.IO) {
+            val accessToken =
+                BabyaDB.getInstance(requireContext())?.tokenDao()?.getMembers()?.accessToken
             delay(1500)
             withContext(Dispatchers.Main) {
                 if (!accessToken.isNullOrEmpty()) {
@@ -49,7 +46,6 @@ class StartFragment : Fragment() {
 
         return binding.root
     }
-
 
     override fun onDestroy() {
         super.onDestroy()

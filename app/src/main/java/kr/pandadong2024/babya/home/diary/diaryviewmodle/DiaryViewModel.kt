@@ -8,8 +8,4 @@ class DiaryViewModel() : ViewModel() {
     var diaryId = MutableLiveData<Int>().apply { value = -1 }
     var isPublic = MutableLiveData<Boolean>().apply { value = false }
     val subCommentList = MutableLiveData<List<SubCommentResponses>>().apply { value = listOf<SubCommentResponses>()}
-
-    fun initViewModel(){
-        subCommentList.value = listOf()
-    }
 }
