@@ -237,7 +237,7 @@
                 android:id="@+id/personnel"
                 android:layout_width="30dp"
                 android:layout_height="23dp"
-                android:text="연봉"
+                android:text="인원"
                 android:textSize="16dp"
                 android:fontFamily="@font/notosanskr_semibold"
                 android:includeFontPadding="false"
@@ -409,7 +409,7 @@
 
             <TextView
                 android:id="@+id/ceo"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="17dp"
                 android:text="이름"
                 android:textSize="12dp"
@@ -418,6 +418,8 @@
                 android:includeFontPadding="false"
                 app:layout_constraintTop_toBottomOf="@+id/CompanyInformationText"
                 app:layout_constraintStart_toEndOf="@+id/ceoText"
+                android:layout_marginEnd="50dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="18dp"
                 android:layout_marginStart="70dp"
                 />
@@ -438,7 +440,7 @@
 
             <TextView
                 android:id="@+id/customerService"
-                android:layout_width="211dp"
+                android:layout_width="0dp"
                 android:layout_height="17dp"
                 android:layout_marginStart="70dp"
                 android:layout_marginTop="9dp"
@@ -447,6 +449,8 @@
                 android:text="전화번호"
                 android:textColor="#A7A7A8"
                 android:textSize="12dp"
+                android:layout_marginEnd="50dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/ceoText"
                 app:layout_constraintTop_toBottomOf="@+id/ceoText" />
 
@@ -467,7 +471,7 @@
 
             <TextView
                 android:id="@+id/location"
-                android:layout_width="211dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="70dp"
                 android:layout_marginTop="9dp"
@@ -476,6 +480,8 @@
                 android:text="주소"
                 android:textColor="#A7A7A8"
                 android:textSize="12dp"
+                android:layout_marginEnd="50dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/ceoText"
                 app:layout_constraintTop_toBottomOf="@+id/customerService" />
 
@@ -496,7 +502,7 @@
 
             <TextView
                 android:id="@+id/history"
-                android:layout_width="211dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="70dp"
                 android:layout_marginTop="9dp"
@@ -505,6 +511,8 @@
                 android:text="설립날짜"
                 android:textColor="#A7A7A8"
                 android:textSize="12dp"
+                android:layout_marginEnd="50dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/ceoText"
                 app:layout_constraintTop_toBottomOf="@+id/location" />
 
@@ -524,7 +532,7 @@
 
             <TextView
                 android:id="@+id/content"
-                android:layout_width="211dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="70dp"
                 android:layout_marginTop="9dp"
@@ -533,6 +541,8 @@
                 android:text="어쩌고저쩌고"
                 android:textColor="#A7A7A8"
                 android:textSize="12dp"
+                android:layout_marginEnd="50dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/ceoText"
                 app:layout_constraintTop_toBottomOf="@+id/historyText" />
 
@@ -552,7 +562,7 @@
 
             <TextView
                 android:id="@+id/type"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="17dp"
                 android:layout_marginStart="70dp"
                 android:layout_marginTop="9dp"
@@ -561,57 +571,347 @@
                 android:text="기업분류"
                 android:textColor="#A7A7A8"
                 android:textSize="12dp"
+                android:layout_marginEnd="50dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/ceoText"
                 app:layout_constraintTop_toBottomOf="@+id/content" />
 
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/welfareLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                app:layout_constraintTop_toBottomOf="@+id/typeText"
-                android:visibility="gone"
-                >
-                
-                <TextView
-                    android:id="@+id/welfareText"
-                    android:layout_width="81dp"
-                    android:layout_height="23dp"
-                    android:text="혜택 및 복지"
-                    android:textSize="16dp"
-                    android:fontFamily="@font/notosanskr_semibold"
-                    android:includeFontPadding="false"
-                    android:layout_marginTop="18dp"
-                    android:layout_marginStart="18dp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    />
 
-                <TextView
-                    android:id="@+id/welfare"
-                    android:layout_width="310dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="18dp"
-                    android:layout_marginTop="9dp"
-                    android:layout_marginBottom="20dp"
-                    android:fontFamily="@font/notosanskr_regular"
-                    android:includeFontPadding="false"
-                    android:text="첫째 500만 원, 둘째 1천만 원, 셋째 2천만 원 출산 지원"
-                    android:textColor="@color/black"
-                    android:textSize="14dp"
-                    android:ellipsize="end"
-                    app:layout_constraintTop_toBottomOf="@+id/welfareText"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/welfareText"
+                android:layout_width="81dp"
+                android:layout_height="23dp"
+                android:text="혜택 및 복지"
+                android:textSize="16dp"
+                android:fontFamily="@font/notosanskr_semibold"
+                android:includeFontPadding="false"
+                android:layout_marginTop="28dp"
+                android:layout_marginStart="18dp"
+                app:layout_constraintTop_toBottomOf="@+id/typeText"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+
+
+            <TextView
+                android:id="@+id/mtrLvPeriodText"
+                android:layout_width="wrap_content"
+                android:layout_height="17dp"
+                android:text="육아 휴직 기간"
+                android:textSize="12dp"
+                android:fontFamily="@font/notosanskr_semibold"
+                android:includeFontPadding="false"
+                app:layout_constraintTop_toBottomOf="@+id/welfareText"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="18dp"
+                android:layout_marginStart="18dp"
+                />
+
+            <TextView
+                android:id="@+id/mtrLvPeriod"
+                android:layout_width="0dp"
+                android:layout_height="17dp"
+                android:text="육아 휴직 기간"
+                android:textSize="12dp"
+                android:textColor="#A7A7A8"
+                android:fontFamily="@font/notosanskr_medium"
+                android:includeFontPadding="false"
+                app:layout_constraintTop_toBottomOf="@+id/welfareText"
+                app:layout_constraintStart_toEndOf="@+id/ceoText"
+                android:layout_marginEnd="50dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="18dp"
+                android:layout_marginStart="70dp"
+                />
+
+            <TextView
+                android:id="@+id/mtrLvIsSalaryText"
+                android:layout_width="wrap_content"
+                android:layout_height="17dp"
+                android:text="유급 여부"
+                android:textSize="12dp"
+                android:fontFamily="@font/notosanskr_semibold"
+                android:includeFontPadding="false"
+                app:layout_constraintTop_toBottomOf="@+id/mtrLvPeriod"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="9dp"
+                android:layout_marginStart="18dp"
+                />
+
+            <TextView
+                android:id="@+id/mtrLvIsSalary"
+                android:layout_width="0dp"
+                android:layout_height="17dp"
+                android:text="유급 여부"
+                android:textSize="12dp"
+                android:textColor="#A7A7A8"
+                android:fontFamily="@font/notosanskr_medium"
+                android:includeFontPadding="false"
+                app:layout_constraintTop_toBottomOf="@+id/mtrLvPeriod"
+                app:layout_constraintStart_toEndOf="@+id/ceoText"
+                android:layout_marginEnd="50dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="9dp"
+                android:layout_marginStart="70dp"
+                />
+
+            <TextView
+                android:id="@+id/mtrLvSalaryText"
+                android:layout_width="wrap_content"
+                android:layout_height="17dp"
+                android:text="육아 휴직 급여 비율"
+                android:textSize="12dp"
+                android:fontFamily="@font/notosanskr_semibold"
+                android:includeFontPadding="false"
+                app:layout_constraintTop_toBottomOf="@+id/mtrLvIsSalary"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="9dp"
+                android:layout_marginStart="18dp"
+                />
+
+            <TextView
+                android:id="@+id/mtrLvSalary"
+                android:layout_width="0dp"
+                android:layout_height="17dp"
+                android:text="육아 휴직 급여 비율"
+                android:textSize="12dp"
+                android:textColor="#A7A7A8"
+                android:fontFamily="@font/notosanskr_medium"
+                android:includeFontPadding="false"
+                app:layout_constraintTop_toBottomOf="@+id/mtrLvIsSalary"
+                app:layout_constraintStart_toEndOf="@+id/ceoText"
+                android:layout_marginEnd="50dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="9dp"
+                android:layout_marginStart="70dp"
+                />
+
+            <TextView
+                android:id="@+id/mtrSupConditionText"
+                android:layout_width="wrap_content"
+                android:layout_height="17dp"
+                android:text="출산 비용 지원 조건"
+                android:textSize="12dp"
+                android:fontFamily="@font/notosanskr_semibold"
+                android:includeFontPadding="false"
+                app:layout_constraintTop_toBottomOf="@+id/mtrLvSalary"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="9dp"
+                android:layout_marginStart="18dp"
+                />
+
+            <TextView
+                android:id="@+id/mtrSupCondition"
+                android:layout_width="0dp"
+                android:layout_height="17dp"
+                android:text="출산 비용 지원 조건"
+                android:textSize="12dp"
+                android:textColor="#A7A7A8"
+                android:fontFamily="@font/notosanskr_medium"
+                android:includeFontPadding="false"
+                app:layout_constraintTop_toBottomOf="@+id/mtrLvSalary"
+                app:layout_constraintStart_toEndOf="@+id/ceoText"
+                android:layout_marginEnd="50dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="9dp"
+                android:layout_marginStart="70dp"
+                />
+
+
+            <TextView
+                android:id="@+id/mtrSupMoneyText"
+                android:layout_width="wrap_content"
+                android:layout_height="17dp"
+                android:text="출산 비용 지원금"
+                android:textSize="12dp"
+                android:fontFamily="@font/notosanskr_semibold"
+                android:includeFontPadding="false"
+                app:layout_constraintTop_toBottomOf="@+id/mtrSupCondition"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="9dp"
+                android:layout_marginStart="18dp"
+                />
+
+            <TextView
+                android:id="@+id/mtrSupMoney"
+                android:layout_width="0dp"
+                android:layout_height="17dp"
+                android:text="출산 비용 지원금"
+                android:textSize="12dp"
+                android:textColor="#A7A7A8"
+                android:fontFamily="@font/notosanskr_medium"
+                android:includeFontPadding="false"
+                app:layout_constraintTop_toBottomOf="@+id/mtrSupCondition"
+                app:layout_constraintStart_toEndOf="@+id/ceoText"
+                android:layout_marginEnd="50dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="9dp"
+                android:layout_marginStart="70dp"
+                />
+
+            <TextView
+                android:id="@+id/telComIsCanText"
+                android:layout_width="wrap_content"
+                android:layout_height="17dp"
+                android:text="재택근무 가능 여부"
+                android:textSize="12dp"
+                android:fontFamily="@font/notosanskr_semibold"
+                android:includeFontPadding="false"
+                app:layout_constraintTop_toBottomOf="@+id/mtrSupMoney"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="9dp"
+                android:layout_marginStart="18dp"
+                />
+
+            <TextView
+                android:id="@+id/telComIsCan"
+                android:layout_width="0dp"
+                android:layout_height="17dp"
+                android:text="재택근무 가능 여부"
+                android:textSize="12dp"
+                android:textColor="#A7A7A8"
+                android:fontFamily="@font/notosanskr_medium"
+                android:includeFontPadding="false"
+                app:layout_constraintTop_toBottomOf="@+id/mtrSupMoney"
+                app:layout_constraintStart_toEndOf="@+id/ceoText"
+                android:layout_marginEnd="50dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="9dp"
+                android:layout_marginStart="70dp"
+                />
+
+
+            <TextView
+                android:id="@+id/telComDaysText"
+                android:layout_width="wrap_content"
+                android:layout_height="17dp"
+                android:text="재택근무 일 수"
+                android:textSize="12dp"
+                android:fontFamily="@font/notosanskr_semibold"
+                android:includeFontPadding="false"
+                app:layout_constraintTop_toBottomOf="@+id/telComIsCan"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="9dp"
+                android:layout_marginStart="18dp"
+                />
+
+            <TextView
+                android:id="@+id/telComDays"
+                android:layout_width="0dp"
+                android:layout_height="17dp"
+                android:text="재택근무 일 수"
+                android:textSize="12dp"
+                android:textColor="#A7A7A8"
+                android:fontFamily="@font/notosanskr_medium"
+                android:includeFontPadding="false"
+                app:layout_constraintTop_toBottomOf="@+id/telComIsCan"
+                app:layout_constraintStart_toEndOf="@+id/ceoText"
+                android:layout_marginEnd="50dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="9dp"
+                android:layout_marginStart="70dp"
+                />
+
+
+            <TextView
+                android:id="@+id/telComTimeText"
+                android:layout_width="wrap_content"
+                android:layout_height="17dp"
+                android:text="재택근무 시간"
+                android:textSize="12dp"
+                android:fontFamily="@font/notosanskr_semibold"
+                android:includeFontPadding="false"
+                app:layout_constraintTop_toBottomOf="@+id/telComDays"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="9dp"
+                android:layout_marginStart="18dp"
+                />
+
+            <TextView
+                android:id="@+id/telComTime"
+                android:layout_width="0dp"
+                android:layout_height="17dp"
+                android:text="재택근무 시간"
+                android:textSize="12dp"
+                android:textColor="#A7A7A8"
+                android:fontFamily="@font/notosanskr_medium"
+                android:includeFontPadding="false"
+                app:layout_constraintTop_toBottomOf="@+id/telComDays"
+                app:layout_constraintStart_toEndOf="@+id/ceoText"
+                android:layout_marginEnd="50dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="9dp"
+                android:layout_marginStart="70dp"
+                />
+
+            <TextView
+                android:id="@+id/subsdTypeText"
+                android:layout_width="wrap_content"
+                android:layout_height="17dp"
+                android:text="보조금 지원 종류"
+                android:textSize="12dp"
+                android:fontFamily="@font/notosanskr_semibold"
+                android:includeFontPadding="false"
+                app:layout_constraintTop_toBottomOf="@+id/telComTime"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="9dp"
+                android:layout_marginStart="18dp"
+                />
+
+            <TextView
+                android:id="@+id/subsdType"
+                android:layout_width="0dp"
+                android:layout_height="17dp"
+                android:text="보조금 지원 종류"
+                android:textSize="12dp"
+                android:textColor="#A7A7A8"
+                android:fontFamily="@font/notosanskr_medium"
+                android:includeFontPadding="false"
+                app:layout_constraintTop_toBottomOf="@+id/telComTime"
+                app:layout_constraintStart_toEndOf="@+id/ceoText"
+                android:layout_marginEnd="50dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="9dp"
+                android:layout_marginStart="70dp"
+                />
+
+            <TextView
+                android:id="@+id/subsdMoneyText"
+                android:layout_width="wrap_content"
+                android:layout_height="17dp"
+                android:text="보조금 지원 액"
+                android:textSize="12dp"
+                android:fontFamily="@font/notosanskr_semibold"
+                android:includeFontPadding="false"
+                app:layout_constraintTop_toBottomOf="@+id/subsdType"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="9dp"
+                android:layout_marginStart="18dp"
+                />
+
+            <TextView
+                android:id="@+id/subsdMoney"
+                android:layout_width="0dp"
+                android:layout_height="17dp"
+                android:text="보조금 지원 액"
+                android:textSize="12dp"
+                android:textColor="#A7A7A8"
+                android:fontFamily="@font/notosanskr_medium"
+                android:includeFontPadding="false"
+                app:layout_constraintTop_toBottomOf="@+id/subsdType"
+                app:layout_constraintStart_toEndOf="@+id/ceoText"
+                android:layout_marginEnd="50dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="9dp"
+                android:layout_marginStart="70dp"
+                />
+
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                app:layout_constraintTop_toBottomOf="@id/welfareLayout"
-                tools:layout_editor_absoluteX="0dp" />
+                app:layout_constraintTop_toBottomOf="@id/subsdMoney" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
