@@ -10,7 +10,6 @@ import androidx.core.widget.doAfterTextChanged
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kr.pandadong2024.babya.databinding.FragmentSignupBottomSheetBinding
 import kr.pandadong2024.babya.databinding.LoginBottomSheetBinding
-import kr.pandadong2024.babya.start.login.Pattern
 import kr.pandadong2024.babya.util.setOnSingleClickListener
 
 
