@@ -49,6 +49,8 @@ class Signup3 : Fragment() {
             dateService(binding.marriedDayEditText)
         }
 
+
+
         binding.signUpBackButton.setOnClickListener {
             findNavController().navigate(R.id.action_signup3_to_signup2)
         }
@@ -100,18 +102,12 @@ class Signup3 : Fragment() {
 
 
     private fun dateService(edit : EditText){
-        val dlg = DatePickerDialog(requireContext(), object : DatePickerDialog.OnDateSetListener {
-            override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int
-            ) {
-                //month는 +1 해야 함
-                Log.d("MAIN", "${year}, ${month+1}, ${dayOfMonth}")
 
-                val parsedDate = String.format("%d년 %02d월 %02d일", year, month + 1, dayOfMonth)
-                edit.setText(parsedDate)
+        val bottomSheetDialog =
+            SignupBottomSheet(){d->
+                edit.setText(d)
             }
-
-        }, year, month, date)
-        dlg.show()
+        bottomSheetDialog.show(requireActivity().supportFragmentManager, bottomSheetDialog.tag)
     }
 
     private fun check(){
