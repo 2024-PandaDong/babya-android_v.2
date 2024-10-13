@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.DatePicker
+import android.widget.EditText
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -48,25 +49,7 @@ class Signup8 : Fragment() {
         }
 
         binding.fetusDayButton.setOnClickListener {
-            val dlg =
-                DatePickerDialog(requireContext(), object : DatePickerDialog.OnDateSetListener {
-                    override fun onDateSet(
-                        view: DatePicker?, year: Int, month: Int, dayOfMonth: Int
-                    ) {
-                        //month는 +1 해야 함
-                        Log.d("MAIN", "${year}, ${month + 1}, ${dayOfMonth}")
-
-                        val parsedDate = String.format(
-                            Locale.KOREA,
-                            "%d년 %02d월 %02d일",
-                            year,
-                            month + 1,
-                            dayOfMonth
-                        ) // 가끔 날짜와 관련된 오류가 발생할 우려가 있으므로 한국으로 지역을 고정
-                        binding.fetusDayEditText.setText(parsedDate)
-                    }
-                }, year, month, date)
-            dlg.show()
+            dateService(binding.fetusDayEditText)
         }
 
         binding.nextBtn.setOnClickListener {
@@ -136,6 +119,16 @@ class Signup8 : Fragment() {
         viewModel.pregnancyDt.value = binding.fetusDayEditText.text.toString() // 이것도 파싱
         findNavController().navigate(R.id.action_signup8_to_signup92)
     }
+
+    private fun dateService(edit : EditText){
+
+        val bottomSheetDialog =
+            SignupBottomSheet(){d->
+                edit.setText(d)
+            }
+        bottomSheetDialog.show(requireActivity().supportFragmentManager, bottomSheetDialog.tag)
+    }
+
 
 
     private fun addChildren() {

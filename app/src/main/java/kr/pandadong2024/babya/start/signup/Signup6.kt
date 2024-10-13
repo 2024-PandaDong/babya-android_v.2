@@ -41,14 +41,7 @@ class Signup6 : Fragment() {
         }
 
         binding.fetusDayButton.setOnClickListener {
-            val dlg = DatePickerDialog(requireContext(),
-                { view, year, month, dayOfMonth -> //month는 +1 해야 함
-                    val parsedDate =
-                        String.format(Locale.KOREA, "%d년 %02d월 %02d일", year, month + 1, dayOfMonth)
-                    binding.fetusDayEditText.setText(parsedDate)
-                }, year, month, date
-            )
-            dlg.show()
+            dateService(binding.fetusDayEditText)
         }
 
         binding.nextBtn.setOnClickListener {
@@ -101,6 +94,15 @@ class Signup6 : Fragment() {
         if (binding.fetusDayEditText.text.toString().isNotEmpty()) {
             binding.nextBtn.isEnabled = true
         }
+    }
+
+    private fun dateService(edit : EditText){
+
+        val bottomSheetDialog =
+            SignupBottomSheet(){d->
+                edit.setText(d)
+            }
+        bottomSheetDialog.show(requireActivity().supportFragmentManager, bottomSheetDialog.tag)
     }
 
     private fun next() {

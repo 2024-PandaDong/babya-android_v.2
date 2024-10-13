@@ -84,56 +84,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/categoryLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/backgroundNormalNormal"
-                    android:paddingTop="23dp"
-                    android:paddingBottom="20dp"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <TextView
-                        android:id="@+id/tagTitleText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="23dp"
-                        android:fontFamily="@font/notosanskr_semibold"
-                        android:includeFontPadding="false"
-                        android:text="박규민님의 지역"
-                        android:textColor="@color/common0"
-                        android:textSize="16sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/tagEditText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="15dp"
-                        android:fontFamily="@font/notosanskr_medium"
-                        android:includeFontPadding="false"
-                        android:padding="8dp"
-                        android:text="편집하기"
-                        android:textColor="@color/bottom_bar_gray"
-                        android:textSize="11sp"
-                        app:layout_constraintBottom_toBottomOf="@id/tagTitleText"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/tagTitleText" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/category_recycler_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:background="@color/backgroundNormalNormal"
-                        android:orientation="horizontal"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tagTitleText" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/findCompanyRecyclerView"
@@ -143,7 +93,6 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/categoryLayout"
 
                     />
             </androidx.constraintlayout.widget.ConstraintLayout>

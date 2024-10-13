@@ -138,7 +138,7 @@ class CompanyDetailsFragment : Fragment() {
     private fun setCompany(result: BaseResponse<CompanyResponses>) {
         lifecycleScope.launch(Dispatchers.Main){
             binding.companyName.text = result.data?.name
-            binding.mainImage.load(result.data?.link?.get(0))
+            binding.mainImage.load(result.data?.contentImg)
             binding.explanation.text = result.data?.description
             binding.standard.text = result.data?.salaryYear.toString()+"년"
 
@@ -157,8 +157,16 @@ class CompanyDetailsFragment : Fragment() {
             binding.type.text = result.data?.companyType
 
             // 해택 및 복지 추가
+            binding.mtrLvPeriod.text = result.data?.mtrLvPeriod.toString() // 육아 휴직 기간
+            binding.mtrLvSalary.text = result.data?.mtrLvSalary.toString() // 육아 휴직 급여 비율
+            binding.mtrLvIsSalary.text = result.data?.mtrLvIsSalary        // 유급 여부
+            binding.mtrSupMoney.text = result.data?.mtrSupMoney.toString() // 출산 비용 지원금
+            binding.mtrSupCondition.text = result.data?.mtrSupCondition    // 출산 비용 지원 조건
+            binding.telComDays.text = result.data?.telComDays.toString()   // 재택근무 일 수
+            binding.telComIsCan.text = result.data?.telComIsCan            // 재택근무 가능 여부
+            binding.telComTime.text = result.data?.telComTime.toString()   // 재택근무 시간
+            binding.subsdType.text = result.data?.subsdType                // 보조금 지원 종류
+            binding.subsdMoney.text = result.data?.subsdMoney.toString()   // 보조금 지원 액
         }
     }
-
-
 }
