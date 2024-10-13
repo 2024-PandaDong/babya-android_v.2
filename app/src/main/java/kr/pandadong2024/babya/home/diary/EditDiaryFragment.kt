@@ -15,6 +15,7 @@ import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.Dispatchers
@@ -22,6 +23,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentEditDiaryBinding
+import kr.pandadong2024.babya.home.viewmodel.CommonViewModel
 import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.server.local.BabyaDB
 import kr.pandadong2024.babya.server.local.TokenDAO
@@ -33,6 +35,7 @@ import retrofit2.HttpException
 import java.io.File
 import java.io.FileOutputStream
 import java.util.GregorianCalendar
+import java.util.Locale
 
 class EditDiaryFragment : Fragment() {
     private var _binding: FragmentEditDiaryBinding? = null
@@ -46,6 +49,7 @@ class EditDiaryFragment : Fragment() {
     private val year = gregorianCalendar.get(Calendar.YEAR)
     private val date = gregorianCalendar.get(Calendar.DATE)
     private val month = gregorianCalendar.get(Calendar.MONTH)
+    private val commonViewModel by activityViewModels<CommonViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -167,14 +171,14 @@ class EditDiaryFragment : Fragment() {
             binding.unrestRadioButton.id -> "불안"
             else -> "없음"
         }
-        Log.d(TAG, "title = ${binding.editDiaryTitleEditText.text.toString()::class.simpleName},\n" +
-                "content = ${binding.editDiaryMainContentEditText.text.toString()::class.simpleName},\n" +
-                "pregnancyWeeks = ${binding.pregnancyEditText.text.toString().toInt()::class.simpleName},\n" +
-                "weight = ${binding.weightEditText.text.toString().toInt()::class.simpleName},\n" +
-                "nextAppointment = $date,\n" +
-                "emoji = $emoji,\n" +
-                "fetusComment = ${binding.editDiaryFetalFindingsEditText.text.toString()::class.simpleName},\n" +
-                "isPublic = ${(!binding.SwitchCompat.isChecked)::class.simpleName},")
+//        Log.d(TAG, "title = ${binding.editDiaryTitleEditText.text.toString()::class.simpleName},\n" +
+//                "content = ${binding.editDiaryMainContentEditText.text.toString()::class.simpleName},\n" +
+//                "pregnancyWeeks = ${binding.pregnancyEditText.text.toString().toInt()::class.simpleName},\n" +
+//                "weight = ${binding.weightEditText.text.toString().toInt()::class.simpleName},\n" +
+//                "nextAppointment = $date,\n" +
+//                "emoji = $emoji,\n" +
+//                "fetusComment = ${binding.editDiaryFetalFindingsEditText.text.toString()::class.simpleName},\n" +
+//                "isPublic = ${(!binding.SwitchCompat.isChecked)::class.simpleName},")
 
         lifecycleScope.launch(Dispatchers.IO) {
 
@@ -184,7 +188,7 @@ class EditDiaryFragment : Fragment() {
                 val y = date.slice(0..<date.indexOf('-'))
                 val m = date.slice(date.indexOf('-')+1..<date.indexOf('-', date.indexOf('-')+1))
                 val d =date.slice(date.indexOf('-', date.indexOf('-')+1)+1..<date.length)
-                date = String.format("%4d-%02d-%02d", y.toInt(),m.toInt(),d.toInt())
+                date = String.format(Locale.KOREA, "%4d-%02d-%02d", y.toInt(),m.toInt(),d.toInt())
                 val regex = Regex("^\\d{4}-\\d{2}-\\d{2}$")
                 Log.d(TAG, "regex test : ${regex.matches(date)}, $y, $m, $d")
 
@@ -229,10 +233,12 @@ class EditDiaryFragment : Fragment() {
                     }else{
                         Log.i(TAG, "status : ${result.status}")
                         Log.i(TAG, "message : ${result.message}")
+                        commonViewModel.setToastMessage( "데이터를 저장하는 도중 문제가 발생했습니다. CODE : ${result.status}")
                     }
                 }.onFailure {result ->
                     result.printStackTrace()
                     Log.e(TAG, "result = ${result.message}")
+                    commonViewModel.setToastMessage( "인터넷이 연결되어있는지 확인해 주십시오")
                     if (result is HttpException) {
                         val errorBody = result.response()?.errorBody()?.string()
                         Log.e(TAG, "Error body: $errorBody")

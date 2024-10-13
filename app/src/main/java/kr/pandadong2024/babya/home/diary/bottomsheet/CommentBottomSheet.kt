@@ -3,7 +3,6 @@ package kr.pandadong2024.babya.home.diary.bottomsheet
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,7 +33,6 @@ import kotlin.properties.Delegates
 class CommentBottomSheet(
     private val parentCommentId: Int,
 ) : BottomSheetDialogFragment() {
-    private val TAG = "CommentBottomSheet"
     private var diaryId by Delegates.notNull<Int>()
     private lateinit var tokenDao: TokenDAO
     private var _binding: SubCommentBottomSheetBinding? = null
@@ -53,7 +51,8 @@ class CommentBottomSheet(
     ): View {
         _binding = SubCommentBottomSheetBinding.inflate(inflater, container, false)
         tokenDao = BabyaDB.getInstance(requireContext().applicationContext)?.tokenDao()!!
-        viewModel.subCommentList.value = setSubComment(size = 100, page = 1, commentId = parentCommentId)
+        viewModel.subCommentList.value =
+            setSubComment(size = 100, page = 1, commentId = parentCommentId)
         diaryId = viewModel.diaryId.value ?: -1
 
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.Transparent.toArgb()))
@@ -61,7 +60,7 @@ class CommentBottomSheet(
         binding.sendButton.setOnSingleClickListener {
             if (binding.editCommentEditText.text?.isNotEmpty() == true) {
                 val comment = binding.editCommentEditText.text.toString()
-                postSubComment(parentCommentId= parentCommentId, comment = comment)
+                postSubComment(parentCommentId = parentCommentId, comment = comment)
                 val inputManager: InputMethodManager =
                     requireContext().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
                 inputManager.hideSoftInputFromWindow(
@@ -82,8 +81,7 @@ class CommentBottomSheet(
         return binding.root
     }
 
-    private fun postSubComment(parentCommentId: Int, comment : String) {
-        Log.d(TAG, "edit : ${binding.editCommentEditText.text}")
+    private fun postSubComment(parentCommentId: Int, comment: String) {
         lifecycleScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 RetrofitBuilder.getDiaryService().postComment(
@@ -98,12 +96,12 @@ class CommentBottomSheet(
                 withContext(Dispatchers.Main) {
                     binding.editCommentEditText.setText("")
                     delay(500)
-                    viewModel.subCommentList.value = setSubComment(page = 1, size = 100, commentId = parentCommentId)
+                    viewModel.subCommentList.value =
+                        setSubComment(page = 1, size = 100, commentId = parentCommentId)
                 }
             }.onFailure { result ->
                 result.printStackTrace()
             }
-
         }
     }
 
