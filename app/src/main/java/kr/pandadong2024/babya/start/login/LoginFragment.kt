@@ -1,19 +1,13 @@
 package kr.pandadong2024.babya.start.login
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.datastore.core.DataStore
-import androidx.datastore.dataStore
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.example.babya_android.datastore.User
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -25,17 +19,10 @@ import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.server.local.BabyaDB
 import kr.pandadong2024.babya.server.local.TokenDAO
 import kr.pandadong2024.babya.server.local.TokenEntity
-import kr.pandadong2024.babya.server.local.proto.UserRepository
-import kr.pandadong2024.babya.server.local.proto.UserSerializer
 import kr.pandadong2024.babya.server.remote.request.LoginRequest
 import kr.pandadong2024.babya.util.Pattern
 
 private const val DATA_STORE_FILE_NAME = "user.pb"
-
-private val Context.test: DataStore<User> by dataStore(
-    fileName = DATA_STORE_FILE_NAME,
-    serializer = UserSerializer
-)
 
 private lateinit var loginViewModel: LoginViewModel
 private lateinit var commonViewModel: CommonViewModel

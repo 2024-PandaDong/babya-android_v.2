@@ -2,7 +2,7 @@ package kr.pandadong2024.babya.start.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kr.pandadong2024.babya.server.local.proto.UserRepository
+import kr.pandadong2024.babya.server.local.UserRepository
 import kotlinx.coroutines.launch
 
 
