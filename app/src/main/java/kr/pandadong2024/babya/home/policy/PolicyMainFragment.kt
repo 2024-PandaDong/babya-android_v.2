@@ -37,9 +37,9 @@ class PolicyMainFragment : Fragment() {
 
     var tokenDao: TokenDAO? = null
 
-    var isSearchActivated = false
+    private var isSearchActivated = false
 
-    var searchKeyWord : String = ""
+    private var searchKeyWord : String = ""
 
 
     override fun onCreateView(
