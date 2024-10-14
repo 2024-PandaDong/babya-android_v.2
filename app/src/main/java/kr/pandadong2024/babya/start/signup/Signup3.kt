@@ -46,6 +46,8 @@ class Signup3 : Fragment() {
             dateService(binding.marriedDayEditText)
         }
 
+
+
         binding.signUpBackButton.setOnClickListener {
             findNavController().navigate(R.id.action_signup3_to_signup2)
         }
@@ -90,7 +92,6 @@ class Signup3 : Fragment() {
 
         return binding.root
     }
-
 
     private fun dateService(edit: EditText) {
         val dlg = DatePickerDialog(requireContext(),

@@ -3,12 +3,12 @@ package kr.pandadong2024.babya.start.signup
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -17,8 +17,8 @@ import kotlinx.coroutines.launch
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentSignup2Binding
 import kr.pandadong2024.babya.server.RetrofitBuilder
-import kr.pandadong2024.babya.util.Pattern
 import kr.pandadong2024.babya.start.viewmodel.SignupViewModel
+import kr.pandadong2024.babya.util.Pattern
 
 class Signup2 : Fragment() {
 
@@ -27,9 +27,11 @@ class Signup2 : Fragment() {
 
     private var passwordCheck = false
     private var emailCheck = false
+    private var visible = false
 
     private val TAG = "Signup2"
     private val viewModel by activityViewModels<SignupViewModel>()
+    private var isVisible = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,6 +54,16 @@ class Signup2 : Fragment() {
 
         binding.signUpBackButton.setOnClickListener {
             findNavController().navigate(R.id.action_signup2_to_signup1)
+        }
+
+
+        // 나중에 둘이 합치기
+        binding.visiblePassword.setOnClickListener {
+            changeShowBtn()
+        }
+
+        binding.visiblePassword2.setOnClickListener {
+            changeShowBtn2()
         }
 
 
@@ -114,6 +126,7 @@ class Signup2 : Fragment() {
                 )
             }.onSuccess {
                 Log.d(TAG, "emailCheck: 성공")
+                binding.emailCheckButton.setText("재인증")
             }.onFailure {
                 it.printStackTrace()
             }
@@ -148,6 +161,44 @@ class Signup2 : Fragment() {
             if (passwordCheck && emailCheck){
                 binding.nextBtn.isEnabled = true
             }
+        }
+    }
+
+    private fun changeShowBtn(){
+        var lastIndex : Int = 0
+        if (binding.passwordEditText.text?.lastIndex != null){
+            lastIndex = binding.passwordEditText.text?.lastIndex!!+1
+        }
+
+        isVisible = if(isVisible){
+            binding.visiblePassword.setBackgroundResource(R.drawable.ic_visibility)
+            binding.passwordEditText.inputType = 0x00000081
+            binding.passwordEditText.setSelection(lastIndex)
+            false
+        } else{
+            binding.visiblePassword.setBackgroundResource(R.drawable.ic_visible)
+            binding.passwordEditText.inputType = 0x00000091
+            binding.passwordEditText.setSelection(lastIndex)
+            true
+        }
+    }
+
+    private fun changeShowBtn2(){
+        var lastIndex : Int = 0
+        if (binding.passwordCheckEditText.text?.lastIndex != null){
+            lastIndex = binding.passwordCheckEditText.text?.lastIndex!!+1
+        }
+
+        isVisible = if(isVisible){
+            binding.visiblePassword2.setBackgroundResource(R.drawable.ic_visibility)
+            binding.passwordCheckEditText.inputType = 0x00000081
+            binding.passwordCheckEditText.setSelection(lastIndex)
+            false
+        } else{
+            binding.visiblePassword2.setBackgroundResource(R.drawable.ic_visible)
+            binding.passwordCheckEditText.inputType = 0x00000091
+            binding.passwordCheckEditText.setSelection(lastIndex)
+            true
         }
     }
 
