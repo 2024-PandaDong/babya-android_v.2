@@ -103,9 +103,10 @@ class PolicyMainFragment : Fragment() {
 //        selectPolicy(viewModel.tagsList.value?.get(0) ?: "대구광역시",viewModel.tagsList.value?.get(1) ?: "수성구", "")
 
         binding.tagEditText.setOnClickListener {
+            Log.d("setOnClickListener", "click tagEditText")
             val bottomSheetDialog =
                 PolicyBottomSheet() { tag ->
-                    selectPolicy(mainTag = viewModel.tagsList.value!![0] ?: "대구광역시", subTag = tag,  keyWord =  "")
+                    selectPolicy(mainTag = viewModel.tagsList.value?.get(0) ?: "대구광역시", subTag = tag,  keyWord =  "")
                     viewModel.initKeyword()
                 }
 
