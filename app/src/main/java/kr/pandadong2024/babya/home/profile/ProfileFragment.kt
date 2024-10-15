@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SwitchCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -17,6 +18,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import kr.pandadong2024.babya.MainActivity
+import kr.pandadong2024.babya.MyApplication
+import kr.pandadong2024.babya.MyApplication.Companion.prefs
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentProfileBinding
 import kr.pandadong2024.babya.home.viewmodel.CommonViewModel
@@ -48,7 +51,13 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
+        binding.isSkipQuizSwitch.isChecked = MyApplication.prefs.skipQuiz
+        binding.isSkipQuizSwitch.setOnClickListener{ view ->
+            commonViewModel.setToastMessage("변경된 설정은 다음날부터 적용됩니다")
+            if (view is SwitchCompat){
+                MyApplication.prefs.skipQuiz = view.isChecked
+            }
+        }
         // 툴바를 초기화하고 설정
 //        val toolbar: androidx.appcompat.widget.Toolbar = view.findViewById(R.id.profileToolbar)
         // 툴바에 메뉴를 인플레이트
@@ -67,6 +76,7 @@ class ProfileFragment : Fragment() {
                                 BabyaDB.getInstance(requireContext())?.tokenDao()
                                     ?.deleteMember(tokenEntity)
                             }
+                       MyApplication.prefs.remove()
                     }
                     val intent = Intent(requireContext(), MainActivity::class.java)
                     startActivity(intent)
@@ -97,6 +107,7 @@ class ProfileFragment : Fragment() {
                                     }
                                 // UI 스레드에서 프레그먼트 종료
                                 withContext(Dispatchers.Main) {
+                                    MyApplication.prefs.remove()
                                     parentFragmentManager.popBackStack()
                                 }
                             } else {

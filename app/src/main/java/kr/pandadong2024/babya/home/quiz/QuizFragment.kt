@@ -10,6 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kr.pandadong2024.babya.MyApplication.Companion.prefs
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentQuizBinding
 import kr.pandadong2024.babya.home.viewmodel.CommonViewModel
@@ -35,9 +36,13 @@ class QuizFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentQuizBinding.inflate(inflater, container, false)
-        tokenDao = BabyaDB.getInstance(requireContext().applicationContext)?.tokenDao()!!
-        getQuiz()
         (requireActivity() as BottomControllable).setBottomNavVisibility(false)
+        if(prefs.skipQuiz || prefs.completeQuiz){
+            moveOtherView(true)
+        }else{
+            tokenDao = BabyaDB.getInstance(requireContext().applicationContext)?.tokenDao()!!
+            getQuiz()
+        }
         binding.positiveButton.setOnClickListener {
             moveOtherView(false)
             viewModel.answer.value = "Y"
@@ -55,6 +60,7 @@ class QuizFragment : Fragment() {
     }
 
     private fun moveOtherView(isSkip: Boolean) {
+        prefs.completeQuiz = true
         if (isSkip) {
             findNavController().navigate(R.id.action_quizFragment_to_mainFragment)
         } else {
