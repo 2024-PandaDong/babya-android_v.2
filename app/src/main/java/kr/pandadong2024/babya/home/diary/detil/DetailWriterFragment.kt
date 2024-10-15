@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -20,6 +21,7 @@ import kr.pandadong2024.babya.databinding.FragmentDetailWriterBinding
 import kr.pandadong2024.babya.home.diary.bottomsheet.CommentBottomSheet
 import kr.pandadong2024.babya.home.diary.diaryadapters.CommentsAdapter
 import kr.pandadong2024.babya.home.diary.diaryviewmodle.DiaryViewModel
+import kr.pandadong2024.babya.home.viewmodel.CommonViewModel
 import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.server.local.BabyaDB
 import kr.pandadong2024.babya.server.local.TokenDAO
@@ -29,15 +31,15 @@ import kr.pandadong2024.babya.util.BottomControllable
 import kotlin.properties.Delegates
 
 class DetailWriterFragment : Fragment() {
-    private var _binding : FragmentDetailWriterBinding? = null
+    private var _binding: FragmentDetailWriterBinding? = null
     private val binding get() = _binding!!
     private lateinit var tokenDao: TokenDAO
     private val viewModel by activityViewModels<DiaryViewModel>()
-    private lateinit var  commentsAdapter : CommentsAdapter
-    private val TAG = "DetailWriterFragment"
+    private val commonViewModel by activityViewModels<CommonViewModel>()
+    private lateinit var commentsAdapter: CommentsAdapter
 
     private var diaryId by Delegates.notNull<Int>()
-    private var selectedCommentId : Int? = null
+    private var selectedCommentId: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,7 +68,7 @@ class DetailWriterFragment : Fragment() {
         binding.writerWeightUnitText.text = "KG"
 
         binding.sendButton.setOnClickListener {
-            if(selectedCommentId == null){
+            if (selectedCommentId == null) {
                 if (binding.editCommentEditText.text.toString().isNotBlank()) {
                     postComment()
                     val inputManager: InputMethodManager =
@@ -77,11 +79,11 @@ class DetailWriterFragment : Fragment() {
                     )
                     binding.editCommentEditText.setText("")
                 }
-            }
-            else{
-                if (binding.editCommentEditText.text.toString().isNotBlank()){
+            } else {
+                if (binding.editCommentEditText.text.toString().isNotBlank()) {
                     postSubComment(selectedCommentId!!)
-                    val inputManager: InputMethodManager = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    val inputManager: InputMethodManager =
+                        requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                     inputManager.hideSoftInputFromWindow(
                         requireActivity().currentFocus?.windowToken,
                         0
@@ -93,11 +95,29 @@ class DetailWriterFragment : Fragment() {
 
         }
 
+        binding.writerMoreButton.setOnClickListener { view ->
+            val popupMenu = PopupMenu(requireContext(), view)
+            popupMenu.inflate(R.menu.diary_popup)
+            popupMenu.setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.delete -> {
+                        commonViewModel.setToastMessage("삭제")
+                    }
+
+                    R.id.modify -> {
+                        commonViewModel.setToastMessage("수정")
+                    }
+                }
+                return@setOnMenuItemClickListener true
+            }
+            popupMenu.show()
+        }
+
         return binding.root
     }
 
-    private fun postSubComment(parentCommentId : Int){
-        lifecycleScope.launch (Dispatchers.IO){
+    private fun postSubComment(parentCommentId: Int) {
+        lifecycleScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 RetrofitBuilder.getDiaryService().postComment(
                     accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
@@ -107,7 +127,7 @@ class DetailWriterFragment : Fragment() {
                         parentCommentId = parentCommentId
                     )
                 )
-            }.onSuccess {result ->
+            }.onSuccess { result ->
                 delay(500)
                 initCommentRecyclerView(1, 100, viewModel.diaryId.value!!)
             }.onFailure { result ->
@@ -117,9 +137,9 @@ class DetailWriterFragment : Fragment() {
         }
     }
 
-    private fun postComment(){
+    private fun postComment() {
 
-        lifecycleScope.launch (Dispatchers.IO){
+        lifecycleScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 RetrofitBuilder.getDiaryService().postComment(
                     accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
@@ -129,7 +149,7 @@ class DetailWriterFragment : Fragment() {
                         parentCommentId = 0
                     )
                 )
-            }.onSuccess {result ->
+            }.onSuccess { result ->
                 delay(500)
                 initCommentRecyclerView(1, 100, viewModel.diaryId.value!!)
             }.onFailure { result ->
@@ -139,8 +159,8 @@ class DetailWriterFragment : Fragment() {
         }
     }
 
-    private fun initCommentRecyclerView(page : Int, size : Int, parentId : Int){
-        lifecycleScope.launch (Dispatchers.IO) {
+    private fun initCommentRecyclerView(page: Int, size: Int, parentId: Int) {
+        lifecycleScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 RetrofitBuilder.getDiaryService().getComment(
                     accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
@@ -151,16 +171,21 @@ class DetailWriterFragment : Fragment() {
             }.onSuccess { result ->
                 launch(Dispatchers.Main) {
 
-                    commentsAdapter = result.data?.let { CommentsAdapter(
-                        commentsList = it.reversed(),
-                        showReplayComment = {id ->
-                            selectedCommentId = id
-                            val commentBottomSheet =  CommentBottomSheet(id)
-                            commentBottomSheet.show(requireActivity().supportFragmentManager, commentBottomSheet.tag)
-                        },
-                    ) }!!
+                    commentsAdapter = result.data?.let {
+                        CommentsAdapter(
+                            commentsList = it.reversed(),
+                            showReplayComment = { id ->
+                                selectedCommentId = id
+                                val commentBottomSheet = CommentBottomSheet(id)
+                                commentBottomSheet.show(
+                                    requireActivity().supportFragmentManager,
+                                    commentBottomSheet.tag
+                                )
+                            },
+                        )
+                    }!!
                     commentsAdapter.notifyItemRemoved(0)
-                    with(binding){
+                    with(binding) {
                         detailWitterRecyclerView.adapter = commentsAdapter
                     }
                 }
@@ -172,9 +197,9 @@ class DetailWriterFragment : Fragment() {
         }
     }
 
-    private fun getSubComment(commentId: Int, page: Int, size: Int) : List<SubCommentResponses> {
+    private fun getSubComment(commentId: Int, page: Int, size: Int): List<SubCommentResponses> {
         var commentResult = listOf<SubCommentResponses>()
-        val subCommentList  = runBlocking(Dispatchers.IO) {
+        val subCommentList = runBlocking(Dispatchers.IO) {
             launch {
                 kotlin.runCatching {
                     RetrofitBuilder.getDiaryService().getSubComment(
@@ -182,7 +207,8 @@ class DetailWriterFragment : Fragment() {
                         parentId = commentId,
                         page = page,
                         size = size
-                    ) }.onSuccess {result ->
+                    )
+                }.onSuccess { result ->
                     commentResult = result.data!!
                 }.onFailure { result ->
                     result.printStackTrace()
@@ -193,9 +219,9 @@ class DetailWriterFragment : Fragment() {
         return commentResult
     }
 
-    private fun initView(){
-        lifecycleScope.launch (Dispatchers.IO){
-            launch (Dispatchers.IO) {
+    private fun initView() {
+        lifecycleScope.launch(Dispatchers.IO) {
+            launch(Dispatchers.IO) {
                 kotlin.runCatching {
                     RetrofitBuilder.getCommonService().getProfile(
                         accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
@@ -215,34 +241,39 @@ class DetailWriterFragment : Fragment() {
                 )
             }.onSuccess { result ->
                 val diaryData = result.data
-                lifecycleScope.launch (Dispatchers.Main) {
+                lifecycleScope.launch(Dispatchers.Main) {
 
                     binding.writerTitleText.text = diaryData?.title
-                    if (diaryData?.files?.get(0)?.url.isNullOrBlank()){
+                    if (diaryData?.files?.get(0)?.url.isNullOrBlank()) {
                         binding.selectedImage.visibility = View.GONE
                         binding.writerDiaryAddImageCardView.visibility = View.GONE
-                    }else{
+                    } else {
                         binding.selectedImage.load(diaryData?.files?.get(0)?.url)
                     }
                     binding.writerPregnancyText.text = diaryData?.pregnancyWeeks.toString()
                     binding.writerWeightInputText.text = diaryData?.weight.toString()
                     binding.writerFetalFindingsContentText.text = diaryData?.fetusComment
-                    binding.writerBloodPressureHeightInputText.text = diaryData?.systolicPressure.toString()
-                    binding.writerBloodPressureLowInputText.text = diaryData?.diastolicPressure.toString()
-                    binding.writerNextDaySelectedText.text = (diaryData?.nextAppointment?.substring(5))?.replace('-', '/')
+                    binding.writerBloodPressureHeightInputText.text =
+                        diaryData?.systolicPressure.toString()
+                    binding.writerBloodPressureLowInputText.text =
+                        diaryData?.diastolicPressure.toString()
+                    binding.writerNextDaySelectedText.text =
+                        (diaryData?.nextAppointment?.substring(5))?.replace('-', '/')
                     binding.writerDateText.text = diaryData?.writtenDt?.replace('-', '/')
                     binding.writerContentContentText.text = diaryData?.content
                     binding.writerEmojiCode.text = diaryData?.emojiCode
                     binding.writerText.text = diaryData?.nickname
 
-                    binding.writerEmojiImage.load(when(diaryData?.emojiCode){
-                        "좋음"->R.drawable.img_good
-                        "평범"->R.drawable.img_normal
-                        "아픔"->R.drawable.img_pain
-                        "피곤"->R.drawable.img_tired
-                        "불안"->R.drawable.img_unrest
-                        else ->R.drawable.img_normal
-                    })
+                    binding.writerEmojiImage.load(
+                        when (diaryData?.emojiCode) {
+                            "좋음" -> R.drawable.img_good
+                            "평범" -> R.drawable.img_normal
+                            "아픔" -> R.drawable.img_pain
+                            "피곤" -> R.drawable.img_tired
+                            "불안" -> R.drawable.img_unrest
+                            else -> R.drawable.img_normal
+                        }
+                    )
                 }
 
             }.onFailure { result ->

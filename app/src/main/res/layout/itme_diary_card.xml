@@ -3,7 +3,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-
+    android:paddingTop="20dp"
     android:layout_gravity="center"
     android:paddingBottom="9dp">
     <com.google.android.material.card.MaterialCardView

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.CoroutineScope
@@ -14,6 +15,7 @@ import kotlinx.coroutines.launch
 import kr.pandadong2024.babya.HomeActivity
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentLoginBinding
+import kr.pandadong2024.babya.home.quiz.QuizViewModel
 import kr.pandadong2024.babya.home.viewmodel.CommonViewModel
 import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.server.local.BabyaDB
@@ -24,11 +26,11 @@ import kr.pandadong2024.babya.util.Pattern
 
 private const val DATA_STORE_FILE_NAME = "user.pb"
 
-private lateinit var loginViewModel: LoginViewModel
-private lateinit var commonViewModel: CommonViewModel
-private var bottomSheetDialog: LoginBottomSheet? = null
 
 class LoginFragment : Fragment() {
+    private val  loginViewModel: LoginViewModel by activityViewModels<LoginViewModel>()
+    private val commonViewModel: CommonViewModel by activityViewModels<CommonViewModel>()
+    private var bottomSheetDialog: LoginBottomSheet? = null
     private lateinit var token: String
     private lateinit var tokenDao: TokenDAO
 

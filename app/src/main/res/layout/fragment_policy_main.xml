@@ -48,8 +48,7 @@
             android:textSize="13dp"
             android:paddingStart="16dp"
             android:hint="원하는 정책을 입력해주세요."
-
-
+            android:singleLine="true"
             />
 
         <ImageButton

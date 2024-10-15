@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import androidx.core.view.marginTop
 import coil.load
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.ItmeDiaryCardBinding
@@ -33,7 +34,7 @@ class DiaryMainGridViewAdapter(
         if (data.files?.get(0) == null) {
             binding.diaryMainImage.load(R.drawable.img_normal_diary)
         } else {
-            binding.diaryMainImage.load(data.files.get(0).url)
+            binding.diaryMainImage.load(data.files[0].url)
         }
         binding.titleText.text = data.title
         binding.writerText.text = data.title
