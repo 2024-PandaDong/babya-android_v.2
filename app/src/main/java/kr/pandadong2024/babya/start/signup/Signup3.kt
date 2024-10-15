@@ -26,10 +26,7 @@ class Signup3 : Fragment() {
     private val binding get() = _binding!!
     private val viewModel by activityViewModels<SignupViewModel>()
     private val policyViewModel by activityViewModels<PolicyViewModel>()
-    private val gregorianCalendar = GregorianCalendar()
-    private val year = gregorianCalendar.get(Calendar.YEAR)
-    private val date = gregorianCalendar.get(Calendar.DATE)
-    private val month = gregorianCalendar.get(Calendar.MONTH)
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -93,16 +90,13 @@ class Signup3 : Fragment() {
         return binding.root
     }
 
-    private fun dateService(edit: EditText) {
-        val dlg = DatePickerDialog(requireContext(),
-            { view, year, month, dayOfMonth -> //month는 +1 해야 함
-                Log.d("MAIN", "${year}, ${month + 1}, ${dayOfMonth}")
+    private fun dateService(edit : EditText){
 
-                val parsedDate = String.format("%d년 %02d월 %02d일", year, month + 1, dayOfMonth)
-                edit.setText(parsedDate)
-            }, year, month, date
-        )
-        dlg.show()
+        val bottomSheetDialog =
+            SignupBottomSheet(){d->
+                edit.setText(d)
+            }
+        bottomSheetDialog.show(requireActivity().supportFragmentManager, bottomSheetDialog.tag)
     }
 
     private fun check() {

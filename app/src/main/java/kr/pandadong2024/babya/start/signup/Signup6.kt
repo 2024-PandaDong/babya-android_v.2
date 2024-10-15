@@ -1,10 +1,10 @@
 package kr.pandadong2024.babya.start.signup
 
-import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -13,9 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentSignup6Binding
 import kr.pandadong2024.babya.start.viewmodel.SignupViewModel
-import java.util.Calendar
-import java.util.GregorianCalendar
-import java.util.Locale
 
 class Signup6 : Fragment() {
 
@@ -24,10 +21,6 @@ class Signup6 : Fragment() {
     private val viewModel by activityViewModels<SignupViewModel>()
     private var birthNameList = ArrayList<BirthName>()
 
-    private val gregorianCalendar = GregorianCalendar()
-    private val year = gregorianCalendar.get(Calendar.YEAR)
-    private val date = gregorianCalendar.get(Calendar.DATE)
-    private val month = gregorianCalendar.get(Calendar.MONTH)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -60,9 +60,6 @@ class SignupBottomSheet(
             this.dismiss()
         }
 
-
-
         return binding.root
     }
-
 }

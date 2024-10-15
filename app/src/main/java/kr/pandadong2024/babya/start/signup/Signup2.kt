@@ -146,6 +146,8 @@ class Signup2 : Fragment() {
                 Log.d(TAG, "verificationCodeSend: 성공")
                 emailCheckSuccess()
             }.onFailure {
+                Log.d(TAG, "email: ${email}")
+                Log.d(TAG, "code: ${verificationCode}")
                 it.printStackTrace()
             }
         }
