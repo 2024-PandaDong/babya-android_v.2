@@ -50,17 +50,13 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.isSkipQuizSwitch.isChecked = MyApplication.prefs.skipQuiz
+        binding.isSkipQuizSwitch.isChecked = !MyApplication.prefs.skipQuiz
         binding.isSkipQuizSwitch.setOnClickListener { view ->
             commonViewModel.setToastMessage("변경된 설정은 다음날부터 적용됩니다")
             if (view is SwitchCompat) {
-                MyApplication.prefs.skipQuiz = view.isChecked
+                MyApplication.prefs.skipQuiz = !view.isChecked
             }
         }
-        // 툴바를 초기화하고 설정
-//        val toolbar: androidx.appcompat.widget.Toolbar = view.findViewById(R.id.profileToolbar)
-        // 툴바에 메뉴를 인플레이트
-//        toolbar.inflateMenu(R.menu.profile_menu)
         binding.logoutView.setOnClickListener {
             MaterialAlertDialogBuilder(requireContext())
                 .setMessage("정말로 로그아웃하시겠습니까?")
