@@ -1,6 +1,7 @@
 package kr.pandadong2024.babya.home.quiz
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -77,24 +78,25 @@ class QuizFragment : Fragment() {
                     accessToken = "Bearer ${tokenDao.getMembers().accessToken}"
                 )
             }.onSuccess { result ->
+                launch(Dispatchers.Main) {
                 if (result.status == 200) {
                     quiz = result.data ?: QuizResponses()
 
-                    launch(Dispatchers.Main) {
                         binding.quizText.text = quiz.title
-                    }
+
                 } else {
                     commonViewModel.setToastMessage("데이터를 불러오는 도중 문제가 발생했습니다. CODE : ${result.status}")
-                }
+                }}
             }.onFailure { result ->
                 result.printStackTrace()
                 if (result is HttpException) {
                     val errorBody = result.response()?.raw()?.request
+                    Log.d("RefreshInterceptor", "${errorBody}.")
+                    Log.d("RefreshInterceptor", "${result.response()}.")
                 }
 
-                commonViewModel.setToastMessage("인터넷이 연결되어있는지 확인해 주십시오")
-
                 launch(Dispatchers.Main) {
+                    commonViewModel.setToastMessage("인터넷이 연결되어있는지 확인해 주십시오")
                     binding.quizText.text = quiz.title
                 }
 

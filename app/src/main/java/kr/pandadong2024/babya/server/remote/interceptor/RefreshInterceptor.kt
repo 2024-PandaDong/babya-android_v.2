@@ -16,45 +16,48 @@ class RefreshInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val response = chain.proceed(chain.request())
         val tokenDao = BabyaDB.getInstanceOrNull() ?: throw RuntimeException()
-        if (response.code == 401) {
-        CoroutineScope(Dispatchers.IO).launch {
-            runBlocking {
-                val accessToken = async {
-                    var token: String = ""
-                    kotlin.runCatching {
-                        RetrofitBuilder.getLoginService().requestRefresh(
-                            RefreshRequest(
-                                refreshToken = tokenDao.tokenDao().getMembers().refreshToken
+        val urlPath = response.request.url.toString().substring(35)
+        if (response.code == 401 && !(urlPath == "/auth/login" || urlPath == "/auth/email-verify" || urlPath == "/auth/email-send" || urlPath == "/auth/join")) {
+            CoroutineScope(Dispatchers.IO).launch {
+                runBlocking {
+                    val accessToken = async {
+                        var token: String = ""
+                        kotlin.runCatching {
+                            RetrofitBuilder.getLoginService().requestRefresh(
+                                RefreshRequest(
+                                    refreshToken = tokenDao.tokenDao().getMembers().refreshToken
+                                )
                             )
-                        )
-                    }.onSuccess { result ->
-                        if (result.data != null) {
-                            token = result.data
+                        }.onSuccess { result ->
+                            if (result.data != null) {
+                                token = result.data
+                            }
+                        }.onFailure {
+                            it.printStackTrace()
                         }
-                    }.onFailure {
-                        it.printStackTrace()
+                        token
                     }
-                    token
-                }
-                val newAccessToken = accessToken.await()
-                tokenDao.tokenDao().updateMember(
-                    TokenEntity(
-                        id = tokenDao.tokenDao().getMembers().id,
-                        accessToken = newAccessToken,
-                        refreshToken = tokenDao.tokenDao().getMembers().refreshToken,
-                        email = tokenDao.tokenDao().getMembers().email
+                    val newAccessToken = accessToken.await()
+                    tokenDao.tokenDao().updateMember(
+                        TokenEntity(
+                            id = tokenDao.tokenDao().getMembers().id,
+                            accessToken = newAccessToken,
+                            refreshToken = tokenDao.tokenDao().getMembers().refreshToken,
+                            email = tokenDao.tokenDao().getMembers().email
+                        )
                     )
-                )
-            }
+                }
 
-        }
+            }
             response.close()
             val newRequest = chain.request().newBuilder()
-                .addHeader("Authorization", "Bearer ${tokenDao.tokenDao().getMembers().accessToken}")
+                .addHeader(
+                    "Authorization",
+                    "Bearer ${tokenDao.tokenDao().getMembers().accessToken}"
+                )
                 .build()
             return chain.proceed(newRequest)
-        }
-        else{
+        } else {
             response.close()
             return chain.proceed(response.request)
         }
