@@ -19,7 +19,6 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import kr.pandadong2024.babya.MainActivity
 import kr.pandadong2024.babya.MyApplication
-import kr.pandadong2024.babya.MyApplication.Companion.prefs
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentProfileBinding
 import kr.pandadong2024.babya.home.viewmodel.CommonViewModel
@@ -52,9 +51,9 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.isSkipQuizSwitch.isChecked = MyApplication.prefs.skipQuiz
-        binding.isSkipQuizSwitch.setOnClickListener{ view ->
+        binding.isSkipQuizSwitch.setOnClickListener { view ->
             commonViewModel.setToastMessage("변경된 설정은 다음날부터 적용됩니다")
-            if (view is SwitchCompat){
+            if (view is SwitchCompat) {
                 MyApplication.prefs.skipQuiz = view.isChecked
             }
         }
@@ -76,7 +75,7 @@ class ProfileFragment : Fragment() {
                                 BabyaDB.getInstance(requireContext())?.tokenDao()
                                     ?.deleteMember(tokenEntity)
                             }
-                       MyApplication.prefs.remove()
+                        MyApplication.prefs.remove()
                     }
                     val intent = Intent(requireContext(), MainActivity::class.java)
                     startActivity(intent)

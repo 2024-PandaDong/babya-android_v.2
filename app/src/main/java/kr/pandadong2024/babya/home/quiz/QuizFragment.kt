@@ -37,9 +37,9 @@ class QuizFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentQuizBinding.inflate(inflater, container, false)
         (requireActivity() as BottomControllable).setBottomNavVisibility(false)
-        if(prefs.skipQuiz || prefs.completeQuiz){
+        if (prefs.skipQuiz || prefs.completeQuiz) {
             moveOtherView(true)
-        }else{
+        } else {
             tokenDao = BabyaDB.getInstance(requireContext().applicationContext)?.tokenDao()!!
             getQuiz()
         }

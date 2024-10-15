@@ -1,7 +1,6 @@
 package kr.pandadong2024.babya
 
 import android.app.Application
-import android.util.Log
 
 class MyApplication : Application() {
     companion object {
