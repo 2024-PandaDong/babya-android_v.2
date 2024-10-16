@@ -1,6 +1,7 @@
 package kr.pandadong2024.babya.home.main
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -216,6 +217,7 @@ class MainFragment : Fragment() {
     }
 
     private fun initCompanyList() {
+        Log.d("initCompanyList", "it : in")
         lifecycleScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 RetrofitBuilder.getCompanyService().getCompanyList(
@@ -224,12 +226,24 @@ class MainFragment : Fragment() {
                     size = 10
                 )
             }.onSuccess {
-                companyData = it
-                companyList = it.data ?: listOf()
                 launch(Dispatchers.Main) {
-                    setCompanyRecyclerView()
+                    if (it.status == 200) {
+                        companyData = it
+                        companyList = it.data ?: listOf()
+                        setCompanyRecyclerView()
+                    } else {
+
+                        Log.d("initCompanyList", "it : ${it.message}, st : ${it.status}")
+                    }
                 }
             }.onFailure {
+                Log.d("initCompanyList", "it : in false")
+                it.printStackTrace()
+                if (it is retrofit2.HttpException) {
+                    val errorBody = it.response()?.raw()?.request
+                    Log.d("initCompanyList", "it : $errorBody")
+                    Log.d("initCompanyList", "it : ${it.response()?.body()}")
+                }
                 it.stackTrace
                 companyList =
                     listOf(CompanyListResponses(), CompanyListResponses(), CompanyListResponses())

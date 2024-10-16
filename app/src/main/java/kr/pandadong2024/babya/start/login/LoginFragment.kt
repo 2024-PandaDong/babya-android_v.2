@@ -28,7 +28,6 @@ private const val DATA_STORE_FILE_NAME = "user.pb"
 
 
 class LoginFragment : Fragment() {
-    private val  loginViewModel: LoginViewModel by activityViewModels<LoginViewModel>()
     private val commonViewModel: CommonViewModel by activityViewModels<CommonViewModel>()
     private var bottomSheetDialog: LoginBottomSheet? = null
     private lateinit var token: String
@@ -125,8 +124,6 @@ class LoginFragment : Fragment() {
                     refreshToken = refreshToken
                 )
             )
-            loginViewModel.clearUserData()
-            loginViewModel.setUserData(accessToken = accessToken, refreshToken = refreshToken)
         }
     }
 

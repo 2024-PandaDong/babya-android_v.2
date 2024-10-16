@@ -92,6 +92,9 @@
         <action
             android:id="@+id/action_detailWriterFragment_to_diaryFragment"
             app:destination="@id/diaryFragment" />
+        <action
+            android:id="@+id/action_detailWriterFragment_to_editDiaryFragment"
+            app:destination="@id/editDiaryFragment" />
     </fragment>
     <fragment
         android:id="@+id/editDiaryFragment"

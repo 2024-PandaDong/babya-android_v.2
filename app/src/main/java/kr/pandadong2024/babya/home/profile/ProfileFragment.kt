@@ -94,20 +94,21 @@ class ProfileFragment : Fragment() {
                                 accessToken = "Bearer $token"
                             )
                         }.onSuccess {
+                            BabyaDB.getInstance(requireContext())?.tokenDao()?.getMembers()
+                                ?.let { tokenEntity ->
+                                    BabyaDB.getInstance(requireContext())?.tokenDao()
+                                        ?.deleteMember(tokenEntity)
+                                }
+                            launch(Dispatchers.Main) {
                             if (it.status == 200) {
-                                BabyaDB.getInstance(requireContext())?.tokenDao()?.getMembers()
-                                    ?.let { tokenEntity ->
-                                        BabyaDB.getInstance(requireContext())?.tokenDao()
-                                            ?.deleteMember(tokenEntity)
-                                    }
                                 // UI 스레드에서 프레그먼트 종료
-                                withContext(Dispatchers.Main) {
                                     MyApplication.prefs.remove()
                                     parentFragmentManager.popBackStack()
-                                }
+
                             } else {
+
                                 commonViewModel.setToastMessage("회원탈퇴 도중 문제가 발생했습니다. CDOE : ${it.status}")
-                            }
+                            }}
                         }.onFailure {
                             Log.d(TAG, "onViewCreated: 실패")
                             it.printStackTrace()
@@ -234,13 +235,13 @@ class ProfileFragment : Fragment() {
                     email = "my"
                 )
             }.onSuccess { result ->
-                if (result.status == 200) {
+                launch(Dispatchers.Main) {
+                    if (result.status == 200) {
 
-                    Log.d(TAG, "status : ${result.status}")
-                    Log.d(TAG, "message : ${result.message}")
-                    Log.d(TAG, "getProfileData: ${result.data}")
+                        Log.d(TAG, "status : ${result.status}")
+                        Log.d(TAG, "message : ${result.message}")
+                        Log.d(TAG, "getProfileData: ${result.data}")
 
-                    launch(Dispatchers.Main) {
                         binding.welcomeText.text = "${result.data?.nickname}님 반가워요!"
 
                         if (result.data?.profileImg == null) {
@@ -248,13 +249,16 @@ class ProfileFragment : Fragment() {
                         } else {
                             binding.profileImage.load(result.data.profileImg)
                         }
+                    } else {
+
+                        commonViewModel.setToastMessage("프로필 정보를 불러오는 도중 문제가 발생했습니다. CODE : ${result.status}")
                     }
-                } else {
-                    commonViewModel.setToastMessage("프로필 정보를 불러오는 도중 문제가 발생했습니다. CODE : ${result.status}")
                 }
             }.onFailure { result ->
                 result.printStackTrace()
-                commonViewModel.setToastMessage("인터넷이 연결되어있는지 확인해 주십시오")
+                withContext(Dispatchers.Main) {
+                    commonViewModel.setToastMessage("인터넷이 연결되어있는지 확인해 주십시오")
+                }
             }
         }
 

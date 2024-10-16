@@ -70,7 +70,6 @@ class DiaryFragment : Fragment() {
         viewModel.diarySearchKeyWord.observe(viewLifecycleOwner) {
             if (it != "") {
                 searchKeyWord = it
-                //TODO : 여기있는 코드 옮기기
                 val keyword = binding.searchEditText.text.toString()
                 val searchList = mutableListOf<DiaryDataResponses>()
                 diaryList?.forEach { data ->

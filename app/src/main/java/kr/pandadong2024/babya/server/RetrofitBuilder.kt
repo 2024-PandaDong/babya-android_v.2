@@ -28,7 +28,7 @@ import javax.net.ssl.TrustManager
 import javax.net.ssl.X509TrustManager
 
 class RetrofitBuilder {
-    companion object{
+    companion object {
         private var gson: Gson? = null
         private var retrofit: Retrofit? = null
         private var loginService: LoginService? = null
@@ -38,12 +38,12 @@ class RetrofitBuilder {
         private var mainService: MainService? = null
         private var todoListService: TodoListService? = null
         private var diaryService: DiaryService? = null
-        private var httpClient : OkHttpClient? = null
+        private var httpClient: OkHttpClient? = null
         private var tokenDao: TokenDAO? = null
-        private var quizService : QuizService? = null
-        private var profileService: ProfileService? =null
+        private var quizService: QuizService? = null
+        private var profileService: ProfileService? = null
         private var dashBoardService: DashBoardService? = null
-        private var companyService : CompanyService? = null
+        private var companyService: CompanyService? = null
 
         @Synchronized
         fun getGson(): Gson? {
@@ -64,6 +64,7 @@ class RetrofitBuilder {
             }
             return retrofit!!
         }
+
         @Synchronized
         fun getHttpRetrofit(): Retrofit {
             if (retrofit == null) {
@@ -97,15 +98,7 @@ class RetrofitBuilder {
             val refreshInterceptor = RefreshInterceptor()
             tokenDao = BabyaDB.getInstanceOrNull()?.tokenDao()
             val httpClient = OkHttpClient.Builder().apply {
-                addNetworkInterceptor { chain ->
-                    tokenDao?.getMembers()?.let {
-                        val request = chain.request().newBuilder().addHeader(
-                            "Authorization",
-                            "Bearer ${it.accessToken}"
-                        ).build()
-                        chain.proceed(request)
-                    } ?: chain.proceed(chain.request())
-                }
+
             }
 //            httpClient.addNetworkInterceptor()
             return httpClient
@@ -130,6 +123,7 @@ class RetrofitBuilder {
                     authType: String?
                 ) {
                 }
+
                 override fun checkServerTrusted(
                     chain: Array<out X509Certificate>?,
                     authType: String?
@@ -152,81 +146,84 @@ class RetrofitBuilder {
         }
 
         fun getLoginService(): LoginService {
-            if (loginService == null){
+            if (loginService == null) {
                 loginService = getRetrofit().create(LoginService::class.java)
             }
             return loginService!!
         }
 
-        fun getCompanyService(): CompanyService{
-            if (companyService == null){
+        fun getCompanyService(): CompanyService {
+            if (companyService == null) {
                 companyService = getHttpRetrofit().create(CompanyService::class.java)
             }
             return companyService!!
         }
+
         fun getPolicyService(): PolicyService {
-            if (policyService == null){
+            if (policyService == null) {
                 policyService = getRetrofit().create(PolicyService::class.java)
             }
             return policyService!!
         }
 
-        fun getQuizService() : QuizService {
-            if (quizService == null){
+        fun getQuizService(): QuizService {
+            if (quizService == null) {
                 quizService = getHttpRetrofit().create(QuizService::class.java)
             }
             return quizService!!
         }
 
-        fun getProfileService(): ProfileService{
-            if (profileService == null){
+        fun getProfileService(): ProfileService {
+            if (profileService == null) {
                 profileService = getRetrofit().create(ProfileService::class.java)
             }
             return profileService!!
         }
 
         fun getSignupService(): SignupService {
-            if (signupService == null){
+            if (signupService == null) {
                 signupService = getRetrofit().create(SignupService::class.java)
             }
             return signupService!!
         }
-        fun getHttpMainService() : MainService {
-            if (mainService == null){
+
+        fun getHttpMainService(): MainService {
+            if (mainService == null) {
                 mainService = getHttpRetrofit().create(MainService::class.java)
             }
             return mainService!!
         }
-        fun getMainService() : MainService {
-            if (mainService == null){
+
+        fun getMainService(): MainService {
+            if (mainService == null) {
                 mainService = getRetrofit().create(MainService::class.java)
             }
             return mainService!!
         }
 
-        fun getDiaryService() : DiaryService {
-            if (diaryService == null){
+        fun getDiaryService(): DiaryService {
+            if (diaryService == null) {
                 diaryService = getHttpRetrofit().create(DiaryService::class.java)
             }
             return diaryService!!
         }
 
-        fun getDashBoardService() : DashBoardService {
-            if (dashBoardService == null){
+        fun getDashBoardService(): DashBoardService {
+            if (dashBoardService == null) {
                 dashBoardService = getHttpRetrofit().create(DashBoardService::class.java)
             }
             return dashBoardService!!
         }
 
-        fun getTodoListService() : TodoListService {
-            if (todoListService == null){
+        fun getTodoListService(): TodoListService {
+            if (todoListService == null) {
                 todoListService = getHttpRetrofit().create(TodoListService::class.java)
             }
             return todoListService!!
         }
 
-        fun getCommonService() : CommonService {
-            if (commonService == null){
+        fun getCommonService(): CommonService {
+            if (commonService == null) {
                 commonService = getHttpRetrofit().create(CommonService::class.java)
             }
             return commonService!!

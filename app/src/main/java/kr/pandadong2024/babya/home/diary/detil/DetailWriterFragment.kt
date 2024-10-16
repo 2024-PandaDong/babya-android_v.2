@@ -2,6 +2,7 @@ package kr.pandadong2024.babya.home.diary.detil
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +17,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentDetailWriterBinding
 import kr.pandadong2024.babya.home.diary.bottomsheet.CommentBottomSheet
@@ -27,7 +29,9 @@ import kr.pandadong2024.babya.server.local.BabyaDB
 import kr.pandadong2024.babya.server.local.TokenDAO
 import kr.pandadong2024.babya.server.remote.request.SubCommentRequest
 import kr.pandadong2024.babya.server.remote.responses.SubCommentResponses
+import kr.pandadong2024.babya.server.remote.responses.diary.DiaryDataResponses
 import kr.pandadong2024.babya.util.BottomControllable
+import retrofit2.HttpException
 import kotlin.properties.Delegates
 
 class DetailWriterFragment : Fragment() {
@@ -37,6 +41,7 @@ class DetailWriterFragment : Fragment() {
     private val viewModel by activityViewModels<DiaryViewModel>()
     private val commonViewModel by activityViewModels<CommonViewModel>()
     private lateinit var commentsAdapter: CommentsAdapter
+    private lateinit var diaryData: DiaryDataResponses
 
     private var diaryId by Delegates.notNull<Int>()
     private var selectedCommentId: Int? = null
@@ -57,7 +62,7 @@ class DetailWriterFragment : Fragment() {
         initView()
         initCommentRecyclerView(1, 100, viewModel.diaryId.value!!)
         binding.writerBackButton.setOnClickListener {
-            findNavController().navigate(R.id.action_detailWriterFragment_to_diaryFragment)
+            backScreen()
         }
 
         binding.constraintLayout.setOnClickListener {
@@ -101,11 +106,12 @@ class DetailWriterFragment : Fragment() {
             popupMenu.setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.delete -> {
-                        commonViewModel.setToastMessage("삭제")
+                        deleteDiary(diaryId)
                     }
 
                     R.id.modify -> {
-                        commonViewModel.setToastMessage("수정")
+                        viewModel.editDiaryData.value = diaryData
+                        findNavController().navigate(R.id.action_detailWriterFragment_to_editDiaryFragment)
                     }
                 }
                 return@setOnMenuItemClickListener true
@@ -235,37 +241,42 @@ class DetailWriterFragment : Fragment() {
                 }
             }
             kotlin.runCatching {
+
                 RetrofitBuilder.getDiaryService().getDiaryData(
                     accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
                     id = viewModel.diaryId.value!!
                 )
             }.onSuccess { result ->
-                val diaryData = result.data
-                lifecycleScope.launch(Dispatchers.Main) {
 
-                    binding.writerTitleText.text = diaryData?.title
-                    if (diaryData?.files?.get(0)?.url.isNullOrBlank()) {
+                val diaryResult = result.data
+                lifecycleScope.launch(Dispatchers.Main) {
+                    if (diaryResult != null) {
+                        diaryData = diaryResult
+                    }
+                    binding.writerTitleText.text = diaryResult?.title
+                    if (diaryResult?.files?.get(0)?.url.isNullOrBlank()) {
                         binding.selectedImage.visibility = View.GONE
                         binding.writerDiaryAddImageCardView.visibility = View.GONE
                     } else {
-                        binding.selectedImage.load(diaryData?.files?.get(0)?.url)
+                        binding.selectedImage.load(diaryResult?.files?.get(0)?.url)
                     }
-                    binding.writerPregnancyText.text = diaryData?.pregnancyWeeks.toString()
-                    binding.writerWeightInputText.text = diaryData?.weight.toString()
-                    binding.writerFetalFindingsContentText.text = diaryData?.fetusComment
+                    binding.writerPregnancyText.text = diaryResult?.pregnancyWeeks.toString()
+                    binding.writerWeightInputText.text = diaryResult?.weight.toString()
+                    binding.writerFetalFindingsContentText.text = diaryResult?.fetusComment
                     binding.writerBloodPressureHeightInputText.text =
-                        diaryData?.systolicPressure.toString()
+                        diaryResult?.systolicPressure.toString()
                     binding.writerBloodPressureLowInputText.text =
-                        diaryData?.diastolicPressure.toString()
+                        diaryResult?.diastolicPressure.toString()
                     binding.writerNextDaySelectedText.text =
-                        (diaryData?.nextAppointment?.substring(5))?.replace('-', '/')
-                    binding.writerDateText.text = diaryData?.writtenDt?.replace('-', '/')
-                    binding.writerContentContentText.text = diaryData?.content
-                    binding.writerEmojiCode.text = diaryData?.emojiCode
-                    binding.writerText.text = diaryData?.nickname
+                        (diaryResult?.nextAppointment?.substring(5))?.replace('-', '/')
+                    binding.writerDateText.text = diaryResult?.writtenDt?.replace('-', '/')
+                    binding.writerContentContentText.text = diaryResult?.content
+                    Log.d("test", "${diaryResult?.emojiCode}")
+                    binding.writerEmojiCode.text = diaryResult?.emojiCode
+                    binding.writerText.text = diaryResult?.nickname
 
                     binding.writerEmojiImage.load(
-                        when (diaryData?.emojiCode) {
+                        when (diaryResult?.emojiCode) {
                             "좋음" -> R.drawable.img_good
                             "평범" -> R.drawable.img_normal
                             "아픔" -> R.drawable.img_pain
@@ -282,13 +293,41 @@ class DetailWriterFragment : Fragment() {
         }
     }
 
+
+
+    private fun deleteDiary(diaryId: Int) {
+        lifecycleScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                RetrofitBuilder.getDiaryService().deleteDiary(
+                    accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
+                    id = diaryId
+                )
+            }.onSuccess {
+                withContext(Dispatchers.Main) {
+                    commonViewModel.setToastMessage("성공적으로 일기가 제거되었습니다.")
+                    backScreen()
+                }
+            }.onFailure {
+                withContext(Dispatchers.Main) {
+                    if (it is HttpException) {
+                        if (it.code() == 500) {
+                            commonViewModel.setToastMessage("서버에 문제가 발생했습니다.")
+                        } else {
+                            commonViewModel.setToastMessage("일기가 정상적으로 제거되지 못했습니다. CODE : ${it.code()}")
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+
+    private fun backScreen(){
+        requireActivity().supportFragmentManager.popBackStack()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
     }
-
-//    override fun onPause() {
-//        super.onPause()
-//        (requireActivity() as BottomControllable).setBottomNavVisibility(true)
-//    }
 }
