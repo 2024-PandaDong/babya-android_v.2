@@ -1,6 +1,7 @@
 package kr.pandadong2024.babya.server.remote.service
 
 import kr.pandadong2024.babya.server.remote.request.SubCommentRequest
+import kr.pandadong2024.babya.server.remote.request.diary.EditDiaryRequest
 import kr.pandadong2024.babya.server.remote.request.diary.PostDiaryRequest
 import kr.pandadong2024.babya.server.remote.responses.BaseResponse
 import kr.pandadong2024.babya.server.remote.responses.CommentResponses
@@ -46,7 +47,8 @@ interface DiaryService {
     @PATCH("/diary/{id}")
     suspend fun modifyDiary(
         @Header("Authorization") accessToken: String,
-        @Path("id") id : Int
+        @Path("id") id : Int,
+        @Body body : EditDiaryRequest
     ): BaseResponse<String>
 
     @DELETE("/diary/{id}")

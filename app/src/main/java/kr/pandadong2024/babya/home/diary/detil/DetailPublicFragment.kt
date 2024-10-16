@@ -178,7 +178,7 @@ class DetailPublicFragment : Fragment() {
                 Log.e(TAG, "result : ${result.message}")
                 val diaryData = result.data
                 lifecycleScope.launch (Dispatchers.Main) {
-
+                    binding.writerText.text = diaryData?.nickname
                     binding.publicTitleText.text = diaryData?.title
                     if (diaryData?.files?.get(0)?.url.isNullOrBlank()){
                         binding.mainImage.visibility = View.GONE

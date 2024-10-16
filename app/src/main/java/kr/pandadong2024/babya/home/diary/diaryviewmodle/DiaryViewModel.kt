@@ -25,4 +25,9 @@ class DiaryViewModel() : ViewModel() {
         diarySearchKeyWord.value = ""
         isOpenSearchView.value = false
     }
+
+    fun  initEditDate(){
+        editDiaryData.value = null
+    }
+
 }

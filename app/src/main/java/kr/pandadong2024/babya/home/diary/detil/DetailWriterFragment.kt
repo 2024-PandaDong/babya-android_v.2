@@ -2,6 +2,7 @@ package kr.pandadong2024.babya.home.diary.detil
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -110,7 +111,7 @@ class DetailWriterFragment : Fragment() {
 
                     R.id.modify -> {
                         viewModel.editDiaryData.value = diaryData
-                        //TODO : 수정화면으로 화면이동
+                        findNavController().navigate(R.id.action_detailWriterFragment_to_editDiaryFragment)
                     }
                 }
                 return@setOnMenuItemClickListener true
@@ -270,6 +271,7 @@ class DetailWriterFragment : Fragment() {
                         (diaryResult?.nextAppointment?.substring(5))?.replace('-', '/')
                     binding.writerDateText.text = diaryResult?.writtenDt?.replace('-', '/')
                     binding.writerContentContentText.text = diaryResult?.content
+                    Log.d("test", "${diaryResult?.emojiCode}")
                     binding.writerEmojiCode.text = diaryResult?.emojiCode
                     binding.writerText.text = diaryResult?.nickname
 
@@ -291,32 +293,7 @@ class DetailWriterFragment : Fragment() {
         }
     }
 
-    private fun modifyDiary(diaryId: Int) {
-        lifecycleScope.launch(Dispatchers.IO) {
-            kotlin.runCatching {
-                RetrofitBuilder.getDiaryService().deleteDiary(
-                    accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
-                    id = diaryId
-                )
-            }.onSuccess {
-                withContext(Dispatchers.Main) {
-                    commonViewModel.setToastMessage("성공적으로 일기가 제거되었습니다.")
-                    backScreen()
-                }
-            }.onFailure {
-                withContext(Dispatchers.Main) {
-                    if (it is HttpException) {
-                        if (it.code() == 500) {
-                            commonViewModel.setToastMessage("서버에 문제가 발생했습니다.")
-                        } else {
-                            commonViewModel.setToastMessage("일기가 정상적으로 제거되지 못했습니다. CODE : ${it.code()}")
-                        }
-                    }
 
-                }
-            }
-        }
-    }
 
     private fun deleteDiary(diaryId: Int) {
         lifecycleScope.launch(Dispatchers.IO) {
@@ -345,7 +322,7 @@ class DetailWriterFragment : Fragment() {
         }
     }
 
-    fun backScreen(){
+    private fun backScreen(){
         requireActivity().supportFragmentManager.popBackStack()
     }
 

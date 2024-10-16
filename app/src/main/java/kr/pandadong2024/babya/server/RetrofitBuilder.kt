@@ -98,15 +98,7 @@ class RetrofitBuilder {
             val refreshInterceptor = RefreshInterceptor()
             tokenDao = BabyaDB.getInstanceOrNull()?.tokenDao()
             val httpClient = OkHttpClient.Builder().apply {
-//                addNetworkInterceptor { chain ->  //TODO : header 자동화 하기
-//                    tokenDao?.getMembers()?.let {
-//                        val request = chain.request().newBuilder().addHeader(
-//                            "Authorization",
-//                            "Bearer ${it.accessToken}"
-//                        ).build()
-//                        chain.proceed(request)
-//                    } ?: chain.proceed(chain.request())
-//                }
+
             }
 //            httpClient.addNetworkInterceptor()
             return httpClient
