@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".home.find_company.FindCompanyFragment"
-    android:background="@color/backgroundNormalStrong">
+    android:background="@color/white">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/findCompanyToolbar"
@@ -83,6 +83,34 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+                
+                <TextView
+                    android:id="@+id/welcomeText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="23dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:text="가족친화적인 회사 리스트"
+                    android:fontFamily="@font/notosanskr_semibold"
+                    android:includeFontPadding="false"
+                    android:textSize="16dp"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginStart="21dp"
+                    />
+                
+                <TextView
+                    android:id="@+id/welcomeName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="16dp"
+                    app:layout_constraintTop_toBottomOf="@id/welcomeText"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginStart="21dp"
+                    android:text="사용자님과 맞는 회사를 찾아보세요."
+                    android:fontFamily="@font/notosanskr_medium"
+                    android:includeFontPadding="false"
+                    android:textSize="11dp"
+                    />
 
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -93,6 +121,8 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/welcomeName"
+                    android:layout_marginTop="9dp"
 
                     />
             </androidx.constraintlayout.widget.ConstraintLayout>
