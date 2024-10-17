@@ -14,9 +14,11 @@ import androidx.navigation.fragment.findNavController
 import coil.load
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import kr.pandadong2024.babya.HomeActivity
 import kr.pandadong2024.babya.MainActivity
 import kr.pandadong2024.babya.MyApplication
 import kr.pandadong2024.babya.R
@@ -24,6 +26,7 @@ import kr.pandadong2024.babya.databinding.FragmentProfileBinding
 import kr.pandadong2024.babya.home.viewmodel.CommonViewModel
 import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.server.local.BabyaDB
+import kr.pandadong2024.babya.start.login.LoginFragment
 import kr.pandadong2024.babya.util.BottomControllable
 import kr.pandadong2024.babya.util.setOnSingleClickListener
 
@@ -94,21 +97,17 @@ class ProfileFragment : Fragment() {
                                 accessToken = "Bearer $token"
                             )
                         }.onSuccess {
-                            BabyaDB.getInstance(requireContext())?.tokenDao()?.getMembers()
-                                ?.let { tokenEntity ->
-                                    BabyaDB.getInstance(requireContext())?.tokenDao()
-                                        ?.deleteMember(tokenEntity)
-                                }
-                            launch(Dispatchers.Main) {
-                            if (it.status == 200) {
-                                // UI 스레드에서 프레그먼트 종료
-                                    MyApplication.prefs.remove()
-                                    parentFragmentManager.popBackStack()
-
-                            } else {
-
-                                commonViewModel.setToastMessage("회원탈퇴 도중 문제가 발생했습니다. CDOE : ${it.status}")
-                            }}
+                            lifecycleScope.launch(Dispatchers.IO) {
+                                BabyaDB.getInstance(requireContext())?.tokenDao()?.getMembers()
+                                    ?.let { tokenEntity ->
+                                        BabyaDB.getInstance(requireContext())?.tokenDao()
+                                            ?.deleteMember(tokenEntity)
+                                    }
+                                MyApplication.prefs.remove()
+                            }
+                            val intent = Intent(requireContext(), MainActivity::class.java)
+                            startActivity(intent)
+                            requireActivity().finish()
                         }.onFailure {
                             Log.d(TAG, "onViewCreated: 실패")
                             it.printStackTrace()
@@ -118,8 +117,6 @@ class ProfileFragment : Fragment() {
                             }
                         }
                     }
-                    val intent = Intent(requireContext(), MainActivity::class.java)
-                    startActivity(intent)
                 }
                 .show()
         }

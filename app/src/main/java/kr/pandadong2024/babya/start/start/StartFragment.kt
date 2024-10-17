@@ -2,6 +2,7 @@ package kr.pandadong2024.babya.start.start
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,6 +36,7 @@ class StartFragment : Fragment() {
                 BabyaDB.getInstance(requireContext())?.tokenDao()?.getMembers()?.accessToken
             delay(1500)
             withContext(Dispatchers.Main) {
+                Log.d("StartFragment", "accessToken : $accessToken")
                 if (!accessToken.isNullOrEmpty()) {
                     startActivity(Intent(requireContext(), HomeActivity::class.java))
                     requireActivity().finish()

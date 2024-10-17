@@ -68,7 +68,7 @@ class ProfileModifyFragment : Fragment() {
                     launch(Dispatchers.Main) {
                         binding.nameText.text = result.data?.nickname
                         binding.marriageDayText.text = "${result.data?.marriedYears}년"
-                        binding.ageText.text = "${result.data?.age}살"
+                        binding.ageText.text = "${result.data?.birthDt}살"
                         binding.ageText.text = "D-${result.data?.dDay}"
                         binding.emailText.text = email
                         if (result.data?.children?.size != 0) {
