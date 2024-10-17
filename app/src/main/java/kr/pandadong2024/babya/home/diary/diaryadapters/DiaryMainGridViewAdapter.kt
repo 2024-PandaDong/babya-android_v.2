@@ -37,7 +37,7 @@ class DiaryMainGridViewAdapter(
             binding.diaryMainImage.load(data.files[0].url)
         }
         binding.titleText.text = data.title
-        binding.writerText.text = data.title
+        binding.writerText.text = data.nickname
         val day = "${data.writtenDt?.substring(startIndex = 5, endIndex = 7)}/${
             data.writtenDt?.substring(
                 startIndex = 8,

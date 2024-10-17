@@ -13,6 +13,7 @@ import androidx.viewpager2.widget.ViewPager2
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.time.delay
 import kotlinx.coroutines.withContext
 import kr.pandadong2024.babya.R
@@ -23,9 +24,9 @@ import kr.pandadong2024.babya.home.policy.getLocalByCode
 import kr.pandadong2024.babya.home.policy.getMemberLocalCode
 import kr.pandadong2024.babya.home.policy.getRegionByCode
 import kr.pandadong2024.babya.home.policy.viewmdole.PolicyViewModel
+import kr.pandadong2024.babya.home.profile.profileviewmodle.ProfileViewModel
 import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.server.local.BabyaDB
-import kr.pandadong2024.babya.server.local.TokenDAO
 import kr.pandadong2024.babya.server.remote.responses.BannerResponses
 import kr.pandadong2024.babya.server.remote.responses.BaseResponse
 import kr.pandadong2024.babya.server.remote.responses.Policy.PolicyListResponse
@@ -46,8 +47,9 @@ class MainFragment : Fragment() {
     private val findCompanyViewModel by activityViewModels<FindCompanyViewModel>()
 
     private val policyViewModel by activityViewModels<PolicyViewModel>()
+    private val profileViewModel by activityViewModels<ProfileViewModel>()
 
-    private lateinit var tokenDao: TokenDAO
+    private lateinit var accessToken: String
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
     private var bannerPosition = 0
@@ -55,7 +57,7 @@ class MainFragment : Fragment() {
 
     private suspend fun getBanner(): List<BannerResponses> {
         val response = RetrofitBuilder.getHttpMainService().getBanner(
-            accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
+            accessToken = "Bearer $accessToken",
             lc = "my",
             type = "$form"
         )
@@ -63,6 +65,7 @@ class MainFragment : Fragment() {
     }
 
     lateinit var job: Job
+
     fun scrollJobCreate() {
         job = lifecycleScope.launchWhenResumed {
             val duration = Duration.ofMillis(2000)
@@ -79,7 +82,20 @@ class MainFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        job.cancel()
+        if (job.isActive) {
+            job.cancel()
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        // 메인 스레드가 아닌 IO 스레드에서 데이터베이스에 접근하도록 수정
+        runBlocking {
+            lifecycleScope.launch(Dispatchers.IO) {
+                accessToken = BabyaDB.getInstance(requireContext())?.tokenDao()
+                    ?.getMembers()?.accessToken.toString()
+            }
+        }
     }
 
     override fun onCreateView(
@@ -87,10 +103,15 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMainBinding.inflate(inflater, container, false)
-        tokenDao = BabyaDB.getInstance(requireContext().applicationContext)?.tokenDao()!!
         policyViewModel.initViewModel()
         (requireActivity() as BottomControllable).setBottomNavVisibility(true)
-
+            profileViewModel.setAccessToken(accessToken)
+        profileViewModel.accessToken.observe(viewLifecycleOwner){
+            if(it != "") {
+                profileViewModel.getUserLocalCode()
+                profileViewModel.getUserData()
+            }
+        }
 
         binding.policyMoreText.setOnClickListener {
             findNavController().navigate(R.id.action_mainFragment_to_policyMainFragment)
@@ -221,7 +242,7 @@ class MainFragment : Fragment() {
         lifecycleScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 RetrofitBuilder.getCompanyService().getCompanyList(
-                    accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
+                    accessToken = "Bearer $accessToken",
                     page = 1,
                     size = 10
                 )
@@ -258,9 +279,10 @@ class MainFragment : Fragment() {
         lifecycleScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 RetrofitBuilder.getProfileService().getLocalCode(
-                    accessToken = "Bearer ${tokenDao.getMembers().accessToken}"
+                    accessToken = "Bearer $accessToken"
                 )
             }.onSuccess { result ->
+
                 val response = result.data
 
                 if (response?.length == 2) {

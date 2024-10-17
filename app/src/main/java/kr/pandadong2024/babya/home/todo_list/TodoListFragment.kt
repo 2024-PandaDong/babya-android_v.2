@@ -160,6 +160,7 @@ class TodoListFragment : Fragment() {
             if (todoData.todoId != null)
                 when (type) {
                     1 -> {
+                        Log.d("initDayRecyclerView", "in 1")
                         deleteTodo(todoData.todoId)
                     }
 
@@ -234,6 +235,7 @@ class TodoListFragment : Fragment() {
     }
 
     private fun deleteTodo(todoId: Int) {
+        Log.d("deleteTodo", "in fun")
         lifecycleScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 RetrofitBuilder.getTodoListService().deleteTodo(
@@ -250,7 +252,7 @@ class TodoListFragment : Fragment() {
                 }
             }.onFailure { result ->
                 result.printStackTrace()
-                commonViewModel.setToastMessage("인터넷이 연결되어있는지 확인해 주십시오")
+//                commonViewModel.setToastMessage("인터넷이 연결되어있는지 확인해 주십시오")
                 if (result is HttpException) {
                     val errorBody = result.response()
                     Log.e(TAG, "Error body: ${errorBody?.raw()?.request}")

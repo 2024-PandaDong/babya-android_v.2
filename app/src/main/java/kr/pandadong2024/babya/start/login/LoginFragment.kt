@@ -73,6 +73,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun login(emailText: String, passwordText: String) {
+
         var accessToken = ""
         var refreshToken = ""
 

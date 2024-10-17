@@ -105,14 +105,14 @@
                     app:layout_constraintTop_toTopOf="@id/nameTitleText" />
 
                 <TextView
-                    android:id="@+id/ageTitleText"
+                    android:id="@+id/localTitleText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="25dp"
 
                     android:fontFamily="@font/notosanskr_medium"
                     android:includeFontPadding="false"
-                    android:text="나이"
+                    android:text="지역"
                     android:textAlignment="textStart"
                     android:textColor="@color/neutral40"
                     android:textSize="16sp"
@@ -121,7 +121,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/nameTitleText" />
 
                 <TextView
-                    android:id="@+id/ageText"
+                    android:id="@+id/localText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
@@ -134,7 +134,7 @@
                     android:textSize="16sp"
 
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/ageTitleText" />
+                    app:layout_constraintTop_toTopOf="@id/localTitleText" />
 
                 <TextView
                     android:id="@+id/birthDateTitleText"
@@ -150,7 +150,7 @@
                     android:textSize="16sp"
 
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ageTitleText" />
+                    app:layout_constraintTop_toBottomOf="@+id/localTitleText" />
 
                 <TextView
                     android:id="@+id/birthDateText"
@@ -220,6 +220,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     android:text="결혼정보"
                     android:textSize="16sp"
+                    android:textColor="@color/neutral30"
                     android:fontFamily="@font/notosanskr_medium"
                     android:includeFontPadding="false"
                     />
@@ -245,7 +246,6 @@
                     android:id="@+id/marriageDayText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
 
                     android:fontFamily="@font/notosanskr_regular"
                     android:includeFontPadding="false"

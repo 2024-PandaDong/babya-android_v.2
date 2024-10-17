@@ -2,10 +2,10 @@ package kr.pandadong2024.babya.home.profile
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -14,10 +14,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentProfileModifyBinding
-import kr.pandadong2024.babya.home.viewmodel.CommonViewModel
-import kr.pandadong2024.babya.server.RetrofitBuilder
+import kr.pandadong2024.babya.home.policy.getLocalByCode
+import kr.pandadong2024.babya.home.profile.profileviewmodle.ProfileViewModel
 import kr.pandadong2024.babya.server.local.BabyaDB
 import kr.pandadong2024.babya.server.local.TokenDAO
+import kr.pandadong2024.babya.util.shortToast
 
 
 class ProfileModifyFragment : Fragment() {
@@ -25,7 +26,8 @@ class ProfileModifyFragment : Fragment() {
     private var _binding: FragmentProfileModifyBinding? = null
     private val binding get() = _binding!!
     private lateinit var tokenDao: TokenDAO
-    private val commonViewModel by activityViewModels<CommonViewModel>()
+    private val userViewModel by activityViewModels<ProfileViewModel>()
+    var email : String = ""
 
 
     val TAG = "ProfileModifyFragment"
@@ -39,7 +41,47 @@ class ProfileModifyFragment : Fragment() {
         binding.profileBackButton.setOnClickListener {
             findNavController().navigate(R.id.action_profileModifyFragment_to_profileFragment)
         }
-        getProfileData()
+
+        userViewModel.toastMessage.observe(viewLifecycleOwner){ message ->
+            if (message != ""){
+                requireContext().shortToast(message)
+            }
+        }
+
+        userViewModel.userData.observe(viewLifecycleOwner){ userData ->
+            binding.nameText.text = userData.nickname
+            binding.marriageDayText.text = userData.marriedYears?.replace("-", ".") ?: "0000.00.00"
+            binding.birthDateText.text =
+                userData.birthDt?.replace("-", ".") ?: "0000.00.00"
+            binding.emailText.text = email
+            if (userData.children?.size != 0 && userData.children != null) {
+                binding.marriageText.text = userData.children[0].name
+            } else {
+                binding.marriageText.visibility = View.GONE
+                binding.marriageTitleText.visibility = View.GONE
+                binding.birthNameTitleText.visibility = View.GONE
+                binding.birthNameDateText.visibility = View.GONE
+            }
+            if (userData.dDay == 0 || userData.dDay == null) {
+                binding.pregnancyText.visibility = View.GONE
+                binding.pregnancyDayTitleText.visibility = View.GONE
+            }
+            else{
+                binding.pregnancyText.text = "D-${userData.dDay}"
+            }
+
+
+            if (userData.profileImg == null) {
+                binding.profileImage.load(R.drawable.ic_basic_profile)
+            } else {
+                binding.profileImage.load(userData.profileImg)
+            }
+        }
+
+        userViewModel.userLocalCode.observe(viewLifecycleOwner){
+            Log.d(TAG, "code : $it")
+            binding.localText.text = getLocalByCode(it)
+        }
 
 
         return binding.root
@@ -49,51 +91,7 @@ class ProfileModifyFragment : Fragment() {
         super.onCreate(savedInstanceState)
         lifecycleScope.launch(Dispatchers.IO) {
             tokenDao = BabyaDB.getInstance(requireContext())?.tokenDao()!!
-        }
-    }
-
-    private fun getProfileData() {
-        lifecycleScope.launch(Dispatchers.IO) {
-            val token : String = tokenDao.getMembers().accessToken
-            kotlin.runCatching {
-                Log.d(TAG, "token : $token")
-                RetrofitBuilder.getProfileService().getProfile(
-                    accessToken = "Bearer $token",
-                    email = "my"
-                )
-            }.onSuccess { result ->
-                if(result.status == 200) {
-                    val email = tokenDao.getMembers().email
-
-                    launch(Dispatchers.Main) {
-                        binding.nameText.text = result.data?.nickname
-                        binding.marriageDayText.text = "${result.data?.marriedYears}년"
-                        binding.ageText.text = "${result.data?.age}살"
-                        binding.ageText.text = "D-${result.data?.dDay}"
-                        binding.emailText.text = email
-                        if (result.data?.children?.size != 0) {
-                            binding.marriageText.text = result.data?.children!![0].name
-                        } else {
-                            binding.marriageText.visibility = View.GONE
-                            binding.marriageTitleText.visibility = View.GONE
-                        }
-
-                        if (result.data.profileImg == null) {
-                            binding.profileImage.load(R.drawable.ic_basic_profile)
-                        } else {
-                            binding.profileImage.load(result.data.profileImg)
-                        }
-
-                    }
-                }
-                else{
-                    commonViewModel.setToastMessage( "데이터를 불러오는 도중 문제가 발생했습니다. CODE : ${result.status}")
-                }
-            }.onFailure { result ->
-                Log.d(TAG, "onCreateView: ${result.message}")
-                result.printStackTrace()
-                commonViewModel.setToastMessage( "인터넷이 연결되어있는지 확인해 주십시오")
-            }
+            email = tokenDao.getMembers().email
         }
     }
 }
