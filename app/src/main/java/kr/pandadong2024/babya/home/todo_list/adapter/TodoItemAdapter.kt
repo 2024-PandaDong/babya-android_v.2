@@ -17,7 +17,14 @@ class TodoItemAdapter(
         fun bind(itemDate: TodoResponses) {
             Log.d("itme adapte", "item data $itemDate")
             binding.todoCheckRadio.isChecked = itemDate.isChecked!!
-            binding.todoCheckRadio.text = itemDate.content
+            binding.todoContentText.text = itemDate.content
+
+            binding.todoContentText.setOnClickListener {
+                Log.d("teat", "check : ${itemDate.isChecked}")
+                binding.todoCheckRadio.isChecked = !binding.todoCheckRadio.isChecked
+                itemDate.isChecked = binding.todoCheckRadio.isChecked
+                work(3, itemDate)
+            }
             binding.todoCheckRadio.setOnClickListener {
                 Log.d("teat", "check : ${itemDate.isChecked}")
                 itemDate.isChecked = binding.todoCheckRadio.isChecked
