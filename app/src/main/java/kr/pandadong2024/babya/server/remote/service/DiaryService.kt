@@ -49,14 +49,20 @@ interface DiaryService {
     @PATCH("/diary/{id}")
     suspend fun modifyDiary(
         @Header("Authorization") accessToken: String,
-        @Path("id") id : Int,
-        @Body body : EditDiaryRequest
+        @Path("id") id: Int,
+        @Body body: EditDiaryRequest
+    ): BaseResponse<String>
+
+    @PATCH("/diary/report/{id}")
+    suspend fun reportDiary(
+        @Header("Authorization") accessToken: String,
+        @Path("id") id: Int,
     ): BaseResponse<String>
 
     @DELETE("/diary/{id}")
     suspend fun deleteDiary(
         @Header("Authorization") accessToken: String,
-        @Path("id") id : Int
+        @Path("id") id: Int
     ): BaseResponse<String>
 
     @GET("/diary/comment")
