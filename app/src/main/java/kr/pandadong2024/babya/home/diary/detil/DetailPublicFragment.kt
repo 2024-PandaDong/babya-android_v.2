@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import androidx.fragment.app.DialogFragment.STYLE_NORMAL
+import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -35,10 +35,10 @@ class DetailPublicFragment : Fragment() {
     private var _binding: FragmentDetailPublicBinding? = null
     private val binding get() = _binding!!
 
-    private var selectedCommentId : Int? = null
+    private var selectedCommentId: Int? = null
 
     private val viewModel by activityViewModels<DiaryViewModel>()
-    private lateinit var  commentsAdapter : CommentsAdapter
+    private lateinit var commentsAdapter: CommentsAdapter
     private lateinit var tokenDao: TokenDAO
     private val TAG = "DetailPublicFragment"
     private var diaryId by Delegates.notNull<Int>()
@@ -66,8 +66,24 @@ class DetailPublicFragment : Fragment() {
             selectedCommentId = null
         }
 
+        binding.publicMoreButton.setOnClickListener { view ->
+            val popupMenu = PopupMenu(requireContext(), view)
+            popupMenu.inflate(R.menu.diary_popup)
+            popupMenu.setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.report -> {
+                        viewModel.reportDiary(diaryId = diaryId) {
+                            findNavController().navigate(R.id.action_detailPublicFragment_to_diaryFragment)
+                        }
+                    }
+                }
+                return@setOnMenuItemClickListener true
+            }
+            popupMenu.show()
+        }
+
         binding.sendButton.setOnClickListener {
-            if(selectedCommentId == null){
+            if (selectedCommentId == null) {
                 if (binding.editCommentEditText.text.toString().isNotBlank()) {
                     postComment()
                     val inputManager: InputMethodManager =
@@ -78,11 +94,11 @@ class DetailPublicFragment : Fragment() {
                     )
                     binding.editCommentEditText.setText("")
                 }
-            }
-            else{
-                if (binding.editCommentEditText.text.toString().isNotBlank()){
+            } else {
+                if (binding.editCommentEditText.text.toString().isNotBlank()) {
                     postSubComment(selectedCommentId!!)
-                    val inputManager: InputMethodManager = requireContext().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                    val inputManager: InputMethodManager =
+                        requireContext().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
                     inputManager.hideSoftInputFromWindow(
                         requireActivity().currentFocus?.windowToken,
                         0
@@ -96,8 +112,8 @@ class DetailPublicFragment : Fragment() {
         return binding.root
     }
 
-    private fun postSubComment(parentCommentId : Int){
-        lifecycleScope.launch (Dispatchers.IO){
+    private fun postSubComment(parentCommentId: Int) {
+        lifecycleScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 RetrofitBuilder.getDiaryService().postComment(
                     accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
@@ -107,7 +123,7 @@ class DetailPublicFragment : Fragment() {
                         parentCommentId = parentCommentId
                     )
                 )
-            }.onSuccess {result ->
+            }.onSuccess { result ->
                 Log.d(TAG, "message : ${result.message}")
                 Log.d(TAG, "status : ${result.status}")
                 Log.d(TAG, "data : ${result.data}")
@@ -121,9 +137,9 @@ class DetailPublicFragment : Fragment() {
         }
     }
 
-    private fun postComment(){
+    private fun postComment() {
 
-        lifecycleScope.launch (Dispatchers.IO){
+        lifecycleScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 RetrofitBuilder.getDiaryService().postComment(
                     accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
@@ -133,7 +149,7 @@ class DetailPublicFragment : Fragment() {
                         parentCommentId = 0
                     )
                 )
-            }.onSuccess {result ->
+            }.onSuccess { result ->
                 Log.d(TAG, "message : ${result.message}")
                 Log.d(TAG, "status : ${result.status}")
                 Log.d(TAG, "data : ${result.data}")
@@ -147,9 +163,9 @@ class DetailPublicFragment : Fragment() {
         }
     }
 
-    private fun initView(){
-        lifecycleScope.launch (Dispatchers.IO){
-            launch (Dispatchers.IO) {
+    private fun initView() {
+        lifecycleScope.launch(Dispatchers.IO) {
+            launch(Dispatchers.IO) {
                 kotlin.runCatching {
                     RetrofitBuilder.getCommonService().getProfile(
                         accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
@@ -159,7 +175,7 @@ class DetailPublicFragment : Fragment() {
                     Log.e(TAG, "profile result : ${result.message}")
                     Log.e(TAG, "profile result : ${result.data}")
                     Log.e(TAG, "profile result : ${result.status}")
-                    launch (Dispatchers.Main){
+                    launch(Dispatchers.Main) {
 //                        binding.profileImage.load(result.data?.profileImg)
                     }
 
@@ -177,12 +193,12 @@ class DetailPublicFragment : Fragment() {
             }.onSuccess { result ->
                 Log.e(TAG, "result : ${result.message}")
                 val diaryData = result.data
-                lifecycleScope.launch (Dispatchers.Main) {
+                lifecycleScope.launch(Dispatchers.Main) {
                     binding.writerText.text = diaryData?.nickname
                     binding.publicTitleText.text = diaryData?.title
-                    if (diaryData?.files?.get(0)?.url.isNullOrBlank()){
+                    if (diaryData?.files?.get(0)?.url.isNullOrBlank()) {
                         binding.mainImage.visibility = View.GONE
-                    }else{
+                    } else {
                         binding.mainImage.load(diaryData?.files?.get(0)?.url)
                     }
 
@@ -197,8 +213,8 @@ class DetailPublicFragment : Fragment() {
         }
     }
 
-    private fun initCommentRecyclerView(page : Int, size : Int, parentId : Int){
-        lifecycleScope.launch (Dispatchers.IO) {
+    private fun initCommentRecyclerView(page: Int, size: Int, parentId: Int) {
+        lifecycleScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 RetrofitBuilder.getDiaryService().getComment(
                     accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
@@ -212,15 +228,20 @@ class DetailPublicFragment : Fragment() {
                 Log.d(TAG, "data : ${result.data}")
                 launch(Dispatchers.Main) {
 
-                    commentsAdapter = result.data?.let { CommentsAdapter(
-                        commentsList = it.reversed(),
-                        ){ id ->
-                        val commentBottomSheet =  CommentBottomSheet(id)
-                        commentBottomSheet.show(requireActivity().supportFragmentManager, commentBottomSheet.tag)
+                    commentsAdapter = result.data?.let {
+                        CommentsAdapter(
+                            commentsList = it.reversed(),
+                        ) { id ->
+                            val commentBottomSheet = CommentBottomSheet(id)
+                            commentBottomSheet.show(
+                                requireActivity().supportFragmentManager,
+                                commentBottomSheet.tag
+                            )
 
-                    }  }!!
+                        }
+                    }!!
                     commentsAdapter.notifyItemRemoved(0)
-                    with(binding){
+                    with(binding) {
                         commentRecyclerView.adapter = commentsAdapter
                     }
                 }
@@ -232,9 +253,10 @@ class DetailPublicFragment : Fragment() {
             }
         }
     }
-    private fun getSubComment(commentId: Int, page: Int, size: Int) : List<SubCommentResponses> {
+
+    private fun getSubComment(commentId: Int, page: Int, size: Int): List<SubCommentResponses> {
         var commentResult = listOf<SubCommentResponses>()
-        val subCommentList  = runBlocking(Dispatchers.IO) {
+        val subCommentList = runBlocking(Dispatchers.IO) {
             launch {
                 kotlin.runCatching {
                     RetrofitBuilder.getDiaryService().getSubComment(
@@ -242,7 +264,8 @@ class DetailPublicFragment : Fragment() {
                         parentId = commentId,
                         page = page,
                         size = size
-                    ) }.onSuccess {result ->
+                    )
+                }.onSuccess { result ->
                     commentResult = result.data!!
                     Log.d(TAG, "subcomment result : $result")
                     Log.d(TAG, "2")
