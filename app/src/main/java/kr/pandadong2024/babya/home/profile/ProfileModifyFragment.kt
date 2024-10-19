@@ -38,9 +38,16 @@ class ProfileModifyFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentProfileModifyBinding.inflate(inflater, container, false)
+
         binding.profileBackButton.setOnClickListener {
             findNavController().navigate(R.id.action_profileModifyFragment_to_profileFragment)
         }
+
+        binding.editTextButton.setOnClickListener {
+            findNavController().navigate(R.id.action_profileModifyFragment_to_editProfileFragment)
+        }
+
+
 
         userViewModel.toastMessage.observe(viewLifecycleOwner) { message ->
             if (message != "") {
@@ -69,9 +76,6 @@ class ProfileModifyFragment : Fragment() {
                 binding.pregnancyText.text = "D-${userData.dDay}"
             }
 
-            binding.editTextButton.setOnClickListener {
-                findNavController().navigate(R.id.action_profileModifyFragment_to_editProfileFragment)
-            }
             binding.titleText.text = "${userData.nickname}님의 정보"
 
 

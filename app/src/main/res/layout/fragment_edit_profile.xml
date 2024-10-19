@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".home.profile.EditProfileFragment"
-    android:background="@color/backgroundNormalNormal">
+    android:background="@color/backgroundNormalNormal"
+    tools:context=".home.profile.EditProfileFragment">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -13,8 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:subtitle="title"
-        android:title="test"
-
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -62,24 +60,26 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/changeUserImageView"
+                android:id="@+id/selectProfileImageLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
                 android:layout_marginEnd="-3dp"
                 android:layout_marginBottom="-3dp"
                 android:clickable="true"
+                android:padding="8dp"
                 app:layout_constraintBottom_toBottomOf="@id/userProfileImage"
                 app:layout_constraintEnd_toEndOf="@id/userProfileImage">
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="5dp"
                     android:background="@drawable/sp_white_oval"
-                    app:layout_constraintTop_toTopOf="parent"
+                    android:padding="5dp"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent">
+                    app:layout_constraintTop_toTopOf="parent">
+
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:layout_width="13dp"
                         android:layout_height="13dp"
@@ -95,248 +95,251 @@
                 android:id="@+id/nickNameTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="@id/nickNameEditText"
-                app:layout_constraintTop_toBottomOf="@id/userProfileImage"
-                android:textSize="14dp"
+                android:layout_marginStart="3dp"
+                android:layout_marginTop="42dp"
                 android:fontFamily="@font/notosanskr_medium"
                 android:includeFontPadding="false"
+                android:text="이름"
                 android:textColor="@color/neutral60"
-                android:layout_marginStart="3dp"
-                android:text="이름"/>
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="@id/nickNameEditText"
+                app:layout_constraintTop_toBottomOf="@id/userProfileImage" />
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/nickNameEditText"
                 android:layout_width="0dp"
                 android:layout_height="56dp"
-                android:layout_marginTop="9dp"
                 android:layout_marginHorizontal="27dp"
-                android:textColor="@color/black"
-                app:layout_constraintTop_toBottomOf="@+id/nickNameTitle"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="9dp"
                 android:background="@drawable/sp_signup_false_round"
+                android:fontFamily="@font/notosanskr_semibold"
                 android:hint="ex): 홍길동"
                 android:paddingStart="17dp"
-                android:fontFamily="@font/notosanskr_semibold"
                 android:includeFontPadding="false"
-                android:textSize="16dp"
                 android:inputType="text"
-                />
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/nickNameTitle" />
 
             <TextView
                 android:id="@+id/birthDayTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="@id/selectBirthDayLayout"
-                app:layout_constraintTop_toBottomOf="@id/nickNameEditText"
-                android:textSize="14dp"
-                android:fontFamily="@font/notosanskr_medium"
-                android:includeFontPadding="false"
-                android:textColor="@color/neutral60"
                 android:layout_marginStart="3dp"
                 android:layout_marginTop="15dp"
-                android:text="생년월일"/>
+                android:fontFamily="@font/notosanskr_medium"
+                android:includeFontPadding="false"
+                android:text="생년월일"
+                android:textColor="@color/neutral60"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="@id/selectBirthDayLayout"
+                app:layout_constraintTop_toBottomOf="@id/nickNameEditText" />
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/selectBirthDayLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/birthDayTitle"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="9dp"
+                android:layout_height="53dp"
                 android:layout_marginHorizontal="27dp"
-                android:clickable="true"
-                >
-                <com.google.android.material.textfield.TextInputEditText
+                android:layout_marginTop="9dp"
+                android:background="@drawable/sp_signup_false_round"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/birthDayTitle">
+
+                <TextView
                     android:id="@+id/birthDayEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:enabled="false"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:clickable="false"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginBottom="@dimen/cardview_compat_inset_shadow"
-                    android:textColor="@color/black"
-                    android:background="@drawable/sp_signup_false_round"
-                    android:hint="2024년 1월 1일"
-                    android:paddingStart="17dp"
+                    android:enabled="false"
                     android:fontFamily="@font/notosanskr_semibold"
+                    android:text=""
                     android:includeFontPadding="false"
-                    android:textSize="16dp"
-                    android:inputType="text"
-                    />
-                <androidx.appcompat.widget.AppCompatImageButton
+                    android:layout_marginStart="17dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
                     android:id="@+id/birthDayButton"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    app:layout_constraintTop_toTopOf="@id/birthDayEditText"
-                    app:layout_constraintEnd_toEndOf="@id/birthDayEditText"
-                    android:layout_marginTop="17dp"
                     android:layout_marginEnd="11dp"
-                    android:background="@drawable/ic_calendar"
-                    />
+                    android:clickable="false"
+                    android:src="@drawable/ic_calendar"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
                 android:id="@+id/marriedDayTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="@id/selectMarriedDayLayout"
-                app:layout_constraintTop_toBottomOf="@id/selectBirthDayLayout"
-                android:textSize="14dp"
-                android:fontFamily="@font/notosanskr_medium"
-                android:includeFontPadding="false"
-                android:textColor="@color/neutral60"
                 android:layout_marginStart="3dp"
                 android:layout_marginTop="15dp"
-                android:text="결혼일"/>
+                android:fontFamily="@font/notosanskr_medium"
+                android:includeFontPadding="false"
+                android:text="결혼일"
+                android:textColor="@color/neutral60"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="@id/selectMarriedDayLayout"
+                app:layout_constraintTop_toBottomOf="@id/selectBirthDayLayout" />
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/selectMarriedDayLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/marriedDayTitle"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="9dp"
+                android:layout_height="53dp"
                 android:layout_marginHorizontal="27dp"
-                android:clickable="true"
-                >
-                <com.google.android.material.textfield.TextInputEditText
+                android:layout_marginTop="9dp"
+                android:background="@drawable/sp_signup_false_round"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/marriedDayTitle">
+
+                <TextView
                     android:id="@+id/marriedDayEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:enabled="false"
-                    android:clickable="false"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginBottom="@dimen/cardview_compat_inset_shadow"
-                    android:textColor="@color/black"
-                    android:background="@drawable/sp_signup_false_round"
-                    android:hint="2024년 1월 1일"
-                    android:paddingStart="17dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     android:fontFamily="@font/notosanskr_semibold"
+                    android:text=""
+                    android:clickable="false"
                     android:includeFontPadding="false"
-                    android:textSize="16dp"
-                    android:inputType="text"
-                    />
-                <androidx.appcompat.widget.AppCompatImageButton
+                    android:layout_marginStart="17dp"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
                     android:id="@+id/marriedDayButton"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    app:layout_constraintTop_toTopOf="@id/marriedDayEditText"
-                    app:layout_constraintEnd_toEndOf="@id/marriedDayEditText"
-                    android:layout_marginTop="17dp"
                     android:layout_marginEnd="11dp"
-                    android:background="@drawable/ic_calendar"
-                    />
+                    android:scaleType="centerCrop"
+                    android:clickable="false"
+                    android:src="@drawable/ic_calendar"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
                 android:id="@+id/fetusDayTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="@id/selectFetusDayLayout"
-                app:layout_constraintTop_toBottomOf="@id/selectMarriedDayLayout"
-                android:textSize="14dp"
-                android:fontFamily="@font/notosanskr_medium"
-                android:includeFontPadding="false"
-                android:textColor="@color/neutral60"
                 android:layout_marginStart="3dp"
                 android:layout_marginTop="15dp"
-                android:text="임신일"/>
+                android:fontFamily="@font/notosanskr_medium"
+                android:includeFontPadding="false"
+                android:text="임신일"
+                android:textColor="@color/neutral60"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="@id/selectFetusDayLayout"
+                app:layout_constraintTop_toBottomOf="@id/selectMarriedDayLayout" />
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/selectFetusDayLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/fetusDayTitle"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="9dp"
+                android:layout_height="56dp"
                 android:layout_marginHorizontal="27dp"
-                android:clickable="true"
-                >
-                <com.google.android.material.textfield.TextInputEditText
+                android:layout_marginTop="9dp"
+                android:background="@drawable/sp_signup_false_round"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fetusDayTitle">
+
+                <TextView
                     android:id="@+id/fetusDayEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginBottom="@dimen/cardview_compat_inset_shadow"
                     android:enabled="false"
                     android:clickable="false"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginBottom="@dimen/cardview_compat_inset_shadow"
-                    android:textColor="@color/black"
-                    android:background="@drawable/sp_signup_false_round"
-                    android:hint="2024년 1월 1일"
-                    android:paddingStart="17dp"
                     android:fontFamily="@font/notosanskr_semibold"
+                    android:text=""
                     android:includeFontPadding="false"
-                    android:textSize="16dp"
-                    android:inputType="text"
-                    />
-                <androidx.appcompat.widget.AppCompatImageButton
+                    android:layout_marginStart="17dp"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                <ImageView
                     android:id="@+id/fetusDayButton"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    app:layout_constraintTop_toTopOf="@id/fetusDayEditText"
-                    app:layout_constraintEnd_toEndOf="@id/fetusDayEditText"
-                    android:layout_marginTop="17dp"
                     android:layout_marginEnd="11dp"
-                    android:background="@drawable/ic_calendar"
-                    />
+                    android:src="@drawable/ic_calendar"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
                 android:id="@+id/locationTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="@id/selectLocationLayout"
-                app:layout_constraintTop_toBottomOf="@id/selectFetusDayLayout"
-                android:textSize="14dp"
-                android:fontFamily="@font/notosanskr_medium"
-                android:includeFontPadding="false"
-                android:textColor="@color/neutral60"
                 android:layout_marginStart="3dp"
                 android:layout_marginTop="15dp"
-                android:text="지역"/>
+                android:fontFamily="@font/notosanskr_medium"
+                android:includeFontPadding="false"
+                android:clickable="false"
+                android:text="지역"
+                android:textColor="@color/neutral60"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="@id/selectLocationLayout"
+                app:layout_constraintTop_toBottomOf="@id/selectFetusDayLayout" />
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/selectLocationLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/locationTitle"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="9dp"
+                android:layout_height="56dp"
+                android:background="@drawable/sp_signup_false_round"
                 android:layout_marginHorizontal="27dp"
+                android:layout_marginTop="9dp"
                 android:clickable="true"
-                >
-                <com.google.android.material.textfield.TextInputEditText
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/locationTitle">
+
+                <TextView
                     android:id="@+id/locationEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:enabled="false"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:clickable="false"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginBottom="@dimen/cardview_compat_inset_shadow"
-                    android:textColor="@color/black"
-                    android:background="@drawable/sp_signup_false_round"
-                    android:hint="대구광역시"
-                    android:paddingStart="17dp"
+                    android:enabled="false"
                     android:fontFamily="@font/notosanskr_semibold"
+                    android:text=""
                     android:includeFontPadding="false"
-                    android:textSize="16dp"
-                    android:inputType="text"
-                    />
-                <androidx.appcompat.widget.AppCompatImageButton
+                    android:layout_marginStart="17dp"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                <ImageView
                     android:id="@+id/locationButton"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    app:layout_constraintTop_toTopOf="@id/locationEditText"
-                    app:layout_constraintEnd_toEndOf="@id/locationEditText"
-                    android:layout_marginTop="17dp"
                     android:layout_marginEnd="11dp"
-                    android:background="@drawable/ic_reroll"
-                    />
+                    android:clickable="false"
+                    android:src="@drawable/ic_reroll"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/submitButton"
         android:layout_width="0dp"
@@ -345,13 +348,12 @@
         android:layout_marginBottom="42dp"
         android:background="@drawable/sel_email_btn_selector"
         android:enabled="false"
-        android:text="수정완료"
         android:fontFamily="@font/notosanskr_bold"
-        android:textSize="16dp"
+        android:text="수정완료"
         android:textColor="@color/white"
+        android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        />
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

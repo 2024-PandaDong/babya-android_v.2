@@ -1,7 +1,5 @@
 package kr.pandadong2024.babya.home.policy
 
-import android.util.Log
-
 fun getRegionByCode(code : Int) : String {
     return when (code){
     101010 -> "강남구"
@@ -595,5 +593,29 @@ fun getLocalByCode(code: String): String {
         "16" -> "제주특별자치도"
         "18" -> "세종특별자치시"
         else -> "알 수 없음"
+    }
+}
+
+//회원가입용
+fun encodingLocateNumber(location: String): String {
+    return when (location) {
+        "서울특별시" -> "11"
+        "부산광역시" -> "21"
+        "대구광역시" -> "22"
+        "인천광역시" -> "23"
+        "광주광역시" -> "24"
+        "대전광역시" -> "25"
+        "울산광역시" -> "26"
+        "경기도" -> "31"
+        "세종특별자치시" -> "29"
+        "강원도" -> "32"
+        "충청북도" -> "33"
+        "충청남도" -> "34"
+        "전라북도" -> "35"
+        "전라남도" -> "36"
+        "경상북도" -> "37"
+        "경상남도" -> "38"
+        "제주특별자치도" -> "39"
+        else -> "-1"
     }
 }
