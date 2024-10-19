@@ -28,6 +28,9 @@ class ProfileViewModel() : ViewModel() {
     private var _toastMessage = MutableLiveData<String>().apply { value = "" }
     val toastMessage: LiveData<String> = _toastMessage
 
+    fun setAccessToken(token: String) {
+        _accessToken.value = token
+    }
 
     fun getUserData() = viewModelScope.launch(Dispatchers.IO) {
         kotlin.runCatching {
@@ -83,10 +86,6 @@ class ProfileViewModel() : ViewModel() {
         }
     }
 
-    fun setAccessToken(token: String) {
-        _accessToken.value = token
-    }
-
     fun deleteUser(onSuccess: () -> Unit) = viewModelScope.launch(Dispatchers.IO) {
         kotlin.runCatching {
             // 서버에 탈퇴 요청
@@ -103,5 +102,9 @@ class ProfileViewModel() : ViewModel() {
             // 실패 시 UI 스레드에서 에러 메시지 표시
             _toastMessage.value = "서버에서 문제가 발생했어요"
         }
+    }
+
+    fun editUser(user : String = "") = viewModelScope.launch(Dispatchers.IO){
+
     }
 }
