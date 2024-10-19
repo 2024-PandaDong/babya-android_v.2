@@ -25,6 +25,7 @@ import kr.pandadong2024.babya.home.policy.getMemberLocalCode
 import kr.pandadong2024.babya.home.policy.getRegionByCode
 import kr.pandadong2024.babya.home.policy.viewmdole.PolicyViewModel
 import kr.pandadong2024.babya.home.profile.profileviewmodle.ProfileViewModel
+import kr.pandadong2024.babya.home.viewmodel.CommonViewModel
 import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.server.local.BabyaDB
 import kr.pandadong2024.babya.server.remote.responses.BannerResponses
@@ -48,6 +49,7 @@ class MainFragment : Fragment() {
 
     private val policyViewModel by activityViewModels<PolicyViewModel>()
     private val profileViewModel by activityViewModels<ProfileViewModel>()
+    private val commonViewModel by activityViewModels<CommonViewModel>()
 
     private lateinit var accessToken: String
     private var _binding: FragmentMainBinding? = null
@@ -105,9 +107,11 @@ class MainFragment : Fragment() {
         _binding = FragmentMainBinding.inflate(inflater, container, false)
         policyViewModel.initViewModel()
         (requireActivity() as BottomControllable).setBottomNavVisibility(true)
-            profileViewModel.setAccessToken(accessToken)
-        profileViewModel.accessToken.observe(viewLifecycleOwner){
-            if(it != "") {
+        profileViewModel.setAccessToken(accessToken)
+        commonViewModel.setAccessToken(accessToken)
+        profileViewModel.setAccessToken(accessToken)
+        profileViewModel.accessToken.observe(viewLifecycleOwner) {
+            if (it != "") {
                 profileViewModel.getUserLocalCode()
                 profileViewModel.getUserData()
             }

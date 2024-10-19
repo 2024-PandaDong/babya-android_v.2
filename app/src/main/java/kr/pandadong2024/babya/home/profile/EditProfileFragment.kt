@@ -27,6 +27,7 @@ import kr.pandadong2024.babya.home.policy.encodingLocateNumber
 import kr.pandadong2024.babya.home.policy.getLocalByCode
 import kr.pandadong2024.babya.home.policy.viewmdole.PolicyViewModel
 import kr.pandadong2024.babya.home.profile.profileviewmodle.ProfileViewModel
+import kr.pandadong2024.babya.home.viewmodel.CommonViewModel
 import kr.pandadong2024.babya.server.local.BabyaDB
 import kr.pandadong2024.babya.start.signup.SignupBottomSheet
 import kr.pandadong2024.babya.util.setOnSingleClickListener
@@ -44,6 +45,7 @@ class EditProfileFragment : Fragment() {
     private val binding get() = _binding!!
     private val userViewModel by activityViewModels<ProfileViewModel>()
     private val policyViewModel by activityViewModels<PolicyViewModel>()
+    private val commonViewModel by activityViewModels<CommonViewModel>()
     private var accessToken: String = ""
     private var selectedImageUri: Uri? = null
     private lateinit var getImage: ActivityResultLauncher<String>
@@ -159,8 +161,17 @@ class EditProfileFragment : Fragment() {
             bottomSheetDialog.show(requireActivity().supportFragmentManager, bottomSheetDialog.tag)
         }
 
-        binding.submitButton.setOnSingleClickListener {
+        commonViewModel.imageLink.observe(viewLifecycleOwner){
             userViewModel.editUser()
+        }
+
+        binding.submitButton.setOnSingleClickListener {
+            val multipartData = selectedImageUri?.let { uri -> prepareFilePart(uri) }
+            if (multipartData != null) {
+                commonViewModel.uploadImage(multipartData)
+            }else{
+                userViewModel.editUser()
+            }
         }
 
 
