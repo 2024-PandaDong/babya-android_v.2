@@ -137,8 +137,11 @@ class ProfileFragment : Fragment() {
             findNavController().navigate(R.id.action_profileFragment_to_mainFragment)
         }
 
+
+
         userViewModel.userData.observe(viewLifecycleOwner){ userData ->
             binding.welcomeText.text = "${userData.nickname}님 반가워요!"
+
 
             if (userData.profileImg == null) {
                 binding.profileImage.load(R.drawable.ic_basic_profile)

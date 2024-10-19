@@ -27,7 +27,7 @@ class ProfileModifyFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var tokenDao: TokenDAO
     private val userViewModel by activityViewModels<ProfileViewModel>()
-    var email : String = ""
+    var email: String = ""
 
 
     val TAG = "ProfileModifyFragment"
@@ -42,13 +42,13 @@ class ProfileModifyFragment : Fragment() {
             findNavController().navigate(R.id.action_profileModifyFragment_to_profileFragment)
         }
 
-        userViewModel.toastMessage.observe(viewLifecycleOwner){ message ->
-            if (message != ""){
+        userViewModel.toastMessage.observe(viewLifecycleOwner) { message ->
+            if (message != "") {
                 requireContext().shortToast(message)
             }
         }
 
-        userViewModel.userData.observe(viewLifecycleOwner){ userData ->
+        userViewModel.userData.observe(viewLifecycleOwner) { userData ->
             binding.nameText.text = userData.nickname
             binding.marriageDayText.text = userData.marriedYears?.replace("-", ".") ?: "0000.00.00"
             binding.birthDateText.text =
@@ -65,10 +65,14 @@ class ProfileModifyFragment : Fragment() {
             if (userData.dDay == 0 || userData.dDay == null) {
                 binding.pregnancyText.visibility = View.GONE
                 binding.pregnancyDayTitleText.visibility = View.GONE
-            }
-            else{
+            } else {
                 binding.pregnancyText.text = "D-${userData.dDay}"
             }
+
+            binding.editTextButton.setOnClickListener {
+                findNavController().navigate(R.id.action_profileModifyFragment_to_editProfileFragment)
+            }
+            binding.titleText.text = "${userData.nickname}님의 정보"
 
 
             if (userData.profileImg == null) {
@@ -78,7 +82,7 @@ class ProfileModifyFragment : Fragment() {
             }
         }
 
-        userViewModel.userLocalCode.observe(viewLifecycleOwner){
+        userViewModel.userLocalCode.observe(viewLifecycleOwner) {
             Log.d(TAG, "code : $it")
             binding.localText.text = getLocalByCode(it)
         }

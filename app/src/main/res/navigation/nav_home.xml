@@ -175,6 +175,18 @@
         <action
             android:id="@+id/action_profileModifyFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_profileModifyFragment_to_editProfileFragment"
+            app:destination="@id/editProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="kr.pandadong2024.babya.home.profile.EditProfileFragment"
+        android:label="fragment_edit_profile"
+        tools:layout="@layout/fragment_edit_profile" >
+        <action
+            android:id="@+id/action_editProfileFragment_to_profileModifyFragment"
+            app:destination="@id/profileModifyFragment" />
     </fragment>
 
 </navigation>

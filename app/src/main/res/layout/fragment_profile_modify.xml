@@ -21,15 +21,30 @@
         android:background="@color/backgroundNormalNormal">
 
         <TextView
-            android:id="@+id/todoListTitleText"
+            android:id="@+id/titleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:text=""
+            android:textSize="16dp"
             android:fontFamily="@font/notosanskr_medium"
-            android:text="프로필"
-            android:textSize="16sp"
-            android:includeFontPadding="false"/>
-
+            android:layout_gravity="center"
+            android:includeFontPadding="false"
+            android:textColor="@color/commonBlack"
+            />
+        <TextView
+            android:id="@+id/editTextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="수정"
+            android:textSize="16dp"
+            android:fontFamily="@font/notosanskr_medium"
+            android:layout_gravity="end"
+            android:includeFontPadding="false"
+            android:textColor="@color/neutral70"
+            android:layout_marginEnd="17dp"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="10dp"
+            />
 
         <ImageButton
             android:id="@+id/profileBackButton"

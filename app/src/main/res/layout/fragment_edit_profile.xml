@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".home.profile.EditProfileFragment">
+    tools:context=".home.profile.EditProfileFragment"
+    android:background="@color/backgroundNormalNormal">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -29,7 +30,7 @@
             android:textSize="16sp" />
 
         <ImageButton
-            android:id="@+id/diaryBackButton"
+            android:id="@+id/backButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
@@ -56,7 +57,6 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_marginTop="21dp"
-                android:src="@color/primaryLight"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -316,7 +316,7 @@
                     android:layout_marginBottom="@dimen/cardview_compat_inset_shadow"
                     android:textColor="@color/black"
                     android:background="@drawable/sp_signup_false_round"
-                    android:hint="2024년 1월 1일"
+                    android:hint="대구광역시"
                     android:paddingStart="17dp"
                     android:fontFamily="@font/notosanskr_semibold"
                     android:includeFontPadding="false"
@@ -338,14 +338,15 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/nextBtn"
+        android:id="@+id/submitButton"
         android:layout_width="0dp"
         android:layout_height="43dp"
         android:layout_marginHorizontal="18dp"
         android:layout_marginBottom="42dp"
         android:background="@drawable/sel_email_btn_selector"
         android:enabled="false"
-        android:text="다음으로"
+        android:text="수정완료"
+        android:fontFamily="@font/notosanskr_bold"
         android:textSize="16dp"
         android:textColor="@color/white"
         android:textStyle="bold"
