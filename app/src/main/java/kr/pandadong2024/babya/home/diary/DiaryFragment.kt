@@ -72,7 +72,7 @@ class DiaryFragment : Fragment() {
                 searchKeyWord = it
                 val keyword = binding.searchEditText.text.toString()
                 val searchList = mutableListOf<DiaryDataResponses>()
-                getDiaryData( page = 1,size =  100, type =1, keyword = it)
+                getDiaryData(page = 1, size = 100, type = 1, keyword = it)
             }
         }
 
@@ -144,11 +144,11 @@ class DiaryFragment : Fragment() {
         viewModel.isPublic.observe(viewLifecycleOwner) {
             when (it) {
                 true -> {
-                    getDiaryData( page = 1,size =  100, type =2)
+                    getDiaryData(page = 1, size = 100, type = 2)
                 }
 
                 false -> {
-                    getDiaryData( page = 1,size =  100, type =1)
+                    getDiaryData(page = 1, size = 100, type = 1)
                 }
             }
         }

@@ -6,7 +6,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.TextView
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
@@ -17,6 +16,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import coil.load
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.api.LogDescriptor
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -82,10 +83,11 @@ class EditProfileFragment : Fragment() {
 
         userViewModel.toastMessage.observe(viewLifecycleOwner) { message ->
             if (message != "") {
-                if (message == "a") {
+                if (message == "성공적으로 프로필 수정이 완료되었습니다.") {
                     findNavController().navigate(R.id.action_editProfileFragment_to_profileModifyFragment)
                 }
                 requireContext().shortToast(message)
+                userViewModel.setToastMessage("")
             }
         }
 
@@ -129,6 +131,17 @@ class EditProfileFragment : Fragment() {
         }
 
         binding.backButton.setOnClickListener {
+            MaterialAlertDialogBuilder(requireContext())
+                .setTitle("정말로 나가시겠습니까?")
+                .setMessage("진행된 수정기록은 남지 않습니다.")
+                .setNegativeButton("취소") { dialog, which ->
+                    // 취소 버튼을 누르면 다이얼로그를 닫음
+                    dialog.dismiss()
+                }
+                .setPositiveButton("나가기") { dialog, which ->
+                    findNavController().navigate(R.id.action_editProfileFragment_to_profileModifyFragment)
+                }
+                .show()
             //dialog띄우고 이동하기!!
         }
 
@@ -161,15 +174,22 @@ class EditProfileFragment : Fragment() {
             bottomSheetDialog.show(requireActivity().supportFragmentManager, bottomSheetDialog.tag)
         }
 
-        commonViewModel.imageLink.observe(viewLifecycleOwner){
-            userViewModel.editUser()
+        commonViewModel.imageLink.observe(viewLifecycleOwner) {
+            Log.d("commonViewModel", "it :$it")
+
+            if  (it != ""){
+                userViewModel.editUser()
+                commonViewModel.setImageLink()
+                commonViewModel.setToastMessage("")
+            }
         }
 
         binding.submitButton.setOnSingleClickListener {
             val multipartData = selectedImageUri?.let { uri -> prepareFilePart(uri) }
             if (multipartData != null) {
                 commonViewModel.uploadImage(multipartData)
-            }else{
+            } else {
+                Log.d("test", "in submitButton")
                 userViewModel.editUser()
             }
         }
@@ -210,7 +230,7 @@ class EditProfileFragment : Fragment() {
             && birthDt.isNotEmpty()
             && marriedDt.isNotEmpty()
             && locationCode.isNotEmpty()
-            ) {
+        ) {
             binding.submitButton.isEnabled = true
         }
     }

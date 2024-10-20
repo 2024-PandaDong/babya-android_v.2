@@ -35,6 +35,14 @@ class CommonViewModel : ViewModel() {
         _accessToken.value = token
     }
 
+    fun setImageLink(link :String = ""){
+        _imageLink.value = link
+    }
+
+    fun setImageLinkList(linkList :List<String> = listOf()){
+        _imageLinkList.value = linkList
+    }
+
     fun uploadImage(image: MultipartBody.Part) = viewModelScope.launch(Dispatchers.IO) {
         kotlin.runCatching {
             RetrofitBuilder.getCommonService().fileUpload(

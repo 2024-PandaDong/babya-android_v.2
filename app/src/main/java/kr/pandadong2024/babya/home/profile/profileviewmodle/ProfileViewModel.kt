@@ -32,6 +32,10 @@ class ProfileViewModel() : ViewModel() {
         _accessToken.value = token
     }
 
+    fun setToastMessage(message: String) {
+        _toastMessage.value = message
+    }
+
     fun getUserData() = viewModelScope.launch(Dispatchers.IO) {
         kotlin.runCatching {
             RetrofitBuilder.getProfileService().getProfile(
@@ -93,18 +97,22 @@ class ProfileViewModel() : ViewModel() {
                 accessToken = "Bearer ${_accessToken.value}"
             )
         }.onSuccess {
-            _toastMessage.value = "정상적으로 회원탈퇴가 완료되었습니다."
             withContext(Dispatchers.Main) {
+                _toastMessage.value = "정상적으로 회원탈퇴가 완료되었습니다."
                 onSuccess()
             }
         }.onFailure { result ->
             result.printStackTrace()
             // 실패 시 UI 스레드에서 에러 메시지 표시
-            _toastMessage.value = "서버에서 문제가 발생했어요"
+            withContext(Dispatchers.Main){
+            _toastMessage.value = "서버에서 문제가 발생했어요"}
         }
     }
 
-    fun editUser(user : String = "") = viewModelScope.launch(Dispatchers.IO){
+    fun editUser(user: String = "") = viewModelScope.launch(Dispatchers.IO) {
+        withContext(Dispatchers.Main){
 
+            _toastMessage.value = "성공적으로 프로필 수정이 완료되었습니다."
+        }
     }
 }

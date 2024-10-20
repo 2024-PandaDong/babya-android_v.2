@@ -13,6 +13,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import coil.load
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -72,9 +73,18 @@ class DetailPublicFragment : Fragment() {
             popupMenu.setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.report -> {
-                        viewModel.reportDiary(diaryId = diaryId) {
-                            findNavController().navigate(R.id.action_detailPublicFragment_to_diaryFragment)
-                        }
+                        MaterialAlertDialogBuilder(requireContext())
+                            .setMessage("이 산모일기를 신고하시겠습니까?")
+                            .setNegativeButton("취소") { dialog, which ->
+                                // 취소 버튼을 누르면 다이얼로그를 닫음
+                                dialog.dismiss()
+                            }
+                            .setPositiveButton("신고") { dialog, which ->
+                                viewModel.reportDiary(diaryId = diaryId) {
+                                    findNavController().navigate(R.id.action_detailPublicFragment_to_diaryFragment)
+                                }
+                            }
+                            .show()
                     }
                 }
                 return@setOnMenuItemClickListener true
