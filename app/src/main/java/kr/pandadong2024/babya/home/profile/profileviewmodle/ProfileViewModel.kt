@@ -1,6 +1,7 @@
 package kr.pandadong2024.babya.home.profile.profileviewmodle
 
 import android.util.Log
+import android.util.TypedValue
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,6 +11,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kr.pandadong2024.babya.home.policy.getMemberLocalCode
 import kr.pandadong2024.babya.server.RetrofitBuilder
+import kr.pandadong2024.babya.server.remote.request.UserEditRequest
 import kr.pandadong2024.babya.server.remote.responses.ProfileData
 import retrofit2.HttpException
 
@@ -28,8 +30,18 @@ class ProfileViewModel() : ViewModel() {
     private var _toastMessage = MutableLiveData<String>().apply { value = "" }
     val toastMessage: LiveData<String> = _toastMessage
 
+    private var _editUserImageResult = MutableLiveData<Boolean>().apply { value = false }
+    val editUserImageResult: LiveData<Boolean> = _editUserImageResult
+
+    private var _editUserResult = MutableLiveData<Boolean>().apply { value = false }
+    val editUserResult: LiveData<Boolean> = _editUserResult
+
     fun setAccessToken(token: String) {
         _accessToken.value = token
+    }
+
+    fun setEditUserImageResult(value: Boolean) {
+        _editUserImageResult.value = value
     }
 
     fun setToastMessage(message: String) {
@@ -104,15 +116,60 @@ class ProfileViewModel() : ViewModel() {
         }.onFailure { result ->
             result.printStackTrace()
             // 실패 시 UI 스레드에서 에러 메시지 표시
-            withContext(Dispatchers.Main){
-            _toastMessage.value = "서버에서 문제가 발생했어요"}
+            withContext(Dispatchers.Main) {
+                _toastMessage.value = "서버에서 문제가 발생했습니다."
+            }
         }
     }
 
-    fun editUser(user: String = "") = viewModelScope.launch(Dispatchers.IO) {
-        withContext(Dispatchers.Main){
-
-            _toastMessage.value = "성공적으로 프로필 수정이 완료되었습니다."
+    fun editUser(userData: UserEditRequest) = viewModelScope.launch(Dispatchers.IO) {
+        runCatching {
+            RetrofitBuilder.getProfileService().editUserInfo(
+                accessToken = "Bearer ${_accessToken.value}",
+                body = userData
+            )
+        }.onSuccess {
+            withContext(Dispatchers.Main) {
+//                _toastMessage.value = "성공적으로 프로필 수정이 완료되었습니다."
+                _editUserResult.value = true
+            }
+        }.onFailure { result ->
+            if (result is HttpException) {
+                Log.d("editUser", "msg : ${result.response()}")
+                if (result.code() == 500) {
+                    withContext(Dispatchers.Main) {
+                        _toastMessage.value = "서버에서 문제가 발생했습니다."
+                    }
+                }
+            }
         }
+    }
+
+    fun editUserImage(imageLink: String) =
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                RetrofitBuilder.getProfileService().editUserImage(
+                    accessToken = "Bearer ${_accessToken.value}",
+                    imgUrl = imageLink
+                )
+            }.onSuccess {
+                withContext(Dispatchers.Main) {
+                    _editUserImageResult.value = true
+                }
+            }.onFailure { result ->
+                if (result is HttpException) {
+                    Log.d("editUser", "msg : ${result.response()}")
+                    if (result.code() == 500) {
+                        withContext(Dispatchers.Main) {
+                            _toastMessage.value = "서버에서 문제가 발생했습니다."
+                        }
+                    }
+                }
+            }
+        }
+
+    fun initResult() {
+        _editUserImageResult.value = false
+        _editUserResult.value = false
     }
 }

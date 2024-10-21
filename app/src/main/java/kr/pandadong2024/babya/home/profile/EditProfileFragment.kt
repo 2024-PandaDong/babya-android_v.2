@@ -17,7 +17,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import coil.load
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.api.LogDescriptor
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -30,6 +29,7 @@ import kr.pandadong2024.babya.home.policy.viewmdole.PolicyViewModel
 import kr.pandadong2024.babya.home.profile.profileviewmodle.ProfileViewModel
 import kr.pandadong2024.babya.home.viewmodel.CommonViewModel
 import kr.pandadong2024.babya.server.local.BabyaDB
+import kr.pandadong2024.babya.server.remote.request.UserEditRequest
 import kr.pandadong2024.babya.start.signup.SignupBottomSheet
 import kr.pandadong2024.babya.util.setOnSingleClickListener
 import kr.pandadong2024.babya.util.shortToast
@@ -49,6 +49,7 @@ class EditProfileFragment : Fragment() {
     private val commonViewModel by activityViewModels<CommonViewModel>()
     private var accessToken: String = ""
     private var selectedImageUri: Uri? = null
+    private val userData : UserEditRequest = UserEditRequest()
     private lateinit var getImage: ActivityResultLauncher<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,6 +76,11 @@ class EditProfileFragment : Fragment() {
         )
     }
 
+    override fun onPause() {
+        super.onPause()
+        userViewModel.initResult()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -83,9 +89,6 @@ class EditProfileFragment : Fragment() {
 
         userViewModel.toastMessage.observe(viewLifecycleOwner) { message ->
             if (message != "") {
-                if (message == "성공적으로 프로필 수정이 완료되었습니다.") {
-                    findNavController().navigate(R.id.action_editProfileFragment_to_profileModifyFragment)
-                }
                 requireContext().shortToast(message)
                 userViewModel.setToastMessage("")
             }
@@ -93,6 +96,7 @@ class EditProfileFragment : Fragment() {
 
         userViewModel.userLocalCode.observe(viewLifecycleOwner) {
             binding.locationEditText.text = getLocalByCode(it)
+            userData.lc = it
         }
 
         binding.selectProfileImageLayout.setOnSingleClickListener {
@@ -100,7 +104,6 @@ class EditProfileFragment : Fragment() {
         }
 
         userViewModel.userData.observe(viewLifecycleOwner) { userData ->
-
             if (userData.profileImg == null) {
                 binding.userProfileImage.load(R.drawable.ic_basic_profile)
             } else {
@@ -130,6 +133,22 @@ class EditProfileFragment : Fragment() {
             binding.fetusDayEditText.text = fetusDt
         }
 
+        userViewModel.editUserResult.observe(viewLifecycleOwner){
+            if (it && (userViewModel.editUserImageResult.value == true)){
+                userViewModel.setToastMessage("성공적으로 프로필 수정이 완료되었습니다")
+                userViewModel.getUserData()
+                findNavController().navigate(R.id.action_editProfileFragment_to_profileModifyFragment)
+            }
+        }
+
+        userViewModel.editUserImageResult.observe(viewLifecycleOwner){
+            if (it && (userViewModel.editUserResult.value == true)){
+                userViewModel.setToastMessage("성공적으로 프로필 수정이 완료되었습니다")
+                userViewModel.getUserData()
+                findNavController().navigate(R.id.action_editProfileFragment_to_profileModifyFragment)
+            }
+        }
+
         binding.backButton.setOnClickListener {
             MaterialAlertDialogBuilder(requireContext())
                 .setTitle("정말로 나가시겠습니까?")
@@ -142,9 +161,7 @@ class EditProfileFragment : Fragment() {
                     findNavController().navigate(R.id.action_editProfileFragment_to_profileModifyFragment)
                 }
                 .show()
-            //dialog띄우고 이동하기!!
         }
-
 
         policyViewModel.tagsList.observe(viewLifecycleOwner) {
             if (it.isNotEmpty()) {
@@ -167,34 +184,36 @@ class EditProfileFragment : Fragment() {
 
         binding.selectLocationLayout.setOnSingleClickListener {
             val bottomSheetDialog =
-                PolicyBottomSheet() { _ ->
-
+                PolicyBottomSheet() { a ->
                 }
-
             bottomSheetDialog.show(requireActivity().supportFragmentManager, bottomSheetDialog.tag)
         }
 
         commonViewModel.imageLink.observe(viewLifecycleOwner) {
-            Log.d("commonViewModel", "it :$it")
-
-            if  (it != ""){
-                userViewModel.editUser()
+            if (it != "") {
+                userViewModel.editUserImage(it)
                 commonViewModel.setImageLink()
                 commonViewModel.setToastMessage("")
             }
         }
 
         binding.submitButton.setOnSingleClickListener {
+            if (binding.fetusDayEditText.text.substring(0,4).toInt() + binding.fetusDayEditText.text.substring(6,8).toInt()+binding.fetusDayEditText.text.substring(10,12).toInt() != 0){
+                userData.pregnancyDt = "${binding.fetusDayEditText.text.substring(0,4)}-${binding.fetusDayEditText.text.substring(6,8)}-${binding.fetusDayEditText.text.substring(10,12)}"
+            }
+            userData.birthDt = "${binding.birthDayEditText.text.substring(0,4)}-${binding.birthDayEditText.text.substring(6,8)}-${binding.birthDayEditText.text.substring(10,12)}"
+            userData.marriedDt = "${binding.marriedDayEditText.text.substring(0,4)}-${binding.marriedDayEditText.text.substring(6,8)}-${binding.marriedDayEditText.text.substring(10,12)}"
+            userData.nickName = binding.nickNameEditText.text.toString()
+            userViewModel.editUser(
+                userData
+            )
             val multipartData = selectedImageUri?.let { uri -> prepareFilePart(uri) }
             if (multipartData != null) {
                 commonViewModel.uploadImage(multipartData)
             } else {
-                Log.d("test", "in submitButton")
-                userViewModel.editUser()
+                userViewModel.setEditUserImageResult(true)
             }
         }
-
-
 
         kotlin.run {
             binding.nickNameEditText.doAfterTextChanged {

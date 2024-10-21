@@ -9,6 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import kr.pandadong2024.babya.server.RetrofitBuilder
 import okhttp3.MultipartBody
 import okhttp3.internal.wait
@@ -25,7 +26,7 @@ class CommonViewModel : ViewModel() {
     val imageLink: LiveData<String> = _imageLink
 
     private val _imageLinkList = MutableLiveData<List<String>>().apply { value = listOf() }
-    val imageLinkList : LiveData<List<String>> = _imageLinkList
+    val imageLinkList: LiveData<List<String>> = _imageLinkList
 
     fun setToastMessage(message: String) {
         _toastMessage.value = message
@@ -35,11 +36,11 @@ class CommonViewModel : ViewModel() {
         _accessToken.value = token
     }
 
-    fun setImageLink(link :String = ""){
+    fun setImageLink(link: String = "") {
         _imageLink.value = link
     }
 
-    fun setImageLinkList(linkList :List<String> = listOf()){
+    fun setImageLinkList(linkList: List<String> = listOf()) {
         _imageLinkList.value = linkList
     }
 
@@ -50,7 +51,9 @@ class CommonViewModel : ViewModel() {
                 file = image
             )
         }.onSuccess { result ->
-            _imageLink.value = result.data
+            withContext(Dispatchers.Main) {
+                _imageLink.value = result.data
+            }
         }.onFailure { result ->
             result.printStackTrace()
         }
