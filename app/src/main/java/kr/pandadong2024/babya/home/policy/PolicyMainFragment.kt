@@ -15,12 +15,12 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentPolicyMainBinding
+import kr.pandadong2024.babya.home.policy.adapter.PolicyCategoryAdapter
 import kr.pandadong2024.babya.home.policy.adapter.PolicyRecyclerView
 import kr.pandadong2024.babya.home.policy.bottom_sheet.PolicyBottomSheet
 import kr.pandadong2024.babya.home.policy.decoration.PolicyCategoryItemDecoration
 import kr.pandadong2024.babya.home.policy.decoration.PolicyItemDecoration
 import kr.pandadong2024.babya.home.policy.viewmdole.PolicyViewModel
-import kr.pandadong2024.babya.home.policy.adapter.PolicyCategoryAdapter
 import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.server.local.BabyaDB
 import kr.pandadong2024.babya.server.local.TokenDAO
@@ -39,7 +39,7 @@ class PolicyMainFragment : Fragment() {
 
     private var isSearchActivated = false
 
-    private var searchKeyWord : String = ""
+    private var searchKeyWord: String = ""
 
 
     override fun onCreateView(
@@ -60,17 +60,29 @@ class PolicyMainFragment : Fragment() {
             }
         )
 
-        viewModel.policySearchKeyWord.observe(viewLifecycleOwner){
+        viewModel.policySearchKeyWord.observe(viewLifecycleOwner) {
             searchKeyWord = it
-            if (viewModel.tagsList.value?.isNotEmpty() == true){
-                selectPolicy(mainTag = viewModel.tagsList.value?.get(0) ?: "알 수 없음", subTag =viewModel.tagsList.value?.get(1) ?: "알 수 없음",  keyWord =  searchKeyWord)
+            if (viewModel.tagsList.value?.isNotEmpty() == true) {
+                selectPolicy(
+                    mainTag = viewModel.tagsList.value?.get(0) ?: "알 수 없음",
+                    subTag = viewModel.tagsList.value?.get(1) ?: "알 수 없음",
+                    keyWord = searchKeyWord
+                )
+            } else {
+                selectPolicy(
+                    mainTag = viewModel.userRegionList.value?.get(0) ?: "알 수 없음",
+                    subTag = viewModel.userRegionList.value?.get(1) ?: "알 수 없음",
+                    keyWord = searchKeyWord
+                )
             }
-            else{
-                selectPolicy(mainTag = viewModel.userRegionList.value?.get(0) ?: "알 수 없음", subTag =viewModel.userRegionList.value?.get(1) ?: "알 수 없음",  keyWord =  searchKeyWord)
+            if (isSearchActivated && it != "") {
+                binding.policyTitleLayout.visibility = View.GONE
+            } else {
+                binding.policyTitleLayout.visibility = View.VISIBLE
             }
         }
 
-        viewModel.isOpenSearchView.observe(viewLifecycleOwner){
+        viewModel.isOpenSearchView.observe(viewLifecycleOwner) {
             isSearchActivated = it
             if (it) {
                 binding.searchEditText.visibility = View.VISIBLE
@@ -80,9 +92,8 @@ class PolicyMainFragment : Fragment() {
         }
 
         binding.searchButton.setOnClickListener {
-            if (isSearchActivated && binding.searchEditText.text.isNotBlank()) {
-                viewModel.setPolicySearchKeyWord(binding.searchEditText.text.toString())
-            } else {
+            viewModel.setPolicySearchKeyWord(binding.searchEditText.text.toString())
+            if (!(isSearchActivated && binding.searchEditText.text.isNotBlank())) {
                 viewModel.changeOpenSearchView()
             }
         }
@@ -106,7 +117,11 @@ class PolicyMainFragment : Fragment() {
             Log.d("setOnClickListener", "click tagEditText")
             val bottomSheetDialog =
                 PolicyBottomSheet() { tag ->
-                    selectPolicy(mainTag = viewModel.tagsList.value?.get(0) ?: "대구광역시", subTag = tag,  keyWord =  "")
+                    selectPolicy(
+                        mainTag = viewModel.tagsList.value?.get(0) ?: "대구광역시",
+                        subTag = tag,
+                        keyWord = ""
+                    )
                     viewModel.initKeyword()
                 }
 
@@ -128,6 +143,7 @@ class PolicyMainFragment : Fragment() {
                 launch(Dispatchers.Main) {
                     binding.titleText.text = "${result.data?.nickname}님을 위한 추천 정책"
                     binding.tagTitleText.text = "${result.data?.nickname}님의 지역"
+                    binding.subTitleText.text = "지역에 따라 정책을 모았어요"
                 }
             }.onFailure { result ->
                 result.printStackTrace()
@@ -153,32 +169,33 @@ class PolicyMainFragment : Fragment() {
 
     }
 
-    private fun selectPolicy(mainTag: String, subTag : String, keyWord : String) {
+    private fun selectPolicy(mainTag: String, subTag: String, keyWord: String) {
         val tagNumber = getCodeByRegion("${mainTag}_${subTag}")
-        if( tagNumber != "-1"){
-        lifecycleScope.launch(Dispatchers.IO) {
-            kotlin.runCatching {
-                RetrofitBuilder.getPolicyService().getPolicyList(tagNumber, keyWord)
-            }.onSuccess { result ->
-                if (result.status == 200) {
-                    withContext(Dispatchers.Main) {
-                        viewModel.setPolicyList(result.data ?: listOf())
-                     if (!viewModel.tagsList.value.isNullOrEmpty()) {
-
-                        setRecyclerView(
-                            policyList = result.data ?: listOf(),
-                            tag = "${viewModel.tagsList.value?.get(0)} ${viewModel.tagsList.value?.get(1)} 보건소"
-                        )
-                     }
-                    }
-                } else {
-                    Log.d(TAG, "200이 아닌 다른 상태,\nstatus : ${result.status}")
+        if (tagNumber != "-1") {
+            lifecycleScope.launch(Dispatchers.IO) {
+                kotlin.runCatching {
+                    RetrofitBuilder.getPolicyService().getPolicyList(tagNumber, keyWord)
+                }.onSuccess { result ->
+                    Log.d("selectPolicy", "result : $result")
+                        withContext(Dispatchers.Main) {
+                            viewModel.setPolicyList(result.data ?: listOf())
+                            if (!viewModel.tagsList.value.isNullOrEmpty()) {
+                                setRecyclerView(
+                                    policyList = result.data ?: listOf(),
+                                    tag = "${viewModel.tagsList.value?.get(0)} ${
+                                        viewModel.tagsList.value?.get(
+                                            1
+                                        )
+                                    } 보건소"
+                                )
+                            }
+                        }
+                }.onFailure { result ->
+                    result.printStackTrace()
+                    requireContext().shortToast("인터넷 연결을 확인해 주세요")
                 }
-            }.onFailure { result ->
-                result.printStackTrace()
-                requireContext().shortToast("인터넷 연결을 확인해 주세요")
             }
-        }}
+        }
     }
 
     private fun setCategory(

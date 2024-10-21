@@ -13,6 +13,7 @@ import androidx.viewpager2.widget.ViewPager2
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.time.delay
 import kotlinx.coroutines.withContext
 import kr.pandadong2024.babya.R
@@ -23,9 +24,10 @@ import kr.pandadong2024.babya.home.policy.getLocalByCode
 import kr.pandadong2024.babya.home.policy.getMemberLocalCode
 import kr.pandadong2024.babya.home.policy.getRegionByCode
 import kr.pandadong2024.babya.home.policy.viewmdole.PolicyViewModel
+import kr.pandadong2024.babya.home.profile.profileviewmodle.ProfileViewModel
+import kr.pandadong2024.babya.home.viewmodel.CommonViewModel
 import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.server.local.BabyaDB
-import kr.pandadong2024.babya.server.local.TokenDAO
 import kr.pandadong2024.babya.server.remote.responses.BannerResponses
 import kr.pandadong2024.babya.server.remote.responses.BaseResponse
 import kr.pandadong2024.babya.server.remote.responses.Policy.PolicyListResponse
@@ -43,11 +45,14 @@ class MainFragment : Fragment() {
     private lateinit var bannerAdapter: MainBannerAdapter
     private lateinit var rankAdapter: CompanyRankAdapter
     private lateinit var policyAdapter: PolicyRecyclerView
+    private lateinit var infiniteViewPager: ViewPager2
     private val findCompanyViewModel by activityViewModels<FindCompanyViewModel>()
 
     private val policyViewModel by activityViewModels<PolicyViewModel>()
+    private val profileViewModel by activityViewModels<ProfileViewModel>()
+    private val commonViewModel by activityViewModels<CommonViewModel>()
 
-    private lateinit var tokenDao: TokenDAO
+    private lateinit var accessToken: String
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
     private var bannerPosition = 0
@@ -55,7 +60,7 @@ class MainFragment : Fragment() {
 
     private suspend fun getBanner(): List<BannerResponses> {
         val response = RetrofitBuilder.getHttpMainService().getBanner(
-            accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
+            accessToken = "Bearer $accessToken",
             lc = "my",
             type = "$form"
         )
@@ -63,6 +68,7 @@ class MainFragment : Fragment() {
     }
 
     lateinit var job: Job
+
     fun scrollJobCreate() {
         job = lifecycleScope.launchWhenResumed {
             val duration = Duration.ofMillis(2000)
@@ -79,7 +85,20 @@ class MainFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        job.cancel()
+        if (job.isActive) {
+            job.cancel()
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        // 메인 스레드가 아닌 IO 스레드에서 데이터베이스에 접근하도록 수정
+        runBlocking {
+            lifecycleScope.launch(Dispatchers.IO) {
+                accessToken = BabyaDB.getInstance(requireContext())?.tokenDao()
+                    ?.getMembers()?.accessToken.toString()
+            }
+        }
     }
 
     override fun onCreateView(
@@ -87,10 +106,39 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMainBinding.inflate(inflater, container, false)
-        tokenDao = BabyaDB.getInstance(requireContext().applicationContext)?.tokenDao()!!
         policyViewModel.initViewModel()
         (requireActivity() as BottomControllable).setBottomNavVisibility(true)
+        profileViewModel.setAccessToken(accessToken)
+        commonViewModel.setAccessToken(accessToken)
+        profileViewModel.setAccessToken(accessToken)
+        profileViewModel.accessToken.observe(viewLifecycleOwner) {
+            if (it != "") {
+                profileViewModel.getUserLocalCode()
+                profileViewModel.getUserData()
+            }
+        }
 
+        profileViewModel.userLocalCode.observe(viewLifecycleOwner) {
+            if (it != "") {
+                Log.d("userLocalCode", "code : $it")
+                if (it.length == 2) {
+                    policyViewModel.setTagList(getMemberLocalCode(it))
+                    policyViewModel.setUserRegionList(
+                        listOf(
+                            getLocalByCode(
+                                getMemberLocalCode(
+                                    it
+                                ).toString()
+                            ), getRegionByCode(getMemberLocalCode(it))
+                        )
+                    )
+                    getPolicyList(it)
+                } else {
+                    policyViewModel.setTagList(it.toInt())
+                    getPolicyList(it)
+                }
+            }
+        }
 
         binding.policyMoreText.setOnClickListener {
             findNavController().navigate(R.id.action_mainFragment_to_policyMainFragment)
@@ -100,7 +148,6 @@ class MainFragment : Fragment() {
         }
 
         initCompanyList()
-        initPolicyList()
         initBannerData()
 
         binding.bannerViewPager.registerOnPageChangeCallback(object :
@@ -112,6 +159,20 @@ class MainFragment : Fragment() {
 
             override fun onPageScrollStateChanged(state: Int) {
                 super.onPageScrollStateChanged(state)
+
+                if (state == ViewPager2.SCROLL_STATE_IDLE) {
+                    when (infiniteViewPager.currentItem) {
+                        (bannerList.size+1) -> {
+                            infiniteViewPager.setCurrentItem(1, false)
+                            binding.bannerIndicator.animatePageSelected(-1)
+                        }
+                        0 -> {
+                            infiniteViewPager.setCurrentItem(bannerList.size, false)
+                            binding.bannerIndicator.animatePageSelected(bannerList.size)
+                        }
+                    }
+                }
+
                 when (state) {
                     ViewPager2.SCROLL_STATE_IDLE -> {
                         if (!job.isActive) scrollJobCreate()
@@ -134,9 +195,11 @@ class MainFragment : Fragment() {
         )
         bannerAdapter.notifyItemRemoved(0)
         with(binding) {
+            infiniteViewPager = bannerViewPager
             bannerViewPager.adapter = bannerAdapter
+            bannerViewPager.currentItem = 1
             bannerViewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
-            bannerIndicator
+            bannerIndicator.setViewPager(bannerViewPager)
         }
     }
 
@@ -173,22 +236,25 @@ class MainFragment : Fragment() {
         if (policyData.isNotEmpty()) {
             for (i in 0..2) {
                 if (policyData.size == i + 1) {
+                    Log.d("setPolicyRecyclerView", "list break")
                     break
                 } else {
+                    Log.d("setPolicyRecyclerView", "list add")
                     list.add(policyData[i])
                 }
             }
         }
 
         policyViewModel.setPolicyList(list)
-        policyAdapter = PolicyRecyclerView(list.toList(), "") { position ->
 
-            kotlin.runCatching {
-                policyViewModel.setPolicyId(position)
-                findNavController().navigate(R.id.action_mainFragment_to_policyContentFragment)
-            }
+        policyAdapter = PolicyRecyclerView(list.toList(),
+            tag = policyViewModel.tagsList.value?.get(1) ?: ""
+        ) { position ->
+            policyViewModel.setPolicyId(position)
+            findNavController().navigate(R.id.action_mainFragment_to_policyContentFragment)
         }
         policyAdapter.notifyItemRemoved(0)
+        Log.d("setPolicyRecyclerView", "list : $list")
         with(binding) {
             policyRecyclerView.adapter = policyAdapter
         }
@@ -208,7 +274,7 @@ class MainFragment : Fragment() {
             }.onFailure { e ->
                 e.stackTrace
                 launch(Dispatchers.Main) {
-                    bannerList = listOf(BannerResponses())
+                    bannerList = listOf()
                     bannerPosition = 0
                     setBannerViewPager()
                 }
@@ -221,7 +287,7 @@ class MainFragment : Fragment() {
         lifecycleScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 RetrofitBuilder.getCompanyService().getCompanyList(
-                    accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
+                    accessToken = "Bearer $accessToken",
                     page = 1,
                     size = 10
                 )
@@ -246,7 +312,7 @@ class MainFragment : Fragment() {
                 }
                 it.stackTrace
                 companyList =
-                    listOf(CompanyListResponses(), CompanyListResponses(), CompanyListResponses())
+                    listOf()
                 launch(Dispatchers.Main) {
                     setCompanyRecyclerView()
                 }
@@ -254,49 +320,12 @@ class MainFragment : Fragment() {
         }
     }
 
-    private fun initPolicyList() {
-        lifecycleScope.launch(Dispatchers.IO) {
-            kotlin.runCatching {
-                RetrofitBuilder.getProfileService().getLocalCode(
-                    accessToken = "Bearer ${tokenDao.getMembers().accessToken}"
-                )
-            }.onSuccess { result ->
-                val response = result.data
 
-                if (response?.length == 2) {
-                    withContext(Dispatchers.Main) {
-                        policyViewModel.setTagList(getMemberLocalCode(response))
-                        policyViewModel.setUserRegionList(
-                            listOf(
-                                getLocalByCode(
-                                    getMemberLocalCode(
-                                        response
-                                    ).toString()
-                                ), getRegionByCode(getMemberLocalCode(response))
-                            )
-                        )
-                        getPolicyList()
-                    }
-                } else {
-                    policyViewModel.setTagList(response?.toInt() ?: 0)
-                    getPolicyList()
-                }
-            }.onFailure {
-                it.stackTrace
-                companyList =
-                    listOf(CompanyListResponses(), CompanyListResponses(), CompanyListResponses())
-                launch(Dispatchers.Main) {
-                    setCompanyRecyclerView()
-                }
-            }
-        }
-    }
-
-    private fun getPolicyList() {
+    private fun getPolicyList(code : String  =policyViewModel.policyId.value.toString()) {
         lifecycleScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 RetrofitBuilder.getPolicyService().getPolicyList(
-                    type = policyViewModel.policyId.value.toString(),
+                    type = code,
                     keyword = ""
                 )
             }.onSuccess {

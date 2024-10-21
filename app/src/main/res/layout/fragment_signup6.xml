@@ -46,6 +46,7 @@
                     android:layout_gravity="start"
                     android:background="@null"
                     android:rotation="180"
+                    android:padding="8dp"
                     android:src="@drawable/ic_arrow_14" />
 
             </androidx.appcompat.widget.Toolbar>

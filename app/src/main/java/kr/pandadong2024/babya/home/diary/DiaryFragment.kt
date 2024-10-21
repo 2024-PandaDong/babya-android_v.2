@@ -72,24 +72,18 @@ class DiaryFragment : Fragment() {
                 searchKeyWord = it
                 val keyword = binding.searchEditText.text.toString()
                 val searchList = mutableListOf<DiaryDataResponses>()
-                diaryList?.forEach { data ->
-                    if (data.title?.contains(keyword) == true) {
-                        searchList.add(data)
-                    }
-                }
-                diaryMainGridViewAdapter.setDiaryList(searchList)
-                diaryMainGridViewAdapter.notifyDataSetChanged()
+                getDiaryData(page = 1, size = 100, type = 1, keyword = it)
             }
         }
 
 
-        binding.searchButton.setOnClickListener {
-            if (isSearchActivated && binding.searchEditText.text.isNotBlank()) {
-                viewModel.setDiarySearchKeyWord(binding.searchEditText.text.toString())
-            } else {
-                viewModel.changeOpenSearchView()
-            }
-        }
+//        binding.searchButton.setOnClickListener {
+//            if (isSearchActivated && binding.searchEditText.text.isNotBlank()) {
+//                viewModel.setDiarySearchKeyWord(binding.searchEditText.text.toString())
+//            } else {
+//                viewModel.changeOpenSearchView()
+//            }
+//        }
 
         binding.searchButton.setOnSingleClickListener {
             if (isSearchActivated && binding.searchEditText.text.isNotBlank()) {
@@ -150,11 +144,11 @@ class DiaryFragment : Fragment() {
         viewModel.isPublic.observe(viewLifecycleOwner) {
             when (it) {
                 true -> {
-                    getDiaryData(1, 100, 2)
+                    getDiaryData(page = 1, size = 100, type = 2)
                 }
 
                 false -> {
-                    getDiaryData(1, 100, 1)
+                    getDiaryData(page = 1, size = 100, type = 1)
                 }
             }
         }
@@ -215,6 +209,7 @@ class DiaryFragment : Fragment() {
     private fun getDiaryData(
         page: Int,
         size: Int,
+        keyword: String = "",
         type: Int
     ) {
         lifecycleScope.launch(Dispatchers.IO) {
@@ -228,7 +223,8 @@ class DiaryFragment : Fragment() {
                         diaryData = RetrofitBuilder.getDiaryService().getMyDiaryData(
                             accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
                             page = page,
-                            size = size
+                            size = size,
+                            keyword = keyword
                         )
 
                     }
@@ -238,7 +234,8 @@ class DiaryFragment : Fragment() {
                         diaryData = RetrofitBuilder.getDiaryService().getDiaryList(
                             accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
                             page = page,
-                            size = size
+                            size = size,
+                            keyword = keyword
 
                         )
                     }
@@ -247,7 +244,8 @@ class DiaryFragment : Fragment() {
                         RetrofitBuilder.getDiaryService().getDiaryList(
                             accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
                             page = page,
-                            size = size
+                            size = size,
+                            keyword = keyword
                         )
                     }
                 }

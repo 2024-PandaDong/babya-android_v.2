@@ -22,7 +22,16 @@ interface DiaryService {
     suspend fun getMyDiaryData(
         @Header("Authorization") accessToken: String,
         @Query("page") page: Int,
-        @Query("size") size: Int
+        @Query("size") size: Int,
+        @Query("keyword") keyword: String? = "",
+    ): BaseResponse<List<DiaryDataResponses>>
+
+    @GET("/diary/list") // 1부터 있음
+    suspend fun getDiaryList(
+        @Header("Authorization") accessToken: String,
+        @Query("page") page: Int,
+        @Query("size") size: Int,
+        @Query("keyword") keyword: String? = "",
     ): BaseResponse<List<DiaryDataResponses>>
 
     @POST("/diary")
@@ -30,13 +39,6 @@ interface DiaryService {
         @Header("Authorization") accessToken: String,
         @Body request: PostDiaryRequest,
     ): BaseResponse<String>
-
-    @GET("/diary/list") // 1부터 있음
-    suspend fun getDiaryList(
-        @Header("Authorization") accessToken: String,
-        @Query("page") page: Int,
-        @Query("size") size: Int
-    ): BaseResponse<List<DiaryDataResponses>>
 
     @GET("/diary/{id}")
     suspend fun getDiaryData(
@@ -47,14 +49,20 @@ interface DiaryService {
     @PATCH("/diary/{id}")
     suspend fun modifyDiary(
         @Header("Authorization") accessToken: String,
-        @Path("id") id : Int,
-        @Body body : EditDiaryRequest
+        @Path("id") id: Int,
+        @Body body: EditDiaryRequest
+    ): BaseResponse<String>
+
+    @PATCH("/diary/report/{id}")
+    suspend fun reportDiary(
+        @Header("Authorization") accessToken: String,
+        @Path("id") id: Int,
     ): BaseResponse<String>
 
     @DELETE("/diary/{id}")
     suspend fun deleteDiary(
         @Header("Authorization") accessToken: String,
-        @Path("id") id : Int
+        @Path("id") id: Int
     ): BaseResponse<String>
 
     @GET("/diary/comment")

@@ -22,6 +22,8 @@ class PolicyViewModel : ViewModel() {
 
     val isOpenSearchView = MutableLiveData<Boolean>().apply { value = false }
 
+    val isSearch = MutableLiveData<Boolean>().apply { value = false }
+
     val userRegionList = MutableLiveData<List<String>>().apply { value = listOf() }
 
 

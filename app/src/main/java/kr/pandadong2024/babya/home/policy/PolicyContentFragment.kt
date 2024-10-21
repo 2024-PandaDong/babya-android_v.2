@@ -75,7 +75,6 @@ class PolicyContentFragment : Fragment() {
                 if (result.status == 200) {
                     withContext(Dispatchers.Main) {
                         Log.d(TAG, "200,\nstatus : ${result.data}")
-                        policyLink = result.data?.link.toString()
                         binding.policyTitleText.text = result.data?.title
 
                         if (result.data?.editDate == null) {
@@ -87,6 +86,12 @@ class PolicyContentFragment : Fragment() {
                                     endIndex = 7
                                 )
                             }월 ${result.data?.editDate?.substring(startIndex = 8, endIndex = 10)}일"
+                        }
+                        Log.d("policyLink", "policyLink : ${result.data?.link}")
+                        if (result.data?.link != null || result.data?.link != ""){
+                            policyLink = result.data?.link.toString()
+                        }else{
+                            binding.linkButton.visibility = View.GONE
                         }
                         var tagSample = result.data?.content.toString().indexOf("<table ")
                         var tabRes = result.data?.content.toString()

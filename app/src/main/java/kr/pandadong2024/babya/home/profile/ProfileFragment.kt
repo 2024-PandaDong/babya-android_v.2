@@ -14,21 +14,20 @@ import androidx.navigation.fragment.findNavController
 import coil.load
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
-import kr.pandadong2024.babya.HomeActivity
 import kr.pandadong2024.babya.MainActivity
 import kr.pandadong2024.babya.MyApplication
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentProfileBinding
+import kr.pandadong2024.babya.home.profile.profileviewmodle.ProfileViewModel
 import kr.pandadong2024.babya.home.viewmodel.CommonViewModel
 import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.server.local.BabyaDB
-import kr.pandadong2024.babya.start.login.LoginFragment
 import kr.pandadong2024.babya.util.BottomControllable
 import kr.pandadong2024.babya.util.setOnSingleClickListener
+import kr.pandadong2024.babya.util.shortToast
 
 class ProfileFragment : Fragment() {
 
@@ -37,6 +36,7 @@ class ProfileFragment : Fragment() {
     private val TAG = "ProfileFragment"
     private lateinit var token: String
     private val commonViewModel by activityViewModels<CommonViewModel>()
+    private val userViewModel by activityViewModels<ProfileViewModel>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,6 +82,12 @@ class ProfileFragment : Fragment() {
                 }.show()
         }
 
+        userViewModel.toastMessage.observe(viewLifecycleOwner){ message ->
+            if (message != ""){
+                requireContext().shortToast(message)
+            }
+        }
+
         binding.withdrawView.setOnSingleClickListener {
             MaterialAlertDialogBuilder(requireContext())
                 .setMessage("정말로 탈퇴하시겠습니까?")
@@ -90,32 +96,18 @@ class ProfileFragment : Fragment() {
                     dialog.dismiss()
                 }
                 .setPositiveButton("탈퇴") { dialog, which ->
-                    lifecycleScope.launch(Dispatchers.IO) {
-                        kotlin.runCatching {
-                            // 서버에 탈퇴 요청
-                            RetrofitBuilder.getProfileService().deleteMember(
-                                accessToken = "Bearer $token"
-                            )
-                        }.onSuccess {
-                            lifecycleScope.launch(Dispatchers.IO) {
-                                BabyaDB.getInstance(requireContext())?.tokenDao()?.getMembers()
-                                    ?.let { tokenEntity ->
-                                        BabyaDB.getInstance(requireContext())?.tokenDao()
-                                            ?.deleteMember(tokenEntity)
-                                    }
-                                MyApplication.prefs.remove()
-                            }
-                            val intent = Intent(requireContext(), MainActivity::class.java)
-                            startActivity(intent)
-                            requireActivity().finish()
-                        }.onFailure {
-                            Log.d(TAG, "onViewCreated: 실패")
-                            it.printStackTrace()
-                            // 실패 시 UI 스레드에서 에러 메시지 표시
-                            withContext(Dispatchers.Main) {
-                                commonViewModel.setToastMessage("인터넷이 연결되어있는지 확인해 주십시오")
-                            }
+                    userViewModel.deleteUser {
+                        lifecycleScope.launch(Dispatchers.IO) {
+                            BabyaDB.getInstance(requireContext())?.tokenDao()?.getMembers()
+                                ?.let { tokenEntity ->
+                                    BabyaDB.getInstance(requireContext())?.tokenDao()
+                                        ?.deleteMember(tokenEntity)
+                                }
+                            MyApplication.prefs.remove()
                         }
+                        val intent = Intent(requireContext(), MainActivity::class.java)
+                        startActivity(intent)
+                        requireActivity().finish()
                     }
                 }
                 .show()
@@ -126,80 +118,12 @@ class ProfileFragment : Fragment() {
 
         binding.appVersionText.text = "v$versionName"
 
-
-
         binding.profileModifyView.setOnClickListener {
             findNavController().navigate(R.id.action_profileFragment_to_profileModifyFragment)
         }
         binding.profileModifyView.setOnClickListener {
             findNavController().navigate(R.id.action_profileFragment_to_profileModifyFragment)
         }
-
-
-//        toolbar.setOnMenuItemClickListener{item ->
-//            when(item.itemId){
-//                R.id.logout -> {
-//                    Log.d(TAG, "test")
-//                    MaterialAlertDialogBuilder(requireContext())
-//                        .setMessage("정말로 로그아웃하시겠습니까?")
-//                        .setNegativeButton("취소") { dialog, which ->
-//                            // 취소 버튼을 누르면 다이얼로그를 닫음
-//                            dialog.dismiss()
-//                        }
-//                        .setPositiveButton("로그아웃") { dialog, which ->
-//                            lifecycleScope.launch(Dispatchers.IO) {
-//                                BabyaDB.getInstance(requireContext())?.tokenDao()?.getMembers()?.let { tokenEntity ->
-//                                    BabyaDB.getInstance(requireContext())?.tokenDao()?.deleteMember(tokenEntity)
-//                                }
-//                            }
-//                            val intent = Intent(requireContext(), MainActivity::class.java)
-//                            startActivity(intent)
-//                            requireActivity().finish()
-//                        }.show()
-//
-//                    true
-//                }
-//                R.id.delete -> {
-//                    MaterialAlertDialogBuilder(requireContext())
-//                        .setMessage("정말로 탈퇴하시겠습니까?")
-//                        .setNegativeButton("취소") { dialog, which ->
-//                            // 취소 버튼을 누르면 다이얼로그를 닫음
-//                            dialog.dismiss()
-//                        }
-//                        .setPositiveButton("탈퇴") { dialog, which ->
-//                            lifecycleScope.launch(Dispatchers.IO) {
-//                                kotlin.runCatching {
-//                                    // 서버에 탈퇴 요청
-//                                    RetrofitBuilder.getProfileService().deleteMember(
-//                                        accessToken = "Bearer $token"
-//                                    )
-//                                }.onSuccess {
-//                                    Log.d(TAG, "onViewCreated: 성공")
-//                                    BabyaDB.getInstance(requireContext())?.tokenDao()?.getMembers()?.let { tokenEntity ->
-//                                        BabyaDB.getInstance(requireContext())?.tokenDao()?.deleteMember(tokenEntity)
-//                                    }
-//                                    // UI 스레드에서 프레그먼트 종료
-//                                    withContext(Dispatchers.Main) {
-//                                        parentFragmentManager.popBackStack()
-//                                    }
-//                                }.onFailure {
-//                                    Log.d(TAG, "onViewCreated: 실패")
-//                                    it.printStackTrace()
-//                                    // 실패 시 UI 스레드에서 에러 메시지 표시
-//                                    withContext(Dispatchers.Main) {
-//                                        Toast.makeText(requireContext(), "탈퇴에 실패했습니다. 다시 시도해주세요.", Toast.LENGTH_SHORT).show()
-//                                    }
-//                                }
-//                            }
-//                            val intent = Intent(requireContext(), MainActivity::class.java)
-//                            startActivity(intent)
-//                        }
-//                        .show()
-//                    true
-//                }
-//                else -> false
-//            }
-//        }
     }
 
     override fun onCreateView(
@@ -212,12 +136,19 @@ class ProfileFragment : Fragment() {
         binding.profileBackButton.setOnClickListener {
             findNavController().navigate(R.id.action_profileFragment_to_mainFragment)
         }
-        // 정보 받기
-        lifecycleScope.launch {
-            getProfileData()
+
+
+
+        userViewModel.userData.observe(viewLifecycleOwner){ userData ->
+            binding.welcomeText.text = "${userData.nickname}님 반가워요!"
+
+
+            if (userData.profileImg == null) {
+                binding.profileImage.load(R.drawable.ic_basic_profile)
+            } else {
+                binding.profileImage.load(userData.profileImg)
+            }
         }
-
-
         return binding.root
     }
 
@@ -258,8 +189,6 @@ class ProfileFragment : Fragment() {
                 }
             }
         }
-
-
     }
 
     override fun onDestroyView() {

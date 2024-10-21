@@ -93,7 +93,7 @@
                         android:id="@+id/tagTitleText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="박규민님의 지역"
+                        android:text=""
                         android:textSize="16sp"
                         android:fontFamily="@font/notosanskr_semibold"
                         android:includeFontPadding="false"
@@ -151,7 +151,7 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         android:textSize="16sp"
-                        android:text="박규민님을 위한 추천 정책"
+                        android:text=""
                         android:includeFontPadding="false"
                         />
                     <TextView
@@ -163,7 +163,7 @@
                         android:textSize="11sp"
                         app:layout_constraintTop_toBottomOf="@id/titleText"
                         app:layout_constraintStart_toStartOf="parent"
-                        android:text="지역에 따라 정책을 모았어요"
+                        android:text=""
                         android:layout_marginStart="1dp"
                         android:layout_marginTop="4dp"
                         android:includeFontPadding="false"

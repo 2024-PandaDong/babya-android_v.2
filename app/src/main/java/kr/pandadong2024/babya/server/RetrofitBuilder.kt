@@ -1,11 +1,11 @@
 package kr.pandadong2024.babya.server
 
+import RefreshInterceptor
+import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import kr.pandadong2024.babya.server.local.BabyaDB
 import kr.pandadong2024.babya.server.local.TokenDAO
-import kr.pandadong2024.babya.server.remote.interceptor.RefreshInterceptor
-import kr.pandadong2024.babya.server.remote.interceptor.TokenInterceptor
 import kr.pandadong2024.babya.server.remote.service.CommonService
 import kr.pandadong2024.babya.server.remote.service.CompanyService
 import kr.pandadong2024.babya.server.remote.service.DashBoardService
@@ -56,9 +56,15 @@ class RetrofitBuilder {
 
         @Synchronized
         fun getRetrofit(): Retrofit {
+            Log.d("getRetrofit", "1, 2 ,3 4, 5, 6, 777")
             if (retrofit == null) {
+                val interceptor = HttpLoggingInterceptor().apply {
+                    level = HttpLoggingInterceptor.Level.BODY
+                }
+                val client = OkHttpClient.Builder().addInterceptor(interceptor).build()
                 retrofit = Retrofit.Builder()
                     .baseUrl(Url.serverUrl)
+                    .client(client)
                     .addConverterFactory(GsonConverterFactory.create(getGson()!!))
                     .build()
             }
@@ -100,7 +106,6 @@ class RetrofitBuilder {
             val httpClient = OkHttpClient.Builder().apply {
 
             }
-//            httpClient.addNetworkInterceptor()
             return httpClient
                 .addInterceptor(refreshInterceptor)
                 .addInterceptor(interceptor)
@@ -114,9 +119,7 @@ class RetrofitBuilder {
             }
             val okhttpBuilder = OkHttpClient().newBuilder()
                 .addInterceptor(interceptor)
-                .addInterceptor(TokenInterceptor())
-
-
+//                .addInterceptor(TokenInterceptor())
             val trustAllCerts = arrayOf<TrustManager>(object : X509TrustManager {
                 override fun checkClientTrusted(
                     chain: Array<out X509Certificate>?,
@@ -161,7 +164,7 @@ class RetrofitBuilder {
 
         fun getPolicyService(): PolicyService {
             if (policyService == null) {
-                policyService = getRetrofit().create(PolicyService::class.java)
+                policyService = getHttpRetrofit().create(PolicyService::class.java)
             }
             return policyService!!
         }
@@ -175,7 +178,7 @@ class RetrofitBuilder {
 
         fun getProfileService(): ProfileService {
             if (profileService == null) {
-                profileService = getRetrofit().create(ProfileService::class.java)
+                profileService = getHttpRetrofit().create(ProfileService::class.java)
             }
             return profileService!!
         }

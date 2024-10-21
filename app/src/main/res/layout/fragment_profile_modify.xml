@@ -21,15 +21,30 @@
         android:background="@color/backgroundNormalNormal">
 
         <TextView
-            android:id="@+id/todoListTitleText"
+            android:id="@+id/titleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:text=""
+            android:textSize="16dp"
             android:fontFamily="@font/notosanskr_medium"
-            android:text="프로필"
-            android:textSize="16sp"
-            android:includeFontPadding="false"/>
-
+            android:layout_gravity="center"
+            android:includeFontPadding="false"
+            android:textColor="@color/commonBlack"
+            />
+        <TextView
+            android:id="@+id/editTextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="수정"
+            android:textSize="16dp"
+            android:fontFamily="@font/notosanskr_medium"
+            android:layout_gravity="end"
+            android:includeFontPadding="false"
+            android:textColor="@color/neutral70"
+            android:layout_marginEnd="17dp"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="10dp"
+            />
 
         <ImageButton
             android:id="@+id/profileBackButton"
@@ -105,14 +120,14 @@
                     app:layout_constraintTop_toTopOf="@id/nameTitleText" />
 
                 <TextView
-                    android:id="@+id/ageTitleText"
+                    android:id="@+id/localTitleText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="25dp"
 
                     android:fontFamily="@font/notosanskr_medium"
                     android:includeFontPadding="false"
-                    android:text="나이"
+                    android:text="지역"
                     android:textAlignment="textStart"
                     android:textColor="@color/neutral40"
                     android:textSize="16sp"
@@ -121,7 +136,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/nameTitleText" />
 
                 <TextView
-                    android:id="@+id/ageText"
+                    android:id="@+id/localText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
@@ -134,7 +149,7 @@
                     android:textSize="16sp"
 
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/ageTitleText" />
+                    app:layout_constraintTop_toTopOf="@id/localTitleText" />
 
                 <TextView
                     android:id="@+id/birthDateTitleText"
@@ -150,7 +165,7 @@
                     android:textSize="16sp"
 
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ageTitleText" />
+                    app:layout_constraintTop_toBottomOf="@+id/localTitleText" />
 
                 <TextView
                     android:id="@+id/birthDateText"
@@ -220,6 +235,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     android:text="결혼정보"
                     android:textSize="16sp"
+                    android:textColor="@color/neutral30"
                     android:fontFamily="@font/notosanskr_medium"
                     android:includeFontPadding="false"
                     />
@@ -245,7 +261,6 @@
                     android:id="@+id/marriageDayText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
 
                     android:fontFamily="@font/notosanskr_regular"
                     android:includeFontPadding="false"

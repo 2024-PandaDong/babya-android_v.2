@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kr.pandadong2024.babya.MyApplication.Companion.prefs
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentQuizBinding
@@ -29,7 +30,18 @@ class QuizFragment : Fragment() {
     private val commonViewModel by activityViewModels<CommonViewModel>()
     private val viewModel: QuizViewModel by activityViewModels<QuizViewModel>()
     private lateinit var tokenDao: TokenDAO
+    private lateinit var accessToken : String
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        // 메인 스레드가 아닌 IO 스레드에서 데이터베이스에 접근하도록 수정
+        runBlocking {
+            lifecycleScope.launch(Dispatchers.IO) {
+                accessToken = BabyaDB.getInstance(requireContext())?.tokenDao()
+                    ?.getMembers()?.accessToken.toString()
+            }
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
