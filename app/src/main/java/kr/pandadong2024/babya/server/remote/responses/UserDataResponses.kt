@@ -8,9 +8,9 @@ data class UserDataResponses(
     @field:SerializedName("children")
     val children: List<UserChildren> = listOf<UserChildren>(),
     @field:SerializedName("dDay")
-    val dDay: Int? = -1,
+    val dDay: String? = "",
     @field:SerializedName("marriedYears")
-    val marriedYears: Int?=  -1,
+    val marriedYears: String?=  "",
     @field:SerializedName("nickname")
     val nickname: String? = "null",
     @field:SerializedName("profileImg")
