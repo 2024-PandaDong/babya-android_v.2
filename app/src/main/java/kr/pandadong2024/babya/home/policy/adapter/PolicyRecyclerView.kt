@@ -20,7 +20,6 @@ class PolicyRecyclerView (val policyList : List<PolicyListResponse>, val tag : S
             }
 
 //            binding.locationText.text =tag
-            binding.localTagText.text = tag
             binding.titleText.text = policyDate.title
             binding.policyBackground.setOnClickListener {
                 onClick(position)

@@ -246,7 +246,10 @@ class MainFragment : Fragment() {
         }
 
         policyViewModel.setPolicyList(list)
-        policyAdapter = PolicyRecyclerView(list.toList(), "") { position ->
+
+        policyAdapter = PolicyRecyclerView(list.toList(),
+            tag = policyViewModel.tagsList.value?.get(1) ?: ""
+        ) { position ->
             policyViewModel.setPolicyId(position)
             findNavController().navigate(R.id.action_mainFragment_to_policyContentFragment)
         }
@@ -326,7 +329,6 @@ class MainFragment : Fragment() {
                     keyword = ""
                 )
             }.onSuccess {
-                Log.d("getPolicyList", "list : ${it.data}")
                 policyData = it.data ?: listOf()
                 launch(Dispatchers.Main) {
                     setPolicyRecyclerView()
