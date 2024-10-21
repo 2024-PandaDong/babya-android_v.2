@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentFindCompanyBinding
 import kr.pandadong2024.babya.home.find_company.adapter.FindCompanyAdapter
@@ -50,10 +51,27 @@ class FindCompanyFragment : Fragment() {
 
         kotlin.run {
             findCompany()
+            findName()
         }
 
 
         return  binding.root
+    }
+
+    private fun findName() {
+        lifecycleScope.launch(Dispatchers.IO){
+            kotlin.runCatching {
+                val token = BabyaDB.getInstance(requireContext())?.tokenDao()?.getMembers()?.accessToken
+                RetrofitBuilder.getProfileService().getProfile(
+                    accessToken = "Bearer $token",
+                    email = "my"
+                )
+            }.onSuccess {  result ->
+                withContext(Dispatchers.Main) {
+                    binding.welcomeName.text = result.data?.nickname+"님과 맞는 회사를 찾아보세요!"
+                }
+            }
+        }
     }
 
     override fun onPause() {

@@ -1,5 +1,6 @@
 package kr.pandadong2024.babya.home.find_company
 
+import android.content.ContentValues.TAG
 import android.graphics.Color
 import android.os.Bundle
 import android.text.TextUtils
@@ -140,6 +141,8 @@ class CompanyDetailsFragment : Fragment() {
             binding.companyName.text = result.data?.name
             binding.mainImage.load(result.data?.contentImg)
             binding.explanation.text = result.data?.description
+            binding.field.text = result.data?.businessType+" | "
+            binding.region.text = result.data?.address?.substringBefore(" ")
             binding.standard.text = result.data?.salaryYear.toString()+"년"
 
             binding.salaryMin.text = result.data?.minSalary.toString() + " 만원"
@@ -155,6 +158,8 @@ class CompanyDetailsFragment : Fragment() {
             binding.history.text = result.data?.historyYear
             binding.content.text = result.data?.businessContent
             binding.type.text = result.data?.companyType
+
+            Log.d(TAG, "setCompany: ${result.data?.description}")
 
             // 해택 및 복지 추가
             binding.mtrLvPeriod.text = result.data?.mtrLvPeriod.toString() // 육아 휴직 기간

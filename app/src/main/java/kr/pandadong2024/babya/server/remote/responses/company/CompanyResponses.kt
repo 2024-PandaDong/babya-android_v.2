@@ -58,6 +58,8 @@ data class CompanyResponses(
     val businessContent: String? = "",
     @field:SerializedName("companyType") // 기업 유형
     val companyType: String? = "",
+    @field:SerializedName("businessType") // 기업 분야
+    val businessType: String? = "",
     @field:SerializedName("contentImg") // 이미지
     val contentImg: String? = ""
 ) : Parcelable {
