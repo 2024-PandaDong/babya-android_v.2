@@ -14,12 +14,15 @@ import coil.load
 import coil.request.ImageRequest
 import kr.pandadong2024.babya.databinding.ItemBanerCardBinding
 import kr.pandadong2024.babya.server.remote.responses.BannerResponses
+import kotlin.math.max
 
 
 class MainBannerAdapter(
     private val context: Context,
     private val bannerList: List<BannerResponses>
 ) : RecyclerView.Adapter<MainBannerAdapter.PagerViewHolder>() {
+    private val newList = if(bannerList.isNotEmpty()){ listOf(bannerList.last()) + bannerList + listOf(bannerList.first()) } else{
+        listOf()}
     inner class PagerViewHolder(private val binding: ItemBanerCardBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(bannerData: BannerResponses, context: Context) {
@@ -47,15 +50,15 @@ class MainBannerAdapter(
         return PagerViewHolder(binding)
     }
 
-    override fun getItemCount(): Int = Int.MAX_VALUE
+    override fun getItemCount(): Int = newList.size
 
     override fun onBindViewHolder(holder: PagerViewHolder, position: Int) {
-        if (bannerList.isNotEmpty()) {
+        if (newList.isNotEmpty()) {
             var p: Int = position
             if (position != 0) {
-                p %= bannerList.size
+                p %= newList.size
             }
-            holder.bind(bannerList[p], context)
+            holder.bind(newList[p], context)
         }
     }
 
