@@ -36,21 +36,24 @@
             android:layout_gravity="start"
             android:background="@null"
             android:rotation="180"
-            android:src="@drawable/ic_arrow_14" />
+            android:padding="8dp"
+            android:src="@drawable/ic_arrow_14"
+            />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/diaryEditSubmitButton"
             android:layout_width="42dp"
             android:layout_height="25dp"
             android:layout_gravity="end"
-            android:layout_marginEnd="15dp"
+            android:layout_marginEnd="17dp"
             android:background="@drawable/sp_edit_diary_able_background"
             android:fontFamily="@font/notosanskr_bold"
             android:src="@drawable/ic_reload"
             android:text="등록"
             android:includeFontPadding="false"
             android:textColor="@color/primaryLight"
-            android:textSize="11sp" />
+            android:textSize="11sp"
+            />
     </androidx.appcompat.widget.Toolbar>
     <androidx.core.widget.NestedScrollView
         android:id="@+id/editDiaryNestedScrollView"

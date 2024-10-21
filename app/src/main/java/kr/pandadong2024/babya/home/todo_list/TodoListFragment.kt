@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentTodoListBinding
 import kr.pandadong2024.babya.home.todo_list.adapter.TodoCategoryAdapter
@@ -306,19 +307,20 @@ class TodoListFragment : Fragment() {
                     accessToken = "Bearer ${tokenDao.getMembers().accessToken}"
                 )
             }.onSuccess { result ->
-                if (result.status == 200) {
-                    val categoryList = result.data?.category?.toMutableList()
-                    allCategoryList.addAll(categoryList?.toList() ?: listOf())
-                    categoryList?.add(0, "전체")
-                    launch(Dispatchers.Main) {
+                withContext(Dispatchers.Main)
+                {
+                    if (result.status == 200) {
+                        val categoryList = result.data?.category?.toMutableList()
+                        allCategoryList.addAll(categoryList?.toList() ?: listOf())
+                        categoryList?.add(0, "전체")
                         setCategory(categoryList?.toList() ?: listOf())
+                        getTodoList(
+                            category = allCategoryList[selectedPosition],
+                            date = getToday
+                        )
+                    } else {
+                        commonViewModel.setToastMessage("데이터를 불러오는 도중 문제가 발생했습니다. CODE : ${result.status}")
                     }
-                    getTodoList(
-                        category = allCategoryList[selectedPosition],
-                        date = getToday
-                    )
-                } else {
-                    commonViewModel.setToastMessage( "데이터를 불러오는 도중 문제가 발생했습니다. CODE : ${result.status}")
                 }
 
             }.onFailure { result ->
@@ -327,7 +329,9 @@ class TodoListFragment : Fragment() {
                     val errorBody = result.response()?.errorBody()
                     Log.e(TAG, "Error body: $errorBody")
                 }
-                requireContext().shortToast("인터넷이 연결되어있는지 확인해 주십시오")
+                withContext(Dispatchers.Main){
+                    requireContext().shortToast("인터넷이 연결되어있는지 확인해 주십시오")
+                }
             }
         }
 
