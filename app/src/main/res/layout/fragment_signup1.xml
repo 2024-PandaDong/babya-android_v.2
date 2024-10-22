@@ -178,69 +178,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/agreementCheckBox2" />
 
-    <View
-        android:id="@+id/chooselLine"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        app:layout_constraintTop_toBottomOf="@id/agreementCheckBox3"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="17dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="54dp"
-        android:background="@color/gray"
-        />
-
-    <CheckBox
-        android:id="@+id/agreementCheckBox4"
-        android:layout_width="wrap_content"
-        android:layout_height="21dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
-        android:fontFamily="@font/notosanskr_medium"
-        android:includeFontPadding="false"
-        android:text="마켓팅 알림 수신 동의(선택)"
-        android:textAlignment="textStart"
-        android:textColor="@color/black"
-        android:textSize="14dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/chooselLine" />
-
-    <ImageButton
-        android:id="@+id/agreementBtn4"
-        android:layout_width="16dp"
-        android:layout_height="12dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="50dp"
-        android:background="@drawable/ic_arrow_14"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/chooselLine" />
-
-    <CheckBox
-        android:id="@+id/agreementCheckBox5"
-        android:layout_width="wrap_content"
-        android:layout_height="21dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="34dp"
-        android:fontFamily="@font/notosanskr_medium"
-        android:includeFontPadding="false"
-        android:text="광고성 정보 수신 동의(선택)"
-        android:textAlignment="textStart"
-        android:textColor="@color/black"
-        android:textSize="14dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/agreementCheckBox4" />
-
-    <ImageButton
-        android:id="@+id/agreementBtn5"
-        android:layout_width="16dp"
-        android:layout_height="12dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginRight="50dp"
-        android:background="@drawable/ic_arrow_14"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/agreementCheckBox4" />
-
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/nextBtn"
         android:layout_width="0dp"
