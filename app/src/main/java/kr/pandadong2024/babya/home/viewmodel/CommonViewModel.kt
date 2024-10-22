@@ -16,16 +16,16 @@ import okhttp3.internal.wait
 import retrofit2.HttpException
 
 class CommonViewModel : ViewModel() {
-    private val _toastMessage = MutableLiveData<String>().apply { value = "" }
+    private val _toastMessage = MutableLiveData("")
     val toastMessage: LiveData<String> = _toastMessage
 
-    private var _accessToken = MutableLiveData<String>().apply { value = "" }
+    private var _accessToken = MutableLiveData("")
     var accessToken: LiveData<String> = _accessToken
 
-    private val _imageLink = MutableLiveData<String>().apply { value = "" }
+    private val _imageLink = MutableLiveData("")
     val imageLink: LiveData<String> = _imageLink
 
-    private val _imageLinkList = MutableLiveData<List<String>>().apply { value = listOf() }
+    private val _imageLinkList = MutableLiveData<List<String>>(listOf())
     val imageLinkList: LiveData<List<String>> = _imageLinkList
 
     fun setToastMessage(message: String) {

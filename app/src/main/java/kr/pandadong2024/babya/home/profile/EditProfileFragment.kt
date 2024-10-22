@@ -286,10 +286,9 @@ class EditProfileFragment : Fragment() {
     }
 
     private fun dateService(edit: TextView) {
-        val bottomSheetDialog =
-            SignupBottomSheet() { d ->
-                edit.text = d
-            }
+        val bottomSheetDialog = SignupBottomSheet { d ->
+            edit.text = d
+        }
         bottomSheetDialog.show(requireActivity().supportFragmentManager, bottomSheetDialog.tag)
     }
 

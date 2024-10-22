@@ -25,7 +25,7 @@ class QuizResultFragment : Fragment() {
     ): View {
         _binding = FragmentQuizResultBinding.inflate(inflater, container, false)
         (requireActivity() as BottomControllable).setBottomNavVisibility(false)
-        quiz = viewModel.quizData.value!!
+        quiz = viewModel.quizData.value ?: QuizResponses()
         isRight()
         binding.nextButton.setOnClickListener {
             findNavController().navigate(R.id.action_quizResultFragment_to_mainFragment)

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
@@ -38,7 +39,6 @@ import java.time.Duration
 import kotlin.math.ceil
 
 class MainFragment : Fragment() {
-
     private lateinit var bannerList: List<BannerResponses>
     private lateinit var companyList: List<CompanyListResponses>
     private lateinit var companyData: BaseResponse<List<CompanyListResponses>>
@@ -115,31 +115,30 @@ class MainFragment : Fragment() {
         commonViewModel.setAccessToken(accessToken)
         profileViewModel.setAccessToken(accessToken)
         profileViewModel.accessToken.observe(viewLifecycleOwner) {
-            if (it != "") {
-                profileViewModel.getUserLocalCode()
-                profileViewModel.getUserData()
-            }
+            if (it.isEmpty()) return@observe
+
+            profileViewModel.getUserLocalCode()
+            profileViewModel.getUserData()
         }
 
         profileViewModel.userLocalCode.observe(viewLifecycleOwner) {
-            if (it != "") {
-                Log.d("userLocalCode", "code : $it")
-                if (it.length == 2) {
-                    policyViewModel.setTagList(getMemberLocalCode(it))
-                    policyViewModel.setUserRegionList(
-                        listOf(
-                            getLocalByCode(
-                                getMemberLocalCode(
-                                    it
-                                ).toString()
-                            ), getRegionByCode(getMemberLocalCode(it))
-                        )
+            if (it.isEmpty()) return@observe
+            Log.d("userLocalCode", "code : $it")
+            if (it.length == 2) {
+                policyViewModel.setTagList(getMemberLocalCode(it))
+                policyViewModel.setUserRegionList(
+                    listOf(
+                        getLocalByCode(
+                            getMemberLocalCode(
+                                it
+                            ).toString()
+                        ), getRegionByCode(getMemberLocalCode(it))
                     )
-                    getPolicyList(it)
-                } else {
-                    policyViewModel.setTagList(it.toInt())
-                    getPolicyList(it)
-                }
+                )
+                getPolicyList(it)
+            } else {
+                policyViewModel.setTagList(it.toInt())
+                getPolicyList(it)
             }
         }
 
@@ -165,10 +164,11 @@ class MainFragment : Fragment() {
 
                 if (state == ViewPager2.SCROLL_STATE_IDLE) {
                     when (infiniteViewPager.currentItem) {
-                        (bannerList.size+1) -> {
+                        (bannerList.size + 1) -> {
                             binding.bannerIndicator.visibility = View.GONE
                             infiniteViewPager.setCurrentItem(1, false)
                         }
+
                         0 -> {
                             binding.bannerIndicator.visibility = View.GONE
                             infiniteViewPager.setCurrentItem(bannerList.size, false)
@@ -251,8 +251,9 @@ class MainFragment : Fragment() {
 
         policyViewModel.setPolicyList(list)
 
-        policyAdapter = PolicyRecyclerView(list.toList(),
-            tag = policyViewModel.tagsList.value?.get(1) ?: ""
+        policyAdapter = PolicyRecyclerView(
+            list.toList(),
+            tag = "${policyViewModel.tagsList.value?.get(0)} ${policyViewModel.tagsList.value?.get(1)}"
         ) { position ->
             policyViewModel.setPolicyId(position)
             findNavController().navigate(R.id.action_mainFragment_to_policyContentFragment)
@@ -276,7 +277,6 @@ class MainFragment : Fragment() {
                     setBannerViewPager()
                 }
             }.onFailure { e ->
-                e.stackTrace
                 launch(Dispatchers.Main) {
                     bannerList = listOf()
                     bannerPosition = 0
@@ -302,7 +302,6 @@ class MainFragment : Fragment() {
                         companyList = it.data ?: listOf()
                         setCompanyRecyclerView()
                     } else {
-
                         Log.d("initCompanyList", "it : ${it.message}, st : ${it.status}")
                     }
                 }
@@ -314,9 +313,7 @@ class MainFragment : Fragment() {
                     Log.d("initCompanyList", "it : $errorBody")
                     Log.d("initCompanyList", "it : ${it.response()?.body()}")
                 }
-                it.stackTrace
-                companyList =
-                    listOf()
+                companyList = listOf()
                 launch(Dispatchers.Main) {
                     setCompanyRecyclerView()
                 }
@@ -325,7 +322,7 @@ class MainFragment : Fragment() {
     }
 
 
-    private fun getPolicyList(code : String  =policyViewModel.policyId.value.toString()) {
+    private fun getPolicyList(code: String = policyViewModel.policyId.value.toString()) {
         lifecycleScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 RetrofitBuilder.getPolicyService().getPolicyList(
@@ -347,5 +344,4 @@ class MainFragment : Fragment() {
             }
         }
     }
-
 }
