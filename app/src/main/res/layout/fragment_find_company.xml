@@ -53,17 +53,6 @@
 
             />
 
-        <ImageButton
-            android:id="@+id/searchButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginEnd="13dp"
-            android:src="@drawable/ic_search"
-            android:background="@null"
-            android:padding="8dp"
-            />
-
 
     </androidx.appcompat.widget.Toolbar>
 
@@ -94,7 +83,7 @@
                     android:fontFamily="@font/notosanskr_semibold"
                     android:includeFontPadding="false"
                     android:textSize="16dp"
-                    android:layout_marginTop="40dp"
+                    android:layout_marginTop="20dp"
                     android:layout_marginStart="21dp"
                     />
                 
