@@ -165,12 +165,12 @@ class MainFragment : Fragment() {
                 if (state == ViewPager2.SCROLL_STATE_IDLE) {
                     when (infiniteViewPager.currentItem) {
                         (bannerList.size+1) -> {
+                            binding.bannerIndicator.visibility = View.GONE
                             infiniteViewPager.setCurrentItem(1, false)
-                            binding.bannerIndicator.animatePageSelected(-1)
                         }
                         0 -> {
+                            binding.bannerIndicator.visibility = View.GONE
                             infiniteViewPager.setCurrentItem(bannerList.size, false)
-                            binding.bannerIndicator.animatePageSelected(bannerList.size)
                         }
                     }
                 }

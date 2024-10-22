@@ -42,7 +42,7 @@ class QuizResultFragment : Fragment() {
             binding.answerText.text = "오답입니다!"
             binding.answerText.setTextColor(requireContext().getColor(R.color.statusDestructive))
         }
-        binding.quizText.text = quiz.title
+        binding.quizText.text = "Q.${quiz.title}"
         binding.descriptionButton.text = quiz.quizCn
     }
 
