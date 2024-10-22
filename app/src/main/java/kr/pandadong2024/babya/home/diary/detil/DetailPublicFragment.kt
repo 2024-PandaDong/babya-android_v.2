@@ -69,7 +69,7 @@ class DetailPublicFragment : Fragment() {
 
         binding.publicMoreButton.setOnClickListener { view ->
             val popupMenu = PopupMenu(requireContext(), view)
-            popupMenu.inflate(R.menu.diary_popup)
+            popupMenu.inflate(R.menu.public_diary_menu)
             popupMenu.setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.report -> {

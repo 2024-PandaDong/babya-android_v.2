@@ -1,9 +1,11 @@
 package kr.pandadong2024.babya.home.diary.diaryadapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.ItemCommentsBinding
 import kr.pandadong2024.babya.server.remote.responses.CommentResponses
 
@@ -15,7 +17,13 @@ class CommentsAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun setItemComments(commentData: CommentResponses) {
             binding.commentNameText.text = commentData.nickname
-            binding.commentProfileImage.load(commentData.profileImg)
+            if (commentData.profileImg?.isNotBlank() == true) {
+                binding.commentProfileImage.load(commentData.profileImg)
+            }
+            else{
+                Log.d("ㅅㄷㄴㅅ", " in else")
+                binding.commentProfileImage.load(R.drawable.ic_basic_profile)
+            }
             binding.contentTextView.text = commentData.content
             binding.commentTimeText.text = commentData.createdAt.toString().substring(5 until 10)
             binding.replayCommentText.setOnClickListener {

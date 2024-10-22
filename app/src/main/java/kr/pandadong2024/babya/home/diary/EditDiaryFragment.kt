@@ -306,7 +306,8 @@ class EditDiaryFragment : Fragment() {
                 }.onSuccess { result ->
                     if (result.status in 200..299) {
                         lifecycleScope.launch(Dispatchers.Main) {
-                            findNavController().navigate(R.id.action_editDiaryFragment_to_diaryFragment)
+                            requireActivity().supportFragmentManager.popBackStack()
+//                            findNavController().navigate(R.id.action_editDiaryFragment_to_diaryFragment)
                         }
                     } else {
                         Log.i(TAG, "status : ${result.status}")

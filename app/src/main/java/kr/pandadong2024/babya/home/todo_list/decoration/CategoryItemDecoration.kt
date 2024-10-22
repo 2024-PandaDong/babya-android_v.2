@@ -17,14 +17,18 @@ class CategoryItemDecoration(private val horizontalPadding : Int, private val la
         val position = parent.getChildAdapterPosition(view)
         when (position) {
             0 -> {
+                Log.d("test", "it : ${position} - 0")
                 outRect.right = horizontalPadding
                 outRect.left = margin
             }
+            //        /** 첫번째 행(row-1)에 있는 아이템인 경우 상단에 [space] 만큼의 여백을 추가한다 */
             lastPosition-1 -> {
+                Log.d("test", "it : ${position} - 1")
                 outRect.left = horizontalPadding
                 outRect.right = margin
             }
             else -> {
+                Log.d("test", "it : ${position} - e")
                 outRect.left = horizontalPadding
                 outRect.right = horizontalPadding
             }
@@ -32,8 +36,6 @@ class CategoryItemDecoration(private val horizontalPadding : Int, private val la
 
 
 //        val column = position + 1      // 1부터 시작
-//
-//        /** 첫번째 행(row-1)에 있는 아이템인 경우 상단에 [space] 만큼의 여백을 추가한다 */
 //        if (position >= 1){
 //            outRect.left = 35
 //        }

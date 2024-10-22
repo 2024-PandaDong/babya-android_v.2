@@ -91,14 +91,16 @@ class ProfileViewModel() : ViewModel() {
                 }
             )
         }.onFailure { result ->
-            if (result is HttpException) {
-                if (result.code() == 404) {
-                    _toastMessage.value = "데이터를 불러오지 못했어요 CODE : ${result.code()}"
+            withContext(Dispatchers.Main) {
+                if (result is HttpException) {
+                    if (result.code() == 404) {
+                        _toastMessage.value = "데이터를 불러오지 못했어요 CODE : ${result.code()}"
+                    }
+                } else {
+                    _toastMessage.value = "서버에서 문제가 발생했어요"
                 }
-            } else {
-                _toastMessage.value = "서버에서 문제가 발생했어요"
+                result.printStackTrace()
             }
-            result.printStackTrace()
         }
     }
 
