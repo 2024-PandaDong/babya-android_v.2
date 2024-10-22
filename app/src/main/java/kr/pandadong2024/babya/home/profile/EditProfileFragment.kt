@@ -23,7 +23,7 @@ import kotlinx.coroutines.runBlocking
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentEditProfileBinding
 import kr.pandadong2024.babya.home.policy.bottom_sheet.PolicyBottomSheet
-import kr.pandadong2024.babya.home.policy.encodingLocateNumber
+import kr.pandadong2024.babya.home.policy.getCodeByRegion
 import kr.pandadong2024.babya.home.policy.getLocalByCode
 import kr.pandadong2024.babya.home.policy.viewmdole.PolicyViewModel
 import kr.pandadong2024.babya.home.profile.profileviewmodle.ProfileViewModel
@@ -38,8 +38,6 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 import java.io.FileOutputStream
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 class EditProfileFragment : Fragment() {
     private var _binding: FragmentEditProfileBinding? = null
@@ -49,7 +47,7 @@ class EditProfileFragment : Fragment() {
     private val commonViewModel by activityViewModels<CommonViewModel>()
     private var accessToken: String = ""
     private var selectedImageUri: Uri? = null
-    private val userData : UserEditRequest = UserEditRequest()
+    private val userData: UserEditRequest = UserEditRequest()
     private lateinit var getImage: ActivityResultLauncher<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -131,16 +129,16 @@ class EditProfileFragment : Fragment() {
             binding.fetusDayEditText.text = fetusDt
         }
 
-        userViewModel.editUserResult.observe(viewLifecycleOwner){
-            if (it && (userViewModel.editUserImageResult.value == true)){
+        userViewModel.editUserResult.observe(viewLifecycleOwner) {
+            if (it && (userViewModel.editUserImageResult.value == true)) {
                 userViewModel.setToastMessage("성공적으로 프로필 수정이 완료되었습니다")
                 userViewModel.getUserData()
                 findNavController().navigate(R.id.action_editProfileFragment_to_profileModifyFragment)
             }
         }
 
-        userViewModel.editUserImageResult.observe(viewLifecycleOwner){
-            if (it && (userViewModel.editUserResult.value == true)){
+        userViewModel.editUserImageResult.observe(viewLifecycleOwner) {
+            if (it && (userViewModel.editUserResult.value == true)) {
                 userViewModel.setToastMessage("성공적으로 프로필 수정이 완료되었습니다")
                 userViewModel.getUserData()
                 findNavController().navigate(R.id.action_editProfileFragment_to_profileModifyFragment)
@@ -162,8 +160,10 @@ class EditProfileFragment : Fragment() {
         }
 
         policyViewModel.tagsList.observe(viewLifecycleOwner) {
-            if (it.isNotEmpty()) {
-                val location = encodingLocateNumber(it[0])
+            if (it.size >= 2) {
+                val location = getCodeByRegion("${it[0]}_${it[1]}")
+                userData.lc = location
+                Log.d("tagsList", "it : $it")
                 binding.locationEditText.text = it[0]
             }
         }
@@ -196,11 +196,44 @@ class EditProfileFragment : Fragment() {
         }
 
         binding.submitButton.setOnSingleClickListener {
-            if (binding.fetusDayEditText.text.substring(0,4).toInt() + binding.fetusDayEditText.text.substring(6,8).toInt()+binding.fetusDayEditText.text.substring(10,12).toInt() != 0){
-                userData.pregnancyDt = "${binding.fetusDayEditText.text.substring(0,4)}-${binding.fetusDayEditText.text.substring(6,8)}-${binding.fetusDayEditText.text.substring(10,12)}"
+            if (binding.fetusDayEditText.text.substring(0, 4)
+                    .toInt() + binding.fetusDayEditText.text.substring(6, 8)
+                    .toInt() + binding.fetusDayEditText.text.substring(10, 12).toInt() != 0
+            ) {
+                userData.pregnancyDt = "${
+                    binding.fetusDayEditText.text.substring(
+                        0,
+                        4
+                    )
+                }-${
+                    binding.fetusDayEditText.text.substring(
+                        6,
+                        8
+                    )
+                }-${binding.fetusDayEditText.text.substring(10, 12)}"
             }
-            userData.birthDt = "${binding.birthDayEditText.text.substring(0,4)}-${binding.birthDayEditText.text.substring(6,8)}-${binding.birthDayEditText.text.substring(10,12)}"
-            userData.marriedDt = "${binding.marriedDayEditText.text.substring(0,4)}-${binding.marriedDayEditText.text.substring(6,8)}-${binding.marriedDayEditText.text.substring(10,12)}"
+            userData.birthDt = "${
+                binding.birthDayEditText.text.substring(
+                    0,
+                    4
+                )
+            }-${
+                binding.birthDayEditText.text.substring(
+                    6,
+                    8
+                )
+            }-${binding.birthDayEditText.text.substring(10, 12)}"
+            userData.marriedDt = "${
+                binding.marriedDayEditText.text.substring(
+                    0,
+                    4
+                )
+            }-${
+                binding.marriedDayEditText.text.substring(
+                    6,
+                    8
+                )
+            }-${binding.marriedDayEditText.text.substring(10, 12)}"
             userData.nickName = binding.nickNameEditText.text.toString()
             userViewModel.editUser(
                 userData
