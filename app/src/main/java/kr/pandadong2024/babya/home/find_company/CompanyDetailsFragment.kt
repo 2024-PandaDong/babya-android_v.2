@@ -158,6 +158,10 @@ class CompanyDetailsFragment : Fragment() {
             binding.salaryAvg.text = result.data?.avgSalary.toString() + " 만원"
             binding.salaryMax.text = result.data?.maxSalary.toString() + " 만원"
 
+            if (result.data?.malePeople == 0 && result.data?.femalePeople == 0) {
+                binding.personnelLv.visibility = View.GONE
+            }
+
             Log.d(tag, "setCompany: ${result.data?.malePeople} ${result.data?.femalePeople}")
             people(result.data?.malePeople, result.data?.femalePeople)
 
