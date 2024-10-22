@@ -123,10 +123,8 @@ class EditProfileFragment : Fragment() {
             }월 ${userData.marriedYears?.substring(8, 10) ?: 0}일"
             binding.marriedDayEditText.text = marriedDt
             val fetusDt = if (userData.dDay != null) {
-                val now = LocalDateTime.now()
-                val date = now.plusDays((userData.dDay.toLong() * -1))
-                    .format(DateTimeFormatter.ofPattern("yyyyMMdd"))
-                "${date.substring(0, 4)}년 ${date.substring(4, 6)}월 ${date.substring(6, 8)}일"
+                val date = userData.dDay
+                "${date.substring(0, 4)}년 ${date.substring(5, 7)}월 ${date.substring(8, 10)}일"
             } else {
                 "0000년 00월 00일"
             }

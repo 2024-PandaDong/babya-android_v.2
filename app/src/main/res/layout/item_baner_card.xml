@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:outlineProvider="none"
-    card_view:cardCornerRadius="10dp">
+    >
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="237dp"
@@ -15,7 +15,6 @@
             android:id="@+id/item_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            card_view:srcCompat="@drawable/ic_launcher_foreground"
             app:tint="#0A000000"
             android:tintMode="src_atop"/>
 
