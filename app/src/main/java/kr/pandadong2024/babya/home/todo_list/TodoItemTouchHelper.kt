@@ -9,8 +9,7 @@ import kr.pandadong2024.babya.home.todo_list.adapter.TodoItemAdapter
 import kotlin.math.max
 import kotlin.math.min
 
-class TodoItemTouchHelper(
-) : ItemTouchHelper.Callback() {
+class TodoItemTouchHelper : ItemTouchHelper.Callback() {
 
     private var currentPosition: Int? = null
     private var previousPosition: Int? = null
@@ -75,9 +74,7 @@ class TodoItemTouchHelper(
                 actionState,
                 isCurrentlyActive
             )
-
         }
-
     }
 
     private fun clampViewPositionHorizontal(

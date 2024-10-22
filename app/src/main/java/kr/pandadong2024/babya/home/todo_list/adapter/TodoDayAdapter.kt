@@ -19,6 +19,7 @@ class TodoDayAdapter(
     val context: Context,
     val work: (type: Int, todoData: TodoResponses) -> Unit
 ) : RecyclerView.Adapter<TodoDayAdapter.TodoDayViewHolder>() {
+
     private val keyList = todoList.keys.toList()
 
     inner class TodoDayViewHolder(
@@ -58,28 +59,19 @@ class TodoDayAdapter(
             val itemTouchHelper: ItemTouchHelper = ItemTouchHelper(swipeHelperCallback)
             itemTouchHelper.attachToRecyclerView(binding.todoDayItemRecyclerView)
 
-            if (!isExpand) {
-                isExpand = true
-                adapter.notifyItemRemoved(0)
-                binding.todoDayItemRecyclerView.visibility = View.GONE
-                binding.todoDayIcon.setImageResource(R.drawable.ic_up_arrow)
-
-            } else {
-
-                isExpand = false
-
+            if (isExpand) {
                 binding.todoDayItemRecyclerView.visibility = View.VISIBLE
                 adapter.notifyItemRemoved(0)
                 binding.todoDayItemRecyclerView.adapter = adapter
 
-                if (isHavingDecoList[key]!!.not()) {
+                if (!isHavingDecoList[key]!!) {
                     binding.todoDayItemRecyclerView.addItemDecoration(
                         TodoItemDecoration(
                             horizontalPadding = 0,
                             lastPos = itemData!!.size
                         )
                     )
-                    isHavingDecoList[key] = isHavingDecoList[key]!!.not()
+                    isHavingDecoList[key] = !isHavingDecoList[key]!!
                 }
 
                 binding.todoDayItemRecyclerView.apply {
@@ -91,7 +83,12 @@ class TodoDayAdapter(
                 }
 
                 binding.todoDayIcon.setImageResource(R.drawable.ic_down_arrow)
+            } else {
+                adapter.notifyItemRemoved(0)
+                binding.todoDayItemRecyclerView.visibility = View.GONE
+                binding.todoDayIcon.setImageResource(R.drawable.ic_up_arrow)
             }
+            isExpand = !isExpand
         }
     }
 

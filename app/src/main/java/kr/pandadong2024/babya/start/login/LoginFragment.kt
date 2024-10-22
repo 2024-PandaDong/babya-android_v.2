@@ -108,6 +108,9 @@ class LoginFragment : Fragment() {
                             } else if (throwable.code() == 401) {
                                 Log.d("in", " in 401")
                                 commonViewModel.setToastMessage("유저정보가 일치하지 않습니다")
+                            } else if (throwable.code() == 404) {
+                                Log.d("in", " in 404")
+                                commonViewModel.setToastMessage("유저정보가 존재하지 않습니다")
                             }
                         }
                     }

@@ -48,7 +48,7 @@ class DetailWriterFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        diaryId = viewModel.diaryId.value!!
+        diaryId = viewModel.diaryId.value?: -1
     }
 
     override fun onCreateView(
@@ -60,7 +60,7 @@ class DetailWriterFragment : Fragment() {
         _binding = FragmentDetailWriterBinding.inflate(inflater, container, false)
         tokenDao = BabyaDB.getInstance(requireContext().applicationContext)?.tokenDao()!!
         initView()
-        initCommentRecyclerView(1, 100, viewModel.diaryId.value!!)
+        initCommentRecyclerView(1, 100, viewModel.diaryId.value?: -1)
         binding.writerBackButton.setOnClickListener {
             backScreen()
         }
@@ -86,7 +86,7 @@ class DetailWriterFragment : Fragment() {
                 }
             } else {
                 if (binding.editCommentEditText.text.toString().isNotBlank()) {
-                    postSubComment(selectedCommentId!!)
+                    postSubComment(selectedCommentId ?: -1)
                     val inputManager: InputMethodManager =
                         requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                     inputManager.hideSoftInputFromWindow(
@@ -135,7 +135,7 @@ class DetailWriterFragment : Fragment() {
                 )
             }.onSuccess { result ->
                 delay(500)
-                initCommentRecyclerView(1, 100, viewModel.diaryId.value!!)
+                initCommentRecyclerView(1, 100, viewModel.diaryId.value?: -1)
             }.onFailure { result ->
                 result.printStackTrace()
             }
@@ -157,7 +157,7 @@ class DetailWriterFragment : Fragment() {
                 )
             }.onSuccess { result ->
                 delay(500)
-                initCommentRecyclerView(1, 100, viewModel.diaryId.value!!)
+                initCommentRecyclerView(1, 100, viewModel.diaryId.value ?: -1)
             }.onFailure { result ->
                 result.printStackTrace()
             }
@@ -244,7 +244,7 @@ class DetailWriterFragment : Fragment() {
 
                 RetrofitBuilder.getDiaryService().getDiaryData(
                     accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
-                    id = viewModel.diaryId.value!!
+                    id = viewModel.diaryId.value ?: -1
                 )
             }.onSuccess { result ->
 

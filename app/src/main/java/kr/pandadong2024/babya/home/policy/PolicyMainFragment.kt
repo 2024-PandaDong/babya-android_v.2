@@ -56,7 +56,7 @@ class PolicyMainFragment : Fragment() {
 
         binding.swipeRefreshLayout.setOnRefreshListener(
             SwipeRefreshLayout.OnRefreshListener {
-                setCategory(categoryList = viewModel.tagsList.value!!)
+                setCategory(categoryList = viewModel.tagsList.value ?: listOf())
             }
         )
 
@@ -108,7 +108,7 @@ class PolicyMainFragment : Fragment() {
 
         //결과 나왔을 때 리사이 클러뷰 업데이트
         viewModel.policyList.observe(viewLifecycleOwner) {
-            setRecyclerView(it, viewModel.tagsList.value!![1])
+            setRecyclerView(it, "${viewModel.tagsList.value?.get(0)} ${viewModel.tagsList.value?.get(1)}")
         }
 
 //        selectPolicy(viewModel.tagsList.value?.get(0) ?: "대구광역시",viewModel.tagsList.value?.get(1) ?: "수성구", "")
@@ -182,11 +182,7 @@ class PolicyMainFragment : Fragment() {
                             if (!viewModel.tagsList.value.isNullOrEmpty()) {
                                 setRecyclerView(
                                     policyList = result.data ?: listOf(),
-                                    tag = "${viewModel.tagsList.value?.get(0)} ${
-                                        viewModel.tagsList.value?.get(
-                                            1
-                                        )
-                                    } 보건소"
+                                    tag = "${viewModel.tagsList.value?.get(0)} ${viewModel.tagsList.value?.get(1)}"
                                 )
                             }
                         }
