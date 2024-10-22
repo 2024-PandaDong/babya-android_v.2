@@ -67,7 +67,7 @@ class Signup3 : Fragment() {
         }
 
         policyViewModel.tagsList.observe(viewLifecycleOwner) {
-            if (it.isNotEmpty()) {
+            if (it.size >= 2) {
                 val location = getCodeByRegion("${it[0]}_${it[1]}")
                 binding.locationEditText.setText(it[0])
                 viewModel.locationCode.value = location.toString()
