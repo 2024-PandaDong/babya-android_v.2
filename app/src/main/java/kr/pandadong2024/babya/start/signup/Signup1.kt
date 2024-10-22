@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.CompoundButton
+import android.widget.TextView
 import androidx.navigation.fragment.findNavController
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentSignup1Binding
@@ -40,8 +41,21 @@ class Signup1 : Fragment() {
             findNavController().navigate(R.id.action_signup1_to_loginFragment)
         }
 
+        binding.agreementBtn1.setOnClickListener {
+            dateService()
+        }
+
+
 
         return binding.root
+    }
+
+
+    private fun dateService(){
+
+        val bottomSheetDialog =
+            PolicyTextBottomSheet()
+        bottomSheetDialog.show(requireActivity().supportFragmentManager, bottomSheetDialog.tag)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
