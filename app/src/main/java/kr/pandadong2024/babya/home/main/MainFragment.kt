@@ -16,6 +16,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.time.delay
 import kotlinx.coroutines.withContext
+import kr.pandadong2024.babya.MyApplication.Companion.prefs
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentMainBinding
 import kr.pandadong2024.babya.home.find_company.find_company_viewModel.FindCompanyViewModel
@@ -107,6 +108,7 @@ class MainFragment : Fragment() {
     ): View {
         _binding = FragmentMainBinding.inflate(inflater, container, false)
         policyViewModel.initViewModel()
+        prefs.completeQuiz = false
         (requireActivity() as BottomControllable).setBottomNavVisibility(true)
         profileViewModel.setAccessToken(accessToken)
         commonViewModel.setAccessToken(accessToken)
