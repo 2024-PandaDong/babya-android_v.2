@@ -2,6 +2,7 @@ package kr.pandadong2024.babya.start.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,10 +13,10 @@ import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kr.pandadong2024.babya.HomeActivity
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentLoginBinding
-import kr.pandadong2024.babya.home.quiz.QuizViewModel
 import kr.pandadong2024.babya.home.viewmodel.CommonViewModel
 import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.server.local.BabyaDB
@@ -23,6 +24,7 @@ import kr.pandadong2024.babya.server.local.TokenDAO
 import kr.pandadong2024.babya.server.local.TokenEntity
 import kr.pandadong2024.babya.server.remote.request.LoginRequest
 import kr.pandadong2024.babya.util.Pattern
+import retrofit2.HttpException
 
 private const val DATA_STORE_FILE_NAME = "user.pb"
 
@@ -52,6 +54,7 @@ class LoginFragment : Fragment() {
         binding.registBtn?.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_signup1)
         }
+
 
         binding.isLoginText?.setOnClickListener {
             bottomSheetDialog =
@@ -87,23 +90,26 @@ class LoginFragment : Fragment() {
                     accessToken = result.data?.accessToken ?: ""
                     refreshToken = result.data?.refreshToken ?: ""
                     lifecycleScope.launch(Dispatchers.Main) {
-                        if (result.status == 200) {
-                            saveToken(
-                                accessToken = accessToken,
-                                refreshToken = refreshToken,
-                                emailText = emailText
-                            )
-                            bottomSheetDialog?.dismiss()
-                            moveScreen()
-                        } else {
-                            commonViewModel.setToastMessage("유저정보가 일치하지 않습니다")
-                        }
-
+                        saveToken(
+                            accessToken = accessToken,
+                            refreshToken = refreshToken,
+                            emailText = emailText
+                        )
+                        bottomSheetDialog?.dismiss()
+                        moveScreen()
                     }
                 }.onFailure { throwable ->
                     throwable.message
-                    launch(Dispatchers.Main) {
-                        commonViewModel.setToastMessage("인터넷이 연결되어있는지 확인해 주십시오")
+                    withContext(Dispatchers.Main) {
+                        if (throwable is HttpException) {
+                            Log.d("in", " code : ${throwable.code()}")
+                            if (throwable.code() == 500) {
+                                commonViewModel.setToastMessage("인터넷이 연결되어있는지 확인해 주십시오")
+                            } else if (throwable.code() == 401) {
+                                Log.d("in", " in 401")
+                                commonViewModel.setToastMessage("유저정보가 일치하지 않습니다")
+                            }
+                        }
                     }
                 }
             }

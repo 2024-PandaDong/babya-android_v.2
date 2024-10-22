@@ -20,8 +20,13 @@ class SubCommentAdapter(
             if (position == 0) {
                 binding.backgroundLayout.background = context.getDrawable(R.color.invisible)
             }
+            if  (commentData.profileImg?.isNotBlank() == true) {
+                binding.commentProfileImage.load(commentData.profileImg)
+            }
+            else{
+                binding.commentProfileImage.load(R.drawable.ic_basic_profile)
+            }
             binding.commentNameText.text = commentData.nickname
-            binding.commentProfileImage.load(commentData.profileImg)
             binding.contentTextView.text = commentData.content
             binding.commentTimeText.text = commentData.createdAt.toString().substring(5 until 10)
             binding.replayCommentText.visibility = View.GONE
