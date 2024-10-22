@@ -108,6 +108,7 @@ class MainFragment : Fragment() {
     ): View {
         _binding = FragmentMainBinding.inflate(inflater, container, false)
         policyViewModel.initViewModel()
+        //TODO : 나중에 ICT 끝나고 이 코드 지우기
         prefs.completeQuiz = false
         (requireActivity() as BottomControllable).setBottomNavVisibility(true)
         profileViewModel.setAccessToken(accessToken)
@@ -173,6 +174,7 @@ class MainFragment : Fragment() {
                             infiniteViewPager.setCurrentItem(bannerList.size, false)
                         }
                     }
+                    binding.bannerIndicator.visibility = View.VISIBLE
                 }
 
                 when (state) {
