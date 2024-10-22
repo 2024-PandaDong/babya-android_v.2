@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.core.widget.doAfterTextChanged
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.LoginBottomSheetBinding
 import kr.pandadong2024.babya.util.Pattern
 import kr.pandadong2024.babya.util.setOnSingleClickListener
@@ -17,6 +18,7 @@ class LoginBottomSheet(
 ) : BottomSheetDialogFragment() {
     private var _binding: LoginBottomSheetBinding? = null
     private val binding get() = _binding!!
+    private var isVisible = false
 
 
     override fun onStart() {
@@ -65,6 +67,21 @@ class LoginBottomSheet(
                     binding.emailEditText.text?.toString() ?: "",
                     binding.passwordEditText.text?.toString() ?: ""
                 )
+            }
+        }
+
+        binding.visiblePassword.setOnClickListener {
+            val lastIndex = binding.passwordEditText.text?.length ?: 0
+            isVisible = if(isVisible){
+                binding.visiblePassword.setBackgroundResource(R.drawable.ic_visibility)
+                binding.passwordEditText.inputType = 0x00000081
+                binding.passwordEditText.setSelection(lastIndex)
+                false
+            } else{
+                binding.visiblePassword.setBackgroundResource(R.drawable.ic_visible)
+                binding.passwordEditText.inputType = 0x00000091
+                binding.passwordEditText.setSelection(lastIndex)
+                true
             }
         }
 
