@@ -19,6 +19,7 @@ import kr.pandadong2024.babya.databinding.FragmentSignup2Binding
 import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.start.viewmodel.SignupViewModel
 import kr.pandadong2024.babya.util.Pattern
+import kr.pandadong2024.babya.util.setOnSingleClickListener
 
 class Signup2 : Fragment() {
 
@@ -40,11 +41,11 @@ class Signup2 : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentSignup2Binding.inflate(inflater, container, false)
 
-        binding.emailCheckButton.setOnClickListener{
+        binding.emailCheckButton.setOnSingleClickListener {
             emailCheck()
         }
 
-        binding.verificationCodeSendButton.setOnClickListener {
+        binding.verificationCodeSendButton.setOnSingleClickListener {
             verificationCodeSend()
         }
 
@@ -126,7 +127,7 @@ class Signup2 : Fragment() {
                 )
             }.onSuccess {
                 Log.d(TAG, "emailCheck: 성공")
-                binding.emailCheckButton.setText("재인증")
+                binding.emailCheckButton.text = "재인증"
             }.onFailure {
                 it.printStackTrace()
             }
@@ -146,8 +147,8 @@ class Signup2 : Fragment() {
                 Log.d(TAG, "verificationCodeSend: 성공")
                 emailCheckSuccess()
             }.onFailure {
-                Log.d(TAG, "email: ${email}")
-                Log.d(TAG, "code: ${verificationCode}")
+                Log.d(TAG, "email: $email")
+                Log.d(TAG, "code: $verificationCode")
                 it.printStackTrace()
             }
         }
