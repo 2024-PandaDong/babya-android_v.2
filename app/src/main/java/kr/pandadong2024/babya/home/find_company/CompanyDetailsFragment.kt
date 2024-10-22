@@ -1,7 +1,9 @@
 package kr.pandadong2024.babya.home.find_company
 
 import android.content.ContentValues.TAG
+import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
@@ -37,6 +39,7 @@ class CompanyDetailsFragment : Fragment() {
     private val viewModel by activityViewModels<FindCompanyViewModel>()
     private lateinit var tokenDao: TokenDAO
     private var isExpanded = false
+    var companyLink: String = ""
 
     private val tag = "CompanyDetailsFragment"
     override fun onCreateView(
@@ -51,6 +54,11 @@ class CompanyDetailsFragment : Fragment() {
 
         binding.backBtn.setOnClickListener {
             findNavController().navigate(R.id.action_companyDetailsFragment_to_findCompanyFragment)
+        }
+
+        binding.linkBtn.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(companyLink))
+            startActivity(intent)
         }
 
         binding.editExplanation.setOnClickListener {
@@ -141,6 +149,7 @@ class CompanyDetailsFragment : Fragment() {
             binding.companyName.text = result.data?.name
             binding.mainImage.load(result.data?.contentImg)
             binding.explanation.text = result.data?.description
+            companyLink = result.data?.link.toString()
             binding.field.text = result.data?.businessType+" | "
             binding.region.text = result.data?.address?.substringBefore(" ")
             binding.standard.text = result.data?.salaryYear.toString()+"년"
