@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.TextView
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -34,6 +35,10 @@ class Signup6 : Fragment() {
         }
 
         binding.fetusDayButton.setOnClickListener {
+            dateService(binding.fetusDayEditText)
+        }
+
+        binding.selectFetusDayLayout.setOnClickListener {
             dateService(binding.fetusDayEditText)
         }
 
@@ -89,7 +94,7 @@ class Signup6 : Fragment() {
         }
     }
 
-    private fun dateService(edit : EditText){
+    private fun dateService(edit : TextView){
 
         val bottomSheetDialog =
             SignupBottomSheet(){d->

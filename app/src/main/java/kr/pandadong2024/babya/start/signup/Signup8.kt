@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.DatePicker
 import android.widget.EditText
+import android.widget.TextView
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -49,6 +50,10 @@ class Signup8 : Fragment() {
         }
 
         binding.fetusDayButton.setOnClickListener {
+            dateService(binding.fetusDayEditText)
+        }
+
+        binding.selectFetusDayLayout.setOnClickListener {
             dateService(binding.fetusDayEditText)
         }
 
@@ -120,7 +125,7 @@ class Signup8 : Fragment() {
         findNavController().navigate(R.id.action_signup8_to_signup92)
     }
 
-    private fun dateService(edit : EditText){
+    private fun dateService(edit : TextView){
 
         val bottomSheetDialog =
             SignupBottomSheet(){d->
