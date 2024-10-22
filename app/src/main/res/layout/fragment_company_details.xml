@@ -264,150 +264,168 @@
                 android:layout_marginStart="36dp"
                 />
 
-            <TextView
-                android:id="@+id/personnel"
-                android:layout_width="30dp"
-                android:layout_height="23dp"
-                android:text="인원"
-                android:textSize="16dp"
-                android:fontFamily="@font/notosanskr_semibold"
-                android:includeFontPadding="false"
-                android:layout_marginTop="36dp"
-                android:layout_marginStart="18dp"
-                app:layout_constraintTop_toBottomOf="@+id/salaryMin"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/personnelLv"
+                android:visibility="visible"
+                android:layout_width="match_parent"
+                android:layout_height="177dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                />
+                app:layout_constraintTop_toBottomOf="@+id/salaryMin">
 
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/entireLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="55dp"
-                android:layout_marginTop="35dp"
-                android:layout_marginStart="55dp"
-                app:layout_constraintTop_toBottomOf="@+id/personnel"
-                app:layout_constraintStart_toStartOf="parent">
 
                 <TextView
-                    android:id="@+id/entireText"
-                    android:layout_width="26dp"
-                    android:layout_height="20dp"
-                    android:text="전체"
-                    android:textSize="14dp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:fontFamily="@font/notosanskr_semibold"
-                    android:includeFontPadding="false"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    />
-
-                <TextView
-                    android:id="@+id/entireCount"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/personnel"
+                    android:layout_width="30dp"
                     android:layout_height="23dp"
-                    android:text=""
+                    android:text="인원"
                     android:textSize="16dp"
                     android:fontFamily="@font/notosanskr_semibold"
                     android:includeFontPadding="false"
-                    android:layout_marginTop="12dp"
-                    app:layout_constraintTop_toBottomOf="@+id/entireText"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginStart="18dp"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     />
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/entireLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="55dp"
+                    android:layout_marginTop="35dp"
+                    android:layout_marginStart="55dp"
+                    app:layout_constraintTop_toBottomOf="@+id/personnel"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <TextView
+                        android:id="@+id/entireText"
+                        android:layout_width="26dp"
+                        android:layout_height="20dp"
+                        android:text="전체"
+                        android:textSize="14dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:fontFamily="@font/notosanskr_semibold"
+                        android:includeFontPadding="false"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        />
+
+                    <TextView
+                        android:id="@+id/entireCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="23dp"
+                        android:text=""
+                        android:textSize="16dp"
+                        android:fontFamily="@font/notosanskr_semibold"
+                        android:includeFontPadding="false"
+                        android:layout_marginTop="12dp"
+                        app:layout_constraintTop_toBottomOf="@+id/entireText"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/maleLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="55dp"
+                    android:layout_marginTop="35dp"
+                    android:layout_marginStart="10dp"
+                    app:layout_constraintTop_toBottomOf="@+id/personnel"
+                    app:layout_constraintStart_toEndOf="@id/entireLayout">
+
+                    <TextView
+                        android:id="@+id/maleText"
+                        android:layout_width="26dp"
+                        android:layout_height="20dp"
+                        android:text="남성"
+                        android:textSize="14dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:fontFamily="@font/notosanskr_semibold"
+                        android:includeFontPadding="false"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        />
+
+                    <TextView
+                        android:id="@+id/maleCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="23dp"
+                        android:text=""
+                        android:textSize="16dp"
+                        android:fontFamily="@font/notosanskr_semibold"
+                        android:includeFontPadding="false"
+                        android:layout_marginTop="12dp"
+                        app:layout_constraintTop_toBottomOf="@+id/maleText"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/femaleLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="55dp"
+                    android:layout_marginTop="35dp"
+                    android:layout_marginStart="10dp"
+                    app:layout_constraintTop_toBottomOf="@+id/personnel"
+                    app:layout_constraintStart_toEndOf="@id/maleLayout">
+
+                    <TextView
+                        android:id="@+id/femaleText"
+                        android:layout_width="26dp"
+                        android:layout_height="20dp"
+                        android:text="여성"
+                        android:textSize="14dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:fontFamily="@font/notosanskr_semibold"
+                        android:includeFontPadding="false"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        />
+
+                    <TextView
+                        android:id="@+id/femaleCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="23dp"
+                        android:text=""
+                        android:textSize="16dp"
+                        android:fontFamily="@font/notosanskr_semibold"
+                        android:includeFontPadding="false"
+                        android:layout_marginTop="12dp"
+                        app:layout_constraintTop_toBottomOf="@+id/femaleText"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/Chart"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    app:layout_constraintTop_toBottomOf="@id/personnel"
+                    app:layout_constraintStart_toEndOf="@+id/femaleLayout"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginStart="36dp"
+                    />
+
+
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/maleLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="55dp"
-                android:layout_marginTop="35dp"
-                android:layout_marginStart="10dp"
-                app:layout_constraintTop_toBottomOf="@+id/personnel"
-                app:layout_constraintStart_toEndOf="@id/entireLayout">
-
-                <TextView
-                    android:id="@+id/maleText"
-                    android:layout_width="26dp"
-                    android:layout_height="20dp"
-                    android:text="남성"
-                    android:textSize="14dp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:fontFamily="@font/notosanskr_semibold"
-                    android:includeFontPadding="false"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    />
-
-                <TextView
-                    android:id="@+id/maleCount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="23dp"
-                    android:text=""
-                    android:textSize="16dp"
-                    android:fontFamily="@font/notosanskr_semibold"
-                    android:includeFontPadding="false"
-                    android:layout_marginTop="12dp"
-                    app:layout_constraintTop_toBottomOf="@+id/maleText"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    />
-
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/femaleLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="55dp"
-                android:layout_marginTop="35dp"
-                android:layout_marginStart="10dp"
-                app:layout_constraintTop_toBottomOf="@+id/personnel"
-                app:layout_constraintStart_toEndOf="@id/maleLayout">
-
-                <TextView
-                    android:id="@+id/femaleText"
-                    android:layout_width="26dp"
-                    android:layout_height="20dp"
-                    android:text="여성"
-                    android:textSize="14dp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:fontFamily="@font/notosanskr_semibold"
-                    android:includeFontPadding="false"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    />
-
-                <TextView
-                    android:id="@+id/femaleCount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="23dp"
-                    android:text=""
-                    android:textSize="16dp"
-                    android:fontFamily="@font/notosanskr_semibold"
-                    android:includeFontPadding="false"
-                    android:layout_marginTop="12dp"
-                    app:layout_constraintTop_toBottomOf="@+id/femaleText"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    />
-
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-            <com.github.mikephil.charting.charts.PieChart
-                android:id="@+id/Chart"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                app:layout_constraintTop_toBottomOf="@id/personnel"
-                app:layout_constraintStart_toEndOf="@+id/femaleLayout"
-                android:layout_marginTop="18dp"
-                android:layout_marginStart="36dp"
-                />
 
 
             <TextView
@@ -418,9 +436,9 @@
                 android:textSize="16dp"
                 android:fontFamily="@font/notosanskr_semibold"
                 android:includeFontPadding="false"
-                android:layout_marginTop="64dp"
+                android:layout_marginTop="36dp"
                 android:layout_marginStart="18dp"
-                app:layout_constraintTop_toBottomOf="@+id/entireLayout"
+                app:layout_constraintTop_toBottomOf="@+id/personnelLv"
                 app:layout_constraintStart_toStartOf="parent"
                 />
 

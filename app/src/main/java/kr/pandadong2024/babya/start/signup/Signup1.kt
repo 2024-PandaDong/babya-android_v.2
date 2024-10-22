@@ -70,8 +70,6 @@ class Signup1 : Fragment() {
         binding.agreementCheckBox1.setOnCheckedChangeListener { _, _ -> checkFullAgreement() }
         binding.agreementCheckBox2.setOnCheckedChangeListener { _, _ -> checkFullAgreement() }
         binding.agreementCheckBox3.setOnCheckedChangeListener { _, _ -> checkFullAgreement() }
-        binding.agreementCheckBox4.setOnCheckedChangeListener { _, _ -> checkFullAgreement() }
-        binding.agreementCheckBox5.setOnCheckedChangeListener { _, _ -> checkFullAgreement() }
         // next 버튼 활성화 여부 확인
         checkEnableNextButton()
     }
@@ -81,8 +79,6 @@ class Signup1 : Fragment() {
         binding.agreementCheckBox1.isChecked = isChecked
         binding.agreementCheckBox2.isChecked = isChecked
         binding.agreementCheckBox3.isChecked = isChecked
-        binding.agreementCheckBox4.isChecked = isChecked
-        binding.agreementCheckBox5.isChecked = isChecked
         checkEnableNextButton() // next 버튼 활성화 여부 재확인
     }
 
@@ -90,9 +86,7 @@ class Signup1 : Fragment() {
     private fun checkFullAgreement() {
         val allChecked = binding.agreementCheckBox1.isChecked &&
                 binding.agreementCheckBox2.isChecked &&
-                binding.agreementCheckBox3.isChecked &&
-                binding.agreementCheckBox4.isChecked &&
-                binding.agreementCheckBox5.isChecked
+                binding.agreementCheckBox3.isChecked
         binding.fullAgreementCheckBox.isChecked = allChecked // 모두 체크되면 전체동의 체크
         checkEnableNextButton() // next 버튼 활성화 여부 재확인
     }
