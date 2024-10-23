@@ -30,7 +30,7 @@ class QuizFragment : Fragment() {
     private val commonViewModel by activityViewModels<CommonViewModel>()
     private val viewModel: QuizViewModel by activityViewModels<QuizViewModel>()
     private lateinit var tokenDao: TokenDAO
-    private lateinit var accessToken : String
+    private lateinit var accessToken: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,26 +91,23 @@ class QuizFragment : Fragment() {
                 )
             }.onSuccess { result ->
                 launch(Dispatchers.Main) {
-                if (result.status == 200) {
                     quiz = result.data ?: QuizResponses()
-
-                        binding.quizText.text = quiz.title
-
-                } else {
-                    commonViewModel.setToastMessage("데이터를 불러오는 도중 문제가 발생했습니다. CODE : ${result.status}")
-                }}
+                    binding.quizText.text = "Q.${quiz.title}"
+                }
             }.onFailure { result ->
                 result.printStackTrace()
                 if (result is HttpException) {
                     val errorBody = result.response()?.raw()?.request
-                    Log.d("RefreshInterceptor", "${errorBody}.")
-                    Log.d("RefreshInterceptor", "${result.response()}.")
+                    launch(Dispatchers.Main) {
+                        if (result.code() == 500) {
+                            commonViewModel.setToastMessage("인터넷이 연결되어있는지 확인해 주십시오")
+                            binding.quizText.text = quiz.title
+                        } else {
+                            commonViewModel.setToastMessage("데이터를 불러오는 도중 문제가 발생했습니다. CODE : ${result.code()}")
+                        }
+                    }
                 }
 
-                launch(Dispatchers.Main) {
-                    commonViewModel.setToastMessage("인터넷이 연결되어있는지 확인해 주십시오")
-                    binding.quizText.text = quiz.title
-                }
 
             }
         }

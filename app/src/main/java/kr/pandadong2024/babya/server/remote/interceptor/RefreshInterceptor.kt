@@ -20,7 +20,7 @@ class RefreshInterceptor : Interceptor {
         Log.d("RefreshInterceptor", "/auth/email-send : ${ urlPath == "/auth/email-send"}")
         Log.d("RefreshInterceptor", "/auth/join : ${ urlPath == "/auth/join"}")
 
-        if ((tokenDao.tokenDao().getMembers().accessToken != "") && response.code == 401 && !(urlPath == "/auth/login" || urlPath == "/auth/email-verify" || urlPath == "/auth/email-send" || urlPath == "/auth/join")) {
+        if ((tokenDao.tokenDao().getMembers().accessToken.isNotBlank()) && response.code == 401 && !(urlPath == "/auth/login" || urlPath == "/auth/email-verify" || urlPath == "/auth/email-send" || urlPath == "/auth/join")) {
             Log.d("RefreshInterceptor", "in funfun true")
 
             // runBlocking을 사용하여 비동기 코드를 동기적으로 처리

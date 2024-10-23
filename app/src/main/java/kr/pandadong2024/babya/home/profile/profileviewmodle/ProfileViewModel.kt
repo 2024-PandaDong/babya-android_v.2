@@ -18,22 +18,22 @@ import retrofit2.HttpException
 class ProfileViewModel() : ViewModel() {
     val id = MutableLiveData<Int>().apply { value = -1 }
 
-    private var _accessToken = MutableLiveData<String>().apply { value = "" }
+    private var _accessToken = MutableLiveData("")
     var accessToken: LiveData<String> = _accessToken
 
-    private var _userData = MutableLiveData<ProfileData>().apply { value = ProfileData() }
+    private var _userData = MutableLiveData(ProfileData())
     val userData: LiveData<ProfileData> = _userData
 
-    private var _userLocalCode = MutableLiveData<String>().apply { value = "" }
+    private var _userLocalCode = MutableLiveData("")
     val userLocalCode: LiveData<String> = _userLocalCode
 
-    private var _toastMessage = MutableLiveData<String>().apply { value = "" }
+    private var _toastMessage = MutableLiveData("")
     val toastMessage: LiveData<String> = _toastMessage
 
-    private var _editUserImageResult = MutableLiveData<Boolean>().apply { value = false }
+    private var _editUserImageResult = MutableLiveData(false)
     val editUserImageResult: LiveData<Boolean> = _editUserImageResult
 
-    private var _editUserResult = MutableLiveData<Boolean>().apply { value = false }
+    private var _editUserResult = MutableLiveData(false)
     val editUserResult: LiveData<Boolean> = _editUserResult
 
     fun setAccessToken(token: String) {
@@ -91,14 +91,16 @@ class ProfileViewModel() : ViewModel() {
                 }
             )
         }.onFailure { result ->
-            if (result is HttpException) {
-                if (result.code() == 404) {
-                    _toastMessage.value = "데이터를 불러오지 못했어요 CODE : ${result.code()}"
+            withContext(Dispatchers.Main) {
+                if (result is HttpException) {
+                    if (result.code() == 404) {
+                        _toastMessage.value = "데이터를 불러오지 못했어요 CODE : ${result.code()}"
+                    }
+                } else {
+                    _toastMessage.value = "서버에서 문제가 발생했어요"
                 }
-            } else {
-                _toastMessage.value = "서버에서 문제가 발생했어요"
+                result.printStackTrace()
             }
-            result.printStackTrace()
         }
     }
 

@@ -73,7 +73,6 @@ class CommentBottomSheet(
             val subCommentAdapter = SubCommentAdapter(it, requireContext())
             subCommentAdapter.notifyItemRemoved(0)
             binding.subCommentRecyclerView.adapter = subCommentAdapter
-
         }
         binding.iconCloseButton.setOnClickListener {
             dismiss()

@@ -11,7 +11,6 @@ class TodoItemAdapter(
     private val todoList: List<TodoResponses>,
     val work: (type: Int, todoData: TodoResponses) -> Unit,
 ) : RecyclerView.Adapter<TodoItemAdapter.TodoItemViewHolder>() {
-
     inner class TodoItemViewHolder(val binding: ItemTodoListContentBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(itemDate: TodoResponses) {

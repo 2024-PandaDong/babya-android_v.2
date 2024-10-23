@@ -29,7 +29,8 @@
             android:layout_gravity="start"
             android:src="@drawable/ic_arrow_14"
             android:background="@null"
-            android:rotation="180" />
+            android:rotation="180"
+            android:padding="8dp"/>
 
     </androidx.appcompat.widget.Toolbar>
 
@@ -58,7 +59,7 @@
                 android:id="@+id/companyName"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
-                android:text="회사명"
+                android:text=""
                 android:fontFamily="@font/notosanskr_semibold"
                 android:includeFontPadding="false"
                 android:textSize="24dp"
@@ -71,7 +72,7 @@
                 android:id="@+id/field"
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
-                android:text="분야 | "
+                android:text=""
                 android:textSize="14dp"
                 android:fontFamily="@font/notosanskr_medium"
                 android:includeFontPadding="false"
@@ -84,7 +85,7 @@
                 android:id="@+id/region"
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
-                android:text="지역"
+                android:text=""
                 android:textSize="14dp"
                 android:fontFamily="@font/notosanskr_medium"
                 android:includeFontPadding="false"
@@ -131,7 +132,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/region"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:text="삼성전자는 사람과 사회를 생각하는 글로벌 일류기업을 추구합니다. ‘경영이념, 핵심가치, 경영원칙’의가치체계를 경영의 나침반으로 삼고, 인재와 기술을 바탕으로 최고의 제품과 서비스를 창출하여 인류사회에 공헌하는 것을 궁극적인 목표로 삼고 있습니다. 이를 위해 삼성전자가 지켜나갈 약속인 5가지 경영원칙을 세부원칙과 행동지침으로 구체화하여 삼성전자 임직원이 지켜야 할 행동규범(Global Code of Conduct)으로 제정하였으며, 모든 임직원의 사고와 행동에 5가지 핵심가치를 내재화하여 삼성전자의 지속적인 성장을 견인하고 미래 방향성을 제시하고자 합니다." />
+                android:text="" />
 
             <TextView
                 android:id="@+id/editExplanation"
@@ -171,7 +172,7 @@
                 android:layout_marginStart="6dp"
                 android:fontFamily="@font/notosanskr_medium"
                 android:includeFontPadding="false"
-                android:text="2023년 기준"
+                android:text=""
                 android:textColor="#A7A7A8"
                 android:textSize="14dp"
                 app:layout_constraintStart_toEndOf="@id/salary"
@@ -228,7 +229,7 @@
                 android:id="@+id/salaryMin"
                 android:layout_width="84dp"
                 android:layout_height="23dp"
-                android:text="11,750 만원"
+                android:text=""
                 android:textSize="16dp"
                 android:fontFamily="@font/notosanskr_medium"
                 android:includeFontPadding="false"
@@ -241,7 +242,7 @@
                 android:id="@+id/salaryAvg"
                 android:layout_width="84dp"
                 android:layout_height="23dp"
-                android:text="11,750 만원"
+                android:text=""
                 android:textSize="16dp"
                 android:fontFamily="@font/notosanskr_medium"
                 android:includeFontPadding="false"
@@ -254,7 +255,7 @@
                 android:id="@+id/salaryMax"
                 android:layout_width="84dp"
                 android:layout_height="23dp"
-                android:text="11,750 만원"
+                android:text=""
                 android:textSize="16dp"
                 android:fontFamily="@font/notosanskr_medium"
                 android:includeFontPadding="false"
@@ -263,150 +264,168 @@
                 android:layout_marginStart="36dp"
                 />
 
-            <TextView
-                android:id="@+id/personnel"
-                android:layout_width="30dp"
-                android:layout_height="23dp"
-                android:text="인원"
-                android:textSize="16dp"
-                android:fontFamily="@font/notosanskr_semibold"
-                android:includeFontPadding="false"
-                android:layout_marginTop="36dp"
-                android:layout_marginStart="18dp"
-                app:layout_constraintTop_toBottomOf="@+id/salaryMin"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/personnelLv"
+                android:visibility="visible"
+                android:layout_width="match_parent"
+                android:layout_height="177dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                />
+                app:layout_constraintTop_toBottomOf="@+id/salaryMin">
 
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/entireLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="55dp"
-                android:layout_marginTop="35dp"
-                android:layout_marginStart="55dp"
-                app:layout_constraintTop_toBottomOf="@+id/personnel"
-                app:layout_constraintStart_toStartOf="parent">
 
                 <TextView
-                    android:id="@+id/entireText"
-                    android:layout_width="26dp"
-                    android:layout_height="20dp"
-                    android:text="전체"
-                    android:textSize="14dp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:fontFamily="@font/notosanskr_semibold"
-                    android:includeFontPadding="false"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    />
-
-                <TextView
-                    android:id="@+id/entireCount"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/personnel"
+                    android:layout_width="30dp"
                     android:layout_height="23dp"
-                    android:text="1203명"
+                    android:text="인원"
                     android:textSize="16dp"
                     android:fontFamily="@font/notosanskr_semibold"
                     android:includeFontPadding="false"
-                    android:layout_marginTop="12dp"
-                    app:layout_constraintTop_toBottomOf="@+id/entireText"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginStart="18dp"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     />
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/entireLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="55dp"
+                    android:layout_marginTop="35dp"
+                    android:layout_marginStart="55dp"
+                    app:layout_constraintTop_toBottomOf="@+id/personnel"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <TextView
+                        android:id="@+id/entireText"
+                        android:layout_width="26dp"
+                        android:layout_height="20dp"
+                        android:text="전체"
+                        android:textSize="14dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:fontFamily="@font/notosanskr_semibold"
+                        android:includeFontPadding="false"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        />
+
+                    <TextView
+                        android:id="@+id/entireCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="23dp"
+                        android:text=""
+                        android:textSize="16dp"
+                        android:fontFamily="@font/notosanskr_semibold"
+                        android:includeFontPadding="false"
+                        android:layout_marginTop="12dp"
+                        app:layout_constraintTop_toBottomOf="@+id/entireText"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/maleLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="55dp"
+                    android:layout_marginTop="35dp"
+                    android:layout_marginStart="10dp"
+                    app:layout_constraintTop_toBottomOf="@+id/personnel"
+                    app:layout_constraintStart_toEndOf="@id/entireLayout">
+
+                    <TextView
+                        android:id="@+id/maleText"
+                        android:layout_width="26dp"
+                        android:layout_height="20dp"
+                        android:text="남성"
+                        android:textSize="14dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:fontFamily="@font/notosanskr_semibold"
+                        android:includeFontPadding="false"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        />
+
+                    <TextView
+                        android:id="@+id/maleCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="23dp"
+                        android:text=""
+                        android:textSize="16dp"
+                        android:fontFamily="@font/notosanskr_semibold"
+                        android:includeFontPadding="false"
+                        android:layout_marginTop="12dp"
+                        app:layout_constraintTop_toBottomOf="@+id/maleText"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/femaleLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="55dp"
+                    android:layout_marginTop="35dp"
+                    android:layout_marginStart="10dp"
+                    app:layout_constraintTop_toBottomOf="@+id/personnel"
+                    app:layout_constraintStart_toEndOf="@id/maleLayout">
+
+                    <TextView
+                        android:id="@+id/femaleText"
+                        android:layout_width="26dp"
+                        android:layout_height="20dp"
+                        android:text="여성"
+                        android:textSize="14dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:fontFamily="@font/notosanskr_semibold"
+                        android:includeFontPadding="false"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        />
+
+                    <TextView
+                        android:id="@+id/femaleCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="23dp"
+                        android:text=""
+                        android:textSize="16dp"
+                        android:fontFamily="@font/notosanskr_semibold"
+                        android:includeFontPadding="false"
+                        android:layout_marginTop="12dp"
+                        app:layout_constraintTop_toBottomOf="@+id/femaleText"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/Chart"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    app:layout_constraintTop_toBottomOf="@id/personnel"
+                    app:layout_constraintStart_toEndOf="@+id/femaleLayout"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginStart="36dp"
+                    />
+
+
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/maleLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="55dp"
-                android:layout_marginTop="35dp"
-                android:layout_marginStart="10dp"
-                app:layout_constraintTop_toBottomOf="@+id/personnel"
-                app:layout_constraintStart_toEndOf="@id/entireLayout">
-
-                <TextView
-                    android:id="@+id/maleText"
-                    android:layout_width="26dp"
-                    android:layout_height="20dp"
-                    android:text="남성"
-                    android:textSize="14dp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:fontFamily="@font/notosanskr_semibold"
-                    android:includeFontPadding="false"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    />
-
-                <TextView
-                    android:id="@+id/maleCount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="23dp"
-                    android:text="50%"
-                    android:textSize="16dp"
-                    android:fontFamily="@font/notosanskr_semibold"
-                    android:includeFontPadding="false"
-                    android:layout_marginTop="12dp"
-                    app:layout_constraintTop_toBottomOf="@+id/maleText"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    />
-
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/femaleLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="55dp"
-                android:layout_marginTop="35dp"
-                android:layout_marginStart="10dp"
-                app:layout_constraintTop_toBottomOf="@+id/personnel"
-                app:layout_constraintStart_toEndOf="@id/maleLayout">
-
-                <TextView
-                    android:id="@+id/femaleText"
-                    android:layout_width="26dp"
-                    android:layout_height="20dp"
-                    android:text="여성"
-                    android:textSize="14dp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:fontFamily="@font/notosanskr_semibold"
-                    android:includeFontPadding="false"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    />
-
-                <TextView
-                    android:id="@+id/femaleCount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="23dp"
-                    android:text="50%"
-                    android:textSize="16dp"
-                    android:fontFamily="@font/notosanskr_semibold"
-                    android:includeFontPadding="false"
-                    android:layout_marginTop="12dp"
-                    app:layout_constraintTop_toBottomOf="@+id/femaleText"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    />
-
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-            <com.github.mikephil.charting.charts.PieChart
-                android:id="@+id/Chart"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                app:layout_constraintTop_toBottomOf="@id/personnel"
-                app:layout_constraintStart_toEndOf="@+id/femaleLayout"
-                android:layout_marginTop="18dp"
-                android:layout_marginStart="36dp"
-                />
 
 
             <TextView
@@ -417,9 +436,9 @@
                 android:textSize="16dp"
                 android:fontFamily="@font/notosanskr_semibold"
                 android:includeFontPadding="false"
-                android:layout_marginTop="64dp"
+                android:layout_marginTop="36dp"
                 android:layout_marginStart="18dp"
-                app:layout_constraintTop_toBottomOf="@+id/entireLayout"
+                app:layout_constraintTop_toBottomOf="@+id/personnelLv"
                 app:layout_constraintStart_toStartOf="parent"
                 />
 
@@ -441,7 +460,7 @@
                 android:id="@+id/ceo"
                 android:layout_width="0dp"
                 android:layout_height="17dp"
-                android:text="이름"
+                android:text=""
                 android:textSize="12dp"
                 android:textColor="#A7A7A8"
                 android:fontFamily="@font/notosanskr_medium"
@@ -476,7 +495,7 @@
                 android:layout_marginTop="9dp"
                 android:fontFamily="@font/notosanskr_medium"
                 android:includeFontPadding="false"
-                android:text="전화번호"
+                android:text=""
                 android:textColor="#A7A7A8"
                 android:textSize="12dp"
                 android:layout_marginEnd="50dp"
@@ -507,7 +526,7 @@
                 android:layout_marginTop="9dp"
                 android:fontFamily="@font/notosanskr_medium"
                 android:includeFontPadding="false"
-                android:text="주소"
+                android:text=""
                 android:textColor="#A7A7A8"
                 android:textSize="12dp"
                 android:layout_marginEnd="50dp"
@@ -538,7 +557,7 @@
                 android:layout_marginTop="9dp"
                 android:fontFamily="@font/notosanskr_medium"
                 android:includeFontPadding="false"
-                android:text="설립날짜"
+                android:text=""
                 android:textColor="#A7A7A8"
                 android:textSize="12dp"
                 android:layout_marginEnd="50dp"
@@ -568,7 +587,7 @@
                 android:layout_marginTop="9dp"
                 android:fontFamily="@font/notosanskr_medium"
                 android:includeFontPadding="false"
-                android:text="어쩌고저쩌고"
+                android:text=""
                 android:textColor="#A7A7A8"
                 android:textSize="12dp"
                 android:layout_marginEnd="50dp"
@@ -598,7 +617,7 @@
                 android:layout_marginTop="9dp"
                 android:fontFamily="@font/notosanskr_medium"
                 android:includeFontPadding="false"
-                android:text="기업분류"
+                android:text=""
                 android:textColor="#A7A7A8"
                 android:textSize="12dp"
                 android:layout_marginEnd="50dp"
@@ -642,7 +661,7 @@
                 android:id="@+id/mtrLvPeriod"
                 android:layout_width="0dp"
                 android:layout_height="17dp"
-                android:text="육아 휴직 기간"
+                android:text=""
                 android:textSize="12dp"
                 android:textColor="#A7A7A8"
                 android:fontFamily="@font/notosanskr_medium"
@@ -673,7 +692,7 @@
                 android:id="@+id/mtrLvIsSalary"
                 android:layout_width="0dp"
                 android:layout_height="17dp"
-                android:text="유급 여부"
+                android:text=""
                 android:textSize="12dp"
                 android:textColor="#A7A7A8"
                 android:fontFamily="@font/notosanskr_medium"
@@ -704,7 +723,7 @@
                 android:id="@+id/mtrLvSalary"
                 android:layout_width="0dp"
                 android:layout_height="17dp"
-                android:text="육아 휴직 급여 비율"
+                android:text=""
                 android:textSize="12dp"
                 android:textColor="#A7A7A8"
                 android:fontFamily="@font/notosanskr_medium"
@@ -735,7 +754,7 @@
                 android:id="@+id/mtrSupCondition"
                 android:layout_width="0dp"
                 android:layout_height="17dp"
-                android:text="출산 비용 지원 조건"
+                android:text=""
                 android:textSize="12dp"
                 android:textColor="#A7A7A8"
                 android:fontFamily="@font/notosanskr_medium"
@@ -767,7 +786,7 @@
                 android:id="@+id/mtrSupMoney"
                 android:layout_width="0dp"
                 android:layout_height="17dp"
-                android:text="출산 비용 지원금"
+                android:text=""
                 android:textSize="12dp"
                 android:textColor="#A7A7A8"
                 android:fontFamily="@font/notosanskr_medium"
@@ -798,7 +817,7 @@
                 android:id="@+id/telComIsCan"
                 android:layout_width="0dp"
                 android:layout_height="17dp"
-                android:text="재택근무 가능 여부"
+                android:text=""
                 android:textSize="12dp"
                 android:textColor="#A7A7A8"
                 android:fontFamily="@font/notosanskr_medium"
@@ -830,7 +849,7 @@
                 android:id="@+id/telComDays"
                 android:layout_width="0dp"
                 android:layout_height="17dp"
-                android:text="재택근무 일 수"
+                android:text=""
                 android:textSize="12dp"
                 android:textColor="#A7A7A8"
                 android:fontFamily="@font/notosanskr_medium"
@@ -862,7 +881,7 @@
                 android:id="@+id/telComTime"
                 android:layout_width="0dp"
                 android:layout_height="17dp"
-                android:text="재택근무 시간"
+                android:text=""
                 android:textSize="12dp"
                 android:textColor="#A7A7A8"
                 android:fontFamily="@font/notosanskr_medium"
@@ -893,7 +912,7 @@
                 android:id="@+id/subsdType"
                 android:layout_width="0dp"
                 android:layout_height="17dp"
-                android:text="보조금 지원 종류"
+                android:text=""
                 android:textSize="12dp"
                 android:textColor="#A7A7A8"
                 android:fontFamily="@font/notosanskr_medium"
@@ -924,7 +943,7 @@
                 android:id="@+id/subsdMoney"
                 android:layout_width="0dp"
                 android:layout_height="17dp"
-                android:text="보조금 지원 액"
+                android:text=""
                 android:textSize="12dp"
                 android:textColor="#A7A7A8"
                 android:fontFamily="@font/notosanskr_medium"

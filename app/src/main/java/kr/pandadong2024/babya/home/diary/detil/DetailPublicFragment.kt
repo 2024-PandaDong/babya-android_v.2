@@ -46,7 +46,7 @@ class DetailPublicFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        diaryId = viewModel.diaryId.value!!
+        diaryId = viewModel.diaryId.value ?: -1
     }
 
     override fun onCreateView(
@@ -57,7 +57,7 @@ class DetailPublicFragment : Fragment() {
         _binding = FragmentDetailPublicBinding.inflate(inflater, container, false)
         tokenDao = BabyaDB.getInstance(requireContext().applicationContext)?.tokenDao()!!
         initView()
-        initCommentRecyclerView(1, 100, viewModel.diaryId.value!!)
+        initCommentRecyclerView(1, 100, viewModel.diaryId.value?: -1)
 
         binding.backButton.setOnClickListener {
             findNavController().navigate(R.id.action_detailPublicFragment_to_diaryFragment)
@@ -69,7 +69,7 @@ class DetailPublicFragment : Fragment() {
 
         binding.publicMoreButton.setOnClickListener { view ->
             val popupMenu = PopupMenu(requireContext(), view)
-            popupMenu.inflate(R.menu.diary_popup)
+            popupMenu.inflate(R.menu.public_diary_menu)
             popupMenu.setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.report -> {
@@ -106,7 +106,7 @@ class DetailPublicFragment : Fragment() {
                 }
             } else {
                 if (binding.editCommentEditText.text.toString().isNotBlank()) {
-                    postSubComment(selectedCommentId!!)
+                    postSubComment(selectedCommentId ?: -1)
                     val inputManager: InputMethodManager =
                         requireContext().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
                     inputManager.hideSoftInputFromWindow(
@@ -138,7 +138,7 @@ class DetailPublicFragment : Fragment() {
                 Log.d(TAG, "status : ${result.status}")
                 Log.d(TAG, "data : ${result.data}")
                 delay(500)
-                initCommentRecyclerView(1, 100, viewModel.diaryId.value!!)
+                initCommentRecyclerView(1, 100, viewModel.diaryId.value ?: -1)
             }.onFailure { result ->
                 Log.e(TAG, "result : ${result.message}")
                 result.printStackTrace()
@@ -164,7 +164,7 @@ class DetailPublicFragment : Fragment() {
                 Log.d(TAG, "status : ${result.status}")
                 Log.d(TAG, "data : ${result.data}")
                 delay(500)
-                initCommentRecyclerView(1, 100, viewModel.diaryId.value!!)
+                initCommentRecyclerView(1, 100, viewModel.diaryId.value?: -1)
             }.onFailure { result ->
                 Log.e(TAG, "result : ${result.message}")
                 result.printStackTrace()
@@ -198,7 +198,7 @@ class DetailPublicFragment : Fragment() {
             kotlin.runCatching {
                 RetrofitBuilder.getDiaryService().getDiaryData(
                     accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
-                    id = viewModel.diaryId.value!!
+                    id = viewModel.diaryId.value ?: -1
                 )
             }.onSuccess { result ->
                 Log.e(TAG, "result : ${result.message}")
@@ -276,7 +276,7 @@ class DetailPublicFragment : Fragment() {
                         size = size
                     )
                 }.onSuccess { result ->
-                    commentResult = result.data!!
+                    commentResult = result.data?: listOf()
                     Log.d(TAG, "subcomment result : $result")
                     Log.d(TAG, "2")
                 }.onFailure { result ->

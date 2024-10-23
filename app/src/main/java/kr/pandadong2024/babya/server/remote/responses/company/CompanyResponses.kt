@@ -43,9 +43,9 @@ data class CompanyResponses(
     @field:SerializedName("salaryYear") // 기준 연도
     val salaryYear: Int? = -1,
     @field:SerializedName("femalePeople") // 여성 근무자 수
-    val femalePeople: Int? = 500,
+    val femalePeople: Int? = 0,
     @field:SerializedName("malePeople") // 남성 근무자 수
-    val malePeople: Int? = 500,
+    val malePeople: Int? = 0,
     @field:SerializedName("ceo") // 회사 대표
     val ceo: String? = "",
     @field:SerializedName("tel") // 회사 전화번호

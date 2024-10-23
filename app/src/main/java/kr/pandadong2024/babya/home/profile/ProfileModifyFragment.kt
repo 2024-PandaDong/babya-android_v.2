@@ -69,7 +69,7 @@ class ProfileModifyFragment : Fragment() {
                 binding.birthNameTitleText.visibility = View.GONE
                 binding.birthNameDateText.visibility = View.GONE
             }
-            if (userData.dDay == 0 || userData.dDay == null) {
+            if (userData.dDay.isNullOrBlank()) {
                 binding.pregnancyText.visibility = View.GONE
                 binding.pregnancyDayTitleText.visibility = View.GONE
             } else {

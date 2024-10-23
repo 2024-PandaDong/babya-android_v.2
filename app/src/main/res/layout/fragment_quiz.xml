@@ -49,7 +49,7 @@
         android:textSize="20sp"
         android:autoSizeMaxTextSize="24sp"
         android:autoSizeMinTextSize="12sp"
-        android:text="Q.임산부에게 요가는 좋은 운동이다"
+        android:text=""
         android:textAlignment="textStart"
         android:includeFontPadding="false"
         />

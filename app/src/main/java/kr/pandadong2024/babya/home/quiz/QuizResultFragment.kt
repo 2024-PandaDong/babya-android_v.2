@@ -25,7 +25,7 @@ class QuizResultFragment : Fragment() {
     ): View {
         _binding = FragmentQuizResultBinding.inflate(inflater, container, false)
         (requireActivity() as BottomControllable).setBottomNavVisibility(false)
-        quiz = viewModel.quizData.value!!
+        quiz = viewModel.quizData.value ?: QuizResponses()
         isRight()
         binding.nextButton.setOnClickListener {
             findNavController().navigate(R.id.action_quizResultFragment_to_mainFragment)
@@ -42,7 +42,7 @@ class QuizResultFragment : Fragment() {
             binding.answerText.text = "오답입니다!"
             binding.answerText.setTextColor(requireContext().getColor(R.color.statusDestructive))
         }
-        binding.quizText.text = quiz.title
+        binding.quizText.text = "Q.${quiz.title}"
         binding.descriptionButton.text = quiz.quizCn
     }
 

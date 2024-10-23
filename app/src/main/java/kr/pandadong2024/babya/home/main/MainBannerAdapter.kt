@@ -21,8 +21,12 @@ class MainBannerAdapter(
     private val context: Context,
     private val bannerList: List<BannerResponses>
 ) : RecyclerView.Adapter<MainBannerAdapter.PagerViewHolder>() {
-    private val newList = if(bannerList.isNotEmpty()){ listOf(bannerList.last()) + bannerList + listOf(bannerList.first()) } else{
-        listOf()}
+    private val newList = if (bannerList.isEmpty()) {
+        listOf()
+    } else {
+        listOf(bannerList.last()) + bannerList + listOf(bannerList.first())
+    }
+
     inner class PagerViewHolder(private val binding: ItemBanerCardBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(bannerData: BannerResponses, context: Context) {
@@ -35,10 +39,11 @@ class MainBannerAdapter(
             }
 
             binding.root.setOnClickListener {
-                val intent = Intent(Intent.ACTION_VIEW)
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-                intent.setPackage("com.android.chrome")
-                intent.data = Uri.parse(bannerData.url)
+                val intent = Intent(Intent.ACTION_VIEW).apply {
+                    addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+                    setPackage("com.android.chrome")
+                    data = Uri.parse(bannerData.url)
+                }
                 context.startActivity(intent)
             }
         }
@@ -53,13 +58,13 @@ class MainBannerAdapter(
     override fun getItemCount(): Int = newList.size
 
     override fun onBindViewHolder(holder: PagerViewHolder, position: Int) {
-        if (newList.isNotEmpty()) {
-            var p: Int = position
-            if (position != 0) {
-                p %= newList.size
-            }
-            holder.bind(newList[p], context)
+        if (newList.isEmpty()) return
+
+        var p: Int = position
+        if (position != 0) {
+            p %= newList.size
         }
+        holder.bind(newList[p], context)
     }
 
     fun ImageView.loadImageFromUrl(imageUrl: String) {

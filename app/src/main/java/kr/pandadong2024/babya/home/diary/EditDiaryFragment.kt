@@ -16,6 +16,7 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -182,27 +183,25 @@ class EditDiaryFragment : Fragment() {
         return binding.root
     }
 
-    private suspend fun uploadFile(selectedUri: List<Uri>?): List<String> {
+    private suspend fun uploadFile(selectedUri: List<Uri?>): List<String> {
         val imageLinkList = mutableListOf<String>()
-        if (selectedUri != null) {
-            for (uri in selectedUri) {
-                val test = lifecycleScope.async(Dispatchers.IO) {
-                    kotlin.runCatching {
-                        prepareFilePart(uri)?.let {
-                            RetrofitBuilder.getCommonService().fileUpload(
-                                accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
-                                file = it
-                            )
-                        }
-                    }.onSuccess { result ->
-                    }.onFailure { result ->
-                        result.printStackTrace()
+        for (uri in selectedUri) {
+            val test = lifecycleScope.async(Dispatchers.IO) {
+                kotlin.runCatching {
+                    prepareFilePart(uri!!)?.let {
+                        RetrofitBuilder.getCommonService().fileUpload(
+                            accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
+                            file = it
+                        )
                     }
-                }.await()
-                Log.d(TAG, "test :  ${test.onSuccess { it?.data }}")
-                test.onSuccess { result ->
-                    imageLinkList.add(result?.data ?: "")
+                }.onSuccess { result ->
+                }.onFailure { result ->
+                    result.printStackTrace()
                 }
+            }.await()
+            Log.d(TAG, "test :  ${test.onSuccess { it?.data }}")
+            test.onSuccess { result ->
+                imageLinkList.add(result?.data ?: "")
             }
         }
         return imageLinkList.toList()
@@ -280,7 +279,7 @@ class EditDiaryFragment : Fragment() {
                         if (selectedImageUri == null) {
                             listOf<Uri>()
                         } else {
-                            listOf(selectedImageUri!!)
+                            listOf(selectedImageUri ?: "".toUri())
                         }
                     )
                 )
@@ -306,7 +305,8 @@ class EditDiaryFragment : Fragment() {
                 }.onSuccess { result ->
                     if (result.status in 200..299) {
                         lifecycleScope.launch(Dispatchers.Main) {
-                            findNavController().navigate(R.id.action_editDiaryFragment_to_diaryFragment)
+                            requireActivity().supportFragmentManager.popBackStack()
+//                            findNavController().navigate(R.id.action_editDiaryFragment_to_diaryFragment)
                         }
                     } else {
                         Log.i(TAG, "status : ${result.status}")
