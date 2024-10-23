@@ -25,6 +25,8 @@ import kr.pandadong2024.babya.home.profile.profileviewmodle.ProfileViewModel
 import kr.pandadong2024.babya.home.viewmodel.CommonViewModel
 import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.server.local.BabyaDB
+import kr.pandadong2024.babya.start.signup.Policy
+import kr.pandadong2024.babya.start.signup.PolicyTextBottomSheet
 import kr.pandadong2024.babya.util.BottomControllable
 import kr.pandadong2024.babya.util.setOnSingleClickListener
 import kr.pandadong2024.babya.util.shortToast
@@ -149,7 +151,26 @@ class ProfileFragment : Fragment() {
                 binding.profileImage.load(userData.profileImg)
             }
         }
+
+
+        binding.agreementBtn1.setOnClickListener {
+            dateService(Policy.PRIVACY)
+        }
+
+        binding.agreementBtn2.setOnClickListener{
+            dateService(Policy.SERVICE)
+        }
+
+
         return binding.root
+    }
+
+
+    private fun dateService(privacy: Policy) {
+
+        val bottomSheetDialog =
+            PolicyTextBottomSheet(privacy)
+        bottomSheetDialog.show(requireActivity().supportFragmentManager, bottomSheetDialog.tag)
     }
 
 

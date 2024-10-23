@@ -7,14 +7,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.CheckBox
-import android.widget.CompoundButton
-import android.widget.TextView
 import androidx.navigation.fragment.findNavController
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentSignup1Binding
-import kr.pandadong2024.babya.databinding.FragmentSignup2Binding
 
 class Signup1 : Fragment() {
 
@@ -42,8 +37,17 @@ class Signup1 : Fragment() {
         }
 
         binding.agreementBtn1.setOnClickListener {
-            dateService()
+            dateService(Policy.PRIVACY)
         }
+
+        binding.agreementBtn2.setOnClickListener {
+            dateService(Policy.SERVICE)
+        }
+
+        binding.agreementBtn3.setOnClickListener {
+            dateService(Policy.INFORMATION)
+        }
+
 
 
 
@@ -51,10 +55,10 @@ class Signup1 : Fragment() {
     }
 
 
-    private fun dateService(){
+    private fun dateService(privacy: Policy) {
 
         val bottomSheetDialog =
-            PolicyTextBottomSheet()
+            PolicyTextBottomSheet(privacy)
         bottomSheetDialog.show(requireActivity().supportFragmentManager, bottomSheetDialog.tag)
     }
 
@@ -84,10 +88,15 @@ class Signup1 : Fragment() {
 
     // 개별 체크박스 상태에 따라 전체동의 체크박스 설정
     private fun checkFullAgreement() {
+        // 전체가 체크된 상태에서 개별 체크박스 상태 변경에 따라 전체동의 체크박스 상태 변경
         val allChecked = binding.agreementCheckBox1.isChecked &&
                 binding.agreementCheckBox2.isChecked &&
                 binding.agreementCheckBox3.isChecked
-        binding.fullAgreementCheckBox.isChecked = allChecked // 모두 체크되면 전체동의 체크
+        binding.fullAgreementCheckBox.setOnCheckedChangeListener(null) // 리스너 일시 해제
+        binding.fullAgreementCheckBox.isChecked = allChecked // 모든 개별 체크박스가 체크되면 전체 체크박스 체크
+        binding.fullAgreementCheckBox.setOnCheckedChangeListener { _, isChecked ->
+            setAllCheckBoxes(isChecked) // 다시 리스너 설정
+        }
         checkEnableNextButton() // next 버튼 활성화 여부 재확인
     }
 

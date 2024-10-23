@@ -17,7 +17,15 @@
         app:layout_constraintTop_toTopOf="parent">
 
 
-
+        <WebView
+            android:id="@+id/privacyText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/notosanskr_regular"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="40dp"
+            android:textStyle="bold"
+            android:textSize="19dp"/>
 
 
 
