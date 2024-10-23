@@ -7,14 +7,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.CheckBox
-import android.widget.CompoundButton
-import android.widget.TextView
 import androidx.navigation.fragment.findNavController
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentSignup1Binding
-import kr.pandadong2024.babya.databinding.FragmentSignup2Binding
 
 class Signup1 : Fragment() {
 
@@ -42,8 +37,17 @@ class Signup1 : Fragment() {
         }
 
         binding.agreementBtn1.setOnClickListener {
-            dateService()
+            dateService(Policy.PRIVACY)
         }
+
+        binding.agreementBtn2.setOnClickListener {
+            dateService(Policy.SERVICE)
+        }
+
+        binding.agreementBtn3.setOnClickListener {
+            dateService(Policy.INFORMATION)
+        }
+
 
 
 
@@ -51,10 +55,10 @@ class Signup1 : Fragment() {
     }
 
 
-    private fun dateService(){
+    private fun dateService(privacy: Policy) {
 
         val bottomSheetDialog =
-            PolicyTextBottomSheet()
+            PolicyTextBottomSheet(privacy)
         bottomSheetDialog.show(requireActivity().supportFragmentManager, bottomSheetDialog.tag)
     }
 
