@@ -1,7 +1,6 @@
 package kr.pandadong2024.babya.home.quiz
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -80,7 +79,6 @@ class QuizFragment : Fragment() {
             viewModel.quizData.value = quiz
             findNavController().navigate(R.id.action_quizFragment_to_quizResultFragment)
         }
-
     }
 
     private fun getQuiz() {
@@ -112,6 +110,11 @@ class QuizFragment : Fragment() {
             }
         }
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (requireActivity() as BottomControllable).setBottomNavVisibility(false)
     }
 
     override fun onPause() {
