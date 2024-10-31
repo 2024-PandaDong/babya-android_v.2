@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+    app:behavior_hideable="true"
+    app:behavior_peekHeight="0dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".start.signup.PolicyTextBottomSheet">
 
@@ -10,8 +13,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout2"
         android:layout_width="match_parent"
-        android:layout_height="500dp"
-        android:padding="5dp"
+        android:layout_height="600dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -20,10 +22,9 @@
         <WebView
             android:id="@+id/privacyText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:fontFamily="@font/notosanskr_regular"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="40dp"
             android:textStyle="bold"
             android:textSize="19dp"/>
 
@@ -35,7 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:backgroundTint="#FE9A99"
-            android:text="선택"
+            android:text="확인"
             android:textColor="#ffffff"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"

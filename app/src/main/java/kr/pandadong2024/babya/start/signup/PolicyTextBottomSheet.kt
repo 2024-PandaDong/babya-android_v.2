@@ -26,11 +26,19 @@ class PolicyTextBottomSheet(
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentPolicyTextBottomSheetBinding.inflate(inflater, container, false)
 
         Log.d(TAG, "onCreateView: ${type}")
+
+        val vebView = binding.privacyText
+
+        binding.privacyText.settings.apply {
+            javaScriptEnabled = true
+            domStorageEnabled = true
+            cacheMode = WebSettings.LOAD_NO_CACHE
+        }
 
         when (type.name ){
             Policy.PRIVACY.name -> url = "https://synonymous-foundation-c30.notion.site/1169bbf0448c80e1accdc3511654fe06"
@@ -38,16 +46,9 @@ class PolicyTextBottomSheet(
             Policy.INFORMATION.name -> url = "https://synonymous-foundation-c30.notion.site/3-1279bbf0448c80be9767c7a189419f7b"
         }
 
-        binding.privacyText.settings.apply {
-            javaScriptEnabled = true
-            domStorageEnabled = true // DOM 스토리지를 활성화
-            cacheMode = WebSettings.LOAD_NO_CACHE // 캐시 비활성화
-        }
-
-        WebView.setWebContentsDebuggingEnabled(true)
-        binding.privacyText.webViewClient = WebViewClient()
-        binding.privacyText.loadUrl(url)
+        vebView.loadUrl(url)
         Log.d(TAG, "onCreateView: ${url}")
+
 
 
 
