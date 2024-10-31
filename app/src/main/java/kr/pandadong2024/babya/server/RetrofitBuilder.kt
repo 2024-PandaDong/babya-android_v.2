@@ -56,7 +56,6 @@ class RetrofitBuilder {
 
         @Synchronized
         fun getRetrofit(): Retrofit {
-            Log.d("getRetrofit", "1, 2 ,3 4, 5, 6, 777")
             if (retrofit == null) {
                 val interceptor = HttpLoggingInterceptor().apply {
                     level = HttpLoggingInterceptor.Level.BODY

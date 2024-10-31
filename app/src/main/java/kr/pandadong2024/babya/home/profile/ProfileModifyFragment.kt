@@ -88,7 +88,9 @@ class ProfileModifyFragment : Fragment() {
 
         userViewModel.userLocalCode.observe(viewLifecycleOwner) {
             Log.d(TAG, "code : $it")
-            binding.localText.text = getLocalByCode(it)
+            if (it.length >= 3) {
+                binding.localText.text = getLocalByCode(it)
+            }
         }
 
 

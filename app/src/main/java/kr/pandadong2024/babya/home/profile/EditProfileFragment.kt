@@ -93,9 +93,10 @@ class EditProfileFragment : Fragment() {
         }
 
         userViewModel.userLocalCode.observe(viewLifecycleOwner) {
-            binding.locationEditText.text = getLocalByCode(it)
-            userData.lc = it
-        }
+            if (it.length >= 4) {
+                binding.locationEditText.text = getLocalByCode(it)
+                userData.lc = it
+            }        }
 
         binding.selectProfileImageLayout.setOnSingleClickListener {
             getImage.launch("image/*")
