@@ -1,5 +1,6 @@
 package kr.pandadong2024.babya.home.policy.viewmdole
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -102,6 +103,7 @@ class PolicyViewModel : ViewModel() {
             )
         }.onSuccess {
             withContext(Dispatchers.Main) {
+                Log.d("getPolicyList", "policy list ${it.data}")
                 _policyListData.value = it.data ?: emptyList()
             }
         }.onFailure { result ->
