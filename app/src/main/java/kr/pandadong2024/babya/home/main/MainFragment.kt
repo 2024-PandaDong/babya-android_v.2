@@ -116,7 +116,6 @@ class MainFragment : Fragment() {
         profileViewModel.setAccessToken(accessToken)
         profileViewModel.accessToken.observe(viewLifecycleOwner) {
             if (it.isEmpty()) return@observe
-
             profileViewModel.getUserLocalCode()
             profileViewModel.getUserData()
         }
@@ -135,10 +134,11 @@ class MainFragment : Fragment() {
                         ), getRegionByCode(getMemberLocalCode(it))
                     )
                 )
-                getPolicyList(it)
+                policyViewModel.getPolicyList(it)
             } else {
                 policyViewModel.setTagList(it.toInt())
-                getPolicyList(it)
+                policyViewModel.getPolicyList(it)
+                //TODO : 뷰모델에서 돌리는 과정으로 변경
             }
         }
 
