@@ -7,7 +7,7 @@ data class ProfileData (
     @field:SerializedName("nickname")
     val nickname: String? = "",
     @field:SerializedName("dDay")
-    val dDay: String? = "",
+    val dDay: String? = "0000-00-00",
     @field:SerializedName("birthDt")
     val birthDt: String? = "0000-00-00",
     @field:SerializedName("marriedYears")

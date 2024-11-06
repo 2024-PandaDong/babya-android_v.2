@@ -20,6 +20,7 @@ import kr.pandadong2024.babya.home.policy.dialog.DeclarationDialog
 import kr.pandadong2024.babya.home.policy.viewmdole.PolicyViewModel
 import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.util.BottomControllable
+import kr.pandadong2024.babya.util.shortToast
 import retrofit2.HttpException
 import java.io.File
 
@@ -56,7 +57,12 @@ class PolicyContentFragment : Fragment() {
 
         binding.linkButton.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(policyLink))
-            startActivity(intent)
+            try {
+                startActivity(intent)
+            }
+            catch (e : Exception){
+                requireContext().shortToast("플레이 스토어에 승인을 받아주십시오")
+            }
         }
 
         return binding.root

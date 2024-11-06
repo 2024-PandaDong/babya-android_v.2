@@ -69,11 +69,13 @@ class PolicyMainFragment : Fragment() {
                     keyWord = searchKeyWord
                 )
             } else {
-                selectPolicy(
-                    mainTag = viewModel.userRegionList.value?.get(0) ?: "알 수 없음",
-                    subTag = viewModel.userRegionList.value?.get(1) ?: "알 수 없음",
-                    keyWord = searchKeyWord
-                )
+                if (viewModel.userRegionList.value?.isNotEmpty() == true) {
+                    selectPolicy(
+                        mainTag = viewModel.userRegionList.value?.get(0) ?: "알 수 없음",
+                        subTag = viewModel.userRegionList.value?.get(1) ?: "알 수 없음",
+                        keyWord = searchKeyWord
+                    )
+                }
             }
             if (isSearchActivated && it != "") {
                 binding.policyTitleLayout.visibility = View.GONE

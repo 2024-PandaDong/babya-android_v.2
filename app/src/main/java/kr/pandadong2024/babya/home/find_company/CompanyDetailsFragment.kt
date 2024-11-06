@@ -30,6 +30,7 @@ import kr.pandadong2024.babya.server.local.TokenDAO
 import kr.pandadong2024.babya.server.remote.responses.BaseResponse
 import kr.pandadong2024.babya.server.remote.responses.company.CompanyResponses
 import kr.pandadong2024.babya.util.BottomControllable
+import kr.pandadong2024.babya.util.shortToast
 import java.util.ArrayList
 
 class CompanyDetailsFragment : Fragment() {
@@ -58,7 +59,12 @@ class CompanyDetailsFragment : Fragment() {
 
         binding.linkBtn.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(companyLink))
-            startActivity(intent)
+            try {
+                startActivity(intent)
+            }
+            catch (e : Exception){
+                requireContext().shortToast("플레이 스토어에 승인을 받아주십시오")
+            }
         }
 
         binding.editExplanation.setOnClickListener {

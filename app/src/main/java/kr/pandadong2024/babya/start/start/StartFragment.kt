@@ -14,14 +14,29 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kr.pandadong2024.babya.HomeActivity
+import kr.pandadong2024.babya.MyApplication.Companion.prefs
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentStartBinding
 import kr.pandadong2024.babya.server.local.BabyaDB
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class StartFragment : Fragment() {
 
     private var _binding: FragmentStartBinding? = null
     private val binding get() = _binding!!
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        lifecycleScope.launch(Dispatchers.IO) {
+            val now =  System.currentTimeMillis()
+            val today = SimpleDateFormat("yyyy.MM.dd", Locale.KOREAN).format(now)
+            if (today != prefs.lastEditTime){
+                prefs.lastEditTime = today
+                prefs.completeQuiz = false
+            }
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

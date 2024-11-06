@@ -35,7 +35,9 @@ import kr.pandadong2024.babya.server.remote.responses.BaseResponse
 import kr.pandadong2024.babya.server.remote.responses.Policy.PolicyListResponse
 import kr.pandadong2024.babya.server.remote.responses.company.CompanyListResponses
 import kr.pandadong2024.babya.util.BottomControllable
+import java.text.SimpleDateFormat
 import java.time.Duration
+import java.util.Locale
 import kotlin.math.ceil
 
 class MainFragment : Fragment() {
@@ -108,8 +110,6 @@ class MainFragment : Fragment() {
     ): View {
         _binding = FragmentMainBinding.inflate(inflater, container, false)
         policyViewModel.initViewModel()
-        //TODO : 나중에 ICT 끝나고 이 코드 지우기
-        prefs.completeQuiz = false
         (requireActivity() as BottomControllable).setBottomNavVisibility(true)
         profileViewModel.setAccessToken(accessToken)
         commonViewModel.setAccessToken(accessToken)
@@ -218,14 +218,12 @@ class MainFragment : Fragment() {
                     list.add(companyList[i])
                 }
             }
-
-            rankAdapter = CompanyRankAdapter() { position ->
-                kotlin.runCatching {
-                    findCompanyViewModel.id.value = position
-                    findNavController().navigate(R.id.action_mainFragment_to_companyDetailsFragment)
-                }
+        }
+        rankAdapter = CompanyRankAdapter() { position ->
+            kotlin.runCatching {
+                findCompanyViewModel.id.value = position
+                findNavController().navigate(R.id.action_mainFragment_to_companyDetailsFragment)
             }
-
         }
 
         rankAdapter.setCompanyList(list.toMutableList())
