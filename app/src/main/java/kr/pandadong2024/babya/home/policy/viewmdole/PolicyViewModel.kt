@@ -103,7 +103,6 @@ class PolicyViewModel : ViewModel() {
             )
         }.onSuccess {
             withContext(Dispatchers.Main) {
-                Log.d("getPolicyList", "policy list ${it.data}")
                 _policyListData.value = it.data ?: emptyList()
             }
         }.onFailure { result ->

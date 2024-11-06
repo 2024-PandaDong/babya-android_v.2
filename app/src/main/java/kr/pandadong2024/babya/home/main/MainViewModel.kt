@@ -20,7 +20,7 @@ class MainViewModel : ViewModel() {
         _accessToken.value = token
     }
 
-    fun initBannerData() {
+    fun getBannerData() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 RetrofitBuilder.getHttpMainService().getBanner(
