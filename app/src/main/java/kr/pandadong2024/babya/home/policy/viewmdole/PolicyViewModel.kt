@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kr.pandadong2024.babya.home.policy.getLocalByCode
 import kr.pandadong2024.babya.home.policy.getRegionByCode
 import kr.pandadong2024.babya.server.RetrofitBuilder
@@ -100,7 +101,9 @@ class PolicyViewModel : ViewModel() {
                 keyword = ""
             )
         }.onSuccess {
-            _policyListData.value = it.data ?: emptyList()
+            withContext(Dispatchers.Main) {
+                _policyListData.value = it.data ?: emptyList()
+            }
         }.onFailure { result ->
             if (result is HttpException) {
                 launch(Dispatchers.Main) {

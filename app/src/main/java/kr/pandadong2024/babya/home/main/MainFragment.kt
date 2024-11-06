@@ -111,6 +111,8 @@ class MainFragment : Fragment() {
         _binding = FragmentMainBinding.inflate(inflater, container, false)
         policyViewModel.initViewModel()
         (requireActivity() as BottomControllable).setBottomNavVisibility(true)
+        // TODO : 영마이스터 끝나고 코드 115번 위치 코드 지우기
+        prefs.remove()
         profileViewModel.setAccessToken(accessToken)
         commonViewModel.setAccessToken(accessToken)
         profileViewModel.setAccessToken(accessToken)
@@ -134,11 +136,15 @@ class MainFragment : Fragment() {
                         ), getRegionByCode(getMemberLocalCode(it))
                     )
                 )
-                policyViewModel.getPolicyList(it)
+                getPolicyList(it)
+//                policyViewModel.getPolicyList(it)
+                //TODO : 뷰모델에서 돌리는 과정으로 변경 하기
+
             } else {
                 policyViewModel.setTagList(it.toInt())
-                policyViewModel.getPolicyList(it)
-                //TODO : 뷰모델에서 돌리는 과정으로 변경
+                getPolicyList(it)
+//                policyViewModel.getPolicyList(it)
+                //TODO : 뷰모델에서 돌리는 과정으로 변경 하기
             }
         }
 
