@@ -6,9 +6,9 @@ data class QuizResponses(
     @field:SerializedName("answer")
     val answer: String? = "Y",
     @field:SerializedName("quizCn")
-    val quizCn: String? = "없음?",
+    val quizCn: String? = "",
     @field:SerializedName("title")
-    val title: String? = "없음?",
+    val title: String? = "",
     @field:SerializedName("quizId")
     val quizId: Int? = -1,
     @field:SerializedName("regDt")

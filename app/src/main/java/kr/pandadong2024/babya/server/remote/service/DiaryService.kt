@@ -19,7 +19,7 @@ import retrofit2.http.Query
 interface DiaryService {
 
     @GET("/diary/my")
-    suspend fun getMyDiaryData(
+    suspend fun getMyDiaryList(
         @Header("Authorization") accessToken: String,
         @Query("page") page: Int,
         @Query("size") size: Int,
