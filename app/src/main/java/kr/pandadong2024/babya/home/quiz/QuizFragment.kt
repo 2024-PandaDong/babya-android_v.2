@@ -11,9 +11,14 @@ import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import kr.pandadong2024.babya.MyApplication.Companion.prefs
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentQuizBinding
+import kr.pandadong2024.babya.home.find_company.find_company_viewModel.FindCompanyViewModel
+import kr.pandadong2024.babya.home.main.MainViewModel
+import kr.pandadong2024.babya.home.policy.viewmdole.PolicyViewModel
+import kr.pandadong2024.babya.home.profile.profileviewmodle.ProfileViewModel
 import kr.pandadong2024.babya.server.local.BabyaDB
 import kr.pandadong2024.babya.server.local.TokenDAO
 import kr.pandadong2024.babya.util.BottomControllable
@@ -23,6 +28,10 @@ class QuizFragment : Fragment() {
     private var _binding: FragmentQuizBinding? = null
     private val binding get() = _binding!!
     private val viewModel: QuizViewModel by activityViewModels<QuizViewModel>()
+    private val findCompanyViewModel by activityViewModels<FindCompanyViewModel>()
+    private val mainViewModel by activityViewModels<MainViewModel>()
+    private val policyViewModel by activityViewModels<PolicyViewModel>()
+    private val profileViewModel by activityViewModels<ProfileViewModel>()
     private lateinit var tokenDao: TokenDAO
     private lateinit var accessToken: String
 
@@ -33,6 +42,11 @@ class QuizFragment : Fragment() {
             lifecycleScope.launch(Dispatchers.IO) {
                 accessToken = BabyaDB.getInstance(requireContext())?.tokenDao()
                     ?.getMembers()?.accessToken.toString()
+                    withContext(Dispatchers.Main){
+                        findCompanyViewModel.setAccessToken(accessToken)
+                        mainViewModel.setAccessToken(accessToken)
+                        profileViewModel.setAccessToken(accessToken)
+                    }
             }
         }
     }
@@ -42,9 +56,9 @@ class QuizFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
         // Inflate the layout for this fragment
+        viewModel.getQuiz(accessToken)
         _binding = FragmentQuizBinding.inflate(inflater, container, false)
         (requireActivity() as BottomControllable).setBottomNavVisibility(false)
-        viewModel.getQuiz(accessToken)
 
         viewModel.message.observe(viewLifecycleOwner){
             if (it != ""){

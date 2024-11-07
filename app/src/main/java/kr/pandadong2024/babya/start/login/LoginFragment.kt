@@ -17,6 +17,10 @@ import kotlinx.coroutines.withContext
 import kr.pandadong2024.babya.HomeActivity
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentLoginBinding
+import kr.pandadong2024.babya.home.find_company.find_company_viewModel.FindCompanyViewModel
+import kr.pandadong2024.babya.home.main.MainViewModel
+import kr.pandadong2024.babya.home.policy.viewmdole.PolicyViewModel
+import kr.pandadong2024.babya.home.profile.profileviewmodle.ProfileViewModel
 import kr.pandadong2024.babya.home.viewmodel.CommonViewModel
 import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.server.local.BabyaDB
@@ -30,7 +34,7 @@ private const val DATA_STORE_FILE_NAME = "user.pb"
 
 
 class LoginFragment : Fragment() {
-    private val commonViewModel: CommonViewModel by activityViewModels<CommonViewModel>()
+    private val commonViewModel by activityViewModels<CommonViewModel>()
     private var bottomSheetDialog: LoginBottomSheet? = null
     private lateinit var token: String
     private lateinit var tokenDao: TokenDAO
