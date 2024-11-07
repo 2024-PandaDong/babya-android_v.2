@@ -54,7 +54,7 @@ class CompanyDetailsFragment : Fragment() {
         initView()
 
         binding.backBtn.setOnClickListener {
-            findNavController().navigate(R.id.action_companyDetailsFragment_to_findCompanyFragment)
+            requireActivity().supportFragmentManager.popBackStack()
         }
 
         binding.linkBtn.setOnClickListener {
