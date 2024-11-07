@@ -111,19 +111,15 @@ class MainFragment : Fragment() {
 
         runBlocking {
             launch {
-                Log.d("test1234", "get 1")
                 mainViewModel.getBannerData()
             }
             launch {
-                Log.d("test1234", "get 2")
                 findCompanyViewModel.initCompanyList()
             }
             launch {
-                Log.d("test1234", "get 3")
                 profileViewModel.getUserLocalCode()
             }
             launch {
-                Log.d("test1234", "get 4")
                 profileViewModel.getUserData()
             }
         }
