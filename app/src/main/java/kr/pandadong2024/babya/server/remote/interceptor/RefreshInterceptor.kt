@@ -12,7 +12,17 @@ class RefreshInterceptor : Interceptor {
         val response = chain.proceed(chain.request())
         val tokenDao = BabyaDB.getInstanceOrNull() ?: throw RuntimeException()
         val urlPath = response.request.url.toString().substring(35)
+
+        Log.d("RefreshInterceptor", "result : ${response.code == 401 && !(urlPath == "/auth/login" || urlPath == "/auth/email-verify" || urlPath == "/auth/email-send" || urlPath == "/auth/join")}")
+        Log.d("RefreshInterceptor", "urlPath : $urlPath")
+        Log.d("RefreshInterceptor", "code : ${response.code == 401 }")
+        Log.d("RefreshInterceptor", "/auth/email-verify : ${ urlPath == "/auth/email-verify"}")
+        Log.d("RefreshInterceptor", "/auth/email-send : ${ urlPath == "/auth/email-send"}")
+        Log.d("RefreshInterceptor", "/auth/join : ${ urlPath == "/auth/join"}")
+
         if ((tokenDao.tokenDao().getMembers().accessToken.isNotBlank()) && response.code == 401 && !(urlPath == "/auth/login" || urlPath == "/auth/email-verify" || urlPath == "/auth/email-send" || urlPath == "/auth/join")) {
+            Log.d("RefreshInterceptor", "in funfun true")
+
             // runBlocking을 사용하여 비동기 코드를 동기적으로 처리
             val newAccessToken = runBlocking {
                 var token: String = ""

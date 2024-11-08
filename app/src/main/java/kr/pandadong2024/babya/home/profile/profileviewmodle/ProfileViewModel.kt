@@ -56,10 +56,10 @@ class ProfileViewModel() : ViewModel() {
             )
         }.onSuccess { result ->
             kotlin.runCatching {
-//                RetrofitBuilder.getProfileService().getProfile(
-//                    accessToken = "Bearer ${_accessToken.value}",
-//                    email = "my"
-//                )
+                RetrofitBuilder.getProfileService().getProfile(
+                    accessToken = "Bearer ${_accessToken.value}",
+                    email = "my"
+                )
             }.onSuccess {
                 _userData.postValue(result.data)
             }

@@ -42,17 +42,11 @@ class QuizFragment : Fragment() {
             lifecycleScope.launch(Dispatchers.IO) {
                 accessToken = BabyaDB.getInstance(requireContext())?.tokenDao()
                     ?.getMembers()?.accessToken.toString()
-                withContext(Dispatchers.Main) {
-                    launch {
+                    withContext(Dispatchers.Main){
                         findCompanyViewModel.setAccessToken(accessToken)
-                    }
-                    launch {
                         mainViewModel.setAccessToken(accessToken)
-                    }
-                    launch {
                         profileViewModel.setAccessToken(accessToken)
                     }
-                }
             }
         }
     }
@@ -66,8 +60,8 @@ class QuizFragment : Fragment() {
         _binding = FragmentQuizBinding.inflate(inflater, container, false)
         (requireActivity() as BottomControllable).setBottomNavVisibility(false)
 
-        viewModel.message.observe(viewLifecycleOwner) {
-            if (it != "") {
+        viewModel.message.observe(viewLifecycleOwner){
+            if (it != ""){
                 requireContext().shortToast(it)
             }
         }
@@ -105,11 +99,6 @@ class QuizFragment : Fragment() {
                 R.id.action_quizFragment_to_quizResultFragment
             }
         )
-    }
-
-    override fun onResume() {
-        super.onResume()
-        (requireActivity() as BottomControllable).setBottomNavVisibility(false)
     }
 
     override fun onPause() {
