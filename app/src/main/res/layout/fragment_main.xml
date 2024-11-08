@@ -1,88 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".home.main.MainFragment"
-    android:background="@color/backgroundNormalNormal">
+    android:background="@color/backgroundNormalNormal"
+    tools:context=".home.main.MainFragment">
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
 
         >
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingBottom="150dp">
+
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/bannerViewPager"
                 android:layout_width="0dp"
                 android:layout_height="237dp"
-                app:layout_constraintStart_toStartOf="parent"
+                android:background="@color/gray"
+                android:clipChildren="false"
+                android:clipToPadding="false"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <me.relex.circleindicator.CircleIndicator3
                 android:id="@+id/bannerIndicator"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 app:ci_drawable="@drawable/sp_circle_select"
                 app:ci_drawable_unselected="@drawable/sp_circle_banner_unselect"
+                app:ci_height="5dp"
+                app:ci_margin="8dp"
+                app:ci_width="5dp"
                 app:layout_constraintBottom_toBottomOf="@id/bannerViewPager"
                 app:layout_constraintEnd_toEndOf="@id/bannerViewPager"
-                app:layout_constraintStart_toStartOf="@id/bannerViewPager"
-                android:layout_marginTop="0dp"
-                />
-
+                app:layout_constraintStart_toStartOf="@id/bannerViewPager" />
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/bannerViewPager"
                 android:layout_marginTop="10dp"
-                >
+                app:layout_constraintTop_toBottomOf="@id/bannerViewPager">
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/companyTitleLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
 
                     android:paddingHorizontal="18dp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    >
+                    app:layout_constraintTop_toTopOf="parent">
+
                     <TextView
                         android:id="@+id/companyText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-
                         android:fontFamily="@font/notosanskr_medium"
+                        android:includeFontPadding="false"
+
                         android:text="현재 인기회사"
                         android:textSize="16sp"
-                        android:includeFontPadding="false"
-                        app:layout_constraintStart_toStartOf="parent" />
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
                     <TextView
                         android:id="@+id/companyMoreText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:includeFontPadding="false"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/companyText"
-                        app:layout_constraintBottom_toBottomOf="@id/companyText"
                         android:clickable="true"
-                        android:text="더보기"
-                        android:padding="9dp"
                         android:fontFamily="@font/notosanskr_medium"
+                        android:includeFontPadding="false"
+                        android:padding="9dp"
+                        android:text="더보기"
                         android:textSize="14sp"
-                        />
+                        app:layout_constraintBottom_toBottomOf="@id/companyText"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/companyText" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -91,9 +95,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:paddingHorizontal="13dp"
-                    android:overScrollMode="never"
                     android:nestedScrollingEnabled="false"
+                    android:overScrollMode="never"
+                    android:paddingHorizontal="13dp"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -104,57 +108,56 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:paddingHorizontal="18dp"
-
-                    app:layout_constraintTop_toBottomOf="@id/companyRecyclerView"
                     android:background="@color/backgroundNormalNormal"
-                    >
+
+                    android:paddingHorizontal="18dp"
+                    app:layout_constraintTop_toBottomOf="@id/companyRecyclerView">
+
                     <TextView
                         android:id="@+id/policyText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-
                         android:fontFamily="@font/notosanskr_medium"
+                        android:includeFontPadding="false"
+
                         android:text="정책"
                         android:textSize="16sp"
-                        android:includeFontPadding="false"
-                        app:layout_constraintStart_toStartOf="parent" />
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
                     <TextView
                         android:id="@+id/policyMoreText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:includeFontPadding="false"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/policyText"
-                        app:layout_constraintBottom_toBottomOf="@id/policyText"
                         android:clickable="true"
-                        android:text="더보기"
-                        android:padding="9dp"
                         android:fontFamily="@font/notosanskr_medium"
+                        android:includeFontPadding="false"
+                        android:padding="9dp"
+                        android:text="더보기"
                         android:textSize="14sp"
-                        />
+                        app:layout_constraintBottom_toBottomOf="@id/policyText"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/policyText" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/policyRecyclerView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintTop_toBottomOf="@id/policyTitleLayout"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:overScrollMode="never"
-                    android:nestedScrollingEnabled="false"
                     android:layout_marginTop="13dp"
+                    android:nestedScrollingEnabled="false"
+                    android:overScrollMode="never"
                     android:paddingHorizontal="13dp"
-                    />
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/policyTitleLayout" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -31,11 +31,7 @@ class MainBannerAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(bannerData: BannerResponses, context: Context) {
             if (bannerData.image != null) {
-                if (bannerData.image.extension?.uppercase() == "SVG") {
-                    bannerData.image.url?.let { binding.itemImage.loadImageFromUrl(it) }
-                } else {
-                    binding.itemImage.load(bannerData.image.url)
-                }
+                binding.itemImage.load(bannerData.image.url)
             }
 
             binding.root.setOnClickListener {
@@ -65,27 +61,5 @@ class MainBannerAdapter(
             p %= newList.size
         }
         holder.bind(newList[p], context)
-    }
-
-    fun ImageView.loadImageFromUrl(imageUrl: String) {
-        val imageLoader = ImageLoader.Builder(this.context)
-            .components {
-                add(SvgDecoder.Factory())
-            }
-            .build()
-
-        val imageRequest = ImageRequest.Builder(this.context)
-            .crossfade(true)
-            .crossfade(300)
-            .data(imageUrl)
-            .target(
-                onSuccess = { result ->
-                    val bitmap = (result as BitmapDrawable).bitmap
-                    this.setImageBitmap(bitmap)
-                },
-            )
-            .build()
-
-        imageLoader.enqueue(imageRequest)
     }
 }
