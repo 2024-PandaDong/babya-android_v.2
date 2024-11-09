@@ -43,6 +43,12 @@ class PolicyContentFragment : Fragment() {
                 it
             )
         }
+
+        viewModel.tagsList.observe(viewLifecycleOwner){
+            binding.policyOrganTitleText.visibility = View.VISIBLE
+            binding.policyOrganText.visibility = View.VISIBLE
+            binding.policyOrganText.text = "${viewModel.tagsList.value?.get(0) ?: ""} ${viewModel.tagsList.value?.get(1) ?: ""}"
+        }
         binding.signUpBackButton.setOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()
         }

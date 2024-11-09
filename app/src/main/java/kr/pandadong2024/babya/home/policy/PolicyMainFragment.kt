@@ -113,14 +113,13 @@ class PolicyMainFragment : Fragment() {
             if (it.size > 1) {
                 setRecyclerView(
                     it,
-                    "${viewModel.tagsList.value?.get(0) ?: ""} ${viewModel.tagsList.value?.get(1) ?: ""}"
+                    "${viewModel.tagsList.value?.get(0) ?: ""} ${viewModel.tagsList.value?.get(1) ?: ""}  보건소"
                 )
             }
         }
 
 
         binding.tagEditText.setOnClickListener {
-            Log.d("setOnClickListener", "click tagEditText")
             viewModel.setSaveTagList(viewModel.tagsList.value)
             val bottomSheetDialog =
                 PolicyBottomSheet() { tag ->
