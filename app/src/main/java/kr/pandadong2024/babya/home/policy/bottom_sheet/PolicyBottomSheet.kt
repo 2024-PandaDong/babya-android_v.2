@@ -1,6 +1,7 @@
 package kr.pandadong2024.babya.home.policy.bottom_sheet
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -128,6 +129,7 @@ class PolicyBottomSheet(
         _binding = PolicyBottomSheetBinding.inflate(inflater, container, false)
 
         binding.searchButton.setOnClickListener {
+            viewModel.setLocalTagList()
             submit(viewModel.tagsList.value?.get(1) ?: "")
             if (viewModel.tagsList.value?.isEmpty() == true) {
                 viewModel.initViewModel()
@@ -136,10 +138,10 @@ class PolicyBottomSheet(
 
             this.dismiss()
         }
-        viewModel.tagsList.observe(viewLifecycleOwner) {
+
+        viewModel.saveList.observe(viewLifecycleOwner) {
             binding.searchButton.isEnabled = it.size > 1
-        }
-        viewModel.tagsList.observe(viewLifecycleOwner) {
+            Log.d("tag", "tag : $it")
             initZoneRecyclerview(it)
             if (it.isNotEmpty()) {
                 if (countyList.keys.contains(it[0])) {
@@ -180,15 +182,19 @@ class PolicyBottomSheet(
                     localText = it,
                     isCheckedTag = (it == keyWord)
                 ) {
-                    if (keyWord == "") {
-                        viewModel.inputLocal(it)
-                    } else {
-                        viewModel.removeAll()
+                    Log.d("test", "in fun1")
+                    viewModel.removeAll()
+                    if (keyWord != "") {
+                        Log.d("test", "in fun3")
                         if (it == keyWord) {
+                            Log.d("test", "in fun4")
                             viewModel.popLocal(keyWord)
                         } else {
+                            Log.d("test", "in fun5")
                             viewModel.inputLocal(it)
                         }
+                    }else{
+                        viewModel.inputLocal(it)
                     }
                 }
             )
@@ -212,13 +218,18 @@ class PolicyBottomSheet(
                     localText = localTag,
                     isCheckedTag = localTag in selectedTags && selectedTags.size >= 2
                 ) {
+                    Log.d("test", "in fun6")
                     if (keyWord == "") {
+                        Log.d("test", "in fun7")
                         viewModel.inputLocal(localTag)
                     } else {
                         viewModel.removeSubTags()
+                        Log.d("test", "in fun8")
                         if (localTag == keyWord && (subTagList.size > 1)) {
+                            Log.d("test", "in fun9")
                             viewModel.popLocal(keyWord)
                         } else {
+                            Log.d("test", "in fun10")
                             viewModel.inputLocal(localTag)
                         }
                     }

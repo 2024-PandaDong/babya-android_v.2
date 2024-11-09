@@ -110,19 +110,22 @@ class PolicyMainFragment : Fragment() {
 
         //결과 나왔을 때 리사이 클러뷰 업데이트
         viewModel.policyList.observe(viewLifecycleOwner) {
-            setRecyclerView(it, "${viewModel.tagsList.value?.get(0) ?: ""} ${viewModel.tagsList.value?.get(1) ?: ""}")
+            if (it.size > 1) {
+                setRecyclerView(
+                    it,
+                    "${viewModel.tagsList.value?.get(0) ?: ""} ${viewModel.tagsList.value?.get(1) ?: ""}"
+                )
+            }
         }
 
 
         binding.tagEditText.setOnClickListener {
             Log.d("setOnClickListener", "click tagEditText")
+            viewModel.setSaveTagList(viewModel.tagsList.value)
             val bottomSheetDialog =
                 PolicyBottomSheet() { tag ->
-                    selectPolicy(
-                        mainTag = viewModel.tagsList.value?.get(0) ?: "대구광역시",
-                        subTag = tag,
-                        keyWord = ""
-                    )
+                    val tagNumber = getCodeByRegion("${viewModel.tagsList.value?.get(0)}_${tag}")
+                    viewModel.getPolicyList(tagNumber)
                     viewModel.initKeyword()
                 }
 
