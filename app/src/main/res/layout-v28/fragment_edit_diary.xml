@@ -26,7 +26,7 @@
             android:layout_gravity="center_horizontal"
             android:fontFamily="@font/notosanskr_bold"
             android:includeFontPadding="false"
-            android:text="2024.12.12"
+            android:text=""
             android:textSize="19sp" />
 
         <ImageButton

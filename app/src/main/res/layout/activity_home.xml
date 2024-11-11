@@ -38,7 +38,7 @@
         app:menu="@menu/bottom_home_menu"
         style="@style/BottomNavigationViewStyle"
         android:paddingTop="10dp"
-        android:paddingBottom="12dp"
+        
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
