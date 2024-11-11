@@ -2,6 +2,7 @@ package kr.pandadong2024.babya.home.todo_list.adapter
 
 import android.content.Context
 import android.icu.util.Calendar
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,9 @@ import kr.pandadong2024.babya.databinding.ItemTodoDayListBinding
 import kr.pandadong2024.babya.home.todo_list.TodoItemTouchHelper
 import kr.pandadong2024.babya.home.todo_list.decoration.TodoItemDecoration
 import kr.pandadong2024.babya.server.remote.responses.todo.TodoResponses
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.GregorianCalendar
 
 class TodoDayAdapter(
@@ -26,7 +30,9 @@ class TodoDayAdapter(
         private val binding: ItemTodoDayListBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
         private val gregorianCalendar = GregorianCalendar()
-        private val date = gregorianCalendar.get(Calendar.DATE)
+        private val currentDate: LocalDate = LocalDate.now()
+        private val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        val formattedDate: String = currentDate.format(formatter)
         private var itemData: List<TodoResponses>? = null
         private var isExpand = false
         private val isHavingDecoList = mutableMapOf<String, Boolean>()
@@ -36,12 +42,14 @@ class TodoDayAdapter(
             }
 
             itemData = getData
-            if (date == key.toInt()) {
+            Log.d("test", "date : ${formattedDate}, \n key : $key")
+            if (formattedDate == key) {
                 isExpand = true
                 binding.todoDayText.text = "오늘"
                 openItem(key)
             } else {
-                binding.todoDayText.text = key
+                val day = "${key.substring(5, 7).toInt()}월 ${key.substring(8, 10)}일"
+                binding.todoDayText.text = day
             }
 
             binding.root.setOnClickListener {
