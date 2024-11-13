@@ -15,6 +15,7 @@ import kotlinx.coroutines.withContext
 import kr.pandadong2024.babya.MyApplication.Companion.prefs
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentQuizBinding
+import kr.pandadong2024.babya.home.diary.diaryviewmodle.DiaryViewModel
 import kr.pandadong2024.babya.home.find_company.find_company_viewModel.FindCompanyViewModel
 import kr.pandadong2024.babya.home.main.MainViewModel
 import kr.pandadong2024.babya.home.policy.viewmdole.PolicyViewModel
@@ -32,6 +33,7 @@ class QuizFragment : Fragment() {
     private val mainViewModel by activityViewModels<MainViewModel>()
     private val policyViewModel by activityViewModels<PolicyViewModel>()
     private val profileViewModel by activityViewModels<ProfileViewModel>()
+    private val diaryViewModel by activityViewModels<DiaryViewModel>()
     private lateinit var tokenDao: TokenDAO
     private lateinit var accessToken: String
 
@@ -51,6 +53,9 @@ class QuizFragment : Fragment() {
                     }
                     launch {
                         profileViewModel.setAccessToken(accessToken)
+                    }
+                    launch {
+                        diaryViewModel.setAccessToken(accessToken)
                     }
                 }
             }

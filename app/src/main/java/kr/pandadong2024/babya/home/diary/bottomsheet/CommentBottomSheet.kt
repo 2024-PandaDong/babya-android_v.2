@@ -3,6 +3,7 @@ package kr.pandadong2024.babya.home.diary.bottomsheet
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,8 +11,10 @@ import android.view.WindowManager.LayoutParams
 import android.view.inputmethod.InputMethodManager
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.core.widget.NestedScrollView.OnScrollChangeListener
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.coroutines.Dispatchers
@@ -66,9 +69,10 @@ class CommentBottomSheet(
         _binding = SubCommentBottomSheetBinding.inflate(inflater, container, false)
         tokenDao = BabyaDB.getInstance(requireContext().applicationContext)?.tokenDao()!!
 
+        lifecycleScope.launch {
+            viewModel.getSubComment(commentId = parentCommentId)
+        }
 
-        viewModel.subCommentList.value =
-            setSubComment(size = 100, page = 1, commentId = parentCommentId)
         diaryId = viewModel.diaryId.value ?: -1
 
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.Transparent.toArgb()))
@@ -76,7 +80,16 @@ class CommentBottomSheet(
         binding.sendButton.setOnSingleClickListener {
             if (binding.editCommentEditText.text?.isNotEmpty() == true) {
                 val comment = binding.editCommentEditText.text.toString()
-                postSubComment(parentCommentId = parentCommentId, comment = comment)
+                lifecycleScope.launch {
+                    viewModel.postSubComment(
+                        parentCommentId = parentCommentId,
+                        comment = comment,
+                        diaryId = diaryId
+                    ) {
+                        binding.editCommentEditText.setText("")
+                    }
+                }
+
                 val inputManager: InputMethodManager =
                     requireContext().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
                 inputManager.hideSoftInputFromWindow(
@@ -89,57 +102,33 @@ class CommentBottomSheet(
             val subCommentAdapter = SubCommentAdapter(it, requireContext())
             subCommentAdapter.notifyItemRemoved(0)
             binding.subCommentRecyclerView.adapter = subCommentAdapter
+            if (viewModel.startPage.value != 1) {
+                binding.subCommentRecyclerView.scrollToPosition(
+                    viewModel.startPage.value?.minus(2) ?: 0
+                )
+            }
         }
         binding.iconCloseButton.setOnClickListener {
             dismiss()
         }
+
+        binding.subCommentRecyclerView.addOnScrollListener(
+            object : RecyclerView.OnScrollListener() {
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    super.onScrollStateChanged(recyclerView, newState)
+                    if (!binding.subCommentRecyclerView.canScrollVertically(1)
+                        && newState == RecyclerView.SCROLL_STATE_IDLE
+                    ) {
+                        viewModel.addPage(commentId = parentCommentId)
+                    }
+                }
+            }
+        )
         return binding.root
     }
 
-    private fun postSubComment(parentCommentId: Int, comment: String) {
-        lifecycleScope.launch(Dispatchers.IO) {
-            kotlin.runCatching {
-                RetrofitBuilder.getDiaryService().postComment(
-                    accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
-                    body = SubCommentRequest(
-                        comment = comment,
-                        diaryId = diaryId,
-                        parentCommentId = parentCommentId
-                    )
-                )
-            }.onSuccess { _ ->
-                withContext(Dispatchers.Main) {
-                    binding.editCommentEditText.setText("")
-                    delay(500)
-                    viewModel.subCommentList.value =
-                        setSubComment(page = 1, size = 100, commentId = parentCommentId)
-                }
-            }.onFailure { result ->
-                result.printStackTrace()
-            }
-        }
-    }
-
-
-    private fun setSubComment(commentId: Int, page: Int, size: Int): List<SubCommentResponses> {
-        var commentResult = listOf<SubCommentResponses>()
-
-        val subCommentList = runBlocking(Dispatchers.IO) {
-            launch {
-                kotlin.runCatching {
-                    RetrofitBuilder.getDiaryService().getSubComment(
-                        accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
-                        parentId = commentId,
-                        page = page,
-                        size = size
-                    )
-                }.onSuccess { result ->
-                    commentResult = result.data ?: listOf()
-                }.onFailure { result ->
-                    result.printStackTrace()
-                }
-            }
-        }
-        return commentResult
+    override fun onPause() {
+        super.onPause()
+        viewModel.initBottomSubComment()
     }
 }
