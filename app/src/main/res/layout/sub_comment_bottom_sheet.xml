@@ -2,17 +2,19 @@
 
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/policyBottomSheet"
+    android:id="@+id/subCommentBottomSheet"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:layout_gravity="bottom"
     style="@style/DialogStyle"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     >
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/subCommentBottomSheetChild"
             android:layout_width="match_parent"
-            android:layout_height="630dp"
+            android:layout_height="400dp"
             android:background="@drawable/sp_sub_comment_bottom_sheet"
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
             >
             <ImageButton
                 android:id="@+id/iconCloseButton"
@@ -119,14 +121,6 @@
                         android:hint="댓글쓰기"
                         />
                 </com.google.android.material.textfield.TextInputLayout>
-
-
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

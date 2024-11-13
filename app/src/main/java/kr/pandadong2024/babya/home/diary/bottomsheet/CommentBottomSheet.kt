@@ -6,11 +6,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager.LayoutParams
 import android.view.inputmethod.InputMethodManager
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -29,7 +31,6 @@ import kr.pandadong2024.babya.server.remote.responses.SubCommentResponses
 import kr.pandadong2024.babya.util.setOnSingleClickListener
 import kotlin.properties.Delegates
 
-// TODO  : 서브 코멘트 보여주기
 class CommentBottomSheet(
     private val parentCommentId: Int,
 ) : BottomSheetDialogFragment() {
@@ -38,6 +39,19 @@ class CommentBottomSheet(
     private var _binding: SubCommentBottomSheetBinding? = null
     private val binding get() = _binding!!
     private val viewModel by activityViewModels<DiaryViewModel>()
+
+    override fun onStart() {
+        super.onStart()
+
+        if (dialog != null) {
+            val behavior = BottomSheetBehavior.from(binding.subCommentBottomSheetChild)
+            behavior.state = BottomSheetBehavior.STATE_EXPANDED
+            behavior.isDraggable = false
+            behavior.isHideable = false
+            behavior.skipCollapsed = false
+            behavior.isFitToContents = false
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +65,8 @@ class CommentBottomSheet(
     ): View {
         _binding = SubCommentBottomSheetBinding.inflate(inflater, container, false)
         tokenDao = BabyaDB.getInstance(requireContext().applicationContext)?.tokenDao()!!
+
+
         viewModel.subCommentList.value =
             setSubComment(size = 100, page = 1, commentId = parentCommentId)
         diaryId = viewModel.diaryId.value ?: -1
