@@ -22,7 +22,7 @@ import kr.pandadong2024.babya.home.todo_list.decoration.TodoIDayItemDecoration
 import kr.pandadong2024.babya.home.viewmodel.CommonViewModel
 import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.server.local.BabyaDB
-import kr.pandadong2024.babya.server.local.TokenDAO
+import kr.pandadong2024.babya.server.local.DAO.TokenDAO
 import kr.pandadong2024.babya.server.remote.request.todo.TodoModifyRequest
 import kr.pandadong2024.babya.server.remote.request.todo.TodoRequestBody
 import kr.pandadong2024.babya.server.remote.responses.todo.TodoResponses

@@ -1,4 +1,4 @@
-package kr.pandadong2024.babya.server.local
+package kr.pandadong2024.babya.server.local.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -16,5 +16,5 @@ data class TokenEntity(
     val refreshToken: String,
 
     @ColumnInfo(name = "email")
-    val email: String
+    val email: String,
 )

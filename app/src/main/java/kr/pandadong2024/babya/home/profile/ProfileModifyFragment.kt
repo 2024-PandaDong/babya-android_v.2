@@ -17,7 +17,7 @@ import kr.pandadong2024.babya.databinding.FragmentProfileModifyBinding
 import kr.pandadong2024.babya.home.policy.getLocalByCode
 import kr.pandadong2024.babya.home.profile.profileviewmodle.ProfileViewModel
 import kr.pandadong2024.babya.server.local.BabyaDB
-import kr.pandadong2024.babya.server.local.TokenDAO
+import kr.pandadong2024.babya.server.local.DAO.TokenDAO
 import kr.pandadong2024.babya.util.shortToast
 
 
