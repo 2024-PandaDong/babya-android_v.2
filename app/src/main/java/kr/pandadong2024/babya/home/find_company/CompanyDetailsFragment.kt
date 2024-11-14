@@ -1,6 +1,9 @@
 package kr.pandadong2024.babya.home.find_company
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.ContentValues.TAG
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
@@ -11,6 +14,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -41,6 +45,7 @@ class CompanyDetailsFragment : Fragment() {
     private lateinit var tokenDao: TokenDAO
     private var isExpanded = false
     var companyLink: String = ""
+    private var address = ""
 
     private val tag = "CompanyDetailsFragment"
     override fun onCreateView(
@@ -81,6 +86,14 @@ class CompanyDetailsFragment : Fragment() {
             }
             // 상태 변경
             isExpanded = !isExpanded
+        }
+
+        binding.locationCopy.setOnClickListener{
+            copyAddressToClipboard(requireContext(), address)
+        }
+
+        binding.locationBtn.setOnClickListener {
+            copyAddressToClipboard(requireContext(), address)
         }
 
 
@@ -158,6 +171,7 @@ class CompanyDetailsFragment : Fragment() {
             companyLink = result.data?.link.toString()
             binding.field.text = result.data?.businessType+" | "
             binding.region.text = result.data?.address?.substringBefore(" ")
+            address = result.data?.address.toString()
             binding.standard.text = result.data?.salaryYear.toString()+"년"
 
             binding.salaryMin.text = result.data?.minSalary.toString() + " 만원"
@@ -183,14 +197,33 @@ class CompanyDetailsFragment : Fragment() {
             // 해택 및 복지 추가
             binding.mtrLvPeriod.text = result.data?.mtrLvPeriod.toString() // 육아 휴직 기간
             binding.mtrLvSalary.text = result.data?.mtrLvSalary.toString() // 육아 휴직 급여 비율
-            binding.mtrLvIsSalary.text = result.data?.mtrLvIsSalary        // 유급 여부
+             // 유급 여부
+            if (result.data?.mtrLvIsSalary == "N") {
+                binding.mtrLvIsSalary.text = "X"
+            } else {
+                binding.mtrLvIsSalary.text = "O"
+            }
+            // 재택근무 가능 여부
+            if (result.data?.telComIsCan == "N"){
+                binding.telComIsCan.text = "X"
+            } else {
+                binding.telComIsCan.text = "O"
+            }
             binding.mtrSupMoney.text = result.data?.mtrSupMoney.toString() // 출산 비용 지원금
             binding.mtrSupCondition.text = result.data?.mtrSupCondition    // 출산 비용 지원 조건
             binding.telComDays.text = result.data?.telComDays.toString()   // 재택근무 일 수
-            binding.telComIsCan.text = result.data?.telComIsCan            // 재택근무 가능 여부
             binding.telComTime.text = result.data?.telComTime.toString()   // 재택근무 시간
             binding.subsdType.text = result.data?.subsdType                // 보조금 지원 종류
             binding.subsdMoney.text = result.data?.subsdMoney.toString()   // 보조금 지원 액
         }
+    }
+
+    fun copyAddressToClipboard(context: Context, address: String) {
+        val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clip = ClipData.newPlainText("address", address)
+        clipboard.setPrimaryClip(clip)
+
+        // 선택사항: 복사 완료 메시지 표시
+        Toast.makeText(context, "주소가 복사되었습니다.", Toast.LENGTH_SHORT).show()
     }
 }
