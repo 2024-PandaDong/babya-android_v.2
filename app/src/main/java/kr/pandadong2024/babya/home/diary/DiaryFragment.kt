@@ -32,7 +32,7 @@ class DiaryFragment : Fragment() {
     private var _binding: FragmentDiaryBinding? = null
     private var diaryList: List<DiaryDataResponses>? = null
     private val binding get() = _binding!!
-    private val diaryViewModel by activityViewModels<DiaryViewModel>()
+    private val viewModel by activityViewModels<DiaryViewModel>()
     private lateinit var tokenDao: TokenDAO
     private var isPublic = true
     private lateinit var diaryMainGridViewAdapter: DiaryMainGridViewAdapter
@@ -53,13 +53,12 @@ class DiaryFragment : Fragment() {
     ): View {
         (requireActivity() as BottomControllable).setBottomNavVisibility(false)
         _binding = FragmentDiaryBinding.inflate(inflater, container, false)
-        initDiaryGridView()
 
         binding.backButton.setOnClickListener {
             findNavController().navigate(R.id.action_diaryFragment_to_mainFragment)
         }
 
-        diaryViewModel.isOpenSearchView.observe(viewLifecycleOwner) {
+        viewModel.isOpenSearchView.observe(viewLifecycleOwner) {
             isSearchActivated = it
             if (it) {
                 binding.searchEditText.visibility = View.VISIBLE
@@ -68,18 +67,13 @@ class DiaryFragment : Fragment() {
             }
         }
 
-        diaryViewModel.diarySearchKeyWord.observe(viewLifecycleOwner) {
+        viewModel.diarySearchKeyWord.observe(viewLifecycleOwner) {
             if (it != "") {
                 searchKeyWord = it
-                diaryViewModel.getDiaryData(page = 1, size = 100, keyword = it)
+                val keyword = binding.searchEditText.text.toString()
+                val searchList = mutableListOf<DiaryDataResponses>()
+                getDiaryData(page = 1, size = 100, type = 1, keyword = it)
             }
-        }
-
-        diaryViewModel.diaryList.observe(viewLifecycleOwner){
-            if (binding.swipeRefreshLayout.isRefreshing) {
-                binding.swipeRefreshLayout.isRefreshing = false
-            }
-            changeGridView(it)
         }
 
 
@@ -93,42 +87,42 @@ class DiaryFragment : Fragment() {
 
         binding.searchButton.setOnSingleClickListener {
             if (isSearchActivated && binding.searchEditText.text.isNotBlank()) {
-                diaryViewModel.setDiarySearchKeyWord(binding.searchEditText.text.toString())
+                viewModel.setDiarySearchKeyWord(binding.searchEditText.text.toString())
             } else {
-                diaryViewModel.changeOpenSearchView()
+                viewModel.changeOpenSearchView()
             }
         }
 
         binding.swipeRefreshLayout.setOnRefreshListener(
             SwipeRefreshLayout.OnRefreshListener {
-                val type = if (diaryViewModel.isPublic.value == true) {
+                val type = if (viewModel.isPublic.value == true) {
                     2
                 } else {
                     1
                 }
 
-                diaryViewModel.getDiaryData(
+                getDiaryData(
                     page = 1,
                     size = 100,
-
+                    type = type
                 )
             }
         )
 
         binding.diaryTabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                diaryViewModel.initKeyword()
+                viewModel.initKeyword()
                 binding.searchEditText.setText("")
                 val imm: InputMethodManager =
                     requireContext().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
                 imm.hideSoftInputFromWindow(binding.root.windowToken, 0)
                 when (tab?.text) {
                     "공개" -> {
-                        diaryViewModel.isPublic.value = true
+                        viewModel.isPublic.value = true
                     }
 
                     "비공개" -> {
-                        diaryViewModel.isPublic.value = false
+                        viewModel.isPublic.value = false
                     }
                 }
             }
@@ -146,15 +140,15 @@ class DiaryFragment : Fragment() {
         binding.diaryEditFloatingActionButton.setOnClickListener {
             findNavController().navigate(R.id.action_diaryFragment_to_editDiaryFragment)
         }
-        diaryViewModel.isPublic.observe(viewLifecycleOwner) {
-            Log.d("test", "it : $it")
+        viewModel.isPublic.value = true
+        viewModel.isPublic.observe(viewLifecycleOwner) {
             when (it) {
                 true -> {
-                    diaryViewModel.getDiaryData(page = 1, size = 100)
+                    getDiaryData(page = 1, size = 100, type = 2)
                 }
 
                 false -> {
-                    diaryViewModel.getDiaryData(page = 1, size = 100)
+                    getDiaryData(page = 1, size = 100, type = 1)
                 }
             }
         }
@@ -177,11 +171,12 @@ class DiaryFragment : Fragment() {
     }
 
     private fun initDiaryGridView() {
+
         diaryMainGridViewAdapter =
-            DiaryMainGridViewAdapter(listOf()) { diaryId, memberId ->
+            DiaryMainGridViewAdapter(diaryList ?: listOf()) { diaryId, memberId ->
                 lifecycleScope.launch(Dispatchers.Main) {
                     kotlin.runCatching {
-                        diaryViewModel.diaryId.value = diaryId
+                        viewModel.diaryId.value = diaryId
                         if (memberId == myEmail) {
                             findNavController().navigate(R.id.action_diaryFragment_to_detailWriterFragment)
                         } else {
@@ -191,82 +186,90 @@ class DiaryFragment : Fragment() {
                         it.printStackTrace()
                     }
                 }
+
+
             }
+        diaryMainGridViewAdapter.notifyDataSetChanged()
+
         binding.DiaryGridView.adapter = diaryMainGridViewAdapter
+
     }
 
-    private fun changeGridView(diaryList : List<DiaryDataResponses>) {
-        Log.d("test", "in change")
-        diaryMainGridViewAdapter.setDiaryList(diaryList.toMutableList())
+    private fun changeGridView() {
+        val changeList = mutableListOf<DiaryDataResponses>()
+
+        isPublic = isPublic.not()
+        Log.d(TAG, "list : $changeList")
+        diaryMainGridViewAdapter.setDiaryList(diaryList?.toMutableList() ?: mutableListOf())
         diaryMainGridViewAdapter.notifyDataSetChanged()
     }
 
 
     // type | 1 : my | 2 : all
-//    private fun getDiaryData(
-//        page: Int,
-//        size: Int,
-//        keyword: String = "",
-//        type: Int
-//    ) {
-//        lifecycleScope.launch(Dispatchers.IO) {
-//            kotlin.runCatching {
-//                var diaryData: BaseResponse<List<DiaryDataResponses>>? = null
-//                myEmail = tokenDao.getMembers().email
-//                Log.d(TAG, "email : ${tokenDao.getMembers().email}")
-//
-//                when (type) {
-//                    1 -> {
-//                        diaryData = RetrofitBuilder.getDiaryService().getMyDiaryData(
-//                            accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
-//                            page = page,
-//                            size = size,
-//                            keyword = keyword
-//                        )
-//
-//                    }
-//
-//                    2 -> {
-//                        isPublic = true
-//                        diaryData = RetrofitBuilder.getDiaryService().getDiaryList(
-//                            accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
-//                            page = page,
-//                            size = size,
-//                            keyword = keyword
-//
-//                        )
-//                    }
-//
-//                    else -> {
-//                        RetrofitBuilder.getDiaryService().getDiaryList(
-//                            accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
-//                            page = page,
-//                            size = size,
-//                            keyword = keyword
-//                        )
-//                    }
-//                }
-//                Log.d(TAG, "status : ${diaryData?.status}, message : ${diaryData?.message}")
-//                diaryList = diaryData?.data
-//            }.onFailure {
-//                Log.d(TAG, "${it.message}")
-//                diaryList = listOf(
-//                    DiaryDataResponses()
-//                )
-//                lifecycleScope.launch(Dispatchers.Main) {
-//                    initDiaryGridView()
-//                }
-//            }.onSuccess {
-//                lifecycleScope.launch(Dispatchers.Main) {
-//                    binding.swipeRefreshLayout.isRefreshing = false
-//                    initDiaryGridView()
-//                    if (type == 1) {
-//                        delay(1)
-//                        changeGridView()
-//                    }
-//                }
-//            }
-//        }
-//    }
+    private fun getDiaryData(
+        page: Int,
+        size: Int,
+        keyword: String = "",
+        type: Int
+    ) {
+        lifecycleScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                var diaryData: BaseResponse<List<DiaryDataResponses>>? = null
+                myEmail = tokenDao.getMembers().email
+                Log.d(TAG, "email : ${tokenDao.getMembers().email}")
+
+                when (type) {
+                    1 -> {
+                        diaryData = RetrofitBuilder.getDiaryService().getMyDiaryData(
+                            accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
+                            page = page,
+                            size = size,
+                            keyword = keyword
+                        )
+
+                    }
+
+                    2 -> {
+                        isPublic = true
+                        diaryData = RetrofitBuilder.getDiaryService().getDiaryList(
+                            accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
+                            page = page,
+                            size = size,
+                            keyword = keyword
+
+                        )
+                    }
+
+                    else -> {
+                        RetrofitBuilder.getDiaryService().getDiaryList(
+                            accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
+                            page = page,
+                            size = size,
+                            keyword = keyword
+                        )
+                    }
+                }
+                Log.d(TAG, "status : ${diaryData?.status}, message : ${diaryData?.message}")
+                diaryList = diaryData?.data
+            }.onFailure {
+                Log.d(TAG, "${it.message}")
+                diaryList = listOf(
+                    DiaryDataResponses()
+                )
+                lifecycleScope.launch(Dispatchers.Main) {
+                    initDiaryGridView()
+                }
+            }.onSuccess {
+                lifecycleScope.launch(Dispatchers.Main) {
+                    binding.swipeRefreshLayout.isRefreshing = false
+                    initDiaryGridView()
+                    if (type == 1) {
+                        delay(1)
+                        changeGridView()
+                    }
+                }
+            }
+        }
+    }
 
 }
