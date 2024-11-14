@@ -92,7 +92,7 @@ class DiaryViewModel(application: Application) : AndroidViewModel(application) {
                     }
 
                     false -> {
-                        RetrofitBuilder.getDiaryService().getMyDiaryList(
+                        RetrofitBuilder.getDiaryService().getMyDiaryData(
                             accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
                             page = page,
                             size = size,
