@@ -13,7 +13,7 @@ import kr.pandadong2024.babya.server.local.converter.ChildrenListTypeConverter
 import kr.pandadong2024.babya.server.local.entity.TokenEntity
 import kr.pandadong2024.babya.server.local.entity.UserEntity
 
-@Database(entities = [TokenEntity::class,UserEntity::class], version = 7)
+@Database(entities = [TokenEntity::class,UserEntity::class], version = 8)
 @TypeConverters(ChildrenListTypeConverter::class)
 abstract class BabyaDB : RoomDatabase() {
     abstract fun tokenDao(): TokenDAO
@@ -33,27 +33,31 @@ abstract class BabyaDB : RoomDatabase() {
                     context.applicationContext,
                     BabyaDB::class.java, "database"
                 )
-                    .addMigrations(MIGRATION_6_7)
+                    .addMigrations(MIGRATION_7_8)
                     .build()
             }
             return instance
         }
 
-        private val MIGRATION_6_7 = object : Migration(6, 7) {
+        private val MIGRATION_7_8 = object : Migration(7, 8) {
             override fun migrate(db: SupportSQLiteDatabase) {
                 db.execSQL(
-                    """
-            CREATE TABLE users_table (
-                email TEXT NOT NULL PRIMARY KEY,
-                nickname TEXT,
-                dDay TEXT,
-                birthDt TEXT,
-                marriedYears TEXT,
-                children TEXT,
-                profileImg TEXT
-            )
-            """
+                    "ALTER TABLE 'user_table' ADD COLUMN 'localCode' TEXT NOT NULL DEFAULT ''"
                 )
+//                db.execSQL(
+//                    """
+//            CREATE TABLE users_table (
+//                email TEXT NOT NULL PRIMARY KEY,
+//                nickname TEXT,
+//                dDay TEXT,
+//                birthDt TEXT,
+//                marriedYears TEXT,
+//                children TEXT,
+//                profileImg TEXT
+//            )
+//            """
+//                )
+
             }
         }
 

@@ -25,6 +25,9 @@ data class UserEntity(
     @ColumnInfo("children")
     val children: String?,
 
+    @ColumnInfo("localCode")
+    val localCode: String?,
+
     @ColumnInfo("profileImg")
     val profileImg: String?,
 )
