@@ -15,6 +15,7 @@ import kotlinx.coroutines.withContext
 import kr.pandadong2024.babya.MyApplication.Companion.prefs
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentQuizBinding
+import kr.pandadong2024.babya.home.diary.diaryviewmodle.DiaryViewModel
 import kr.pandadong2024.babya.home.find_company.find_company_viewModel.FindCompanyViewModel
 import kr.pandadong2024.babya.home.main.MainViewModel
 import kr.pandadong2024.babya.home.policy.viewmdole.PolicyViewModel
@@ -32,6 +33,7 @@ class QuizFragment : Fragment() {
     private val mainViewModel by activityViewModels<MainViewModel>()
     private val policyViewModel by activityViewModels<PolicyViewModel>()
     private val profileViewModel by activityViewModels<ProfileViewModel>()
+    private val diaryViewModel by activityViewModels<DiaryViewModel>()
     private lateinit var tokenDao: TokenDAO
     private lateinit var accessToken: String
 
@@ -42,11 +44,20 @@ class QuizFragment : Fragment() {
             lifecycleScope.launch(Dispatchers.IO) {
                 accessToken = BabyaDB.getInstance(requireContext())?.tokenDao()
                     ?.getMembers()?.accessToken.toString()
-                    withContext(Dispatchers.Main){
+                withContext(Dispatchers.Main) {
+                    launch {
                         findCompanyViewModel.setAccessToken(accessToken)
+                    }
+                    launch {
                         mainViewModel.setAccessToken(accessToken)
+                    }
+                    launch {
                         profileViewModel.setAccessToken(accessToken)
                     }
+                    launch {
+                        diaryViewModel.setAccessToken(accessToken)
+                    }
+                }
             }
         }
     }
@@ -60,8 +71,8 @@ class QuizFragment : Fragment() {
         _binding = FragmentQuizBinding.inflate(inflater, container, false)
         (requireActivity() as BottomControllable).setBottomNavVisibility(false)
 
-        viewModel.message.observe(viewLifecycleOwner){
-            if (it != ""){
+        viewModel.message.observe(viewLifecycleOwner) {
+            if (it != "") {
                 requireContext().shortToast(it)
             }
         }
@@ -99,6 +110,11 @@ class QuizFragment : Fragment() {
                 R.id.action_quizFragment_to_quizResultFragment
             }
         )
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (requireActivity() as BottomControllable).setBottomNavVisibility(false)
     }
 
     override fun onPause() {

@@ -4,7 +4,7 @@ data class EditDiaryRequest(
     val content: String,
     val diastolicPressure: Int,
     val emoji: String,
-    val fetusComment: String,
+//    val fetusComment: String,
     val isPublic: Boolean,
     val nextAppointment: String,
     val pregnancyWeeks: Int,

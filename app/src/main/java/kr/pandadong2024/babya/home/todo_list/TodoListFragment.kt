@@ -275,10 +275,11 @@ class TodoListFragment : Fragment() {
                 if (result.status == 200) {
                     val todoList: MutableMap<String, MutableList<TodoResponses>> = mutableMapOf()
                     result.data?.forEach {
-                        if (todoList.keys.contains(it.planedDt?.substring(8, 10))) { //0000-00-00
-                            todoList[it.planedDt?.substring(8, 10)]?.add(it)
+                        val day = "${it.planedDt}"
+                        if (todoList.keys.contains(day)) { //0000-00-00
+                            todoList[day]?.add(it)
                         } else {
-                            todoList[it.planedDt?.substring(8, 10) ?: ""] = mutableListOf(it)
+                            todoList[day] = mutableListOf(it)
                         }
                     }
 
@@ -334,7 +335,6 @@ class TodoListFragment : Fragment() {
                 }
             }
         }
-
     }
 
     override fun onDestroy() {

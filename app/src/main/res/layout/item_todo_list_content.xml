@@ -48,10 +48,12 @@
             android:layout_height="20dp"
             android:background="@drawable/sel_check_box"
             android:button="@null"
+
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="10dp"
+            android:checked="false"
             />
         <TextView
             android:id="@+id/todoContentText"

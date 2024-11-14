@@ -1,6 +1,7 @@
 package kr.pandadong2024.babya.home.policy.bottom_sheet
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -128,6 +129,7 @@ class PolicyBottomSheet(
         _binding = PolicyBottomSheetBinding.inflate(inflater, container, false)
 
         binding.searchButton.setOnClickListener {
+            viewModel.setLocalTagList()
             submit(viewModel.tagsList.value?.get(1) ?: "")
             if (viewModel.tagsList.value?.isEmpty() == true) {
                 viewModel.initViewModel()
@@ -136,10 +138,10 @@ class PolicyBottomSheet(
 
             this.dismiss()
         }
-        viewModel.tagsList.observe(viewLifecycleOwner) {
+
+        viewModel.saveList.observe(viewLifecycleOwner) {
             binding.searchButton.isEnabled = it.size > 1
-        }
-        viewModel.tagsList.observe(viewLifecycleOwner) {
+            Log.d("tag", "tag : $it")
             initZoneRecyclerview(it)
             if (it.isNotEmpty()) {
                 if (countyList.keys.contains(it[0])) {
@@ -175,29 +177,27 @@ class PolicyBottomSheet(
         zoneList.forEach {
             val chipGroup = binding.ZoneChipGroup
 
-            chipGroup.addView(Chip(requireContext()).apply {
-                text = it  // text 세팅
-                isCheckable = true
-                isChecked = (it == keyWord)
-                setChipBackgroundColorResource(R.color.backgroundNormalNormal)
-                setTextColor(resources.getColorStateList(R.color.chip_color, null))
-                setChipStrokeColorResource(R.color.chip_color)
-                chipCornerRadius = 31f
-                chipStrokeWidth = 3f
-
-                setOnClickListener { view ->
-                    if (keyWord == "") {
-                        viewModel.inputLocal(it)
-                    } else {
-                        viewModel.removeAll()
+            chipGroup.addView(
+                generateLocalTagChips(
+                    localText = it,
+                    isCheckedTag = (it == keyWord)
+                ) {
+                    Log.d("test", "in fun1")
+                    viewModel.removeAll()
+                    if (keyWord != "") {
+                        Log.d("test", "in fun3")
                         if (it == keyWord) {
+                            Log.d("test", "in fun4")
                             viewModel.popLocal(keyWord)
                         } else {
+                            Log.d("test", "in fun5")
                             viewModel.inputLocal(it)
                         }
+                    }else{
+                        viewModel.inputLocal(it)
                     }
                 }
-            })
+            )
         }
     }
 
@@ -213,75 +213,61 @@ class PolicyBottomSheet(
         subTagList.forEach { localTag ->
             val localChipGroup = binding.localChipGroup
 
-            localChipGroup.addView(Chip(requireContext()).apply {
-                text = localTag  // text 세팅
-                isCheckable = true
-                isChecked = localTag in selectedTags && selectedTags.size >= 2
-                setChipBackgroundColorResource(R.color.backgroundNormalNormal)
-                setTextColor(resources.getColorStateList(R.color.chip_color, null))
-                setChipStrokeColorResource(R.color.chip_color)
-                chipCornerRadius = 31f
-                chipStrokeWidth = 3f
-
-                setOnClickListener { view ->
+            localChipGroup.addView(
+                generateLocalTagChips(
+                    localText = localTag,
+                    isCheckedTag = localTag in selectedTags && selectedTags.size >= 2
+                ) {
+                    Log.d("test", "in fun6")
                     if (keyWord == "") {
+                        Log.d("test", "in fun7")
                         viewModel.inputLocal(localTag)
                     } else {
                         viewModel.removeSubTags()
+                        Log.d("test", "in fun8")
                         if (localTag == keyWord && (subTagList.size > 1)) {
+                            Log.d("test", "in fun9")
                             viewModel.popLocal(keyWord)
                         } else {
+                            Log.d("test", "in fun10")
                             viewModel.inputLocal(localTag)
                         }
                     }
                 }
-            })
+            )
 
         }
     }
 
+    private fun generateLocalTagChips(
+        localText: String,
+        isCheckedTag: Boolean,
+        tagOnclick: () -> Unit
+    ): Chip {
+        return Chip(requireContext()).apply {
+            text = localText  // text 세팅
+            isCheckable = true
+            isChecked = isCheckedTag
+            setChipBackgroundColorResource(R.color.backgroundNormalNormal)
+            setTextColor(resources.getColorStateList(R.color.chip_color, null))
+            setChipStrokeColorResource(R.color.chip_color)
+            chipCornerRadius = 25f
+            chipStrokeWidth = 3.5f
+            chipMinHeight = 70f
+            fontFeatureSettings = resources.getResourceName(R.font.notosanskr_medium)
+            setPadding(
+                0,
+                2,
+                0,
+                3,
+            )
+            ensureAccessibleTouchTarget(100)
+            chipStartPadding = 7f
+            chipEndPadding = 7f
 
-    private fun encodingLocateNumber(locationList: List<String>): MutableList<String> {
-        val result = mutableListOf<String>()
-        locationList.forEach {
-            when (it) {
-                "남구" -> result.add("104010")
-                "달서구" -> result.add("104020")
-                "달성군" -> result.add("104030")
-                "동구" -> result.add("104040")
-                "북구" -> result.add("104050")
-                "서구" -> result.add("104060")
-                "수성구" -> result.add("104070")
-                "중구" -> result.add("104080")
-                "군위군" -> result.add("104090")
+            setOnClickListener { view ->
+                tagOnclick()
             }
         }
-        return result
-    }
-
-    private fun decodingLocateNumber(locationList: List<String>): MutableList<String> {
-        val result = mutableListOf<String>()
-        locationList.forEach {
-            when (it) {
-                "11" -> result.add("서울특별시")
-                "21" -> result.add("부산광역시")
-                "22" -> result.add("대구광역시")
-                "23" -> result.add("인천광역시")
-                "24" -> result.add("광주광역시")
-                "25" -> result.add("대전광역시")
-                "26" -> result.add("울산광역시")
-                "31" -> result.add("경기도")
-                "29" -> result.add("세종특별자치시")
-                "32" -> result.add("강원도")
-                "33" -> result.add("충청북도")
-                "34" -> result.add("충청남도")
-                "35" -> result.add("전라북도")
-                "36" -> result.add("전라남도")
-                "37" -> result.add("경상북도")
-                "38" -> result.add("경상남도")
-                "39" -> result.add("제주특별자치도")
-            }
-        }
-        return result
     }
 }

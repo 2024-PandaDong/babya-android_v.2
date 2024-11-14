@@ -16,7 +16,11 @@ import retrofit2.HttpException
 
 class PolicyViewModel : ViewModel() {
     // 항상 0번째가 기초자치단체( 시, 군, 구 ) 1번째가 행정구 or 행정 군
-    val tagsList = MutableLiveData<List<String>>(listOf())
+    val _tagsList = MutableLiveData<List<String>>(listOf())
+    val tagsList : LiveData<List<String>> = _tagsList
+
+    private val _saveList = MutableLiveData<MutableList<String>>(mutableListOf())
+    val saveList : LiveData<MutableList<String>>  = _saveList
 
     val policyList = MutableLiveData<List<PolicyListResponse>>(listOf())
 
@@ -38,9 +42,19 @@ class PolicyViewModel : ViewModel() {
 
 
     fun inputLocal(tagName: String) {
-        val list = tagsList.value?.toMutableList() ?: return
+        val list = saveList.value ?: return
         list.add(tagName)
-        tagsList.value = list
+        _saveList.value = list
+        Log.d("test", "_saveList ${_saveList.value}")
+        Log.d("test", "saveList ${saveList.value}")
+
+//        val list = tagsList.value?.toMutableList() ?: return
+//        list.add(tagName)
+//        _tagsList.value = list
+    }
+
+    fun setLocalTagList(){
+        _tagsList.value = saveList.value
     }
 
     fun setUserRegionList(localList: List<String>) {
@@ -54,14 +68,19 @@ class PolicyViewModel : ViewModel() {
 
 
     fun setTagList(code: Int) {
-        tagsList.value = listOf(getLocalByCode(code.toString()), getRegionByCode(code))
+        _tagsList.value = listOf(getLocalByCode(code.toString()), getRegionByCode(code))
+        _saveList.value = mutableListOf(getLocalByCode(code.toString()), getRegionByCode(code))
     }
 
     fun popLocal(tagName: String) {
-        val list = tagsList.value?.toMutableList() ?: return
+//        val list = tagsList.value?.toMutableList() ?: return
+//        list.remove(tagName)
+//
+//        _tagsList.value = list
+        Log.d("test", "in list")
+        val list = saveList.value ?: return
         list.remove(tagName)
-
-        tagsList.value = list
+        _saveList.value = list
     }
 
     fun setPolicyId(inputId: Int) {
@@ -77,16 +96,20 @@ class PolicyViewModel : ViewModel() {
     }
 
     fun removeAll() {
-        tagsList.value = listOf()
+//        _tagsList.value = listOf()
+        _saveList.value = mutableListOf()
     }
 
     fun removeSubTags() {
-        val list = listOf(tagsList.value?.get(0) ?: "알 수 없음")
-        tagsList.value = list
+//        val list = listOf(tagsList.value?.get(0) ?: "알 수 없음")
+//        _tagsList.value = list
+        _saveList.value = mutableListOf(saveList.value?.get(0) ?: "알 수 없음")
     }
 
+
     fun initViewModel() {
-        tagsList.value = listOf()
+//        _tagsList.value = listOf()
+        _saveList.value = mutableListOf()
     }
 
     fun initKeyword() {
@@ -95,11 +118,11 @@ class PolicyViewModel : ViewModel() {
     }
 
 
-    fun getPolicyList(code: String) = viewModelScope.launch(Dispatchers.IO) {
+    fun getPolicyList(code: String, keyword : String = "") = viewModelScope.launch(Dispatchers.IO) {
         kotlin.runCatching {
             RetrofitBuilder.getPolicyService().getPolicyList(
                 type = code,
-                keyword = ""
+                keyword = keyword
             )
         }.onSuccess {
             withContext(Dispatchers.Main) {
@@ -116,6 +139,10 @@ class PolicyViewModel : ViewModel() {
                 }
             }
         }
+    }
+
+    fun setSaveTagList(value: List<String>?) {
+        _saveList.value = value?.toMutableList()
     }
 
 }

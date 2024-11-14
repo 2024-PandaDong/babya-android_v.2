@@ -6,50 +6,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".home.quiz.QuizFragment"
     android:background="@color/white">
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/quizToolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
 
-        android:title="test"
-        style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
-        >
-        <TextView
-            android:id="@+id/publicTitleText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="일일퀴즈"
-            android:textSize="16sp"
-            android:includeFontPadding="false"
-            android:fontFamily="@font/notosanskr_medium"/>
-    </androidx.appcompat.widget.Toolbar>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/neutral95"
-        app:layout_constraintTop_toBottomOf="@id/quizToolbar"
-        />
     <TextView
         android:id="@+id/quizText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/quizToolbar"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="100dp"
         android:layout_marginHorizontal="20dp"
-
         android:fontFamily="@font/notosanskr_semibold"
         android:autoSizeTextType="uniform"
         android:textSize="20sp"
         android:autoSizeMaxTextSize="24sp"
         android:autoSizeMinTextSize="12sp"
-        android:text=""
+        android:text="asdfadsf"
         android:textAlignment="textStart"
         android:includeFontPadding="false"
         />

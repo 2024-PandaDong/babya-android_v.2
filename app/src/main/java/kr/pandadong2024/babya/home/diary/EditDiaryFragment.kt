@@ -1,8 +1,6 @@
 package kr.pandadong2024.babya.home.diary
 
 import android.app.DatePickerDialog
-import android.app.Dialog
-import android.content.Intent
 import android.graphics.Color
 import android.icu.util.Calendar
 import android.net.Uri
@@ -11,7 +9,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.DatePicker
 import android.widget.Toast
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
@@ -28,8 +25,6 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
-import kr.pandadong2024.babya.MainActivity
-import kr.pandadong2024.babya.MyApplication
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentEditDiaryBinding
 import kr.pandadong2024.babya.home.diary.diaryviewmodle.DiaryViewModel
@@ -97,7 +92,7 @@ class EditDiaryFragment : Fragment() {
                 binding.pregnancyEditText.setText(diaryDaya.pregnancyWeeks.toString())
                 binding.bloodPressureHeightInputText.setText(diaryDaya.systolicPressure.toString())
                 binding.bloodPressureLowInputText.setText(diaryDaya.diastolicPressure.toString())
-                binding.editDiaryFetalFindingsEditText.setText(diaryDaya.fetusComment)
+//                binding.editDiaryFetalFindingsEditText.setText(diaryDaya.fetusComment)
                 binding.editDiaryMainContentEditText.setText(diaryDaya.content)
                 binding.nextDaySelectedText.text =
                     diaryDaya.nextAppointment?.replace('-', '.')
@@ -141,7 +136,8 @@ class EditDiaryFragment : Fragment() {
 
                         binding.nextDaySelectedText.text = "$year.${month + 1}.$dayOfMonth"
                         binding.nextDaySelectedText.setTextColor(Color.BLACK)
-                    }, year, month, date)
+                    }, year, month, date
+                )
             dlg.show()
         }
 
@@ -163,7 +159,7 @@ class EditDiaryFragment : Fragment() {
                         && !binding.bloodPressureHeightInputText.text.isNullOrBlank()
                         && !binding.bloodPressureLowInputText.text.isNullOrBlank()
                         && !binding.weightEditText.text.isNullOrBlank()
-                        && !binding.editDiaryFetalFindingsEditText.text.isNullOrBlank()
+//                        && !binding.editDiaryFetalFindingsEditText.text.isNullOrBlank()
                         && binding.editDiaryStatusRadioGroup.checkedRadioButtonId != -1)
             ) {
                 submit()
@@ -173,9 +169,13 @@ class EditDiaryFragment : Fragment() {
                     TAG, "${!binding.editDiaryTitleEditText.text.isNullOrBlank()}\n" +
                             "&&${!binding.editDiaryMainContentEditText.text.isNullOrBlank()}\n" +
                             "&&${!binding.weightEditText.text.isNullOrBlank()}\n" +
-                            "&&${!binding.editDiaryFetalFindingsEditText.text.isNullOrBlank()}\n" +
+//                            "&&${!binding.editDiaryFetalFindingsEditText.text.isNullOrBlank()}\n" +
                             "&&${binding.editDiaryStatusRadioGroup.checkedRadioButtonId != -1}\n" +
-                            "=${!binding.editDiaryTitleEditText.text.isNullOrBlank() && !binding.editDiaryMainContentEditText.text.isNullOrBlank() && !binding.weightEditText.text.isNullOrBlank() && !binding.editDiaryFetalFindingsEditText.text.isNullOrBlank() && binding.editDiaryStatusRadioGroup.checkedRadioButtonId != -1}"
+                            "=${
+                                !binding.editDiaryTitleEditText.text.isNullOrBlank() && !binding.editDiaryMainContentEditText.text.isNullOrBlank() && !binding.weightEditText.text.isNullOrBlank()
+//                                    && !binding.editDiaryFetalFindingsEditText.text.isNullOrBlank() 
+                                        && binding.editDiaryStatusRadioGroup.checkedRadioButtonId != -1
+                            }"
                 )
             }
         }
@@ -247,7 +247,10 @@ class EditDiaryFragment : Fragment() {
         date = String.format(Locale.KOREA, "%4d-%02d-%02d", y.toInt(), m.toInt(), d.toInt())
         val regex = Regex("^\\d{4}-\\d{2}-\\d{2}$")
         Log.d(TAG, "regex test : ${regex.matches(date)}, $y, $m, $d")
-        Log.d("modify diary", "diary : ${diaryViewModel.editDiaryData.value}, is null? ${diaryViewModel.editDiaryData.value != null}")
+        Log.d(
+            "modify diary",
+            "diary : ${diaryViewModel.editDiaryData.value}, is null? ${diaryViewModel.editDiaryData.value != null}"
+        )
         if (diaryViewModel.editDiaryData.value != null) {
             Log.d("modify diary", "in modify, ${diaryViewModel.editDiaryData.value != null}")
             modifyDiary(
@@ -273,7 +276,7 @@ class EditDiaryFragment : Fragment() {
                     emoji = emoji,
                     systolicPressure = binding.bloodPressureHeightInputText.text.toString().toInt(),
                     diastolicPressure = binding.bloodPressureLowInputText.text.toString().toInt(),
-                    fetusComment = binding.editDiaryFetalFindingsEditText.text.toString(),
+//                    fetusComment = binding.editDiaryFetalFindingsEditText.text.toString(),
                     isPublic = !binding.SwitchCompat.isChecked,
                     url = uploadFile(
                         if (selectedImageUri == null) {
@@ -363,7 +366,8 @@ class EditDiaryFragment : Fragment() {
                     } else {
                         listOf()
                     }
-                } }
+                }
+            }
 
             val editDiaryRequestBody = EditDiaryRequest(
                 title = binding.editDiaryTitleEditText.text.toString(),
@@ -374,7 +378,7 @@ class EditDiaryFragment : Fragment() {
                 emoji = emoji,
                 systolicPressure = binding.bloodPressureHeightInputText.text.toString().toInt(),
                 diastolicPressure = binding.bloodPressureLowInputText.text.toString().toInt(),
-                fetusComment = binding.editDiaryFetalFindingsEditText.text.toString(),
+//                fetusComment = binding.editDiaryFetalFindingsEditText.text.toString(),
                 isPublic = !binding.SwitchCompat.isChecked,
                 url = urlList
             )

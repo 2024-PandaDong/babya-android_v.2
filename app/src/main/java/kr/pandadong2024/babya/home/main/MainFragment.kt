@@ -108,11 +108,21 @@ class MainFragment : Fragment() {
         (requireActivity() as BottomControllable).setBottomNavVisibility(true)
         // TODO : 영마이스터 끝나고 코드 115번 위치 코드 지우기
         prefs.remove()
-        mainViewModel.getBannerData()
-        findCompanyViewModel.initCompanyList()
-        profileViewModel.getUserLocalCode()
-        profileViewModel.getUserData()
 
+        runBlocking {
+            launch {
+                mainViewModel.getBannerData()
+            }
+            launch {
+                findCompanyViewModel.initCompanyList()
+            }
+            launch {
+                profileViewModel.getUserLocalCode()
+            }
+            launch {
+                profileViewModel.getUserData()
+            }
+        }
         profileViewModel.userLocalCode.observe(viewLifecycleOwner) {
             if (it.isEmpty()) return@observe
             Log.d("userLocalCode", "code : $it")
