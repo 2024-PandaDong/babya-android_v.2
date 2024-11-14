@@ -30,6 +30,13 @@ android {
             )
         }
     }
+
+    packagingOptions {
+        resources {
+            excludes += "META-INF/versions/9/OSGI-INF/MANIFEST.MF"
+        }
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -79,6 +86,7 @@ dependencies {
     implementation(libs.androidx.room.runtime.v250)
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.material3.android)
+    implementation(libs.identity.android.legacy)
     kapt(libs.androidx.room.compiler)
 
     implementation(libs.logging.interceptor)
