@@ -198,7 +198,7 @@ class DiaryViewModel(application: Application) : AndroidViewModel(application) {
                     list?.addAll(result.data ?: listOf())
 //                    list?.sortWith(comparator)
 //                    list?.reverse()
-                    _subCommentList.value = list
+                    _subCommentList.value = list ?: listOf()
                     if (result.data?.isNotEmpty() == true && addPage != 0) {
                         _startPage.value = startPage.value?.plus(addPage)
                     } else if (result.data?.isNotEmpty() == true) {
