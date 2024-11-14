@@ -49,7 +49,7 @@ class DiaryViewModel(application: Application) : AndroidViewModel(application) {
         diarySearchKeyWord.value = inputKeyWord
     }
 
-    fun setAccessToken(token : String) = viewModelScope.launch(Dispatchers.Main){
+    fun setAccessToken(token: String) = viewModelScope.launch(Dispatchers.Main) {
         _accessToken.value = token
     }
 
@@ -66,7 +66,7 @@ class DiaryViewModel(application: Application) : AndroidViewModel(application) {
         editDiaryData.value = null
     }
 
-    fun addPage(commentId: Int){
+    fun addPage(commentId: Int) {
         viewModelScope.launch { getSubComment(commentId, addPage = pagingSize) }
 
     }
@@ -89,7 +89,6 @@ class DiaryViewModel(application: Application) : AndroidViewModel(application) {
                             size = size,
                             keyword = keyword
                         )
-
                     }
 
                     false -> {
@@ -179,41 +178,46 @@ class DiaryViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    suspend fun getSubComment(commentId: Int, addPage : Int = 0) = viewModelScope.launch(Dispatchers.IO) {
-        Log.d("test", "\"Bearer ${_accessToken.value}\"")
-        Log.d("test", "page : ${_startPage.value}")
-        kotlin.runCatching {
-            RetrofitBuilder.getDiaryService().getSubComment(
-                accessToken = "Bearer ${_accessToken.value}",
-                parentId = commentId,
-                page = ((_startPage.value ?: 1 )+ addPage)-1,
-                size = (_startPage.value ?: 1) + pagingSize + addPage
-            )
-        }.onSuccess { result ->
-            withContext(Dispatchers.Main)
-            {
-                val list = subCommentList.value?.toMutableList()
-                list?.addAll(result.data ?: listOf())
-                _subCommentList.value = list
-                if(result.data?.isNotEmpty() == true && addPage != 0){
-                    _startPage.value = startPage.value?.plus(addPage)
-                }else if (result.data?.isNotEmpty() ==true){
-                    _startPage.value = startPage.value?.plus(pagingSize)
-                }
-            }
-        }.onFailure { result ->
-            if (result is HttpException) {
-                withContext(Dispatchers.Main) {
-                    if (result.code() == 500) {
-                        _toastMessage.value = "서버에서 에러가 났습니다."
-                    } else {
-                        _toastMessage.value = "덧글을 불러오는데 실패했습니다. ${result.code()}"
+    suspend fun getSubComment(commentId: Int, addPage: Int = 0) =
+        viewModelScope.launch(Dispatchers.IO) {
+            Log.d("test", "\"Bearer ${_accessToken.value}\"")
+            Log.d("test", "page : ${_startPage.value}")
+            kotlin.runCatching {
+                RetrofitBuilder.getDiaryService().getSubComment(
+                    accessToken = "Bearer ${_accessToken.value}",
+                    parentId = commentId,
+                    page = ((_startPage.value ?: 1) + addPage),
+                    size = (_startPage.value ?: 1) + pagingSize + addPage
+                )
+            }.onSuccess { result ->
+                withContext(Dispatchers.Main)
+                {
+                    val list = subCommentList.value?.toMutableList()
+//                    val comparator: Comparator<SubCommentResponses> =
+//                        compareBy<SubCommentResponses> { it.nickname }
+                    list?.addAll(result.data ?: listOf())
+//                    list?.sortWith(comparator)
+//                    list?.reverse()
+                    _subCommentList.value = list
+                    if (result.data?.isNotEmpty() == true && addPage != 0) {
+                        _startPage.value = startPage.value?.plus(addPage)
+                    } else if (result.data?.isNotEmpty() == true) {
+                        _startPage.value = startPage.value?.plus(pagingSize)
                     }
                 }
+            }.onFailure { result ->
+                if (result is HttpException) {
+                    withContext(Dispatchers.Main) {
+                        if (result.code() == 500) {
+                            _toastMessage.value = "서버에서 에러가 났습니다."
+                        } else {
+                            _toastMessage.value = "덧글을 불러오는데 실패했습니다. ${result.code()}"
+                        }
+                    }
+                }
+                result.printStackTrace()
             }
-            result.printStackTrace()
         }
-    }
 
     fun initBottomSubComment() {
         _subCommentList.value = emptyList()

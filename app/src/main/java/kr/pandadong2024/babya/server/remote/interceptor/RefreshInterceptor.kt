@@ -1,4 +1,3 @@
-import android.util.Log
 import kotlinx.coroutines.runBlocking
 import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.server.local.BabyaDB
@@ -12,7 +11,15 @@ class RefreshInterceptor : Interceptor {
         val response = chain.proceed(chain.request())
         val tokenDao = BabyaDB.getInstanceOrNull() ?: throw RuntimeException()
         val urlPath = response.request.url.toString().substring(35)
-        if ((tokenDao.tokenDao().getMembers().accessToken.isNotBlank()) && response.code == 401 && !(urlPath == "/auth/login" || urlPath == "/auth/email-verify" || urlPath == "/auth/email-send" || urlPath == "/auth/join")) {
+        if (
+            (tokenDao.tokenDao().getMembers().accessToken.isBlank())
+            && response.code == 401
+            && !(urlPath == "/auth/login"
+                    || urlPath == "/auth/email-verify"
+                    || urlPath == "/auth/email-send"
+                    || urlPath == "/auth/join"
+                    )
+        ) {
             // runBlocking을 사용하여 비동기 코드를 동기적으로 처리
             val newAccessToken = runBlocking {
                 var token: String = ""
@@ -44,6 +51,7 @@ class RefreshInterceptor : Interceptor {
                         email = tokenDao.tokenDao().getMembers().email
                     )
                 )
+
 
                 response.close()
                 // 새로운 요청 생성
