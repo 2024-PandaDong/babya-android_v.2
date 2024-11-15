@@ -34,6 +34,7 @@ abstract class BabyaDB : RoomDatabase() {
                     BabyaDB::class.java, "database"
                 )
                     .addMigrations(MIGRATION_7_8)
+                    .addMigrations(MIGRATION_5_8)
                     .build()
             }
             return instance
@@ -56,6 +57,30 @@ abstract class BabyaDB : RoomDatabase() {
 //                profileImg TEXT
 //            )
 //            """
+//                )
+
+            }
+        }
+
+        private val MIGRATION_5_8 = object : Migration(5, 8) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+
+                db.execSQL(
+                    """
+            CREATE TABLE users_table (
+                email TEXT NOT NULL PRIMARY KEY,
+                nickname TEXT,
+                dDay TEXT,
+                birthDt TEXT,
+                marriedYears TEXT,
+                children TEXT,
+                profileImg TEXT,
+                localCode TEXT
+            )
+            """
+                )
+//                db.execSQL(
+//                    "ALTER TABLE 'user_table' ADD COLUMN 'localCode' TEXT NOT NULL DEFAULT ''"
 //                )
 
             }

@@ -12,7 +12,7 @@ class RefreshInterceptor : Interceptor {
         val tokenDao = BabyaDB.getInstanceOrNull() ?: throw RuntimeException()
         val urlPath = response.request.url.toString().substring(35)
         if (
-            (tokenDao.tokenDao().getMembers().accessToken.isBlank())
+            (!tokenDao.tokenDao().getMembers().accessToken.isNullOrBlank())
             && response.code == 401
             && !(urlPath == "/auth/login"
                     || urlPath == "/auth/email-verify"

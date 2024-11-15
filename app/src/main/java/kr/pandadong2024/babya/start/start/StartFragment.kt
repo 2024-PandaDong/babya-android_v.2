@@ -35,6 +35,8 @@ class StartFragment : Fragment() {
     private var _binding: FragmentStartBinding? = null
     private val binding get() = _binding!!
 
+    private var accessToken : String? = null
+
     private val quizViewModel: QuizViewModel by activityViewModels<QuizViewModel>()
     private val findCompanyViewModel by activityViewModels<FindCompanyViewModel>()
     private val mainViewModel by activityViewModels<MainViewModel>()
@@ -45,12 +47,15 @@ class StartFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         lifecycleScope.launch(Dispatchers.IO) {
-            val now =  System.currentTimeMillis()
-            val today = SimpleDateFormat("yyyy.MM.dd", Locale.KOREAN).format(now)
-            if (today != prefs.lastEditTime){
-                prefs.lastEditTime = today
-                prefs.completeQuiz = false
+            launch {
+                val now =  System.currentTimeMillis()
+                val today = SimpleDateFormat("yyyy.MM.dd", Locale.KOREAN).format(now)
+                if (today != prefs.lastEditTime){
+                    prefs.lastEditTime = today
+                    prefs.completeQuiz = false
+                }
             }
+            getAccessToken()
         }
     }
 
@@ -63,15 +68,13 @@ class StartFragment : Fragment() {
 
 
         lifecycleScope.launch(Dispatchers.IO) {
-            val accessToken =
-                BabyaDB.getInstance(requireContext())?.tokenDao()?.getMembers()?.accessToken
 
             delay(1500)
             withContext(Dispatchers.Main) {
                 launch {
                     Log.d("StartFragment", "accessToken : $accessToken")
-                    if (!accessToken.isNullOrEmpty()) {
-                        profileViewModel.setAccessToken(token = accessToken)
+                    if ((accessToken != null)&& accessToken!!.isNotEmpty()) {
+                        profileViewModel.setAccessToken(token = accessToken!!)
                         runBlocking {
                             profileViewModel.getUserData()
                         }
@@ -91,5 +94,12 @@ class StartFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    private fun getAccessToken() {
+        lifecycleScope.launch(Dispatchers.IO) {
+            accessToken = BabyaDB.getInstance(requireContext())?.tokenDao()
+                ?.getMembers()?.accessToken
+        }
     }
 }
