@@ -3,8 +3,8 @@ import com.google.protobuf.gradle.id
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
-    id("com.google.protobuf")
-    id("kotlin-kapt")
+//    id("com.google.protobuf")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -48,24 +48,24 @@ android {
         viewBinding = true
     }
 }
-protobuf {
-    protoc {
-        artifact = "com.google.protobuf:protoc:3.24.1"
-    }
-
-    generateProtoTasks {
-        all().forEach { task ->
-            task.builtins {
-                id("java") {
-                    option("lite")
-                }
-                id("kotlin") {
-                    option("lite")
-                }
-            }
-        }
-    }
-}
+//protobuf {
+//    protoc {
+//        artifact = "com.google.protobuf:protoc:3.24.1"
+//    }
+//
+//    generateProtoTasks {
+//        all().forEach { task ->
+//            task.builtins {
+//                id("java") {
+//                    option("lite")
+//                }
+//                id("kotlin") {
+//                    option("lite")
+//                }
+//            }
+//        }
+//    }
+//}
 
 dependencies {
 
@@ -87,7 +87,7 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.material3.android)
     implementation(libs.identity.android.legacy)
-    kapt(libs.androidx.room.compiler)
+    ksp(libs.androidx.room.compiler)
 
     implementation(libs.logging.interceptor)
 
