@@ -43,26 +43,14 @@ class FindCompanyAdapter(
                 root.setOnTouchListener { view, motionEvent ->
                     Log.d("hover2", "onHover : "+ motionEvent.action)
                     when (motionEvent.action) {
-                        MotionEvent.ACTION_MOVE -> {
-                            Log.d("hover2", "onHover1 : "+ motionEvent.action)
-                            root.setBackgroundColor(Color.parseColor("#F7F7F7"))
-
-                        }
-                        MotionEvent.ACTION_UP -> {
-                            Log.d("hover2", "onHover2 : "+ motionEvent.action)
-                            root.setBackgroundColor(Color.parseColor("#ffffff"))
-                        }
-                        MotionEvent.ACTION_DOWN -> {
-                            Log.d("hover2", "onHover2 : "+ motionEvent.action)
-                            root.setBackgroundColor(Color.parseColor("#F7F7F7"))
-                        }
-                        MotionEvent.ACTION_CANCEL -> {
-                            Log.d("hover2", "onHover2 : "+ motionEvent.action)
-                            root.setBackgroundColor(Color.parseColor("#ffffff"))
-                        }
+                        MotionEvent.ACTION_MOVE -> root.setBackgroundColor(Color.parseColor("#F7F7F7"))
+                        MotionEvent.ACTION_UP -> root.setBackgroundColor(Color.parseColor("#ffffff"))
+                        MotionEvent.ACTION_DOWN -> root.setBackgroundColor(Color.parseColor("#F7F7F7"))
+                        MotionEvent.ACTION_CANCEL -> root.setBackgroundColor(Color.parseColor("#ffffff"))
                     }
                     false
                 }
+
 
                 root.setOnClickListener {
                     if (data.companyId != null){
