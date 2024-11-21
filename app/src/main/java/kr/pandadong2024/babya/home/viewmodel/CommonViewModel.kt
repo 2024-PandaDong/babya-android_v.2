@@ -1,5 +1,6 @@
 package kr.pandadong2024.babya.home.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -14,6 +15,7 @@ import kr.pandadong2024.babya.server.RetrofitBuilder
 import okhttp3.MultipartBody
 import okhttp3.internal.wait
 import retrofit2.HttpException
+import retrofit2.http.HTTP
 
 class CommonViewModel : ViewModel() {
     private val _toastMessage = MutableLiveData("")
@@ -44,18 +46,26 @@ class CommonViewModel : ViewModel() {
         _imageLinkList.value = linkList
     }
 
-    fun uploadImage(image: MultipartBody.Part) = viewModelScope.launch(Dispatchers.IO) {
-        kotlin.runCatching {
-            RetrofitBuilder.getCommonService().fileUpload(
-                accessToken = "Bearer ${_accessToken.value}",
-                file = image
-            )
-        }.onSuccess { result ->
-            withContext(Dispatchers.Main) {
-                _imageLink.value = result.data
+    fun uploadImage(image: MultipartBody.Part) = viewModelScope.launch() {
+        if (_accessToken.value?.isNotEmpty() == true) {
+            kotlin.runCatching {
+                RetrofitBuilder.getCommonService().fileUpload(
+                    accessToken = "Bearer ${_accessToken.value}",
+                    file = image
+                )
+            }.onSuccess { result ->
+                withContext(Dispatchers.Main) {
+                    _imageLink.value = result.data
+                }
+            }.onFailure { result ->
+                result.printStackTrace()
+                if (result is HttpException) {
+                    Log.e("upload image", "log : ${result.response()}")
+                    Log.e("upload image", "log : ${result.response()?.body()}")
+                }
             }
-        }.onFailure { result ->
-            result.printStackTrace()
+        }else{
+            _toastMessage.value = "인증되지 않은 사용자 입니다."
         }
     }
 
@@ -77,11 +87,19 @@ class CommonViewModel : ViewModel() {
                         imageResult.add(it.data ?: "")
                     }.onFailure { result ->
                         if (result is HttpException) {
-                            if (result.code() == 500) {
-                                _toastMessage.value = "서버에서 문제가 발생헀습니다."
-                            } else {
-                                _toastMessage.value =
-                                    "이미지를 업로드 하는데 문제가 발생했습니다. CODE : ${result.code()}"
+                            val code = result.code()
+                            when(code){
+                                500 ->{
+                                    _toastMessage.value = "서버에서 문제가 발생헀습니다."
+                                }
+                                413 ->{
+                                    _toastMessage.value =
+                                        "이미지를 업로드 하는데 문제가 발생했습니다. CODE : ${result.code()}"
+                                }
+                                else ->{
+                                    _toastMessage.value =
+                                        "이미지를 업로드 하는데 문제가 발생했습니다. CODE : ${result.code()}"
+                                }
                             }
                         }
                     }

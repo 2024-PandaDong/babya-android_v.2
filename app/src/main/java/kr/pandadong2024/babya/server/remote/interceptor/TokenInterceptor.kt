@@ -3,7 +3,7 @@ package kr.pandadong2024.babya.server.remote.interceptor
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kr.pandadong2024.babya.server.local.BabyaDB
-import kr.pandadong2024.babya.server.local.TokenDAO
+import kr.pandadong2024.babya.server.local.DAO.TokenDAO
 import okhttp3.Interceptor
 import okhttp3.Protocol
 import okhttp3.Response

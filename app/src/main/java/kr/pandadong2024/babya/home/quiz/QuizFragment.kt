@@ -20,8 +20,9 @@ import kr.pandadong2024.babya.home.find_company.find_company_viewModel.FindCompa
 import kr.pandadong2024.babya.home.main.MainViewModel
 import kr.pandadong2024.babya.home.policy.viewmdole.PolicyViewModel
 import kr.pandadong2024.babya.home.profile.profileviewmodle.ProfileViewModel
+import kr.pandadong2024.babya.home.viewmodel.CommonViewModel
 import kr.pandadong2024.babya.server.local.BabyaDB
-import kr.pandadong2024.babya.server.local.TokenDAO
+import kr.pandadong2024.babya.server.local.DAO.TokenDAO
 import kr.pandadong2024.babya.util.BottomControllable
 import kr.pandadong2024.babya.util.shortToast
 
@@ -32,6 +33,7 @@ class QuizFragment : Fragment() {
     private val findCompanyViewModel by activityViewModels<FindCompanyViewModel>()
     private val mainViewModel by activityViewModels<MainViewModel>()
     private val policyViewModel by activityViewModels<PolicyViewModel>()
+    private val commonViewModel by activityViewModels<CommonViewModel>()
     private val profileViewModel by activityViewModels<ProfileViewModel>()
     private val diaryViewModel by activityViewModels<DiaryViewModel>()
     private lateinit var tokenDao: TokenDAO
@@ -56,6 +58,9 @@ class QuizFragment : Fragment() {
                     }
                     launch {
                         diaryViewModel.setAccessToken(accessToken)
+                    }
+                    launch {
+                        commonViewModel.setAccessToken(accessToken)
                     }
                 }
             }

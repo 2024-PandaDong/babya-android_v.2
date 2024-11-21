@@ -1,7 +1,7 @@
 import kotlinx.coroutines.runBlocking
 import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.server.local.BabyaDB
-import kr.pandadong2024.babya.server.local.TokenEntity
+import kr.pandadong2024.babya.server.local.entity.TokenEntity
 import kr.pandadong2024.babya.server.remote.request.RefreshRequest
 import okhttp3.Interceptor
 import okhttp3.Response
@@ -12,7 +12,7 @@ class RefreshInterceptor : Interceptor {
         val tokenDao = BabyaDB.getInstanceOrNull() ?: throw RuntimeException()
         val urlPath = response.request.url.toString().substring(35)
         if (
-            (tokenDao.tokenDao().getMembers().accessToken.isBlank())
+            (!tokenDao.tokenDao().getMembers().accessToken.isNullOrBlank())
             && response.code == 401
             && !(urlPath == "/auth/login"
                     || urlPath == "/auth/email-verify"

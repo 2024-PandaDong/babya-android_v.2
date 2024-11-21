@@ -22,7 +22,7 @@ import kr.pandadong2024.babya.home.diary.diaryadapters.DiaryMainGridViewAdapter
 import kr.pandadong2024.babya.home.diary.diaryviewmodle.DiaryViewModel
 import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.server.local.BabyaDB
-import kr.pandadong2024.babya.server.local.TokenDAO
+import kr.pandadong2024.babya.server.local.DAO.TokenDAO
 import kr.pandadong2024.babya.server.remote.responses.BaseResponse
 import kr.pandadong2024.babya.server.remote.responses.diary.DiaryDataResponses
 import kr.pandadong2024.babya.util.BottomControllable
