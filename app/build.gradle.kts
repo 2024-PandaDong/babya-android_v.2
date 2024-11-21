@@ -73,7 +73,8 @@ dependencies {
 
     implementation("com.facebook.shimmer:shimmer:0.5.0")
 
-
+    // kakao-map
+    implementation("com.kakao.maps.open:android:2.12.8")
 
     // chart
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
