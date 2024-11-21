@@ -299,8 +299,8 @@ class DetailPublicFragment : Fragment() {
         (requireActivity() as BottomControllable).setBottomNavVisibility(false)
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onStop() {
+        super.onStop()
         viewModel.initPublicCommentList()
     }
 

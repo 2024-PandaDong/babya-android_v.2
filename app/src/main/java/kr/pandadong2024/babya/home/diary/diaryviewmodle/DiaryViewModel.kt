@@ -31,7 +31,7 @@ class DiaryViewModel(application: Application) : AndroidViewModel(application) {
 
     val editDiaryData = MutableLiveData<DiaryDataResponses?>().apply { value = null }
 
-    private val pagingSize = 3
+    val pagingSize = 3
 
     private var _accessToken = MutableLiveData<String>().apply { value = "" }
     var accessToken: LiveData<String> = _accessToken
@@ -261,7 +261,7 @@ class DiaryViewModel(application: Application) : AndroidViewModel(application) {
 
     fun initBottomSubComment() {
         _subCommentList.value = emptyList()
-        _startSubCommentPage.value = 1
+        _startSubCommentPage.value = 0
     }
 
     fun initPublicCommentList() {

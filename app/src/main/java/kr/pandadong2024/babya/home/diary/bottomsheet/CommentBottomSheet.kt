@@ -94,7 +94,7 @@ class CommentBottomSheet(
             binding.subCommentRecyclerView.adapter = subCommentAdapter
             if (viewModel.startSubCommentPage.value != 1) {
                 binding.subCommentRecyclerView.scrollToPosition(
-                    viewModel.startSubCommentPage.value?.minus(2) ?: 0
+                    it.size  - viewModel.pagingSize
                 )
             }
         }
