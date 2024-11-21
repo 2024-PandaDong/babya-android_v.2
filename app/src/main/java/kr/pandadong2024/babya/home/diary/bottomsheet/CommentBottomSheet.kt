@@ -92,9 +92,9 @@ class CommentBottomSheet(
             val subCommentAdapter = SubCommentAdapter(it, requireContext())
             subCommentAdapter.notifyItemRemoved(0)
             binding.subCommentRecyclerView.adapter = subCommentAdapter
-            if (viewModel.startPage.value != 1) {
+            if (viewModel.startSubCommentPage.value != 1) {
                 binding.subCommentRecyclerView.scrollToPosition(
-                    viewModel.startPage.value?.minus(2) ?: 0
+                    viewModel.startSubCommentPage.value?.minus(2) ?: 0
                 )
             }
         }
@@ -109,7 +109,7 @@ class CommentBottomSheet(
                     if (!binding.subCommentRecyclerView.canScrollVertically(1)
                         && newState == RecyclerView.SCROLL_STATE_IDLE
                     ) {
-                        viewModel.addPage(commentId = parentCommentId)
+                        viewModel.addSubCommentPage(commentId = parentCommentId)
                     }
                 }
             }

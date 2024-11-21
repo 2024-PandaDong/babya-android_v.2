@@ -176,7 +176,7 @@ class DiaryFragment : Fragment() {
             DiaryMainGridViewAdapter(diaryList ?: listOf()) { diaryId, memberId ->
                 lifecycleScope.launch(Dispatchers.Main) {
                     kotlin.runCatching {
-                        viewModel.diaryId.value = diaryId
+                        viewModel.setDiaryId(diaryId)
                         if (memberId == myEmail) {
                             findNavController().navigate(R.id.action_diaryFragment_to_detailWriterFragment)
                         } else {

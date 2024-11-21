@@ -12,12 +12,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentDetailPublicBinding
 import kr.pandadong2024.babya.home.diary.bottomsheet.CommentBottomSheet
@@ -27,7 +27,6 @@ import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.server.local.BabyaDB
 import kr.pandadong2024.babya.server.local.DAO.TokenDAO
 import kr.pandadong2024.babya.server.remote.request.SubCommentRequest
-import kr.pandadong2024.babya.server.remote.responses.SubCommentResponses
 import kr.pandadong2024.babya.util.BottomControllable
 import kotlin.properties.Delegates
 
@@ -57,7 +56,7 @@ class DetailPublicFragment : Fragment() {
         _binding = FragmentDetailPublicBinding.inflate(inflater, container, false)
         tokenDao = BabyaDB.getInstance(requireContext().applicationContext)?.tokenDao()!!
         initView()
-        initCommentRecyclerView(1, 100, viewModel.diaryId.value?: -1)
+        viewModel.initPublicDiary()
 
         binding.backButton.setOnClickListener {
             findNavController().navigate(R.id.action_detailPublicFragment_to_diaryFragment)
@@ -119,6 +118,38 @@ class DetailPublicFragment : Fragment() {
             }
 
         }
+
+        viewModel.commentList.observe(viewLifecycleOwner) {
+
+            commentsAdapter = CommentsAdapter(
+                commentsList = it.reversed()
+            ) { id ->
+                val commentBottomSheet = CommentBottomSheet(id)
+                commentBottomSheet.show(
+                    requireActivity().supportFragmentManager,
+                    commentBottomSheet.tag
+                )
+
+            }
+            commentsAdapter.notifyItemRemoved(0)
+            with(binding) {
+                commentRecyclerView.adapter = commentsAdapter
+            }
+        }
+
+        binding.commentRecyclerView.addOnScrollListener(
+            object : RecyclerView.OnScrollListener() {
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    super.onScrollStateChanged(recyclerView, newState)
+                    if (!binding.commentRecyclerView.canScrollVertically(1)
+                        && newState == RecyclerView.SCROLL_STATE_IDLE
+                    ) {
+                        viewModel.addCommentPage()
+                    }
+                }
+            }
+        )
+
         return binding.root
     }
 
@@ -138,7 +169,7 @@ class DetailPublicFragment : Fragment() {
                 Log.d(TAG, "status : ${result.status}")
                 Log.d(TAG, "data : ${result.data}")
                 delay(500)
-                initCommentRecyclerView(1, 100, viewModel.diaryId.value ?: -1)
+                viewModel.getCommentList()
             }.onFailure { result ->
                 Log.e(TAG, "result : ${result.message}")
                 result.printStackTrace()
@@ -164,7 +195,7 @@ class DetailPublicFragment : Fragment() {
                 Log.d(TAG, "status : ${result.status}")
                 Log.d(TAG, "data : ${result.data}")
                 delay(500)
-                initCommentRecyclerView(1, 100, viewModel.diaryId.value?: -1)
+                viewModel.getCommentList()
             }.onFailure { result ->
                 Log.e(TAG, "result : ${result.message}")
                 result.printStackTrace()
@@ -174,30 +205,28 @@ class DetailPublicFragment : Fragment() {
     }
 
     private fun initView() {
-        lifecycleScope.launch(Dispatchers.IO) {
-            launch(Dispatchers.IO) {
-                kotlin.runCatching {
-                    RetrofitBuilder.getCommonService().getProfile(
-                        accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
-                        email = "my"
-                    )
-                }.onSuccess { result ->
-                    Log.e(TAG, "profile result : ${result.message}")
-                    Log.e(TAG, "profile result : ${result.data}")
-                    Log.e(TAG, "profile result : ${result.status}")
-                    launch(Dispatchers.Main) {
-//                        binding.profileImage.load(result.data?.profileImg)
-                    }
-
-                }.onFailure { result ->
-                    Log.e(TAG, "result : ${result.message}")
-                    result.printStackTrace()
-                }
-
-            }
+        lifecycleScope.launch() {
+//                kotlin.runCatching {
+//                    RetrofitBuilder.getCommonService().getProfile(
+//                        accessToken = "Bearer ${viewModel.accessToken}",
+//                        email = "my"
+//                    )
+//                }.onSuccess { result ->
+//                    Log.e(TAG, "profile result : ${result.message}")
+//                    Log.e(TAG, "profile result : ${result.data}")
+//                    Log.e(TAG, "profile result : ${result.status}")
+//                    launch(Dispatchers.Main) {
+////                        binding.profileImage.load(result.data?.profileImg)
+//                    }
+//
+//                }.onFailure { result ->
+//                    Log.e(TAG, "result : ${result.message}")
+//                    result.printStackTrace()
+//                }
+            Log.d("token in diary", "token : ${viewModel.accessToken.value}")
             kotlin.runCatching {
                 RetrofitBuilder.getDiaryService().getDiaryData(
-                    accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
+                    accessToken = "Bearer ${viewModel.accessToken.value}",
                     id = viewModel.diaryId.value ?: -1
                 )
             }.onSuccess { result ->
@@ -223,77 +252,57 @@ class DetailPublicFragment : Fragment() {
         }
     }
 
-    private fun initCommentRecyclerView(page: Int, size: Int, parentId: Int) {
-        lifecycleScope.launch(Dispatchers.IO) {
-            kotlin.runCatching {
-                RetrofitBuilder.getDiaryService().getComment(
-                    accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
-                    page = page,
-                    size = size,
-                    diaryId = parentId
-                )
-            }.onSuccess { result ->
-                Log.d(TAG, "message : ${result.message}")
-                Log.d(TAG, "status : ${result.status}")
-                Log.d(TAG, "data : ${result.data}")
-                launch(Dispatchers.Main) {
-
-                    commentsAdapter = result.data?.let {
-                        CommentsAdapter(
-                            commentsList = it.reversed(),
-                        ) { id ->
-                            val commentBottomSheet = CommentBottomSheet(id)
-                            commentBottomSheet.show(
-                                requireActivity().supportFragmentManager,
-                                commentBottomSheet.tag
-                            )
-
-                        }
-                    }!!
-                    commentsAdapter.notifyItemRemoved(0)
-                    with(binding) {
-                        commentRecyclerView.adapter = commentsAdapter
-                    }
-                }
-
-            }.onFailure { result ->
-                result.printStackTrace()
-                Log.d(TAG, "message : ${result.message}")
-
-            }
-        }
-    }
-
-    private fun getSubComment(commentId: Int, page: Int, size: Int): List<SubCommentResponses> {
-        var commentResult = listOf<SubCommentResponses>()
-        val subCommentList = runBlocking(Dispatchers.IO) {
-            launch {
-                kotlin.runCatching {
-                    RetrofitBuilder.getDiaryService().getSubComment(
-                        accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
-                        parentId = commentId,
-                        page = page,
-                        size = size
-                    )
-                }.onSuccess { result ->
-                    commentResult = result.data?: listOf()
-                    Log.d(TAG, "subcomment result : $result")
-                    Log.d(TAG, "2")
-                }.onFailure { result ->
-                    result.printStackTrace()
-                }
-            }
-        }
-
-        Log.d(TAG, "subcomment result : $commentResult")
-        return commentResult
-
-    }
-
-//    override fun onPause() {
-//        super.onPause()
-//        (requireActivity() as BottomControllable).setBottomNavVisibility(false)
+//    private fun initCommentRecyclerView(page: Int, size: Int, parentId: Int) {
+//        lifecycleScope.launch(Dispatchers.IO) {
+//            kotlin.runCatching {
+//                RetrofitBuilder.getDiaryService().getComment(
+//                    accessToken = "Bearer ${viewModel.accessToken}",
+//                    page = page,
+//                    size = size,
+//                    diaryId = parentId
+//                )
+//            }.onSuccess { result ->
+//                Log.d(TAG, "message : ${result.message}")
+//                Log.d(TAG, "status : ${result.status}")
+//                Log.d(TAG, "data : ${result.data}")
+//                launch(Dispatchers.Main) {
+//
+//                    commentsAdapter = result.data?.let {
+//                        CommentsAdapter(
+//                            commentsList = it.reversed(),
+//                        ) { id ->
+//                            val commentBottomSheet = CommentBottomSheet(id)
+//                            commentBottomSheet.show(
+//                                requireActivity().supportFragmentManager,
+//                                commentBottomSheet.tag
+//                            )
+//
+//                        }
+//                    }!!
+//                    commentsAdapter.notifyItemRemoved(0)
+//                    with(binding) {
+//                        commentRecyclerView.adapter = commentsAdapter
+//                    }
+//                }
+//
+//            }.onFailure { result ->
+//                result.printStackTrace()
+//                Log.d(TAG, "message : ${result.message}")
+//
+//            }
+//        }
 //    }
+
+
+    override fun onPause() {
+        super.onPause()
+        (requireActivity() as BottomControllable).setBottomNavVisibility(false)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.initPublicCommentList()
+    }
 
     override fun onDestroy() {
         super.onDestroy()
