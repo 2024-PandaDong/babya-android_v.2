@@ -12,7 +12,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.server.remote.request.SubCommentRequest
-import kr.pandadong2024.babya.server.remote.responses.BaseResponse
 import kr.pandadong2024.babya.server.remote.responses.CommentResponses
 import kr.pandadong2024.babya.server.remote.responses.SubCommentResponses
 import kr.pandadong2024.babya.server.remote.responses.diary.DiaryDataResponses
@@ -21,7 +20,7 @@ import retrofit2.HttpException
 class DiaryViewModel(application: Application) : AndroidViewModel(application) {
 
     private val _diaryId = MutableLiveData<Int>().apply { value = -1 }
-    val diaryId : LiveData<Int> = _diaryId
+    val diaryId: LiveData<Int> = _diaryId
 
     var isPublic = MutableLiveData<Boolean>().apply { value = true }  // true : 공개 | 비공개 : false
 
@@ -45,11 +44,23 @@ class DiaryViewModel(application: Application) : AndroidViewModel(application) {
     private val _startCommentPage = MutableLiveData<Int>(0)
     val startCommentPage: LiveData<Int> = _startCommentPage
 
+    private val _startPublicDiaryPage = MutableLiveData<Int>(1)
+    val startPublicDiaryPage: LiveData<Int> = _startPublicDiaryPage
+
+    private val _startPrivateDiaryPage = MutableLiveData<Int>(1)
+    val startPrivateDiaryPage: LiveData<Int> = _startPrivateDiaryPage
+
     private val _subCommentList = MutableLiveData<List<SubCommentResponses>>(emptyList())
     val subCommentList: LiveData<List<SubCommentResponses>> = _subCommentList
 
     private val _commentList = MutableLiveData<List<CommentResponses>>(emptyList())
     val commentList: LiveData<List<CommentResponses>> = _commentList
+
+    private var _publicDiaryList = MutableLiveData<List<DiaryDataResponses>>(emptyList())
+    var publicDiaryList: LiveData<List<DiaryDataResponses>> = _publicDiaryList
+
+    private var _privateDiaryList = MutableLiveData<List<DiaryDataResponses>>(emptyList())
+    var privateDiaryList: LiveData<List<DiaryDataResponses>> = _privateDiaryList
 
     private var _diaryList = MutableLiveData<List<DiaryDataResponses>>(emptyList())
     var diaryList: LiveData<List<DiaryDataResponses>> = _diaryList
@@ -57,7 +68,6 @@ class DiaryViewModel(application: Application) : AndroidViewModel(application) {
     fun setToastMessage(message: String) {
         _toastMessage.value = message
     }
-
 
 
     fun setDiarySearchKeyWord(inputKeyWord: String) {
@@ -68,7 +78,7 @@ class DiaryViewModel(application: Application) : AndroidViewModel(application) {
         _accessToken.value = token
     }
 
-    fun setDiaryId(diaryId: Int)  {
+    fun setDiaryId(diaryId: Int) {
         _diaryId.value = diaryId
     }
 
@@ -93,55 +103,93 @@ class DiaryViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch { getCommentList() }
     }
 
+    fun addDiaryPage(
+        public: Boolean = isPublic.value == true,
+        keyword: String = diarySearchKeyWord.value ?: ""
+    ) {
+        Log.d("est", "saffasfasfdsafasdf addDiaryPage")
+        if (_publicDiaryList.value?.isNotEmpty() == true) {
+            if (public) {
+                _startPublicDiaryPage.value = startPublicDiaryPage.value?.plus(1)
+            }else {
+                _startPrivateDiaryPage.value = startPrivateDiaryPage.value?.plus(1)
+            }
+            viewModelScope.launch { getDiaryData(public, keyword) }
+        }
+    }
+
+    fun changeList(isVisible : Boolean  = isPublic.value == true){
+        _diaryList.value = if (isVisible){
+            _publicDiaryList.value
+        }else{
+            _privateDiaryList.value
+        }
+    }
+
     fun getDiaryData(
-        page: Int,
-        size: Int,
-        keyword: String = "",
+        public: Boolean = isPublic.value == true,
+        keyword: String? = "",
     ) = viewModelScope.launch() {
         Log.d("test", "init")
         kotlin.runCatching {
-            var diaryData: BaseResponse<List<DiaryDataResponses>>? = null
+            // 항상 짝수로 하기 위함
+            val diaryPagingSize = if (pagingSize % 2 == 0) {
+                pagingSize
+            } else {
+                pagingSize + 1
+            }
+            Log.d("test", "page : $diaryPagingSize")
             runCatching {
-                when (isPublic.value) {
+                when (public) {
                     true -> {
                         RetrofitBuilder.getDiaryService().getDiaryList(
                             accessToken = "Bearer ${accessToken.value}",
-                            page = page,
-                            size = size,
-                            keyword = keyword
+                            page = startPublicDiaryPage.value ?: 1,
+                            size = diaryPagingSize,
+                            keyword = keyword ?: ""
                         )
                     }
 
                     false -> {
                         RetrofitBuilder.getDiaryService().getMyDiaryData(
                             accessToken = "Bearer ${accessToken.value}",
-                            page = page,
-                            size = size,
-                            keyword = keyword
-                        )
-                    }
-
-                    null -> {
-                        RetrofitBuilder.getDiaryService().getDiaryList(
-                            accessToken = "Bearer ${accessToken.value}",
-                            page = page,
-                            size = size,
-                            keyword = keyword
+                            page = startPrivateDiaryPage.value ?: 1,
+                            size = diaryPagingSize,
+                            keyword = keyword ?: ""
                         )
                     }
                 }
             }.onSuccess {
-                viewModelScope.launch(Dispatchers.Main) {
-                    _diaryList.value = it.data ?: listOf()
+                Log.d(" https://babyaapi.xn--2q1b39m2ui.site/diary/list", " ${if(keyword == null) { " init " } else{ "add" }}, ${_startPublicDiaryPage.value}" )
+                Log.d("https://babyaapi.xn--2q1b39m2ui.site/diary/my", " ${if(keyword == null) { " init " } else{ "add" }}, ${_startPrivateDiaryPage.value}" )
+
+                if (public) {
+                    val list = _publicDiaryList.value?.toMutableList()
+                    list?.addAll(it.data ?: listOf())
+                    _publicDiaryList.value = list ?: listOf()
+                }else{
+                    val list = _privateDiaryList.value?.toMutableList()
+                    list?.addAll(it.data ?: listOf())
+                    _privateDiaryList.value = list ?: listOf()
+                }
+                changeList(public)
+                if (keyword == null){
+                    _publicDiaryList.value = it.data ?: listOf()
+                }else {
+                    if (it.data?.isEmpty() == true) {
+                        if (public) {
+                            _startPublicDiaryPage.value = startPublicDiaryPage.value?.plus(-1)
+                        }else{
+                            _startPrivateDiaryPage.value = startPrivateDiaryPage.value?.plus(-1)
+                        }
+                    }
                 }
             }.onFailure {
-                viewModelScope.launch(Dispatchers.Main) {
-                    _diaryList.value = listOf()
-                    if (it is HttpException) {
-                        _toastMessage.value = when (it.code()) {
-                            500 -> "서버 에러"
-                            else -> ""
-                        }
+                _publicDiaryList.value = listOf()
+                if (it is HttpException) {
+                    _toastMessage.value = when (it.code()) {
+                        500 -> "서버 에러"
+                        else -> ""
                     }
                 }
             }
@@ -200,32 +248,32 @@ class DiaryViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun getCommentList() = viewModelScope.launch() {
-            kotlin.runCatching {
-                RetrofitBuilder.getDiaryService().getComment(
-                    accessToken = "Bearer ${accessToken.value}",
-                    page = (startCommentPage.value ?: 0)+1,
-                    size = pagingSize,
-                    diaryId = _diaryId.value?: 0
-                )
-            }.onSuccess { result ->
-                val list =   _commentList.value?.toMutableList()
-                list?.addAll(result.data ?: listOf())
+        kotlin.runCatching {
+            RetrofitBuilder.getDiaryService().getComment(
+                accessToken = "Bearer ${accessToken.value}",
+                page = (startCommentPage.value ?: 0) + 1,
+                size = pagingSize,
+                diaryId = _diaryId.value ?: 0
+            )
+        }.onSuccess { result ->
+            val list = _commentList.value?.toMutableList()
+            list?.addAll(result.data ?: listOf())
 
-                _commentList.value = list?.toList()
-                if (result.data?.isNotEmpty() == true) {
-                    _startCommentPage.value = _startCommentPage.value?.plus(1)
-                }
-            }.onFailure { result ->
-                if (result is HttpException) {
-                    if (result.code() == 500) {
-                        _toastMessage.value = "서버에서 에러가 났습니다."
-                    } else {
-                        _toastMessage.value = "댓글을 불러오는데 실패했습니다. ${result.code()}"
-                    }
-                }
-                result.printStackTrace()
+            _commentList.value = list?.toList()
+            if (result.data?.isNotEmpty() == true) {
+                _startCommentPage.value = _startCommentPage.value?.plus(1)
             }
+        }.onFailure { result ->
+            if (result is HttpException) {
+                if (result.code() == 500) {
+                    _toastMessage.value = "서버에서 에러가 났습니다."
+                } else {
+                    _toastMessage.value = "댓글을 불러오는데 실패했습니다. ${result.code()}"
+                }
+            }
+            result.printStackTrace()
         }
+    }
 
     fun getSubComment(commentId: Int) =
         viewModelScope.launch() {
@@ -233,7 +281,7 @@ class DiaryViewModel(application: Application) : AndroidViewModel(application) {
                 RetrofitBuilder.getDiaryService().getSubComment(
                     accessToken = "Bearer ${_accessToken.value}",
                     parentId = commentId,
-                    page = (startSubCommentPage.value ?: 0)+1,
+                    page = (startSubCommentPage.value ?: 0) + 1,
                     size = pagingSize,
                 )
             }.onSuccess { result ->
@@ -243,17 +291,17 @@ class DiaryViewModel(application: Application) : AndroidViewModel(application) {
                     list?.addAll(result.data ?: listOf())
                     _subCommentList.value = list ?: listOf()
 
-                     if (result.data?.isNotEmpty() == true) {
+                    if (result.data?.isNotEmpty() == true) {
                         _startSubCommentPage.value = startSubCommentPage.value?.plus(1)
                     }
                 }
             }.onFailure { result ->
                 if (result is HttpException) {
-                        if (result.code() == 500) {
-                            _toastMessage.value = "서버에서 에러가 났습니다."
-                        } else {
-                            _toastMessage.value = "댓글을 불러오는데 실패했습니다. ${result.code()}"
-                        }
+                    if (result.code() == 500) {
+                        _toastMessage.value = "서버에서 에러가 났습니다."
+                    } else {
+                        _toastMessage.value = "댓글을 불러오는데 실패했습니다. ${result.code()}"
+                    }
                 }
                 result.printStackTrace()
             }
@@ -269,16 +317,24 @@ class DiaryViewModel(application: Application) : AndroidViewModel(application) {
         _startCommentPage.value = 0
     }
 
-    fun initPublicDiary()= viewModelScope.launch{
+    fun initDiary(isVisible : Boolean = isPublic.value == true) {
+        _startPrivateDiaryPage.value = 1
+        _startPublicDiaryPage.value = 1
+        _publicDiaryList.value = emptyList()
+        getDiaryData(public = isVisible, keyword = null)
+    }
+
+    fun initPublicDiary() = viewModelScope.launch {
         launch {
             if (_diaryId.value != null) {
                 getCommentList()
-            }else{
+            } else {
                 _toastMessage.value = "정보를 불러오지 못했어요."
             }
         }
         launch {
-            //TODO : 산모일기 넣기
+            Log.d("est", "saffasfasfdsafasdf initPublicDiary")
+            getDiaryData()
         }
     }
 }

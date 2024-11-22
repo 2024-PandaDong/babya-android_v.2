@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.Dispatchers
@@ -18,7 +19,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentDiaryBinding
-import kr.pandadong2024.babya.home.diary.diaryadapters.DiaryMainGridViewAdapter
+import kr.pandadong2024.babya.home.diary.diaryadapters.DiaryViewAdapter
 import kr.pandadong2024.babya.home.diary.diaryviewmodle.DiaryViewModel
 import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.server.local.BabyaDB
@@ -35,7 +36,7 @@ class DiaryFragment : Fragment() {
     private val viewModel by activityViewModels<DiaryViewModel>()
     private lateinit var tokenDao: TokenDAO
     private var isPublic = true
-    private lateinit var diaryMainGridViewAdapter: DiaryMainGridViewAdapter
+    private lateinit var diaryMainGridViewAdapter: DiaryViewAdapter
     private var myEmail: String = ""
     private val TAG = "DiaryFragment"
 
@@ -43,20 +44,33 @@ class DiaryFragment : Fragment() {
 
     private var searchKeyWord: String = ""
 
-    init {
-        isPublic = true
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
+        viewModel.isPublic.value = true
         (requireActivity() as BottomControllable).setBottomNavVisibility(false)
         _binding = FragmentDiaryBinding.inflate(inflater, container, false)
+
 
         binding.backButton.setOnClickListener {
             findNavController().navigate(R.id.action_diaryFragment_to_mainFragment)
         }
+
+        binding.diaryGridView.addOnScrollListener(
+            object : RecyclerView.OnScrollListener() {
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    super.onScrollStateChanged(recyclerView, newState)
+
+                     if (
+                        !binding.diaryGridView.canScrollVertically(1) &&
+                        newState == RecyclerView.SCROLL_STATE_IDLE
+                    ) {
+                        viewModel.addDiaryPage()
+                    }
+                }
+            }
+        )
 
         viewModel.isOpenSearchView.observe(viewLifecycleOwner) {
             isSearchActivated = it
@@ -76,6 +90,26 @@ class DiaryFragment : Fragment() {
             }
         }
 
+        viewModel.diaryList.observe(viewLifecycleOwner){
+            diaryMainGridViewAdapter =
+                DiaryViewAdapter(it) { diaryId, memberId ->
+                        kotlin.runCatching {
+                            viewModel.setDiaryId(diaryId)
+                            if (memberId == myEmail) {
+                                findNavController().navigate(R.id.action_diaryFragment_to_detailWriterFragment)
+                            } else {
+                                findNavController().navigate(R.id.action_diaryFragment_to_detailPublicFragment)
+                            }
+                        }.onFailure {
+                            it.printStackTrace()
+                        }
+                }
+            binding.diaryGridView.adapter = diaryMainGridViewAdapter
+            binding.swipeRefreshLayout.isRefreshing = false
+            diaryMainGridViewAdapter.updateDiaryList(it.toMutableList())
+            diaryMainGridViewAdapter.notifyDataSetChanged()
+            binding.diaryGridView.scrollToPosition(it.size  - viewModel.pagingSize)
+        }
 
 //        binding.searchButton.setOnClickListener {
 //            if (isSearchActivated && binding.searchEditText.text.isNotBlank()) {
@@ -95,17 +129,7 @@ class DiaryFragment : Fragment() {
 
         binding.swipeRefreshLayout.setOnRefreshListener(
             SwipeRefreshLayout.OnRefreshListener {
-                val type = if (viewModel.isPublic.value == true) {
-                    2
-                } else {
-                    1
-                }
-
-                getDiaryData(
-                    page = 1,
-                    size = 100,
-                    type = type
-                )
+                viewModel.initDiary()
             }
         )
 
@@ -140,16 +164,15 @@ class DiaryFragment : Fragment() {
         binding.diaryEditFloatingActionButton.setOnClickListener {
             findNavController().navigate(R.id.action_diaryFragment_to_editDiaryFragment)
         }
-        viewModel.isPublic.value = true
         viewModel.isPublic.observe(viewLifecycleOwner) {
-            when (it) {
-                true -> {
-                    getDiaryData(page = 1, size = 100, type = 2)
-                }
-
-                false -> {
-                    getDiaryData(page = 1, size = 100, type = 1)
-                }
+            Log.d("est", "saffasfasfdsafasdf1")
+            if (
+                viewModel.publicDiaryList.value?.isEmpty() == true
+                || viewModel.privateDiaryList.value?.isEmpty() == true)
+            {
+                    viewModel.getDiaryData(it)
+            }else{
+                viewModel.changeList(it)
             }
         }
 
@@ -162,18 +185,36 @@ class DiaryFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         tokenDao = BabyaDB.getInstance(requireContext().applicationContext)?.tokenDao()!!
+        Log.d("testlife", "onCreate")
+
     }
 
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
         (requireActivity() as BottomControllable).setBottomNavVisibility(true)
+        Log.d("testlife", "onDestroy")
+
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d("testlife", "stop")
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        Log.d("testlife", "onSaveInstanceState")
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Log.d("test", "onDestroyView")
     }
 
     private fun initDiaryGridView() {
-
         diaryMainGridViewAdapter =
-            DiaryMainGridViewAdapter(diaryList ?: listOf()) { diaryId, memberId ->
+            DiaryViewAdapter(diaryList ?: listOf()) { diaryId, memberId ->
                 lifecycleScope.launch(Dispatchers.Main) {
                     kotlin.runCatching {
                         viewModel.setDiaryId(diaryId)
@@ -186,21 +227,10 @@ class DiaryFragment : Fragment() {
                         it.printStackTrace()
                     }
                 }
-
-
             }
-        diaryMainGridViewAdapter.notifyDataSetChanged()
-
-        binding.DiaryGridView.adapter = diaryMainGridViewAdapter
-
-    }
-
-    private fun changeGridView() {
-        val changeList = mutableListOf<DiaryDataResponses>()
-
+        binding.diaryGridView.adapter = diaryMainGridViewAdapter
         isPublic = isPublic.not()
-        Log.d(TAG, "list : $changeList")
-        diaryMainGridViewAdapter.setDiaryList(diaryList?.toMutableList() ?: mutableListOf())
+        diaryMainGridViewAdapter.updateDiaryList(diaryList?.toMutableList() ?: mutableListOf())
         diaryMainGridViewAdapter.notifyDataSetChanged()
     }
 
@@ -216,7 +246,6 @@ class DiaryFragment : Fragment() {
             kotlin.runCatching {
                 var diaryData: BaseResponse<List<DiaryDataResponses>>? = null
                 myEmail = tokenDao.getMembers().email
-                Log.d(TAG, "email : ${tokenDao.getMembers().email}")
 
                 when (type) {
                     1 -> {
@@ -265,7 +294,6 @@ class DiaryFragment : Fragment() {
                     initDiaryGridView()
                     if (type == 1) {
                         delay(1)
-                        changeGridView()
                     }
                 }
             }

@@ -76,18 +76,20 @@
             app:tabIndicatorHeight="2dp"
             app:tabMode="scrollable"
             app:tabSelectedTextColor="@color/common0"
-
+            android:overScrollMode="never"
             app:tabTextAppearance="@style/tabBarTextStyle"
             app:tabTextColor="@color/common0">
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:overScrollMode="never"
                 android:text="공개" />
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:overScrollMode="never"
                 android:text="비공개" />
 
         </com.google.android.material.tabs.TabLayout>
@@ -101,13 +103,13 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/diaryTabLayout">
 
-            <GridView
-                android:id="@+id/DiaryGridView"
-                android:layout_width="match_parent"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/diaryGridView"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                
-                android:numColumns="2"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:overScrollMode="ifContentScrolls"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:spanCount="2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/diaryTabLayout" />
