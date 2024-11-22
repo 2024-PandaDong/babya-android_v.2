@@ -30,7 +30,7 @@ class DiaryViewModel(application: Application) : AndroidViewModel(application) {
 
     val editDiaryData = MutableLiveData<DiaryDataResponses?>().apply { value = null }
 
-    val pagingSize = 3
+    val pagingSize = 8
 
     private var _accessToken = MutableLiveData<String>().apply { value = "" }
     var accessToken: LiveData<String> = _accessToken
