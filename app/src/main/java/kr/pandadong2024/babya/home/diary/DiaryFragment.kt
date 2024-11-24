@@ -2,7 +2,6 @@ package kr.pandadong2024.babya.home.diary
 
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,20 +19,16 @@ import kr.pandadong2024.babya.home.diary.diaryadapters.DiaryViewAdapter
 import kr.pandadong2024.babya.home.diary.diaryviewmodle.DiaryViewModel
 import kr.pandadong2024.babya.server.local.BabyaDB
 import kr.pandadong2024.babya.server.local.DAO.TokenDAO
-import kr.pandadong2024.babya.server.remote.responses.diary.DiaryDataResponses
 import kr.pandadong2024.babya.util.BottomControllable
 import kr.pandadong2024.babya.util.setOnSingleClickListener
 
 class DiaryFragment : Fragment() {
     private var _binding: FragmentDiaryBinding? = null
-    private var diaryList: List<DiaryDataResponses>? = null
     private val binding get() = _binding!!
     private val viewModel by activityViewModels<DiaryViewModel>()
     private lateinit var tokenDao: TokenDAO
-    private var isPublic = true
     private lateinit var diaryMainGridViewAdapter: DiaryViewAdapter
     private var myEmail: String = ""
-    private val TAG = "DiaryFragment"
 
     private var isSearchActivated = false
 
@@ -105,23 +100,11 @@ class DiaryFragment : Fragment() {
             diaryMainGridViewAdapter.notifyDataSetChanged()
         }
         viewModel.isDiaryScrolled.observe(viewLifecycleOwner) {
-            if (it) {
-                Log.d(
-                    "test",
-                    "size : ${viewModel.pagingSize - ((viewModel.diaryList.value?.size ?: 1) - viewModel.pagingSize)}"
-                )
-            }
             binding.diaryGridView.scrollToPosition(
-                viewModel.pagingSize - ((viewModel.diaryList.value?.size ?: 1) - viewModel.pagingSize)
+                viewModel.pagingSize - ((viewModel.diaryList.value?.size
+                    ?: 1) - viewModel.pagingSize)
             )
         }
-//        binding.searchButton.setOnClickListener {
-//            if (isSearchActivated && binding.searchEditText.text.isNotBlank()) {
-//                viewModel.setDiarySearchKeyWord(binding.searchEditText.text.toString())
-//            } else {
-//                viewModel.changeOpenSearchView()
-//            }
-//        }
 
         binding.searchButton.setOnSingleClickListener {
             if (isSearchActivated && binding.searchEditText.text.isNotBlank()) {
@@ -169,7 +152,6 @@ class DiaryFragment : Fragment() {
             findNavController().navigate(R.id.action_diaryFragment_to_editDiaryFragment)
         }
         viewModel.isPublic.observe(viewLifecycleOwner) {
-            Log.d("est", "saffasfasfdsafasdf1")
             if (
                 viewModel.publicDiaryList.value?.isEmpty() == true
                 || viewModel.privateDiaryList.value?.isEmpty() == true
@@ -188,7 +170,6 @@ class DiaryFragment : Fragment() {
         requireActivity().onBackPressedDispatcher.addCallback(
             onBackPressedCallback = object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    Log.d("test", "clicked back button")
                     viewModel.initDiaryList()
                     findNavController().navigate(R.id.action_diaryFragment_to_mainFragment)
                 }
@@ -202,7 +183,6 @@ class DiaryFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         tokenDao = BabyaDB.getInstance(requireContext().applicationContext)?.tokenDao()!!
-        Log.d("testlife", "onCreate")
 
     }
 
@@ -210,21 +190,5 @@ class DiaryFragment : Fragment() {
         super.onDestroy()
         _binding = null
         (requireActivity() as BottomControllable).setBottomNavVisibility(true)
-        Log.d("testlife", "onDestroy")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Log.d("testlife", "stop")
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        Log.d("testlife", "onSaveInstanceState")
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        Log.d("test", "onDestroyView")
     }
 }
