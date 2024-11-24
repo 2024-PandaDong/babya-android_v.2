@@ -49,6 +49,7 @@
                 android:textColor="@color/common0"
                 android:textSize="13dp"
                 android:visibility="gone"
+                android:maxLines="1"
                 />
 
             <ImageButton

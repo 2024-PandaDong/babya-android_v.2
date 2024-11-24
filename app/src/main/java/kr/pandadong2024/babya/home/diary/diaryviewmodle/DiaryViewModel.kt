@@ -28,6 +28,9 @@ class DiaryViewModel(application: Application) : AndroidViewModel(application) {
 
     val diarySearchKeyWord = MutableLiveData<String>().apply { value = "" }
 
+    private val _isDiaryScrolled = MutableLiveData<Boolean>(true)
+    val isDiaryScrolled: LiveData<Boolean> = _isDiaryScrolled
+
     val editDiaryData = MutableLiveData<DiaryDataResponses?>().apply { value = null }
 
     val pagingSize = 8
@@ -91,6 +94,13 @@ class DiaryViewModel(application: Application) : AndroidViewModel(application) {
         isOpenSearchView.value = false
     }
 
+    fun initDiaryList() {
+        _startPublicDiaryPage.value = 1
+        _startPrivateDiaryPage.value = 1
+        _publicDiaryList.value = emptyList()
+        _privateDiaryList.value = emptyList()
+    }
+
     fun initEditDate() {
         editDiaryData.value = null
     }
@@ -111,17 +121,17 @@ class DiaryViewModel(application: Application) : AndroidViewModel(application) {
         if (_publicDiaryList.value?.isNotEmpty() == true) {
             if (public) {
                 _startPublicDiaryPage.value = startPublicDiaryPage.value?.plus(1)
-            }else {
+            } else {
                 _startPrivateDiaryPage.value = startPrivateDiaryPage.value?.plus(1)
             }
             viewModelScope.launch { getDiaryData(public, keyword) }
         }
     }
 
-    fun changeList(isVisible : Boolean  = isPublic.value == true){
-        _diaryList.value = if (isVisible){
+    fun changeList(isVisible: Boolean = isPublic.value == true) {
+        _diaryList.value = if (isVisible) {
             _publicDiaryList.value
-        }else{
+        } else {
             _privateDiaryList.value
         }
     }
@@ -129,8 +139,7 @@ class DiaryViewModel(application: Application) : AndroidViewModel(application) {
     fun getDiaryData(
         public: Boolean = isPublic.value == true,
         keyword: String? = "",
-    ) = viewModelScope.launch() {
-        Log.d("test", "init")
+    ) = viewModelScope.launch {
         kotlin.runCatching {
             // 항상 짝수로 하기 위함
             val diaryPagingSize = if (pagingSize % 2 == 0) {
@@ -160,31 +169,34 @@ class DiaryViewModel(application: Application) : AndroidViewModel(application) {
                     }
                 }
             }.onSuccess {
-                Log.d(" https://babyaapi.xn--2q1b39m2ui.site/diary/list", " ${if(keyword == null) { " init " } else{ "add" }}, ${_startPublicDiaryPage.value}" )
-                Log.d("https://babyaapi.xn--2q1b39m2ui.site/diary/my", " ${if(keyword == null) { " init " } else{ "add" }}, ${_startPrivateDiaryPage.value}" )
-
+                Log.d("test", "list : ${it.data}")
                 if (public) {
                     val list = _publicDiaryList.value?.toMutableList()
                     list?.addAll(it.data ?: listOf())
                     _publicDiaryList.value = list ?: listOf()
-                }else{
+                } else {
                     val list = _privateDiaryList.value?.toMutableList()
                     list?.addAll(it.data ?: listOf())
                     _privateDiaryList.value = list ?: listOf()
+                    Log.d("test", "list : ${_privateDiaryList.value}")
                 }
                 changeList(public)
-                if (keyword == null){
+                if (keyword == null) {
                     _publicDiaryList.value = it.data ?: listOf()
-                }else {
+                } else {
                     if (it.data?.isEmpty() == true) {
-                        if (public) {
+                        _isDiaryScrolled.value = false
+                        if (public && (_startPublicDiaryPage.value != 1 || _startPrivateDiaryPage.value != 1)) {
                             _startPublicDiaryPage.value = startPublicDiaryPage.value?.plus(-1)
-                        }else{
+                        } else {
                             _startPrivateDiaryPage.value = startPrivateDiaryPage.value?.plus(-1)
                         }
+                    }else{
+                        _isDiaryScrolled.value = true
                     }
                 }
             }.onFailure {
+                _isDiaryScrolled.value = false
                 _publicDiaryList.value = listOf()
                 if (it is HttpException) {
                     _toastMessage.value = when (it.code()) {
@@ -317,7 +329,7 @@ class DiaryViewModel(application: Application) : AndroidViewModel(application) {
         _startCommentPage.value = 0
     }
 
-    fun initDiary(isVisible : Boolean = isPublic.value == true) {
+    fun initDiary(isVisible: Boolean = isPublic.value == true) {
         _startPrivateDiaryPage.value = 1
         _startPublicDiaryPage.value = 1
         _publicDiaryList.value = emptyList()

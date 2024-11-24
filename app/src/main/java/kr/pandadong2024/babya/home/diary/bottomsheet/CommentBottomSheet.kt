@@ -93,9 +93,7 @@ class CommentBottomSheet(
             subCommentAdapter.notifyItemRemoved(0)
             binding.subCommentRecyclerView.adapter = subCommentAdapter
             if (viewModel.startSubCommentPage.value != 1) {
-                binding.subCommentRecyclerView.scrollToPosition(
-                    it.size  - viewModel.pagingSize
-                )
+                binding.subCommentRecyclerView.scrollToPosition(it.size  - viewModel.pagingSize)
             }
         }
         binding.iconCloseButton.setOnClickListener {
