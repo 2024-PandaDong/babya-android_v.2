@@ -168,8 +168,6 @@ class PolicyMainFragment : Fragment() {
                 PolicyItemDecoration(policyList.size)
             )
         }
-
-
     }
 
     private fun selectPolicy(mainTag: String, subTag: String, keyWord: String) {

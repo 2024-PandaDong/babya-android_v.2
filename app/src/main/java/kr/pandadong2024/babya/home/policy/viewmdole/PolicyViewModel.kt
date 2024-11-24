@@ -5,9 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import kr.pandadong2024.babya.home.policy.getLocalByCode
 import kr.pandadong2024.babya.home.policy.getRegionByCode
 import kr.pandadong2024.babya.server.RetrofitBuilder
@@ -17,15 +15,20 @@ import retrofit2.HttpException
 class PolicyViewModel : ViewModel() {
     // 항상 0번째가 기초자치단체( 시, 군, 구 ) 1번째가 행정구 or 행정 군
     val _tagsList = MutableLiveData<List<String>>(listOf())
-    val tagsList : LiveData<List<String>> = _tagsList
+    val tagsList: LiveData<List<String>> = _tagsList
 
     private val _saveList = MutableLiveData<MutableList<String>>(mutableListOf())
-    val saveList : LiveData<MutableList<String>>  = _saveList
+    val saveList: LiveData<MutableList<String>> = _saveList
 
     val policyList = MutableLiveData<List<PolicyListResponse>>(listOf())
 
     val _policyListData = MutableLiveData<List<PolicyListResponse>>(emptyList())
     val policyListData: LiveData<List<PolicyListResponse>> = _policyListData
+
+    val pagingSize = 4
+
+    private val _startPolicyPage = MutableLiveData<Int>(0)
+    val startPolicyPage: LiveData<Int> = _startPolicyPage
 
     val _message = MutableLiveData<String>("")
     val message: LiveData<String> = _message
@@ -47,13 +50,9 @@ class PolicyViewModel : ViewModel() {
         _saveList.value = list
         Log.d("test", "_saveList ${_saveList.value}")
         Log.d("test", "saveList ${saveList.value}")
-
-//        val list = tagsList.value?.toMutableList() ?: return
-//        list.add(tagName)
-//        _tagsList.value = list
     }
 
-    fun setLocalTagList(){
+    fun setLocalTagList() {
         _tagsList.value = saveList.value
     }
 
@@ -118,24 +117,20 @@ class PolicyViewModel : ViewModel() {
     }
 
 
-    fun getPolicyList(code: String, keyword : String = "") = viewModelScope.launch(Dispatchers.IO) {
+    fun getPolicyList(code: String, keyword: String = "") = viewModelScope.launch() {
         kotlin.runCatching {
             RetrofitBuilder.getPolicyService().getPolicyList(
                 type = code,
                 keyword = keyword
             )
         }.onSuccess {
-            withContext(Dispatchers.Main) {
-                _policyListData.value = it.data ?: emptyList()
-            }
+            _policyListData.value = it.data ?: emptyList()
         }.onFailure { result ->
             if (result is HttpException) {
-                launch(Dispatchers.Main) {
-                    if (result.code() == 500) {
-                        _message.value = "인터넷이 연결되어있는지 확인해 주십시오"
-                    } else {
-                        _message.value = "데이터를 불러오는 도중 문제가 발생했습니다. CODE : ${result.code()}"
-                    }
+                if (result.code() == 500) {
+                    _message.value = "인터넷이 연결되어있는지 확인해 주십시오"
+                } else {
+                    _message.value = "데이터를 불러오는 도중 문제가 발생했습니다. CODE : ${result.code()}"
                 }
             }
         }
