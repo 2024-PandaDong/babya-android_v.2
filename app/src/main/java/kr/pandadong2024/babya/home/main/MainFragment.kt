@@ -114,7 +114,7 @@ class MainFragment : Fragment() {
                 mainViewModel.getBannerData()
             }
             launch {
-                findCompanyViewModel.initCompanyList()
+                findCompanyViewModel.addCompany( )
             }
             launch {
                 profileViewModel.getUserLocalCode()
@@ -146,6 +146,7 @@ class MainFragment : Fragment() {
         }
 
         findCompanyViewModel.companyList.observe(viewLifecycleOwner){
+            Log.d("test", "in list")
             if (it.isNotEmpty()){
                 setCompanyRecyclerView(it)
             }

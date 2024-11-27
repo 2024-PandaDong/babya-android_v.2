@@ -65,6 +65,31 @@ class QuizFragment : Fragment() {
                 }
             }
         }
+
+//        // 메인 스레드가 아닌 IO 스레드에서 데이터베이스에 접근하도록 수정
+//        runBlocking {
+//            lifecycleScope.launch(Dispatchers.IO) {
+//                accessToken = BabyaDB.getInstance(requireContext())?.tokenDao()
+//                    ?.getMembers()?.accessToken.toString()
+//            }
+//        }
+//        lifecycleScope.launch {
+//            launch {
+//                findCompanyViewModel.setAccessToken(accessToken)
+//            }
+//            launch {
+//                mainViewModel.setAccessToken(accessToken)
+//            }
+//            launch {
+//                profileViewModel.setAccessToken(accessToken)
+//            }
+//            launch {
+//                diaryViewModel.setAccessToken(accessToken)
+//            }
+//            launch {
+//                commonViewModel.setAccessToken(accessToken)
+//            }
+//        }
     }
 
     override fun onCreateView(

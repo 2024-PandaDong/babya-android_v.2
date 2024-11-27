@@ -78,7 +78,6 @@ class ProfileViewModel() : ViewModel() {
     }
 
     fun getUserLocalCode() = viewModelScope.launch(Dispatchers.IO) {
-        Log.d("getUserLocalCode", "code : Bearer $_accessToken")
         kotlin.runCatching {
             RetrofitBuilder.getProfileService().getLocalCode("Bearer ${_accessToken.value}")
         }.onSuccess { result ->
