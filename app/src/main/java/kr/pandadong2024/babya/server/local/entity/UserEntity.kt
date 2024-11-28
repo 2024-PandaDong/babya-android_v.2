@@ -3,31 +3,30 @@ package kr.pandadong2024.babya.server.local.entity
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import kr.pandadong2024.babya.server.responses.ProfileChildrenData
 
 @Entity(tableName = "users_table")
 data class UserEntity(
     @PrimaryKey
-    val email: String,
+    var email: String,
 
     @ColumnInfo("nickname")
-    val nickname: String?,
+    var nickname: String?,
 
     @ColumnInfo("dDay")
-    val dDay: String?,
+    var dDay: String?,
 
     @ColumnInfo("birthDt")
-    val birthDt: String?,
+    var birthDt: String?,
 
     @ColumnInfo("marriedYears")
-    val marriedYears: String?,
+    var marriedYears: String?,
 
     @ColumnInfo("children")
-    val children: String?,
+    var children: String?,
 
     @ColumnInfo("localCode")
-    val localCode: String?,
+    var localCode: String?,
 
     @ColumnInfo("profileImg")
-    val profileImg: String?,
+    var profileImg: String?,
 )

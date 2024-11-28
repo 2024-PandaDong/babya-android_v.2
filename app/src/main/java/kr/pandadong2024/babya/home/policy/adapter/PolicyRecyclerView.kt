@@ -1,5 +1,6 @@
 package kr.pandadong2024.babya.home.policy.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,7 @@ class PolicyRecyclerView(
     inner class PolicyViewHolder(val binding: ItemPolicyListBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun policyBind(policyDate: PolicyListResponse, position: Int) {
+            Log.d("test", "tag : $tag")
             binding.localTagText.text = "${tag} 보건소"
             if (policyDate.editDate == null) {
                 binding.termText.visibility = View.GONE

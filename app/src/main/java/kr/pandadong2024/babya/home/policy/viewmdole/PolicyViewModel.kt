@@ -1,18 +1,25 @@
 package kr.pandadong2024.babya.home.policy.viewmdole
 
+import android.app.Application
 import android.util.Log
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kr.pandadong2024.babya.home.policy.getLocalByCode
 import kr.pandadong2024.babya.home.policy.getRegionByCode
 import kr.pandadong2024.babya.server.RetrofitBuilder
+import kr.pandadong2024.babya.server.local.BabyaDB
+import kr.pandadong2024.babya.server.local.entity.UserEntity
 import kr.pandadong2024.babya.server.remote.responses.Policy.PolicyListResponse
 import retrofit2.HttpException
 
-class PolicyViewModel : ViewModel() {
+class PolicyViewModel(private val application: Application) : AndroidViewModel(application) {
     // 항상 0번째가 기초자치단체( 시, 군, 구 ) 1번째가 행정구 or 행정 군
     val _tagsList = MutableLiveData<List<String>>(listOf())
     val tagsList: LiveData<List<String>> = _tagsList
@@ -24,6 +31,9 @@ class PolicyViewModel : ViewModel() {
 
     val _policyListData = MutableLiveData<List<PolicyListResponse>>(emptyList())
     val policyListData: LiveData<List<PolicyListResponse>> = _policyListData
+
+    private val _localUserData = MutableLiveData<UserEntity>()
+    val localUserData: LiveData<UserEntity> = _localUserData
 
     val pagingSize = 4
 
@@ -69,6 +79,18 @@ class PolicyViewModel : ViewModel() {
     fun setTagList(code: Int) {
         _tagsList.value = listOf(getLocalByCode(code.toString()), getRegionByCode(code))
         _saveList.value = mutableListOf(getLocalByCode(code.toString()), getRegionByCode(code))
+    }
+
+    fun getLocalUserData() : UserEntity? {
+        val userData = runBlocking {
+            val user = viewModelScope.async(Dispatchers.IO) {
+                BabyaDB.getInstance(application)?.userDao()
+                    ?.getMembers()
+            }.await()
+
+            return@runBlocking user
+        }
+        return userData
     }
 
     fun popLocal(tagName: String) {

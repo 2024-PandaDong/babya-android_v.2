@@ -38,7 +38,8 @@ import kotlin.math.ceil
 
 class MainFragment : Fragment() {
     private lateinit var bannerList: List<BannerResponses>
-//    private lateinit var companyList: List<CompanyListResponses>
+
+    //    private lateinit var companyList: List<CompanyListResponses>
     private lateinit var companyData: BaseResponse<List<CompanyListResponses>>
     private lateinit var bannerAdapter: MainBannerAdapter
     private lateinit var rankAdapter: CompanyRankAdapter
@@ -106,7 +107,7 @@ class MainFragment : Fragment() {
         _binding = FragmentMainBinding.inflate(inflater, container, false)
         policyViewModel.initViewModel()
         (requireActivity() as BottomControllable).setBottomNavVisibility(true)
-        // TODO : 영마이스터 끝나고 코드 115번 위치 코드 지우기
+        // TODO : 소프트 웨이브 끝나고 코드 115번 위치 코드 지우기
         prefs.remove()
 
         runBlocking {
@@ -114,40 +115,37 @@ class MainFragment : Fragment() {
                 mainViewModel.getBannerData()
             }
             launch {
-                findCompanyViewModel.addCompany( )
+                findCompanyViewModel.addCompany()
             }
             launch {
-                profileViewModel.getUserLocalCode()
-            }
-            launch {
-                profileViewModel.getUserData()
-            }
-        }
-        profileViewModel.userLocalCode.observe(viewLifecycleOwner) {
-            if (it.isEmpty()) return@observe
-            Log.d("userLocalCode", "code : $it")
-            if (it.length == 2) {
-                policyViewModel.setTagList(getMemberLocalCode(it))
-                policyViewModel.setUserRegionList(
-                    listOf(
-                        getLocalByCode(
-                            getMemberLocalCode(
-                                it
-                            ).toString()
-                        ), getRegionByCode(getMemberLocalCode(it))
-                    )
+                policyViewModel.getPolicyList(
+                    code = profileViewModel.userLocalCode.value.toString()
                 )
-                policyViewModel.getPolicyList(it)
-
-            } else {
-                policyViewModel.setTagList(it.toInt())
-                policyViewModel.getPolicyList(it)
             }
         }
+//        profileViewModel.userLocalCode.observe(viewLifecycleOwner) {
+//            if (it.isEmpty()) return@observe
+//            if (it.length == 2) {
+//                policyViewModel.setTagList(getMemberLocalCode(it))
+//                policyViewModel.setUserRegionList(
+//                    listOf(
+//                        getLocalByCode(
+//                            getMemberLocalCode(
+//                                it
+//                            ).toString()
+//                        ), getRegionByCode(getMemberLocalCode(it))
+//                    )
+//                )
+//                policyViewModel.getPolicyList(it)
+//
+//            } else {
+//                policyViewModel.setTagList(it.toInt())
+//                policyViewModel.getPolicyList(it)
+//            }
+//        }
 
-        findCompanyViewModel.companyList.observe(viewLifecycleOwner){
-            Log.d("test", "in list")
-            if (it.isNotEmpty()){
+        findCompanyViewModel.companyList.observe(viewLifecycleOwner) {
+            if (it.isNotEmpty()) {
                 setCompanyRecyclerView(it)
             }
         }
@@ -230,7 +228,7 @@ class MainFragment : Fragment() {
     }
 
 
-    private fun setCompanyRecyclerView( companyList: List<CompanyListResponses>) {
+    private fun setCompanyRecyclerView(companyList: List<CompanyListResponses>) {
         val list = mutableListOf<CompanyListResponses>()
         if (companyList.isNotEmpty()) {
             for (i in 0..2) {
@@ -273,7 +271,7 @@ class MainFragment : Fragment() {
 
         policyAdapter = PolicyRecyclerView(
             list.toList(),
-            tag = "${policyViewModel.tagsList.value?.get(0)} ${policyViewModel.tagsList.value?.get(1)}"
+            tag = "${policyViewModel.tagsList.value?.get(0) ?: 0} ${policyViewModel.tagsList.value?.get(1) ?: 0}"
         ) { position ->
             policyViewModel.setPolicyId(position)
             findNavController().navigate(R.id.action_mainFragment_to_policyContentFragment)

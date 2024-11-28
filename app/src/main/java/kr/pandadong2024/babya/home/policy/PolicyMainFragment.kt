@@ -46,6 +46,7 @@ class PolicyMainFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        Log.d("dbTest", "name : ${viewModel.getLocalUserData()?.nickname}")
         _binding = FragmentPolicyMainBinding.inflate(inflater, container, false)
         tokenDao = BabyaDB.getInstance(requireContext())?.tokenDao()
         (requireActivity() as BottomControllable).setBottomNavVisibility(false)
@@ -101,8 +102,9 @@ class PolicyMainFragment : Fragment() {
         }
 
 
-
-        getProfileData()
+        binding.titleText.text = "${viewModel.getLocalUserData()?.nickname}님을 위한 추천 정책"
+        binding.tagTitleText.text = "${viewModel.getLocalUserData()?.nickname}님의 지역"
+        binding.subTitleText.text = "지역에 따라 정책을 모았어요"
 
         viewModel.tagsList.observe(viewLifecycleOwner) {
             setCategory(categoryList = it)
@@ -113,7 +115,7 @@ class PolicyMainFragment : Fragment() {
             if (it.size > 1) {
                 setRecyclerView(
                     it,
-                    "${viewModel.tagsList.value?.get(0) ?: ""} ${viewModel.tagsList.value?.get(1) ?: ""}  보건소"
+                    "${viewModel.tagsList.value?.get(0) ?: ""} ${viewModel.tagsList.value?.get(1) ?: ""}"
                 )
             }
         }
@@ -127,32 +129,11 @@ class PolicyMainFragment : Fragment() {
                     viewModel.getPolicyList(tagNumber)
                     viewModel.initKeyword()
                 }
-
             bottomSheetDialog.show(requireActivity().supportFragmentManager, bottomSheetDialog.tag)
         }
 
 
         return binding.root
-    }
-
-    private fun getProfileData() {
-        lifecycleScope.launch(Dispatchers.IO) {
-            kotlin.runCatching {
-                RetrofitBuilder.getProfileService().getProfile(
-                    accessToken = "Bearer ${tokenDao?.getMembers()?.accessToken.toString()}",
-                    email = "my"
-                )
-            }.onSuccess { result ->
-                launch(Dispatchers.Main) {
-                    binding.titleText.text = "${result.data?.nickname}님을 위한 추천 정책"
-                    binding.tagTitleText.text = "${result.data?.nickname}님의 지역"
-                    binding.subTitleText.text = "지역에 따라 정책을 모았어요"
-                }
-            }.onFailure { result ->
-                result.printStackTrace()
-                requireContext().shortToast("인터넷 연결을 확인해 주세요")
-            }
-        }
     }
 
 
@@ -177,16 +158,19 @@ class PolicyMainFragment : Fragment() {
                 kotlin.runCatching {
                     RetrofitBuilder.getPolicyService().getPolicyList(tagNumber, keyWord)
                 }.onSuccess { result ->
-                    Log.d("selectPolicy", "result : $result")
-                        withContext(Dispatchers.Main) {
-                            viewModel.setPolicyList(result.data ?: listOf())
-                            if (!viewModel.tagsList.value.isNullOrEmpty()) {
-                                setRecyclerView(
-                                    policyList = result.data ?: listOf(),
-                                    tag = "${viewModel.tagsList.value?.get(0)} ${viewModel.tagsList.value?.get(1)}"
-                                )
-                            }
+                    withContext(Dispatchers.Main) {
+                        viewModel.setPolicyList(result.data ?: listOf())
+                        if (!viewModel.tagsList.value.isNullOrEmpty()) {
+                            setRecyclerView(
+                                policyList = result.data ?: listOf(),
+                                tag = "${viewModel.tagsList.value?.get(0)} ${
+                                    viewModel.tagsList.value?.get(
+                                        1
+                                    )
+                                }"
+                            )
                         }
+                    }
                 }.onFailure { result ->
                     result.printStackTrace()
                     requireContext().shortToast("인터넷 연결을 확인해 주세요")
