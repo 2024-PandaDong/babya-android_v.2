@@ -20,9 +20,6 @@ import kr.pandadong2024.babya.databinding.FragmentQuizBinding
 import kr.pandadong2024.babya.home.diary.diaryviewmodle.DiaryViewModel
 import kr.pandadong2024.babya.home.find_company.find_company_viewModel.FindCompanyViewModel
 import kr.pandadong2024.babya.home.main.MainViewModel
-import kr.pandadong2024.babya.home.policy.getLocalByCode
-import kr.pandadong2024.babya.home.policy.getMemberLocalCode
-import kr.pandadong2024.babya.home.policy.getRegionByCode
 import kr.pandadong2024.babya.home.policy.viewmdole.PolicyViewModel
 import kr.pandadong2024.babya.home.profile.profileviewmodle.ProfileViewModel
 import kr.pandadong2024.babya.home.viewmodel.CommonViewModel
@@ -60,8 +57,20 @@ class QuizFragment : Fragment() {
         // 메인 스레드가 아닌 IO 스레드에서 데이터베이스에 접근하도록 수정
         runBlocking {
             lifecycleScope.launch(Dispatchers.IO) {
-                accessToken = BabyaDB.getInstance(requireContext())?.tokenDao()
-                    ?.getMembers()?.accessToken.toString()
+                launch {
+                    accessToken = BabyaDB.getInstance(requireContext())?.tokenDao()
+                        ?.getMembers()?.accessToken.toString()
+                }
+                launch(Dispatchers.IO) {
+                    val userLocalCode =
+                        BabyaDB.getInstance(requireContext())?.userDao()?.getMembers()?.localCode
+                            ?: "0000000000"
+
+                    launch(Dispatchers.Main) {
+                        policyViewModel.setTagList(userLocalCode.toInt())
+                        policyViewModel.getPolicyList(userLocalCode)
+                    }
+                }
                 withContext(Dispatchers.Main) {
                     launch {
                         findCompanyViewModel.setAccessToken(accessToken)
@@ -87,15 +96,16 @@ class QuizFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        // Inflate the layout for this fragment
-        viewModel.getQuiz(accessToken)
         _binding = FragmentQuizBinding.inflate(inflater, container, false)
         (requireActivity() as BottomControllable).setBottomNavVisibility(false)
-        profileViewModel.getUserLocalCode()
-        profileViewModel.accessToken.observe(viewLifecycleOwner){
+//        profileViewModel.getUserLocalCode()
+        viewModel.accessToken.observe(viewLifecycleOwner){
+            viewModel.getQuiz()
+        }
+        profileViewModel.accessToken.observe(viewLifecycleOwner) {
             if (it.isNotEmpty()) {
                 Log.d("dbTest", "toekn data : $it")
-                profileViewModel.getUserLocalCode()
+//                profileViewModel.getUserLocalCode()
 //                if (profileViewModel.getUserLocalCode()?.nickname?.isNotEmpty() == true){
 //                    profileViewModel.getUserLocalCode()
 //                }else{
@@ -151,7 +161,6 @@ class QuizFragment : Fragment() {
         }
         return binding.root
     }
-
 
 
     private fun saveUserData() {

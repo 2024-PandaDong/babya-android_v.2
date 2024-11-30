@@ -21,7 +21,12 @@ import retrofit2.HttpException
 
 class ProfileViewModel(private val application: Application) : AndroidViewModel(application) {
     val id = MutableLiveData<Int>().apply { value = -1 }
-
+    init {
+        viewModelScope.launch(Dispatchers.IO) {
+            setAccessToken(BabyaDB.getInstance(application)?.tokenDao()
+                ?.getMembers()?.accessToken.toString())
+        }
+    }
     private var _accessToken = MutableLiveData("")
     var accessToken: LiveData<String> = _accessToken
 

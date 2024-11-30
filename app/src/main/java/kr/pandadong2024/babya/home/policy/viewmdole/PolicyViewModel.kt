@@ -21,6 +21,12 @@ import retrofit2.HttpException
 
 class PolicyViewModel(private val application: Application) : AndroidViewModel(application) {
     // 항상 0번째가 기초자치단체( 시, 군, 구 ) 1번째가 행정구 or 행정 군
+    init {
+        viewModelScope.launch(Dispatchers.IO) {
+            setAccessToken(BabyaDB.getInstance(application)?.tokenDao()
+                ?.getMembers()?.accessToken.toString())
+        }
+    }
     val _tagsList = MutableLiveData<List<String>>(listOf())
     val tagsList: LiveData<List<String>> = _tagsList
 
@@ -31,6 +37,14 @@ class PolicyViewModel(private val application: Application) : AndroidViewModel(a
 
     val _policyListData = MutableLiveData<List<PolicyListResponse>>(emptyList())
     val policyListData: LiveData<List<PolicyListResponse>> = _policyListData
+
+    private var _accessToken = MutableLiveData<String>().apply { value = "" }
+    val accessToken : LiveData<String> = _accessToken
+
+
+    private fun setAccessToken(accessToken : String) = viewModelScope.launch(Dispatchers.Main) {
+        _accessToken.value = accessToken
+    }
 
     private val _localUserData = MutableLiveData<UserEntity>()
     val localUserData: LiveData<UserEntity> = _localUserData
