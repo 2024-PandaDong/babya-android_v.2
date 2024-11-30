@@ -109,6 +109,10 @@ class MainFragment : Fragment() {
         // TODO : 영마이스터 끝나고 코드 115번 위치 코드 지우기
         prefs.remove()
 
+        binding.mapButton.setOnClickListener {
+            findNavController().navigate(R.id.action_mainFragment_to_mapFragment)
+        }
+
         runBlocking {
             launch {
                 mainViewModel.getBannerData()

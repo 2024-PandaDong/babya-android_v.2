@@ -52,13 +52,21 @@
                 android:layout_marginTop="10dp"
                 app:layout_constraintTop_toBottomOf="@id/bannerViewPager">
 
+                <Button
+                    android:id="@+id/mapButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:text="지도 ㄱ"
+                    />
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/companyTitleLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
 
                     android:paddingHorizontal="18dp"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toBottomOf="@id/mapButton">
 
                     <TextView
                         android:id="@+id/companyText"
