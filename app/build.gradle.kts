@@ -91,6 +91,7 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.material3.android)
     implementation(libs.identity.android.legacy)
+    implementation(libs.play.services.location)
     kapt(libs.androidx.room.compiler)
 
     implementation(libs.logging.interceptor)
