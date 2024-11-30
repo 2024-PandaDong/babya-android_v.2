@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="309dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/sp_policy_bottom_sheet">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/img"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="50dp"
+            android:layout_marginStart="20dp"
+            android:src="@drawable/ic_hospital"
+            />
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="60dp"
+            android:fontFamily="@font/notosanskr_medium"
+            android:includeFontPadding="false"
+            android:text="대구파티마병원 응급실"
+            android:textColor="@color/black"
+            android:textSize="12dp"
+            android:layout_marginEnd="50dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/img"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/tel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/notosanskr_medium"
+            android:includeFontPadding="false"
+            android:text="053-940-7119"
+            android:textColor="@color/black"
+            android:textSize="12dp"
+            android:layout_marginEnd="50dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/img"
+            app:layout_constraintTop_toBottomOf="@id/name"/>
+
+        <TextView
+            android:id="@+id/address"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/notosanskr_medium"
+            android:includeFontPadding="false"
+            android:text="대구 동구 신암동 576-31"
+            android:textColor="@color/black"
+            android:textSize="12dp"
+            android:layout_marginEnd="50dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/img"
+            app:layout_constraintTop_toBottomOf="@id/tel"/>
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/addressBtn"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="4dp"
+            android:textColor="#A7A7A8"
+            android:textSize="12dp"
+            app:layout_constraintStart_toEndOf="@+id/img"
+            app:layout_constraintTop_toBottomOf="@+id/address"
+            android:background="@drawable/ic_copy"
+            android:backgroundTint="#A7A7A8"
+            />
+        <TextView
+            android:id="@+id/addressCopy"
+            android:layout_width="wrap_content"
+            android:layout_height="17dp"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/notosanskr_medium"
+            android:includeFontPadding="false"
+            android:text="지번 주소복사"
+            android:textColor="#FE9A99"
+            android:textSize="12dp"
+            android:layout_marginEnd="50dp"
+            app:layout_constraintStart_toEndOf="@+id/addressBtn"
+            app:layout_constraintTop_toBottomOf="@+id/address"
+
+            />
+
+        <TextView
+            android:id="@+id/roadAddress"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/notosanskr_medium"
+            android:includeFontPadding="false"
+            android:text="대구 동구 아양로 99"
+            android:textColor="@color/black"
+            android:textSize="12dp"
+            android:layout_marginEnd="50dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/img"
+            app:layout_constraintTop_toBottomOf="@id/addressBtn"/>
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/roadAddressBtn"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="4dp"
+            android:textColor="#A7A7A8"
+            android:textSize="12dp"
+            app:layout_constraintStart_toEndOf="@+id/img"
+            app:layout_constraintTop_toBottomOf="@+id/roadAddress"
+            android:background="@drawable/ic_copy"
+            android:backgroundTint="#A7A7A8"
+            />
+        <TextView
+            android:id="@+id/roadAddressCopy"
+            android:layout_width="wrap_content"
+            android:layout_height="17dp"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/notosanskr_medium"
+            android:includeFontPadding="false"
+            android:text="도로명 주소복사"
+            android:textColor="#FE9A99"
+            android:textSize="12dp"
+            android:layout_marginEnd="50dp"
+            app:layout_constraintStart_toEndOf="@+id/roadAddressBtn"
+            app:layout_constraintTop_toBottomOf="@+id/roadAddress"
+
+            />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/linkBtn"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="18dp"
+            android:layout_marginEnd="18dp"
+            android:layout_marginBottom="22dp"
+            android:text="카카오 맵으로 이동하기"
+            android:textColor="@color/white"
+            android:background="@drawable/sp_rounded_corner_primary"
+            />
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
