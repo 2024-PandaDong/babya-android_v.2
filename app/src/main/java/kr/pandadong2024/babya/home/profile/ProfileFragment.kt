@@ -134,7 +134,7 @@ class ProfileFragment : Fragment() {
     ): View {
         (requireActivity() as BottomControllable).setBottomNavVisibility(false)
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
-
+        userViewModel.getUserLocalCode()
         binding.profileBackButton.setOnClickListener {
             findNavController().navigate(R.id.action_profileFragment_to_mainFragment)
         }
@@ -142,13 +142,16 @@ class ProfileFragment : Fragment() {
 
 
         userViewModel.userData.observe(viewLifecycleOwner){ userData ->
-            binding.welcomeText.text = "${userData.nickname}님 반가워요!"
-
-
-            if (userData.profileImg == null) {
-                binding.profileImage.load(R.drawable.ic_basic_profile)
-            } else {
-                binding.profileImage.load(userData.profileImg)
+            if (userData.nickname.isNullOrEmpty()){
+                userViewModel.getUserData()
+            }
+                else {
+                binding.welcomeText.text = "${userData.nickname}님 반가워요!"
+                if (userData.profileImg == null) {
+                    binding.profileImage.load(R.drawable.ic_basic_profile)
+                } else {
+                    binding.profileImage.load(userData.profileImg)
+                }
             }
         }
 
