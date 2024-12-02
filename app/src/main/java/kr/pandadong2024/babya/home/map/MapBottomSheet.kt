@@ -19,7 +19,6 @@ import kr.pandadong2024.babya.util.shortToast
 class MapBottomSheet(val placeData: MapData, onClick: () -> Unit) : BottomSheetDialogFragment() {
     private var _binding: FragmentMapBottomSheetBinding? = null
     private val binding get() = _binding!!
-    private val testViewModel by activityViewModels<MapViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
