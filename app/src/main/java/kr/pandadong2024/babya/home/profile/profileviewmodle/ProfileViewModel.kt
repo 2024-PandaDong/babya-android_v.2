@@ -65,7 +65,25 @@ class ProfileViewModel(private val application: Application) : AndroidViewModel(
                 email = "my"
             )
         }.onSuccess { result ->
-            _userData.postValue(result.data)
+            val data = result.data
+            launch(Dispatchers.IO) {
+                val userEntity = UserEntity(
+                    email = "",
+                    nickname = data?.nickname,
+                    dDay = data?.dDay,
+                    birthDt = data?.birthDt,
+                    marriedYears = data?.marriedYears,
+                    children = data?.children.toString(),
+                    profileImg = data?.profileImg,
+                    localCode = "",
+                )
+
+                BabyaDB.getInstance(application)?.userDao()?.updateMember(userEntity)
+            }
+            launch(Dispatchers.Main) {
+                _userData.postValue(result.data)
+            }
+
         }.onFailure { result ->
             if (result is HttpException) {
                 if (result.code() == 404) {

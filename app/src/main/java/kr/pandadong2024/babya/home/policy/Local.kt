@@ -272,7 +272,7 @@ fun getRegionByCode(code: Int) =
         else -> "알 수 없음"
     }
 
-//"1${지역코드}${시/군/구 코드}"
+//"${지역코드}_${시/군/구 코드}"
 fun getCodeByRegion(code: String) =
     when (code) {
         "서울특별시_강남구" -> "101010"

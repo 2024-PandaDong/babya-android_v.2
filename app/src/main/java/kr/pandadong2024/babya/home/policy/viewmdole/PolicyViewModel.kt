@@ -101,8 +101,11 @@ class PolicyViewModel(private val application: Application) : AndroidViewModel(a
                 BabyaDB.getInstance(application)?.userDao()
                     ?.getMembers()
             }.await()
-
             return@runBlocking user
+        }
+        Log.d("dbTest", "name : ${userData}")
+        if (userData != null) {
+            _localUserData.value = userData
         }
         return userData
     }
