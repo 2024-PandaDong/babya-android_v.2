@@ -13,7 +13,6 @@ class TodoItemDecoration( private val horizontalPadding : Int, private val lastP
         state: RecyclerView.State
     ) {
         val position = parent.getChildAdapterPosition(view)
-        Log.d( "pos", "pos : $position")
         if(position != lastPos){
             outRect.bottom = 20
         }

@@ -96,7 +96,8 @@ class EditProfileFragment : Fragment() {
             if (it.length >= 4) {
                 binding.locationEditText.text = getLocalByCode(it)
                 userData.lc = it
-            }        }
+            }
+        }
 
         binding.selectProfileImageLayout.setOnSingleClickListener {
             getImage.launch("image/*")

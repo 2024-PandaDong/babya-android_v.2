@@ -15,27 +15,32 @@ import kr.pandadong2024.babya.server.remote.responses.company.CompanyListRespons
 
 class FindCompanyAdapter(
     private val items: List<CompanyListResponses>,
-    private val onItemClick: (postId : Int) -> Unit
-) : RecyclerView.Adapter<FindCompanyAdapter.Holder>(){
+    private val onItemClick: (postId: Int, position : Int) -> Unit
+) : RecyclerView.Adapter<FindCompanyAdapter.Holder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-        val binding = ItemFindCompanyRecyclerviewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemFindCompanyRecyclerviewBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
         return Holder(binding)
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.bind(items[position])
+        holder.bind(items[position], position)
     }
 
     override fun getItemCount(): Int = items.size
 
-    inner class Holder(private val binding: ItemFindCompanyRecyclerviewBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(CompanyListResponses: CompanyListResponses) {
+    inner class Holder(private val binding: ItemFindCompanyRecyclerviewBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(companyListResponses: CompanyListResponses, position: Int) {
             val data = items[position]
             binding.apply {
-                companyName.text = CompanyListResponses.companyName
-                address.text = CompanyListResponses.address
-                logoImg.load(CompanyListResponses.logoImg?.get(0))
+                companyName.text = companyListResponses.companyName
+                address.text = companyListResponses.address
+                logoImg.load(companyListResponses.logoImg?.get(0))
 
 //                address.setBackgroundColor(Color.parseColor("#123445"))
 
@@ -53,8 +58,8 @@ class FindCompanyAdapter(
 
 
                 root.setOnClickListener {
-                    if (data.companyId != null){
-                        onItemClick(data.companyId)
+                    if (data.companyId != null) {
+                        onItemClick(data.companyId, position)
                     }
                 }
             }

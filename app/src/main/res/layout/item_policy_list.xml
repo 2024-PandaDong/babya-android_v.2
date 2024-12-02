@@ -23,7 +23,7 @@
             app:layout_constraintStart_toStartOf="parent"
             android:fontFamily="@font/notosanskr_semibold"
             android:textSize="16dp"
-            android:text="대충 정책 지원금 200만원"
+            android:text=""
             android:layout_marginEnd="17dp"
             android:includeFontPadding="false"/>
         <TextView
@@ -36,7 +36,7 @@
             app:layout_constraintStart_toStartOf="@id/titleText"
             android:layout_marginTop="5dp"
             android:layout_marginStart="1dp"
-            android:text="대구"
+            android:text=""
             android:textColor="@color/neutral40"
             android:includeFontPadding="false"
             />
@@ -46,7 +46,7 @@
             android:id="@+id/termText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="최종수정일: 4월 1일"
+            android:text=""
             app:layout_constraintTop_toBottomOf="@id/localTagText"
             app:layout_constraintStart_toStartOf="@id/localTagText"
             android:textSize="14sp"

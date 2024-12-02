@@ -13,9 +13,7 @@ class TodoIDayItemDecoration(private val lastPos : Int) : RecyclerView.ItemDecor
         state: RecyclerView.State
     ) {
         val position = parent.getChildAdapterPosition(view)
-        Log.d( "pos", "pos : $position")
         if(position == 0){
-
             outRect.top = 3
             outRect.bottom = 2
         }
@@ -26,7 +24,5 @@ class TodoIDayItemDecoration(private val lastPos : Int) : RecyclerView.ItemDecor
         else{
             outRect.bottom = 3
         }
-
-
     }
 }

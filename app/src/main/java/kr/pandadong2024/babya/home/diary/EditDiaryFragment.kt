@@ -130,7 +130,8 @@ class EditDiaryFragment : Fragment() {
 
         binding.nextDaySelectButton.setOnClickListener {
             val dlg =
-                DatePickerDialog(requireContext(),
+                DatePickerDialog(
+                    requireContext(),
                     { view, year, month, dayOfMonth -> //month는 +1 해야 함
                         Log.d("MAIN", "${year}, ${month + 1}, ${dayOfMonth}")
 
