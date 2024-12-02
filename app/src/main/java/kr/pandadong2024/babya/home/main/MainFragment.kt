@@ -117,11 +117,11 @@ class MainFragment : Fragment() {
             launch {
                 findCompanyViewModel.addCompany()
             }
-            launch {
-                policyViewModel.getPolicyList(
-                    code = profileViewModel.userLocalCode.value.toString()
-                )
-            }
+//            launch {
+//                policyViewModel.getPolicyList(
+//                    code = profileViewModel.userLocalCode.value.toString()
+//                )
+//            }
         }
 //        profileViewModel.userLocalCode.observe(viewLifecycleOwner) {
 //            if (it.isEmpty()) return@observe

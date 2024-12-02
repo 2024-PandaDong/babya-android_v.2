@@ -13,7 +13,6 @@ class PolicyItemDecoration(private val lastPos : Int) : RecyclerView.ItemDecorat
         state: RecyclerView.State
     ) {
         val position = parent.getChildAdapterPosition(view)
-        Log.d( "pos", "pos : $position")
         if(position != lastPos){
             outRect.bottom = 5
         }
