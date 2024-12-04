@@ -1,11 +1,13 @@
 package kr.pandadong2024.babya.home.quiz
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.Dispatchers
@@ -20,8 +22,10 @@ import kr.pandadong2024.babya.home.find_company.find_company_viewModel.FindCompa
 import kr.pandadong2024.babya.home.main.MainViewModel
 import kr.pandadong2024.babya.home.policy.viewmdole.PolicyViewModel
 import kr.pandadong2024.babya.home.profile.profileviewmodle.ProfileViewModel
+import kr.pandadong2024.babya.home.viewmodel.CommonViewModel
 import kr.pandadong2024.babya.server.local.BabyaDB
-import kr.pandadong2024.babya.server.local.TokenDAO
+import kr.pandadong2024.babya.server.local.DAO.TokenDAO
+import kr.pandadong2024.babya.server.local.entity.UserEntity
 import kr.pandadong2024.babya.util.BottomControllable
 import kr.pandadong2024.babya.util.shortToast
 
@@ -32,18 +36,41 @@ class QuizFragment : Fragment() {
     private val findCompanyViewModel by activityViewModels<FindCompanyViewModel>()
     private val mainViewModel by activityViewModels<MainViewModel>()
     private val policyViewModel by activityViewModels<PolicyViewModel>()
-    private val profileViewModel by activityViewModels<ProfileViewModel>()
+    private val commonViewModel by activityViewModels<CommonViewModel>()
+    private val profileViewModel by viewModels<ProfileViewModel>()
     private val diaryViewModel by activityViewModels<DiaryViewModel>()
     private lateinit var tokenDao: TokenDAO
     private lateinit var accessToken: String
+    private var userEntity: UserEntity = UserEntity(
+        email = "",
+        nickname = "",
+        dDay = "",
+        birthDt = "",
+        marriedYears = "",
+        children = "",
+        localCode = "",
+        profileImg = "",
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // 메인 스레드가 아닌 IO 스레드에서 데이터베이스에 접근하도록 수정
         runBlocking {
             lifecycleScope.launch(Dispatchers.IO) {
-                accessToken = BabyaDB.getInstance(requireContext())?.tokenDao()
-                    ?.getMembers()?.accessToken.toString()
+                launch {
+                    accessToken = BabyaDB.getInstance(requireContext())?.tokenDao()
+                        ?.getMembers()?.accessToken.toString()
+                }
+                launch(Dispatchers.IO) {
+                    val userLocalCode =
+                        BabyaDB.getInstance(requireContext())?.userDao()?.getMembers()?.localCode
+                            ?: "0000000000"
+
+                    launch(Dispatchers.Main) {
+                        policyViewModel.setTagList(userLocalCode.toInt())
+                        policyViewModel.getPolicyList(userLocalCode)
+                    }
+                }
                 withContext(Dispatchers.Main) {
                     launch {
                         findCompanyViewModel.setAccessToken(accessToken)
@@ -57,6 +84,9 @@ class QuizFragment : Fragment() {
                     launch {
                         diaryViewModel.setAccessToken(accessToken)
                     }
+                    launch {
+                        commonViewModel.setAccessToken(accessToken)
+                    }
                 }
             }
         }
@@ -66,17 +96,49 @@ class QuizFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        // Inflate the layout for this fragment
-        viewModel.getQuiz(accessToken)
         _binding = FragmentQuizBinding.inflate(inflater, container, false)
         (requireActivity() as BottomControllable).setBottomNavVisibility(false)
+//        profileViewModel.getUserLocalCode()
+        viewModel.accessToken.observe(viewLifecycleOwner){
+            viewModel.getQuiz()
+        }
+        profileViewModel.accessToken.observe(viewLifecycleOwner) {
+            if (it.isNotEmpty()) {
+                Log.d("dbTest", "toekn data : $it")
+//                profileViewModel.getUserLocalCode()
+//                if (profileViewModel.getUserLocalCode()?.nickname?.isNotEmpty() == true){
+//                    profileViewModel.getUserLocalCode()
+//                }else{
+//                    profileViewModel.getUserLocalCode()
+//                }
+            }
+        }
+        profileViewModel.userData.observe(viewLifecycleOwner) {
+            Log.d("dbTest", "user data : $it")
+            userEntity.email = userEntity.email
+            userEntity.nickname = it.nickname
+            userEntity.dDay = it.dDay
+            userEntity.birthDt = it.birthDt
+            userEntity.marriedYears = it.marriedYears
+            userEntity.children = it.children.toString()
+            userEntity.profileImg = it.profileImg
+            saveUserData()
+        }
 
+        profileViewModel.userLocalCode.observe(viewLifecycleOwner) {
+            Log.d("dbTest", "local data : $it")
+            if (it.length >= 3) {
+                userEntity.localCode = it
+                policyViewModel.setTagList(it.toInt())
+                policyViewModel.getPolicyList(it)
+                profileViewModel.getUserData()
+            }
+        }
         viewModel.message.observe(viewLifecycleOwner) {
             if (it != "") {
                 requireContext().shortToast(it)
             }
         }
-
         viewModel.quizData.observe(viewLifecycleOwner) {
             binding.quizText.text = "Q.${it.title}"
         }
@@ -85,6 +147,7 @@ class QuizFragment : Fragment() {
         } else {
             tokenDao = BabyaDB.getInstance(requireContext().applicationContext)?.tokenDao()!!
         }
+
         binding.positiveButton.setOnClickListener {
             moveOtherView(false)
             viewModel.answer.value = "Y"
@@ -96,12 +159,18 @@ class QuizFragment : Fragment() {
         binding.skipText.setOnClickListener {
             moveOtherView(true)
         }
-
-
         return binding.root
     }
 
-    private fun moveOtherView(isSkip: Boolean) {
+
+    private fun saveUserData() {
+        Log.d("dbTest", "save data : $userEntity")
+        lifecycleScope.launch(Dispatchers.IO) {
+            BabyaDB.getInstance(requireContext())?.userDao()?.insertMember(userEntity)
+        }
+    }
+
+    private fun moveOtherView(isSkip: Boolean) = lifecycleScope.launch {
         prefs.completeQuiz = true
         findNavController().navigate(
             if (isSkip) {

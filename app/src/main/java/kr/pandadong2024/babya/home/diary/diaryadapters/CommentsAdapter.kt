@@ -1,6 +1,5 @@
 package kr.pandadong2024.babya.home.diary.diaryadapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -19,9 +18,7 @@ class CommentsAdapter(
             binding.commentNameText.text = commentData.nickname
             if (commentData.profileImg?.isNotBlank() == true) {
                 binding.commentProfileImage.load(commentData.profileImg)
-            }
-            else{
-                Log.d("ㅅㄷㄴㅅ", " in else")
+            } else {
                 binding.commentProfileImage.load(R.drawable.ic_basic_profile)
             }
             binding.contentTextView.text = commentData.content

@@ -69,8 +69,16 @@ android {
 
 dependencies {
 
+    // LocationWorker
+    implementation("androidx.work:work-runtime-ktx:2.8.0")
+    implementation("com.google.android.gms:play-services-location:21.0.1")
+
     implementation ("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 
+    implementation("com.facebook.shimmer:shimmer:0.5.0")
+
+    // kakao-map
+    implementation("com.kakao.maps.open:android:2.12.8")
 
     // chart
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
@@ -88,6 +96,8 @@ dependencies {
     implementation(libs.androidx.material3.android)
     implementation(libs.identity.android.legacy)
     ksp(libs.androidx.room.compiler)
+    implementation(libs.play.services.location)
+//    kapt(libs.androidx.room.compiler)
 
     implementation(libs.logging.interceptor)
 

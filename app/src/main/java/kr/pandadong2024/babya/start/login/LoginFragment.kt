@@ -17,15 +17,11 @@ import kotlinx.coroutines.withContext
 import kr.pandadong2024.babya.HomeActivity
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentLoginBinding
-import kr.pandadong2024.babya.home.find_company.find_company_viewModel.FindCompanyViewModel
-import kr.pandadong2024.babya.home.main.MainViewModel
-import kr.pandadong2024.babya.home.policy.viewmdole.PolicyViewModel
-import kr.pandadong2024.babya.home.profile.profileviewmodle.ProfileViewModel
 import kr.pandadong2024.babya.home.viewmodel.CommonViewModel
 import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.server.local.BabyaDB
-import kr.pandadong2024.babya.server.local.TokenDAO
-import kr.pandadong2024.babya.server.local.TokenEntity
+import kr.pandadong2024.babya.server.local.DAO.TokenDAO
+import kr.pandadong2024.babya.server.local.entity.TokenEntity
 import kr.pandadong2024.babya.server.remote.request.LoginRequest
 import kr.pandadong2024.babya.util.Pattern
 import retrofit2.HttpException

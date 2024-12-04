@@ -3,34 +3,24 @@ package kr.pandadong2024.babya.home.diary.bottomsheet
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager.LayoutParams
 import android.view.inputmethod.InputMethodManager
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import androidx.core.widget.NestedScrollView.OnScrollChangeListener
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.SubCommentBottomSheetBinding
 import kr.pandadong2024.babya.home.diary.diaryadapters.SubCommentAdapter
 import kr.pandadong2024.babya.home.diary.diaryviewmodle.DiaryViewModel
-import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.server.local.BabyaDB
-import kr.pandadong2024.babya.server.local.TokenDAO
-import kr.pandadong2024.babya.server.remote.request.SubCommentRequest
-import kr.pandadong2024.babya.server.remote.responses.SubCommentResponses
+import kr.pandadong2024.babya.server.local.DAO.TokenDAO
 import kr.pandadong2024.babya.util.setOnSingleClickListener
 import kotlin.properties.Delegates
 
@@ -102,10 +92,8 @@ class CommentBottomSheet(
             val subCommentAdapter = SubCommentAdapter(it, requireContext())
             subCommentAdapter.notifyItemRemoved(0)
             binding.subCommentRecyclerView.adapter = subCommentAdapter
-            if (viewModel.startPage.value != 1) {
-                binding.subCommentRecyclerView.scrollToPosition(
-                    viewModel.startPage.value?.minus(2) ?: 0
-                )
+            if (viewModel.startSubCommentPage.value != 1) {
+                binding.subCommentRecyclerView.scrollToPosition(it.size  - viewModel.pagingSize)
             }
         }
         binding.iconCloseButton.setOnClickListener {
@@ -119,7 +107,7 @@ class CommentBottomSheet(
                     if (!binding.subCommentRecyclerView.canScrollVertically(1)
                         && newState == RecyclerView.SCROLL_STATE_IDLE
                     ) {
-                        viewModel.addPage(commentId = parentCommentId)
+                        viewModel.addSubCommentPage(commentId = parentCommentId)
                     }
                 }
             }

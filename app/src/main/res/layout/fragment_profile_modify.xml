@@ -5,7 +5,9 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".home.profile.ProfileModifyFragment"
-    android:background="@color/backgroundNormalStrong">
+    android:background="@color/backgroundNormalStrong"
+
+    >
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/profileSettingToolbar"
         style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"

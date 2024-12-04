@@ -74,6 +74,9 @@
         <action
             android:id="@+id/action_mainFragment_to_policyMainFragment"
             app:destination="@id/policyMainFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_mapFragment"
+            app:destination="@id/mapFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailPublicFragment"
@@ -187,6 +190,15 @@
         <action
             android:id="@+id/action_editProfileFragment_to_profileModifyFragment"
             app:destination="@id/profileModifyFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="kr.pandadong2024.babya.home.map.MapFragment"
+        android:label="fragment_map"
+        tools:layout="@layout/fragment_map" >
+        <action
+            android:id="@+id/action_mapFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
     </fragment>
 
 </navigation>

@@ -31,7 +31,7 @@ import kr.pandadong2024.babya.home.diary.diaryviewmodle.DiaryViewModel
 import kr.pandadong2024.babya.home.viewmodel.CommonViewModel
 import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.server.local.BabyaDB
-import kr.pandadong2024.babya.server.local.TokenDAO
+import kr.pandadong2024.babya.server.local.DAO.TokenDAO
 import kr.pandadong2024.babya.server.remote.request.diary.EditDiaryRequest
 import kr.pandadong2024.babya.server.remote.request.diary.PostDiaryRequest
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -130,7 +130,8 @@ class EditDiaryFragment : Fragment() {
 
         binding.nextDaySelectButton.setOnClickListener {
             val dlg =
-                DatePickerDialog(requireContext(),
+                DatePickerDialog(
+                    requireContext(),
                     { view, year, month, dayOfMonth -> //month는 +1 해야 함
                         Log.d("MAIN", "${year}, ${month + 1}, ${dayOfMonth}")
 

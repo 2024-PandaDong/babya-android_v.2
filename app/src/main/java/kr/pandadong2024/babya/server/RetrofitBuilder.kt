@@ -4,8 +4,9 @@ import RefreshInterceptor
 import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import kr.pandadong2024.babya.server.kakao.remote.service.KakaoApiService
 import kr.pandadong2024.babya.server.local.BabyaDB
-import kr.pandadong2024.babya.server.local.TokenDAO
+import kr.pandadong2024.babya.server.local.DAO.TokenDAO
 import kr.pandadong2024.babya.server.remote.service.CommonService
 import kr.pandadong2024.babya.server.remote.service.CompanyService
 import kr.pandadong2024.babya.server.remote.service.DashBoardService
@@ -31,6 +32,7 @@ class RetrofitBuilder {
     companion object {
         private var gson: Gson? = null
         private var retrofit: Retrofit? = null
+        private var kakaoRetrofit: Retrofit? = null
         private var loginService: LoginService? = null
         private var signupService: SignupService? = null
         private var commonService: CommonService? = null
@@ -44,6 +46,7 @@ class RetrofitBuilder {
         private var profileService: ProfileService? = null
         private var dashBoardService: DashBoardService? = null
         private var companyService: CompanyService? = null
+        private var kakaoApiService: KakaoApiService? = null
 
         @Synchronized
         fun getGson(): Gson? {
@@ -69,6 +72,21 @@ class RetrofitBuilder {
             }
             return retrofit!!
         }
+
+        @Synchronized
+        fun getKakaoRetrofit(): Retrofit {
+            if (kakaoRetrofit == null) {
+                kakaoRetrofit = Retrofit.Builder()
+                    .baseUrl("https://dapi.kakao.com/")
+                    .addConverterFactory(GsonConverterFactory.create(getGson()!!))
+                    .build()
+            }
+
+            Log.d("retrofit", "getKakaoRetrofit: ${kakaoRetrofit?.baseUrl()}")
+            return kakaoRetrofit!!
+        }
+
+
 
         @Synchronized
         fun getHttpRetrofit(): Retrofit {
@@ -145,6 +163,13 @@ class RetrofitBuilder {
             okhttpBuilder.sslSocketFactory(sslSocketFactory, trustAllCerts[0] as X509TrustManager)
             okhttpBuilder.hostnameVerifier { hostname, session -> true }
             return okhttpBuilder.build()
+        }
+
+        fun getKakaoService(): KakaoApiService {
+            if (kakaoApiService == null) {
+                kakaoApiService = getKakaoRetrofit().create(KakaoApiService::class.java)
+            }
+            return kakaoApiService!!
         }
 
         fun getLoginService(): LoginService {

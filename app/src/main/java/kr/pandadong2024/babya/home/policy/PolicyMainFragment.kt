@@ -10,6 +10,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import coil.load
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -21,9 +22,10 @@ import kr.pandadong2024.babya.home.policy.bottom_sheet.PolicyBottomSheet
 import kr.pandadong2024.babya.home.policy.decoration.PolicyCategoryItemDecoration
 import kr.pandadong2024.babya.home.policy.decoration.PolicyItemDecoration
 import kr.pandadong2024.babya.home.policy.viewmdole.PolicyViewModel
+import kr.pandadong2024.babya.home.profile.profileviewmodle.ProfileViewModel
 import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.server.local.BabyaDB
-import kr.pandadong2024.babya.server.local.TokenDAO
+import kr.pandadong2024.babya.server.local.DAO.TokenDAO
 import kr.pandadong2024.babya.server.remote.responses.Policy.PolicyListResponse
 import kr.pandadong2024.babya.util.BottomControllable
 import kr.pandadong2024.babya.util.shortToast
@@ -31,7 +33,8 @@ import kr.pandadong2024.babya.util.shortToast
 
 class PolicyMainFragment : Fragment() {
     val TAG = "PolicyMainFragment"
-    private val viewModel by activityViewModels<PolicyViewModel>()
+    private val policyViewModel by activityViewModels<PolicyViewModel>()
+    private val profileViewModel by activityViewModels<ProfileViewModel>()
     var _binding: FragmentPolicyMainBinding? = null
     val binding get() = _binding!!
 
@@ -51,28 +54,29 @@ class PolicyMainFragment : Fragment() {
         (requireActivity() as BottomControllable).setBottomNavVisibility(false)
         binding.backButton.setOnClickListener {
             findNavController().navigate(R.id.action_policyMainFragment_to_mainFragment)
-            viewModel.initKeyword()
+            policyViewModel.initKeyword()
         }
+        profileViewModel.getUserData()
 
         binding.swipeRefreshLayout.setOnRefreshListener(
             SwipeRefreshLayout.OnRefreshListener {
-                setCategory(categoryList = viewModel.tagsList.value ?: listOf())
+                setCategory(categoryList = policyViewModel.tagsList.value ?: listOf())
             }
         )
 
-        viewModel.policySearchKeyWord.observe(viewLifecycleOwner) {
+        policyViewModel.policySearchKeyWord.observe(viewLifecycleOwner) {
             searchKeyWord = it
-            if (viewModel.tagsList.value?.isNotEmpty() == true) {
+            if (policyViewModel.tagsList.value?.isNotEmpty() == true) {
                 selectPolicy(
-                    mainTag = viewModel.tagsList.value?.get(0) ?: "알 수 없음",
-                    subTag = viewModel.tagsList.value?.get(1) ?: "알 수 없음",
+                    mainTag = policyViewModel.tagsList.value?.get(0) ?: "알 수 없음",
+                    subTag = policyViewModel.tagsList.value?.get(1) ?: "알 수 없음",
                     keyWord = searchKeyWord
                 )
             } else {
-                if (viewModel.userRegionList.value?.isNotEmpty() == true) {
+                if (policyViewModel.userRegionList.value?.isNotEmpty() == true) {
                     selectPolicy(
-                        mainTag = viewModel.userRegionList.value?.get(0) ?: "알 수 없음",
-                        subTag = viewModel.userRegionList.value?.get(1) ?: "알 수 없음",
+                        mainTag = policyViewModel.userRegionList.value?.get(0) ?: "알 수 없음",
+                        subTag = policyViewModel.userRegionList.value?.get(1) ?: "알 수 없음",
                         keyWord = searchKeyWord
                     )
                 }
@@ -84,7 +88,7 @@ class PolicyMainFragment : Fragment() {
             }
         }
 
-        viewModel.isOpenSearchView.observe(viewLifecycleOwner) {
+        policyViewModel.isOpenSearchView.observe(viewLifecycleOwner) {
             isSearchActivated = it
             if (it) {
                 binding.searchEditText.visibility = View.VISIBLE
@@ -94,40 +98,42 @@ class PolicyMainFragment : Fragment() {
         }
 
         binding.searchButton.setOnClickListener {
-            viewModel.setPolicySearchKeyWord(binding.searchEditText.text.toString())
+            policyViewModel.setPolicySearchKeyWord(binding.searchEditText.text.toString())
             if (!(isSearchActivated && binding.searchEditText.text.isNotBlank())) {
-                viewModel.changeOpenSearchView()
+                policyViewModel.changeOpenSearchView()
             }
         }
 
+        profileViewModel.userData.observe(viewLifecycleOwner){ userData ->
+            Log.d("dbTest", "name : ${userData}")
+            binding.titleText.text = "${userData.nickname}님을 위한 추천 정책"
+            binding.tagTitleText.text = "${userData.nickname}님의 지역"
+            binding.subTitleText.text = "지역에 따라 정책을 모았어요"
+        }
 
-
-        getProfileData()
-
-        viewModel.tagsList.observe(viewLifecycleOwner) {
+        policyViewModel.tagsList.observe(viewLifecycleOwner) {
             setCategory(categoryList = it)
         }
 
         //결과 나왔을 때 리사이 클러뷰 업데이트
-        viewModel.policyList.observe(viewLifecycleOwner) {
+        policyViewModel.policyList.observe(viewLifecycleOwner) {
             if (it.size > 1) {
                 setRecyclerView(
                     it,
-                    "${viewModel.tagsList.value?.get(0) ?: ""} ${viewModel.tagsList.value?.get(1) ?: ""}  보건소"
+                    "${policyViewModel.tagsList.value?.get(0) ?: ""} ${policyViewModel.tagsList.value?.get(1) ?: ""}"
                 )
             }
         }
 
 
         binding.tagEditText.setOnClickListener {
-            viewModel.setSaveTagList(viewModel.tagsList.value)
+            policyViewModel.setSaveTagList(policyViewModel.tagsList.value)
             val bottomSheetDialog =
                 PolicyBottomSheet() { tag ->
-                    val tagNumber = getCodeByRegion("${viewModel.tagsList.value?.get(0)}_${tag}")
-                    viewModel.getPolicyList(tagNumber)
-                    viewModel.initKeyword()
+                    val tagNumber = getCodeByRegion("${policyViewModel.tagsList.value?.get(0)}_${tag}")
+                    policyViewModel.getPolicyList(tagNumber)
+                    policyViewModel.initKeyword()
                 }
-
             bottomSheetDialog.show(requireActivity().supportFragmentManager, bottomSheetDialog.tag)
         }
 
@@ -135,30 +141,10 @@ class PolicyMainFragment : Fragment() {
         return binding.root
     }
 
-    private fun getProfileData() {
-        lifecycleScope.launch(Dispatchers.IO) {
-            kotlin.runCatching {
-                RetrofitBuilder.getProfileService().getProfile(
-                    accessToken = "Bearer ${tokenDao?.getMembers()?.accessToken.toString()}",
-                    email = "my"
-                )
-            }.onSuccess { result ->
-                launch(Dispatchers.Main) {
-                    binding.titleText.text = "${result.data?.nickname}님을 위한 추천 정책"
-                    binding.tagTitleText.text = "${result.data?.nickname}님의 지역"
-                    binding.subTitleText.text = "지역에 따라 정책을 모았어요"
-                }
-            }.onFailure { result ->
-                result.printStackTrace()
-                requireContext().shortToast("인터넷 연결을 확인해 주세요")
-            }
-        }
-    }
-
 
     private fun setRecyclerView(policyList: List<PolicyListResponse>, tag: String) {
         val recyclerAdapter = PolicyRecyclerView(policyList = policyList, tag) { position ->
-            viewModel.setPolicyId(position)
+            policyViewModel.setPolicyId(position)
             findNavController().navigate(R.id.action_policyMainFragment_to_policyContentFragment)
         }
         with(binding) {
@@ -168,8 +154,6 @@ class PolicyMainFragment : Fragment() {
                 PolicyItemDecoration(policyList.size)
             )
         }
-
-
     }
 
     private fun selectPolicy(mainTag: String, subTag: String, keyWord: String) {
@@ -179,16 +163,19 @@ class PolicyMainFragment : Fragment() {
                 kotlin.runCatching {
                     RetrofitBuilder.getPolicyService().getPolicyList(tagNumber, keyWord)
                 }.onSuccess { result ->
-                    Log.d("selectPolicy", "result : $result")
-                        withContext(Dispatchers.Main) {
-                            viewModel.setPolicyList(result.data ?: listOf())
-                            if (!viewModel.tagsList.value.isNullOrEmpty()) {
-                                setRecyclerView(
-                                    policyList = result.data ?: listOf(),
-                                    tag = "${viewModel.tagsList.value?.get(0)} ${viewModel.tagsList.value?.get(1)}"
-                                )
-                            }
+                    withContext(Dispatchers.Main) {
+                        policyViewModel.setPolicyList(result.data ?: listOf())
+                        if (!policyViewModel.tagsList.value.isNullOrEmpty()) {
+                            setRecyclerView(
+                                policyList = result.data ?: listOf(),
+                                tag = "${policyViewModel.tagsList.value?.get(0)} ${
+                                    policyViewModel.tagsList.value?.get(
+                                        1
+                                    )
+                                }"
+                            )
                         }
+                    }
                 }.onFailure { result ->
                     result.printStackTrace()
                     requireContext().shortToast("인터넷 연결을 확인해 주세요")
@@ -203,7 +190,7 @@ class PolicyMainFragment : Fragment() {
         val todoCategoryAdapter = PolicyCategoryAdapter(
             localCategoryList = categoryList,
             flash = { position, localCategoryList ->
-                setCategory(viewModel.tagsList.value!!)
+                setCategory(policyViewModel.tagsList.value!!)
             }
         )
         todoCategoryAdapter.notifyItemRemoved(0)

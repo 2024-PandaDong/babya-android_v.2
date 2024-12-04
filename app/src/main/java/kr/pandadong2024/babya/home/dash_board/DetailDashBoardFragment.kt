@@ -20,7 +20,7 @@ import kr.pandadong2024.babya.home.dash_board.adapter.DashBoardCommentsAdapter
 import kr.pandadong2024.babya.home.dash_board.dash_boardViewModel.DashBoardViewModel
 import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.server.local.BabyaDB
-import kr.pandadong2024.babya.server.local.TokenDAO
+import kr.pandadong2024.babya.server.local.DAO.TokenDAO
 import kr.pandadong2024.babya.server.remote.request.dash_board.DashBoardCommentRequest
 import kr.pandadong2024.babya.server.remote.responses.SubCommentResponses
 import kr.pandadong2024.babya.util.BottomControllable
