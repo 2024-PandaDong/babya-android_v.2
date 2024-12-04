@@ -54,6 +54,7 @@ import com.kakao.vectormap.label.LabelOptions
 import com.kakao.vectormap.label.LabelStyle
 import com.kakao.vectormap.label.LabelStyles
 import com.kakao.vectormap.label.LabelTextBuilder
+import kotlinx.coroutines.withContext
 import kr.pandadong2024.babya.server.Url
 import kotlin.math.ceil
 
@@ -151,48 +152,14 @@ class MainFragment : Fragment() {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
         checkLocationPermissions()
 
+        kotlin.run {
+            findName()
+        }
 
-//        // 위치 권한 요청 등록
-//        val launcher = registerForActivityResult(
-//            ActivityResultContracts.RequestPermission()
-//        ) { isGranted ->
-//            if (isGranted) {
-//                // 현재 위치 요청
-//                mapViewModel.fetchCurrentLocation()
-//            } else {
-//                Toast.makeText(requireContext(), "위치 권한이 거부되었습니다", Toast.LENGTH_SHORT).show()
-//            }
-//        }
-//
-//        // 위치 권한 확인
-//        val status = ContextCompat.checkSelfPermission(
-//            requireContext(),
-//            android.Manifest.permission.ACCESS_FINE_LOCATION
-//        )
-//        if (status == PackageManager.PERMISSION_GRANTED) {
-//            // 권한이 허용된 경우 WorkManager 시작
-//            // 현재 위치 요청
-//            mapViewModel.fetchCurrentLocation()
-//        } else {
-//            // 권한이 허용되지 않은 경우 권한을 요청
-//            launcher.launch(android.Manifest.permission.ACCESS_FINE_LOCATION)
-//        }
-//
-//        mapViewModel.locationLiveData.observe(requireActivity(), Observer { location ->
-//            if (location != null) {
-//                latitude = location.latitude
-//                longitude = location.longitude
-//                Log.d("위치 업데이트", "onCreateView: ${latitude}, ${longitude}")
-//            } else {
-//                Toast.makeText(requireContext(), "위치 정보를 가져올 수 없습니다", Toast.LENGTH_SHORT).show()
-//            }
-//        })
 
         binding.mapViewLayout.setOnClickListener {
             findNavController().navigate(R.id.action_mainFragment_to_mapFragment)
         }
-
-
 
 
         binding.mapView.start(object : MapLifeCycleCallback() {
@@ -331,6 +298,23 @@ class MainFragment : Fragment() {
         return binding.root
     }
 
+    private fun findName() {
+        lifecycleScope.launch(Dispatchers.IO){
+            kotlin.runCatching {
+                val token = BabyaDB.getInstance(requireContext())?.tokenDao()?.getMembers()?.accessToken
+                RetrofitBuilder.getProfileService().getProfile(
+                    accessToken = "Bearer $token",
+                    email = "my"
+                )
+            }.onSuccess {  result ->
+                withContext(Dispatchers.Main) {
+                    binding.hospitalText.text = result.data?.nickname+"님 가장 가까운 산부인과는 여기에 있어요"
+                }
+            }
+        }
+    }
+
+
     private fun setBannerViewPager() {
         bannerPosition =
             Int.MAX_VALUE / 2 - ceil(bannerList.size.toDouble() / 2).toInt()
@@ -416,13 +400,13 @@ class MainFragment : Fragment() {
                     query = "산부인과"
                 )
             }.onSuccess { result ->
-                clearAllMarkers()
+//                clearAllMarkers()
                 Log.d(TAG, "성공: ${result.body()?.documents}")
                 val documents = result.body()?.documents ?: emptyList()
                 documents.forEach{
                     // it.category_name에 병원 이라는 키워드가 있으면
                     if (it.category_name.contains("병원")){
-                        addMarkersToMap(it.place_name, it.y.toDouble(), it.x.toDouble(), it.place_name)
+                        addMarkersToMap(it.place_name)
                     }
                 }
 
@@ -442,25 +426,13 @@ class MainFragment : Fragment() {
         Log.d(TAG, "clearAllMarkers: 삭제")
     }
 
-    fun addMarkersToMap(id: String, latitude: Double, longitude: Double, text: String? = null): Label {
+    fun addMarkersToMap(id: String) {
         lifecycleScope.launch(Dispatchers.Main){
             if (closest == 0){
                 binding.locationLabelText.text = id
                 closest += 1
             }
         }
-        val styles = LabelStyles.from(
-            id,
-            LabelStyle.from(R.drawable.ic_hospital).setZoomLevel(8).setTextStyles(32, Color.BLACK)
-        )
-        val options: LabelOptions = LabelOptions.from(LatLng.from(latitude, longitude))
-            .setStyles(styles)
-            .setClickable(true)
-        val label = kakaoMap.labelManager!!.layer!!.addLabel(options)
-        // string을 LabelTextBuilder로 변경
-        label.changeText(LabelTextBuilder().setTexts(text));
-
-        return label
     }
 
     private fun checkLocationPermissions() {
@@ -519,7 +491,7 @@ class MainFragment : Fragment() {
     private fun addLocationLabel(latitude: Double, longitude: Double) {
         val labelOptions = LabelOptions.from(LatLng.from(latitude, longitude))
             // labelstyle 변경 필요
-            .setStyles(LabelStyles.from("user-location", LabelStyle.from(R.drawable.ic_hospital)))
+            .setStyles(LabelStyles.from("user-location", LabelStyle.from(R.drawable.ic_my_map)))
         val label = kakaoMap.labelManager!!.layer!!.addLabel(labelOptions)
         label.changeText(LabelTextBuilder().setTexts("현재 위치"))
     }

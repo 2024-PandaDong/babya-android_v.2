@@ -156,7 +156,7 @@ class MapFragment : Fragment() {
 
     private fun addLocationLabel(latitude: Double, longitude: Double) {
         val labelOptions = LabelOptions.from(LatLng.from(latitude, longitude))
-            .setStyles(LabelStyles.from("user-location", LabelStyle.from(R.drawable.ic_hospital)))
+            .setStyles(LabelStyles.from("user-location", LabelStyle.from(R.drawable.ic_my_map)))
         val label = kakaoMap.labelManager!!.layer!!.addLabel(labelOptions)
         label.changeText(LabelTextBuilder().setTexts("현재 위치"))
     }
