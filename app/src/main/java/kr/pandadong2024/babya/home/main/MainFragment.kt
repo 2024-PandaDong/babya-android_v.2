@@ -118,6 +118,7 @@ class MainFragment : Fragment() {
 
 
     override fun onResume() {
+        closest = 0
         super.onResume()
         scrollJobCreate()
     }
@@ -426,6 +427,7 @@ class MainFragment : Fragment() {
     }
 
     fun addMarkersToMap(id: String) {
+        Log.d(TAG, "addMarkersToMap: ${closest}")
         lifecycleScope.launch(Dispatchers.Main){
             if (closest == 0){
                 binding.locationLabelText.text = id
