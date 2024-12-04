@@ -346,7 +346,9 @@ class MainFragment : Fragment() {
         }
         rankAdapter = CompanyRankAdapter() { position ->
             kotlin.runCatching {
-                findCompanyViewModel.id.value = position
+                Log.d("fixCompany", "company Test : ${position}")
+                findCompanyViewModel.id.value = list[position].companyId
+                Log.d("fixCompany", "company Test : ${findCompanyViewModel.id.value}")
                 findNavController().navigate(R.id.action_mainFragment_to_companyDetailsFragment)
             }
         }
