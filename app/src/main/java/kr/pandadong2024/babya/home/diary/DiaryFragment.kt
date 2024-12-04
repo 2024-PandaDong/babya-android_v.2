@@ -171,7 +171,10 @@ class DiaryFragment : Fragment() {
             onBackPressedCallback = object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
                     viewModel.initDiaryList()
-                    findNavController().navigate(R.id.action_diaryFragment_to_mainFragment)
+                    if (isAdded && activity != null) {
+                        requireActivity().supportFragmentManager.popBackStack()
+                    }
+//                    findNavController().navigate(R.id.action_diaryFragment_to_mainFragment)
                 }
 
             }
