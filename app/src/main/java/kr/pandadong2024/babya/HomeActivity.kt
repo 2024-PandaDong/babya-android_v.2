@@ -9,11 +9,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import dagger.hilt.android.AndroidEntryPoint
 import kr.pandadong2024.babya.databinding.ActivityHomeBinding
 import kr.pandadong2024.babya.home.viewmodel.CommonViewModel
 import kr.pandadong2024.babya.util.BottomControllable
 import kr.pandadong2024.babya.util.shortToast
 
+@AndroidEntryPoint
 class HomeActivity : AppCompatActivity(), BottomControllable {
 
     private lateinit var binding: ActivityHomeBinding

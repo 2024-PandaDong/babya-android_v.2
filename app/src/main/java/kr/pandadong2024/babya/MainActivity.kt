@@ -13,12 +13,13 @@ import android.view.inputmethod.InputMethodManager
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
 import com.android.identity.android.legacy.Utility
+import dagger.hilt.android.AndroidEntryPoint
 import kr.pandadong2024.babya.home.viewmodel.CommonViewModel
 import kr.pandadong2024.babya.util.shortToast
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 
-
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var commonViewModel: CommonViewModel
     @RequiresApi(Build.VERSION_CODES.P)
