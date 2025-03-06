@@ -9,17 +9,20 @@ import android.widget.TextView
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import dagger.hilt.android.AndroidEntryPoint
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentSignup6Binding
 import kr.pandadong2024.babya.start.viewmodel.SignupViewModel
 
+@AndroidEntryPoint
 class Signup6 : Fragment() {
 
     private var _binding: FragmentSignup6Binding? = null
     private val binding get() = _binding!!
-    private val viewModel by activityViewModels<SignupViewModel>()
+    private val viewModel: SignupViewModel by viewModels()
     private var birthNameList = ArrayList<BirthName>()
 
 

@@ -12,8 +12,10 @@ import android.widget.TextView
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import dagger.hilt.android.AndroidEntryPoint
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentSignup8Binding
 import kr.pandadong2024.babya.start.viewmodel.SignupViewModel
@@ -21,12 +23,13 @@ import java.util.Calendar
 import java.util.GregorianCalendar
 import java.util.Locale
 
+@AndroidEntryPoint
 class Signup8 : Fragment() {
 
     private var _binding: FragmentSignup8Binding? = null
     private val binding get() = _binding!!
     private var childrenNameList = ArrayList<BirthName>()
-    private val viewModel by activityViewModels<SignupViewModel>()
+    private val viewModel: SignupViewModel by viewModels()
     private var birthNameList = ArrayList<BirthName>()
 
     private val gregorianCalendar = GregorianCalendar()

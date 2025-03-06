@@ -8,9 +8,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentSignup1Binding
 
+@AndroidEntryPoint
 class Signup1 : Fragment() {
 
     private var _binding: FragmentSignup1Binding? = null

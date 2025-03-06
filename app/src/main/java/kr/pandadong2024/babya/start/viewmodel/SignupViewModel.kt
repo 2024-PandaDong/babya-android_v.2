@@ -2,9 +2,12 @@ package kr.pandadong2024.babya.start.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kr.pandadong2024.babya.start.signup.BirthName
+import javax.inject.Inject
 
-class SignupViewModel : ViewModel() {
+@HiltViewModel
+class SignupViewModel @Inject constructor(): ViewModel() {
     val email = MutableLiveData<String>().apply { value = "" }
     val pw = MutableLiveData<String>().apply { value = "" }
     val nickName = MutableLiveData<String>().apply { value = "" }

@@ -10,8 +10,10 @@ import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kr.pandadong2024.babya.R
@@ -21,6 +23,7 @@ import kr.pandadong2024.babya.start.viewmodel.SignupViewModel
 import kr.pandadong2024.babya.util.Pattern
 import kr.pandadong2024.babya.util.setOnSingleClickListener
 
+@AndroidEntryPoint
 class Signup2 : Fragment() {
 
     private var _binding: FragmentSignup2Binding? = null
@@ -28,10 +31,10 @@ class Signup2 : Fragment() {
 
     private var passwordCheck = false
     private var emailCheck = false
-    private var visible = false
 
     private val TAG = "Signup2"
-    private val viewModel by activityViewModels<SignupViewModel>()
+//    private val viewModel by activityViewModels<SignupViewModel>()
+    private val viewModel: SignupViewModel by viewModels()
     private var isVisible = false
 
     override fun onCreateView(
