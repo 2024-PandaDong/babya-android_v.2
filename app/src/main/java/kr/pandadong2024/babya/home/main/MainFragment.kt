@@ -135,8 +135,10 @@ class MainFragment : Fragment() {
         // 메인 스레드가 아닌 IO 스레드에서 데이터베이스에 접근하도록 수정
         runBlocking {
             lifecycleScope.launch(Dispatchers.IO) {
-                accessToken = BabyaDB.getInstance(requireContext())?.tokenDao()
-                    ?.getMembers()?.accessToken.toString()
+                if(isAdded && activity != null) {
+                    accessToken = BabyaDB.getInstance(requireContext())?.tokenDao()
+                        ?.getMembers()?.accessToken.toString()
+                }
             }
         }
     }
@@ -151,7 +153,7 @@ class MainFragment : Fragment() {
         // TODO : 소프트 웨이브 끝나고 코드 115번 위치 코드 지우기
         prefs.remove()
 
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
+        if(isAdded && activity != null) { fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext()) }
         checkLocationPermissions()
 
         kotlin.run {
@@ -439,20 +441,22 @@ class MainFragment : Fragment() {
     }
 
     private fun checkLocationPermissions() {
-        if (ContextCompat.checkSelfPermission(
-                requireContext(), Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED ||
-            ContextCompat.checkSelfPermission(
-                requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            // 권한 요청
-            ActivityCompat.requestPermissions(
-                requireActivity(), locationPermissions, 100
-            )
-        } else {
-            // 권한이 이미 있으면 위치를 가져옴
-            getCurrentLocation()
+        if(isAdded && activity != null) {
+            if (ContextCompat.checkSelfPermission(
+                    requireContext(), Manifest.permission.ACCESS_FINE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(
+                    requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                // 권한 요청
+                ActivityCompat.requestPermissions(
+                    requireActivity(), locationPermissions, 100
+                )
+            } else {
+                // 권한이 이미 있으면 위치를 가져옴
+                getCurrentLocation()
+            }
         }
     }
 

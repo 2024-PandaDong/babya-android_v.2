@@ -54,7 +54,9 @@ class DetailPublicFragment : Fragment() {
     ): View {
         (requireActivity() as BottomControllable).setBottomNavVisibility(false)
         _binding = FragmentDetailPublicBinding.inflate(inflater, container, false)
-        tokenDao = BabyaDB.getInstance(requireContext().applicationContext)?.tokenDao()!!
+        if (isAdded && activity != null) {
+            tokenDao = BabyaDB.getInstance(requireContext().applicationContext)?.tokenDao()!!
+        }
         initView()
         viewModel.initPublicDiary()
 

@@ -178,7 +178,9 @@ class PolicyMainFragment : Fragment() {
                     }
                 }.onFailure { result ->
                     result.printStackTrace()
-                    requireContext().shortToast("인터넷 연결을 확인해 주세요")
+                    if(isAdded && activity != null) {
+                        requireContext().shortToast("인터넷 연결을 확인해 주세요")
+                    }
                 }
             }
         }
