@@ -4,6 +4,10 @@ import RefreshInterceptor
 import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import kr.pandadong2024.babya.server.kakao.remote.service.KakaoApiService
 import kr.pandadong2024.babya.server.local.BabyaDB
 import kr.pandadong2024.babya.server.local.DAO.TokenDAO
@@ -24,10 +28,13 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.security.SecureRandom
 import java.security.cert.X509Certificate
+import javax.inject.Singleton
 import javax.net.ssl.SSLContext
 import javax.net.ssl.TrustManager
 import javax.net.ssl.X509TrustManager
 
+@Module
+@InstallIn(SingletonComponent::class)
 class RetrofitBuilder {
     companion object {
         private var gson: Gson? = null
@@ -48,7 +55,8 @@ class RetrofitBuilder {
         private var companyService: CompanyService? = null
         private var kakaoApiService: KakaoApiService? = null
 
-        @Synchronized
+        @Provides
+        @Singleton
         fun getGson(): Gson? {
             if (gson == null) {
                 gson = GsonBuilder().setLenient().create()
@@ -57,7 +65,8 @@ class RetrofitBuilder {
             return gson
         }
 
-        @Synchronized
+        @Provides
+        @Singleton
         fun getRetrofit(): Retrofit {
             if (retrofit == null) {
                 val interceptor = HttpLoggingInterceptor().apply {
@@ -73,7 +82,8 @@ class RetrofitBuilder {
             return retrofit!!
         }
 
-        @Synchronized
+        @Provides
+        @Singleton
         fun getKakaoRetrofit(): Retrofit {
             if (kakaoRetrofit == null) {
                 kakaoRetrofit = Retrofit.Builder()
@@ -88,7 +98,8 @@ class RetrofitBuilder {
 
 
 
-        @Synchronized
+        @Provides
+        @Singleton
         fun getHttpRetrofit(): Retrofit {
             if (retrofit == null) {
                 retrofit = Retrofit.Builder()
@@ -100,7 +111,8 @@ class RetrofitBuilder {
             return retrofit!!
         }
 
-        @Synchronized
+        @Provides
+        @Singleton
         fun getHttpTokenRetrofit(): Retrofit {
             if (retrofit == null) {
                 retrofit = Retrofit.Builder()
@@ -112,7 +124,8 @@ class RetrofitBuilder {
             return retrofit!!
         }
 
-        @Synchronized
+        @Provides
+        @Singleton
         fun getOhHttpClient(): OkHttpClient {
             val interceptor = HttpLoggingInterceptor().apply {
                 level = HttpLoggingInterceptor.Level.BODY
@@ -129,7 +142,8 @@ class RetrofitBuilder {
                 .build()
         }
 
-        @Synchronized // 로그인 일회용
+        @Provides
+        @Singleton // 로그인 일회용
         fun getTokenOkHttpClient(): OkHttpClient {
             val interceptor = HttpLoggingInterceptor().apply {
                 level = HttpLoggingInterceptor.Level.BODY
@@ -165,6 +179,8 @@ class RetrofitBuilder {
             return okhttpBuilder.build()
         }
 
+        @Provides
+        @Singleton
         fun getKakaoService(): KakaoApiService {
             if (kakaoApiService == null) {
                 kakaoApiService = getKakaoRetrofit().create(KakaoApiService::class.java)
@@ -172,6 +188,8 @@ class RetrofitBuilder {
             return kakaoApiService!!
         }
 
+        @Provides
+        @Singleton
         fun getLoginService(): LoginService {
             if (loginService == null) {
                 loginService = getRetrofit().create(LoginService::class.java)
@@ -179,6 +197,8 @@ class RetrofitBuilder {
             return loginService!!
         }
 
+        @Provides
+        @Singleton
         fun getCompanyService(): CompanyService {
             if (companyService == null) {
                 companyService = getHttpRetrofit().create(CompanyService::class.java)
@@ -186,6 +206,8 @@ class RetrofitBuilder {
             return companyService!!
         }
 
+        @Provides
+        @Singleton
         fun getPolicyService(): PolicyService {
             if (policyService == null) {
                 policyService = getHttpRetrofit().create(PolicyService::class.java)
@@ -193,6 +215,8 @@ class RetrofitBuilder {
             return policyService!!
         }
 
+        @Provides
+        @Singleton
         fun getQuizService(): QuizService {
             if (quizService == null) {
                 quizService = getHttpRetrofit().create(QuizService::class.java)
@@ -200,6 +224,8 @@ class RetrofitBuilder {
             return quizService!!
         }
 
+        @Provides
+        @Singleton
         fun getProfileService(): ProfileService {
             if (profileService == null) {
                 profileService = getHttpRetrofit().create(ProfileService::class.java)
@@ -207,6 +233,8 @@ class RetrofitBuilder {
             return profileService!!
         }
 
+        @Provides
+        @Singleton
         fun getSignupService(): SignupService {
             if (signupService == null) {
                 signupService = getRetrofit().create(SignupService::class.java)
@@ -214,6 +242,8 @@ class RetrofitBuilder {
             return signupService!!
         }
 
+        @Provides
+        @Singleton
         fun getHttpMainService(): MainService {
             if (mainService == null) {
                 mainService = getHttpRetrofit().create(MainService::class.java)
@@ -221,6 +251,8 @@ class RetrofitBuilder {
             return mainService!!
         }
 
+        @Provides
+        @Singleton
         fun getMainService(): MainService {
             if (mainService == null) {
                 mainService = getRetrofit().create(MainService::class.java)
@@ -228,6 +260,8 @@ class RetrofitBuilder {
             return mainService!!
         }
 
+        @Provides
+        @Singleton
         fun getDiaryService(): DiaryService {
             if (diaryService == null) {
                 diaryService = getHttpRetrofit().create(DiaryService::class.java)
@@ -235,6 +269,8 @@ class RetrofitBuilder {
             return diaryService!!
         }
 
+        @Provides
+        @Singleton
         fun getDashBoardService(): DashBoardService {
             if (dashBoardService == null) {
                 dashBoardService = getHttpRetrofit().create(DashBoardService::class.java)
@@ -242,6 +278,8 @@ class RetrofitBuilder {
             return dashBoardService!!
         }
 
+        @Provides
+        @Singleton
         fun getTodoListService(): TodoListService {
             if (todoListService == null) {
                 todoListService = getHttpRetrofit().create(TodoListService::class.java)
@@ -249,6 +287,8 @@ class RetrofitBuilder {
             return todoListService!!
         }
 
+        @Provides
+        @Singleton
         fun getCommonService(): CommonService {
             if (commonService == null) {
                 commonService = getHttpRetrofit().create(CommonService::class.java)
