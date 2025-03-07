@@ -22,25 +22,25 @@ abstract class BabyaDB : RoomDatabase() {
 
     companion object {
 
-        private var instance: BabyaDB? = null
+//        private var instance: BabyaDB? = null
+//
+//
+//        @Synchronized
+//        fun getInstance(context: Context): BabyaDB? {
+//
+//            if (instance == null) {
+//                instance = Room.databaseBuilder(
+//                    context.applicationContext,
+//                    BabyaDB::class.java, "database"
+//                )
+//                    .addMigrations(MIGRATION_7_8)
+//                    .addMigrations(MIGRATION_5_8)
+//                    .build()
+//            }
+//            return instance
+//        }
 
-
-        @Synchronized
-        fun getInstance(context: Context): BabyaDB? {
-
-            if (instance == null) {
-                instance = Room.databaseBuilder(
-                    context.applicationContext,
-                    BabyaDB::class.java, "database"
-                )
-                    .addMigrations(MIGRATION_7_8)
-                    .addMigrations(MIGRATION_5_8)
-                    .build()
-            }
-            return instance
-        }
-
-        private val MIGRATION_7_8 = object : Migration(7, 8) {
+         val MIGRATION_7_8 = object : Migration(7, 8) {
             override fun migrate(db: SupportSQLiteDatabase) {
                 db.execSQL(
                     "ALTER TABLE 'user_table' ADD COLUMN 'localCode' TEXT NOT NULL DEFAULT ''"
@@ -62,7 +62,7 @@ abstract class BabyaDB : RoomDatabase() {
             }
         }
 
-        private val MIGRATION_5_8 = object : Migration(5, 8) {
+         val MIGRATION_5_8 = object : Migration(5, 8) {
             override fun migrate(db: SupportSQLiteDatabase) {
 
                 db.execSQL(
@@ -87,8 +87,8 @@ abstract class BabyaDB : RoomDatabase() {
         }
 
 
-        fun getInstanceOrNull(): BabyaDB? {
-            return instance
-        }
+//        fun getInstanceOrNull(): BabyaDB? {
+//            return instance
+//        }
     }
 }
