@@ -10,9 +10,11 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import coil.load
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -34,17 +36,19 @@ import kr.pandadong2024.babya.util.BottomControllable
 import retrofit2.HttpException
 import kotlin.properties.Delegates
 
+@AndroidEntryPoint
 class DetailWriterFragment : Fragment() {
     private var _binding: FragmentDetailWriterBinding? = null
     private val binding get() = _binding!!
-    private lateinit var tokenDao: TokenDAO
-    private val viewModel by activityViewModels<DiaryViewModel>()
+    private val viewModel : DiaryViewModel by viewModels()
     private val commonViewModel by activityViewModels<CommonViewModel>()
     private lateinit var commentsAdapter: CommentsAdapter
     private lateinit var diaryData: DiaryDataResponses
 
     private var diaryId by Delegates.notNull<Int>()
     private var selectedCommentId: Int? = null
+
+    private lateinit var token : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,7 +62,9 @@ class DetailWriterFragment : Fragment() {
         // Inflate the layout for this fragment
         (requireActivity() as BottomControllable).setBottomNavVisibility(false)
         _binding = FragmentDetailWriterBinding.inflate(inflater, container, false)
-        tokenDao = BabyaDB.getInstance(requireContext().applicationContext)?.tokenDao()!!
+        lifecycleScope.launch {
+            token = viewModel.getToken()?.accessToken.toString()
+        }
         initView()
         initCommentRecyclerView(1, 100, viewModel.diaryId.value?: -1)
         binding.writerBackButton.setOnClickListener {
@@ -126,7 +132,7 @@ class DetailWriterFragment : Fragment() {
         lifecycleScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 RetrofitBuilder.getDiaryService().postComment(
-                    accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
+                    accessToken = "Bearer ${token}",
                     body = SubCommentRequest(
                         comment = binding.editCommentEditText.text.toString(),
                         diaryId = diaryId,
@@ -148,7 +154,7 @@ class DetailWriterFragment : Fragment() {
         lifecycleScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 RetrofitBuilder.getDiaryService().postComment(
-                    accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
+                    accessToken = "Bearer ${token}",
                     body = SubCommentRequest(
                         comment = binding.editCommentEditText.text.toString(),
                         diaryId = diaryId,
@@ -169,7 +175,7 @@ class DetailWriterFragment : Fragment() {
         lifecycleScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 RetrofitBuilder.getDiaryService().getComment(
-                    accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
+                    accessToken = "Bearer ${token}",
                     page = page,
                     size = size,
                     diaryId = parentId
@@ -209,7 +215,7 @@ class DetailWriterFragment : Fragment() {
             launch {
                 kotlin.runCatching {
                     RetrofitBuilder.getDiaryService().getSubComment(
-                        accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
+                        accessToken = "Bearer ${token}",
                         parentId = commentId,
                         page = page,
                         size = size
@@ -230,7 +236,7 @@ class DetailWriterFragment : Fragment() {
             launch(Dispatchers.IO) {
                 kotlin.runCatching {
                     RetrofitBuilder.getCommonService().getProfile(
-                        accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
+                        accessToken = "Bearer ${token}",
                         email = "my"
                     )
                 }.onSuccess { result ->
@@ -243,7 +249,7 @@ class DetailWriterFragment : Fragment() {
             kotlin.runCatching {
 
                 RetrofitBuilder.getDiaryService().getDiaryData(
-                    accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
+                    accessToken = "Bearer ${token}",
                     id = viewModel.diaryId.value ?: -1
                 )
             }.onSuccess { result ->
@@ -299,7 +305,7 @@ class DetailWriterFragment : Fragment() {
         lifecycleScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 RetrofitBuilder.getDiaryService().deleteDiary(
-                    accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
+                    accessToken = "Bearer ${token}",
                     id = diaryId
                 )
             }.onSuccess {

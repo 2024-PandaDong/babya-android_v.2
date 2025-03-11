@@ -7,10 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import coil.load
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -30,15 +32,15 @@ import kr.pandadong2024.babya.server.remote.responses.Policy.PolicyListResponse
 import kr.pandadong2024.babya.util.BottomControllable
 import kr.pandadong2024.babya.util.shortToast
 
-
+@AndroidEntryPoint
 class PolicyMainFragment : Fragment() {
     val TAG = "PolicyMainFragment"
-    private val policyViewModel by activityViewModels<PolicyViewModel>()
-    private val profileViewModel by activityViewModels<ProfileViewModel>()
+    private val policyViewModel : PolicyViewModel by viewModels()
+    private val profileViewModel : ProfileViewModel by viewModels()
     var _binding: FragmentPolicyMainBinding? = null
     val binding get() = _binding!!
 
-    var tokenDao: TokenDAO? = null
+    private lateinit var token : String
 
     private var isSearchActivated = false
 
@@ -50,7 +52,10 @@ class PolicyMainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentPolicyMainBinding.inflate(inflater, container, false)
-        tokenDao = BabyaDB.getInstance(requireContext())?.tokenDao()
+
+        lifecycleScope.launch {
+            token = policyViewModel.getToken()?.accessToken.toString()
+        }
         (requireActivity() as BottomControllable).setBottomNavVisibility(false)
         binding.backButton.setOnClickListener {
             findNavController().navigate(R.id.action_policyMainFragment_to_mainFragment)

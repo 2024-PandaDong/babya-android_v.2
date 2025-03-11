@@ -10,6 +10,7 @@ import android.util.Base64
 import android.util.Log
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
+import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
 import com.android.identity.android.legacy.Utility
@@ -21,12 +22,11 @@ import java.security.NoSuchAlgorithmException
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-    private lateinit var commonViewModel: CommonViewModel
+    private val commonViewModel: CommonViewModel by viewModels()
     @RequiresApi(Build.VERSION_CODES.P)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        commonViewModel = ViewModelProvider(this)[CommonViewModel::class.java]
         commonViewModel.toastMessage.observe(this) { message ->
             if (message != "") {
                 this.shortToast(message)

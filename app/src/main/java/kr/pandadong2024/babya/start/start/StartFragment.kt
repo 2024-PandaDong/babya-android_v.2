@@ -20,6 +20,7 @@ import kr.pandadong2024.babya.databinding.FragmentStartBinding
 import kr.pandadong2024.babya.home.policy.viewmdole.PolicyViewModel
 import kr.pandadong2024.babya.home.profile.profileviewmodle.ProfileViewModel
 import kr.pandadong2024.babya.server.local.BabyaDB
+import kr.pandadong2024.babya.server.local.DatabaseModule
 import kr.pandadong2024.babya.server.local.entity.UserEntity
 import kr.pandadong2024.babya.util.shortToast
 import java.text.SimpleDateFormat
@@ -29,8 +30,8 @@ class StartFragment : Fragment() {
 
     private var _binding: FragmentStartBinding? = null
     private val binding get() = _binding!!
-    private val profileViewModel by viewModels<ProfileViewModel>()
-    private var accessToken: String? = null
+    private val profileViewModel : ProfileViewModel by viewModels()
+    private lateinit var accessToken: String
 
     private var userEntity: UserEntity = UserEntity(
         email = "",
@@ -54,7 +55,10 @@ class StartFragment : Fragment() {
                     prefs.completeQuiz = false
                 }
             }
-            getAccessToken()
+        }
+
+        lifecycleScope.launch {
+            accessToken = profileViewModel.getToken()?.accessToken.toString()
         }
     }
 
@@ -108,7 +112,7 @@ class StartFragment : Fragment() {
     private fun saveUserData() {
         lifecycleScope.launch(Dispatchers.IO) {
             runCatching {
-            BabyaDB.getInstance(requireContext())?.userDao()?.insertMember(userEntity)}.onSuccess {
+            DatabaseModule.provideDatabase(requireContext())?.userDao()?.insertMember(userEntity)}.onSuccess {
                 startActivity(Intent(requireContext(), HomeActivity::class.java))
                 requireActivity().finish()
             }
@@ -117,12 +121,5 @@ class StartFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
-    }
-
-    private fun getAccessToken() {
-        lifecycleScope.launch(Dispatchers.IO) {
-            accessToken = BabyaDB.getInstance(requireContext())?.tokenDao()
-                ?.getMembers()?.accessToken
-        }
     }
 }

@@ -6,18 +6,38 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kr.pandadong2024.babya.server.RetrofitBuilder
+import kr.pandadong2024.babya.server.local.DAO.TokenDAO
+import kr.pandadong2024.babya.server.local.entity.TokenEntity
 import kr.pandadong2024.babya.server.remote.request.SubCommentRequest
 import kr.pandadong2024.babya.server.remote.responses.CommentResponses
 import kr.pandadong2024.babya.server.remote.responses.SubCommentResponses
 import kr.pandadong2024.babya.server.remote.responses.diary.DiaryDataResponses
 import retrofit2.HttpException
+import javax.inject.Inject
 
-class DiaryViewModel(application: Application) : AndroidViewModel(application) {
+@HiltViewModel
+class DiaryViewModel @Inject constructor(
+    application: Application,
+    private val tokenDao: TokenDAO
+): AndroidViewModel(application) {
+
+    fun getToken(): TokenEntity? {
+        return tokenDao.getMembers()
+    }
+
+    fun insertToken(tokenEntity: TokenEntity){
+        viewModelScope.launch(Dispatchers.IO){
+            tokenDao.insertMember(tokenEntity)
+        }
+    }
+
+
 
     private val _diaryId = MutableLiveData<Int>().apply { value = -1 }
     val diaryId: LiveData<Int> = _diaryId

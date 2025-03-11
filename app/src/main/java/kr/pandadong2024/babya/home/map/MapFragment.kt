@@ -42,7 +42,6 @@ class MapFragment : Fragment() {
     private val binding get() = _binding!!
     private val TAG = "map"
 
-    private val mapViewModel by activityViewModels<MapViewModel>()
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var kakaoMap: KakaoMap
     private val labelDataMap = mutableMapOf<Label, MapData>()

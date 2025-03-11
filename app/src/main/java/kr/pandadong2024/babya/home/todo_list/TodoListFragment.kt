@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.Dispatchers
@@ -33,11 +34,11 @@ import java.util.GregorianCalendar
 
 
 class TodoListFragment : Fragment() {
-    private val todoViewModel by activityViewModels<TodoViewModel>()
-    private val commonViewModel by activityViewModels<CommonViewModel>()
+    private val todoViewModel : TodoViewModel by viewModels()
+    private val commonViewModel : CommonViewModel by viewModels()
     private var _binding: FragmentTodoListBinding? = null
     private val binding get() = _binding!!
-    private lateinit var tokenDao: TokenDAO
+    private lateinit var token: String
 
     private val gregorianCalendar = GregorianCalendar()
     private val year = gregorianCalendar.get(Calendar.YEAR)
@@ -58,7 +59,10 @@ class TodoListFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentTodoListBinding.inflate(inflater, container, false)
-        tokenDao = BabyaDB.getInstance(requireContext().applicationContext)?.tokenDao()!!
+        lifecycleScope.launch {
+            token = todoViewModel.getToken()?.accessToken.toString()
+        }
+
         (requireActivity() as BottomControllable).setBottomNavVisibility(false)
         getCategory()
         binding.todoListBackButton.setOnClickListener {
@@ -73,7 +77,7 @@ class TodoListFragment : Fragment() {
                     lifecycleScope.launch(Dispatchers.IO) {
                         kotlin.runCatching {
                             RetrofitBuilder.getTodoListService().createTodo(
-                                accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
+                                accessToken = "Bearer ${token}",
                                 requestBody = TodoRequestBody(
                                     category = request.category,
                                     content = request.content,
@@ -136,7 +140,7 @@ class TodoListFragment : Fragment() {
         lifecycleScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 RetrofitBuilder.getTodoListService().checkTodo(
-                    accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
+                    accessToken = "Bearer ${token}",
                     isChecked = isChecked,
                     id = todoId
                 )
@@ -198,7 +202,7 @@ class TodoListFragment : Fragment() {
                 lifecycleScope.launch(Dispatchers.IO) {
                     kotlin.runCatching {
                         RetrofitBuilder.getTodoListService().modifyTodo(
-                            accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
+                            accessToken = "Bearer ${token}",
                             requestBody = TodoModifyRequest(
                                 id = request.todoId,
                                 category = request.category,
@@ -240,7 +244,7 @@ class TodoListFragment : Fragment() {
         lifecycleScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 RetrofitBuilder.getTodoListService().deleteTodo(
-                    accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
+                    accessToken = "Bearer ${token}",
                     id = todoId
                 )
             }.onSuccess { result ->
@@ -269,7 +273,7 @@ class TodoListFragment : Fragment() {
                 RetrofitBuilder.getTodoListService().getTodoList(
                     category = category,
                     date = date,
-                    accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
+                    accessToken = "Bearer ${token}",
                 )
             }.onSuccess { result ->
                 if (result.status == 200) {
@@ -305,7 +309,7 @@ class TodoListFragment : Fragment() {
         lifecycleScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 RetrofitBuilder.getTodoListService().getCategory(
-                    accessToken = "Bearer ${tokenDao.getMembers().accessToken}"
+                    accessToken = "Bearer ${token}"
                 )
             }.onSuccess { result ->
                 withContext(Dispatchers.Main)

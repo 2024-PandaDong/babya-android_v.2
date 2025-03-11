@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
@@ -19,14 +20,12 @@ import kr.pandadong2024.babya.util.shortToast
 class HomeActivity : AppCompatActivity(), BottomControllable {
 
     private lateinit var binding: ActivityHomeBinding
-    private lateinit var commonViewModel: CommonViewModel
+    private val commonViewModel: CommonViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
 
-
         setContentView(binding.root)
-        commonViewModel = ViewModelProvider(this)[CommonViewModel::class.java]
         val navView: BottomNavigationView = binding.navView
 
         val navController =

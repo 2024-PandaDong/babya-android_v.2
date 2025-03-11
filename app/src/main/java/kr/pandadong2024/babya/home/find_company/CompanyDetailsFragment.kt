@@ -16,12 +16,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import coil.load
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kr.pandadong2024.babya.databinding.FragmentCompanyDetailsBinding
@@ -35,15 +37,16 @@ import kr.pandadong2024.babya.util.BottomControllable
 import kr.pandadong2024.babya.util.shortToast
 import java.util.ArrayList
 
+@AndroidEntryPoint
 class CompanyDetailsFragment : Fragment() {
 
     private var _binding: FragmentCompanyDetailsBinding? = null
     private val binding get() = _binding!!
-    private val viewModel by activityViewModels<FindCompanyViewModel>()
-    private lateinit var tokenDao: TokenDAO
+    private val viewModel : FindCompanyViewModel by viewModels()
     private var isExpanded = false
     var companyLink: String = ""
     private var address = ""
+    private lateinit var token : String
 
     private val tag = "CompanyDetailsFragment"
     override fun onCreateView(
@@ -53,7 +56,10 @@ class CompanyDetailsFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentCompanyDetailsBinding.inflate(inflater, container, false)
         (requireActivity() as BottomControllable).setBottomNavVisibility(false)
-        tokenDao = BabyaDB.getInstance(requireContext().applicationContext)?.tokenDao()!!
+        lifecycleScope.launch {
+            token = viewModel.getToken()?.accessToken.toString()
+        }
+
         initView()
 
         binding.backBtn.setOnClickListener {
@@ -103,7 +109,7 @@ class CompanyDetailsFragment : Fragment() {
         lifecycleScope.launch(Dispatchers.IO){
             kotlin.runCatching {
                 RetrofitBuilder.getCompanyService().getCompany(
-                    accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
+                    accessToken = "Bearer ${token}",
                     id = viewModel.id.value!!
                 )
             }.onSuccess { result ->

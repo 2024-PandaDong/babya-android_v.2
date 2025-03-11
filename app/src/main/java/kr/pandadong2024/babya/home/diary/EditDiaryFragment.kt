@@ -16,10 +16,12 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import coil.load
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -43,11 +45,11 @@ import java.io.FileOutputStream
 import java.util.GregorianCalendar
 import java.util.Locale
 
+@AndroidEntryPoint
 class EditDiaryFragment : Fragment() {
     private var _binding: FragmentEditDiaryBinding? = null
     private val binding get() = _binding!!
     private val TAG = "EditDiaryFragment"
-    private lateinit var tokenDao: TokenDAO
     private var selectedImageUri: Uri? = null
     private lateinit var getImage: ActivityResultLauncher<String>
     private lateinit var diaryRequestBody: PostDiaryRequest
@@ -55,15 +57,20 @@ class EditDiaryFragment : Fragment() {
     private var year = gregorianCalendar.get(Calendar.YEAR)
     private var date = gregorianCalendar.get(Calendar.DATE)
     private var month = gregorianCalendar.get(Calendar.MONTH)
-    private val commonViewModel by activityViewModels<CommonViewModel>()
-    private val diaryViewModel by activityViewModels<DiaryViewModel>()
+    private val commonViewModel : CommonViewModel by viewModels()
+    private val diaryViewModel : DiaryViewModel by viewModels()
+    private lateinit var token : String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentEditDiaryBinding.inflate(inflater, container, false)
-        tokenDao = BabyaDB.getInstance(requireContext().applicationContext)?.tokenDao()!!
+
+        lifecycleScope.launch {
+            token = diaryViewModel.getToken()?.accessToken.toString()
+        }
+
         if (diaryViewModel.editDiaryData.value == null) {
             binding.editDateText.text = "${year}.${month + 1}.${date}"
             binding.nextDaySelectedText.text = "${year}.${month + 1}.${date}"
@@ -191,7 +198,7 @@ class EditDiaryFragment : Fragment() {
                 kotlin.runCatching {
                     prepareFilePart(uri!!)?.let {
                         RetrofitBuilder.getCommonService().fileUpload(
-                            accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
+                            accessToken = "Bearer ${token}",
                             file = it
                         )
                     }
@@ -302,7 +309,7 @@ class EditDiaryFragment : Fragment() {
                 kotlin.runCatching {
 
                     val result = RetrofitBuilder.getDiaryService().postDiary(
-                        accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
+                        accessToken = "Bearer ${token}",
                         request = diaryRequestBody
                     )
                     result
@@ -386,7 +393,7 @@ class EditDiaryFragment : Fragment() {
 
             kotlin.runCatching {
                 RetrofitBuilder.getDiaryService().modifyDiary(
-                    accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
+                    accessToken = "Bearer ${token}",
                     id = diaryId,
                     body = editDiaryRequestBody
                 )

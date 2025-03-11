@@ -11,13 +11,16 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentEditDashBoardBinding
+import kr.pandadong2024.babya.home.dash_board.dash_boardViewModel.DashBoardViewModel
 import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.server.local.BabyaDB
 import kr.pandadong2024.babya.server.local.DAO.TokenDAO
@@ -29,6 +32,7 @@ import java.io.File
 import java.io.FileOutputStream
 import java.time.LocalDate
 
+@AndroidEntryPoint
 class EditDashBoardFragment : Fragment() {
     private var _binding: FragmentEditDashBoardBinding? = null
     private val binding get() = _binding!!
@@ -38,7 +42,8 @@ class EditDashBoardFragment : Fragment() {
     private var title: String? = null
     private var content: String? = null
 
-    private lateinit var tokenDao: TokenDAO
+    private val viewModel : DashBoardViewModel by viewModels()
+    private lateinit var token : String
 
     private val TAG = "EditDashBoardFragment"
     override fun onCreateView(
@@ -46,7 +51,10 @@ class EditDashBoardFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentEditDashBoardBinding.inflate(inflater, container, false)
-        tokenDao = BabyaDB.getInstance(requireContext().applicationContext)?.tokenDao()!!
+
+        lifecycleScope.launch {
+            token = viewModel.getToken()?.accessToken.toString()
+        }
 
         kotlin.runCatching {
             val localDate: LocalDate = LocalDate.now()
@@ -112,7 +120,6 @@ class EditDashBoardFragment : Fragment() {
         content = binding.content.text.toString()
 
         lifecycleScope.launch(Dispatchers.IO) {
-            val token = BabyaDB.getInstance(requireContext())?.tokenDao()?.getMembers()?.accessToken.toString()
             kotlin.runCatching {
                 RetrofitBuilder.getDashBoardService().postDashBoard(
                     accessToken = "Bearer ${token}",
@@ -138,7 +145,6 @@ class EditDashBoardFragment : Fragment() {
         val imageLinkList = mutableListOf<String>()
         val job = lifecycleScope.launch(Dispatchers.IO) {
             for (uri in listOf) {
-                val token = BabyaDB.getInstance(requireContext())?.tokenDao()?.getMembers()?.accessToken.toString()
                 kotlin.runCatching {
                     RetrofitBuilder.getCommonService().fileUpload(
                         accessToken = "Bearer ${token}",

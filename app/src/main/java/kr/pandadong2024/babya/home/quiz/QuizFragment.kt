@@ -10,6 +10,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -25,22 +26,24 @@ import kr.pandadong2024.babya.home.profile.profileviewmodle.ProfileViewModel
 import kr.pandadong2024.babya.home.viewmodel.CommonViewModel
 import kr.pandadong2024.babya.server.local.BabyaDB
 import kr.pandadong2024.babya.server.local.DAO.TokenDAO
+import kr.pandadong2024.babya.server.local.DatabaseModule
 import kr.pandadong2024.babya.server.local.entity.UserEntity
 import kr.pandadong2024.babya.util.BottomControllable
 import kr.pandadong2024.babya.util.shortToast
 
+@AndroidEntryPoint
 class QuizFragment : Fragment() {
     private var _binding: FragmentQuizBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: QuizViewModel by activityViewModels<QuizViewModel>()
-    private val findCompanyViewModel by activityViewModels<FindCompanyViewModel>()
-    private val mainViewModel by activityViewModels<MainViewModel>()
-    private val policyViewModel by activityViewModels<PolicyViewModel>()
-    private val commonViewModel by activityViewModels<CommonViewModel>()
-    private val profileViewModel by viewModels<ProfileViewModel>()
-    private val diaryViewModel by activityViewModels<DiaryViewModel>()
+    private val quizViewModel: QuizViewModel by viewModels()
+    private val findCompanyViewModel : FindCompanyViewModel by viewModels()
+    private val mainViewModel : MainViewModel by viewModels()
+    private val policyViewModel : PolicyViewModel by viewModels()
+    private val commonViewModel : CommonViewModel by viewModels()
+    private val profileViewModel : ProfileViewModel by viewModels()
+    private val diaryViewModel : DiaryViewModel by viewModels()
+    private lateinit var token: String
     private lateinit var tokenDao: TokenDAO
-    private lateinit var accessToken: String
     private var userEntity: UserEntity = UserEntity(
         email = "",
         nickname = "",
@@ -58,12 +61,11 @@ class QuizFragment : Fragment() {
         runBlocking {
             lifecycleScope.launch(Dispatchers.IO) {
                 launch {
-                    accessToken = BabyaDB.getInstance(requireContext())?.tokenDao()
-                        ?.getMembers()?.accessToken.toString()
+                    token = quizViewModel.getToken()?.accessToken.toString()
                 }
                 launch(Dispatchers.IO) {
                     val userLocalCode =
-                        BabyaDB.getInstance(requireContext())?.userDao()?.getMembers()?.localCode
+                        DatabaseModule.provideDatabase(requireContext())?.userDao()?.getMembers()?.localCode
                             ?: "0000000000"
 
                     launch(Dispatchers.Main) {
@@ -73,19 +75,19 @@ class QuizFragment : Fragment() {
                 }
                 withContext(Dispatchers.Main) {
                     launch {
-                        findCompanyViewModel.setAccessToken(accessToken)
+                        findCompanyViewModel.setAccessToken(token)
                     }
                     launch {
-                        mainViewModel.setAccessToken(accessToken)
+                        mainViewModel.setAccessToken(token)
                     }
                     launch {
-                        profileViewModel.setAccessToken(accessToken)
+                        profileViewModel.setAccessToken(token)
                     }
                     launch {
-                        diaryViewModel.setAccessToken(accessToken)
+                        diaryViewModel.setAccessToken(token)
                     }
                     launch {
-                        commonViewModel.setAccessToken(accessToken)
+                        commonViewModel.setAccessToken(token)
                     }
                 }
             }
@@ -99,8 +101,8 @@ class QuizFragment : Fragment() {
         _binding = FragmentQuizBinding.inflate(inflater, container, false)
         (requireActivity() as BottomControllable).setBottomNavVisibility(false)
 //        profileViewModel.getUserLocalCode()
-        viewModel.accessToken.observe(viewLifecycleOwner){
-            viewModel.getQuiz()
+        quizViewModel.accessToken.observe(viewLifecycleOwner){
+            quizViewModel.getQuiz()
         }
         profileViewModel.accessToken.observe(viewLifecycleOwner) {
             if (it.isNotEmpty()) {
@@ -134,27 +136,27 @@ class QuizFragment : Fragment() {
                 profileViewModel.getUserData()
             }
         }
-        viewModel.message.observe(viewLifecycleOwner) {
+        quizViewModel.message.observe(viewLifecycleOwner) {
             if (it != "") {
                 requireContext().shortToast(it)
             }
         }
-        viewModel.quizData.observe(viewLifecycleOwner) {
+        quizViewModel.quizData.observe(viewLifecycleOwner) {
             binding.quizText.text = "Q.${it.title}"
         }
         if (prefs.skipQuiz || prefs.completeQuiz) {
             moveOtherView(true)
         } else {
-            tokenDao = BabyaDB.getInstance(requireContext().applicationContext)?.tokenDao()!!
+            tokenDao = DatabaseModule.provideDatabase(requireContext().applicationContext)?.tokenDao()!!
         }
 
         binding.positiveButton.setOnClickListener {
             moveOtherView(false)
-            viewModel.answer.value = "Y"
+            quizViewModel.answer.value = "Y"
         }
         binding.negativeButton.setOnClickListener {
             moveOtherView(false)
-            viewModel.answer.value = "N"
+            quizViewModel.answer.value = "N"
         }
         binding.skipText.setOnClickListener {
             moveOtherView(true)
@@ -166,7 +168,7 @@ class QuizFragment : Fragment() {
     private fun saveUserData() {
         Log.d("dbTest", "save data : $userEntity")
         lifecycleScope.launch(Dispatchers.IO) {
-            BabyaDB.getInstance(requireContext())?.userDao()?.insertMember(userEntity)
+            DatabaseModule.provideDatabase(requireContext())?.userDao()?.insertMember(userEntity)
         }
     }
 

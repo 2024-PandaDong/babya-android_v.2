@@ -6,18 +6,38 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import kr.pandadong2024.babya.server.RetrofitBuilder
+import kr.pandadong2024.babya.server.local.DAO.TokenDAO
+import kr.pandadong2024.babya.server.local.entity.TokenEntity
 import okhttp3.MultipartBody
 import okhttp3.internal.wait
 import retrofit2.HttpException
 import retrofit2.http.HTTP
+import javax.inject.Inject
 
-class CommonViewModel : ViewModel() {
+@HiltViewModel
+class CommonViewModel @Inject constructor(
+    private val tokenDao: TokenDAO
+): ViewModel() {
+
+    fun getToken() : TokenEntity?{
+        return tokenDao.getMembers()
+    }
+
+    fun insertToken(tokenEntity: TokenEntity){
+        viewModelScope.launch(Dispatchers.IO){
+            tokenDao.insertMember(tokenEntity)
+        }
+    }
+
+
     private val _toastMessage = MutableLiveData("")
     val toastMessage: LiveData<String> = _toastMessage
 

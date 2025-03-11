@@ -10,11 +10,13 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -30,18 +32,18 @@ import kr.pandadong2024.babya.server.remote.request.SubCommentRequest
 import kr.pandadong2024.babya.util.BottomControllable
 import kotlin.properties.Delegates
 
-
+@AndroidEntryPoint
 class DetailPublicFragment : Fragment() {
     private var _binding: FragmentDetailPublicBinding? = null
     private val binding get() = _binding!!
 
     private var selectedCommentId: Int? = null
 
-    private val viewModel by activityViewModels<DiaryViewModel>()
+    private val viewModel :DiaryViewModel by viewModels()
     private lateinit var commentsAdapter: CommentsAdapter
-    private lateinit var tokenDao: TokenDAO
     private val TAG = "DetailPublicFragment"
     private var diaryId by Delegates.notNull<Int>()
+    private lateinit var token : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,7 +57,9 @@ class DetailPublicFragment : Fragment() {
         (requireActivity() as BottomControllable).setBottomNavVisibility(false)
         _binding = FragmentDetailPublicBinding.inflate(inflater, container, false)
         if (isAdded && activity != null) {
-            tokenDao = BabyaDB.getInstance(requireContext().applicationContext)?.tokenDao()!!
+            lifecycleScope.launch {
+                token = viewModel.getToken()?.accessToken.toString()
+            }
         }
         initView()
         viewModel.initPublicDiary()
@@ -159,7 +163,7 @@ class DetailPublicFragment : Fragment() {
         lifecycleScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 RetrofitBuilder.getDiaryService().postComment(
-                    accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
+                    accessToken = "Bearer ${token}",
                     body = SubCommentRequest(
                         comment = binding.editCommentEditText.text.toString(),
                         diaryId = diaryId,
@@ -185,7 +189,7 @@ class DetailPublicFragment : Fragment() {
         lifecycleScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 RetrofitBuilder.getDiaryService().postComment(
-                    accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
+                    accessToken = "Bearer ${token}",
                     body = SubCommentRequest(
                         comment = binding.editCommentEditText.text.toString(),
                         diaryId = diaryId,

@@ -7,10 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kr.pandadong2024.babya.R
@@ -22,13 +24,14 @@ import kr.pandadong2024.babya.server.local.BabyaDB
 import kr.pandadong2024.babya.server.remote.responses.company.CompanyListResponses
 import kr.pandadong2024.babya.util.BottomControllable
 
+@AndroidEntryPoint
 class FindCompanyFragment : Fragment() {
     private var _binding: FragmentFindCompanyBinding? = null
     private val binding get() = _binding!!
     private var companyList: List<CompanyListResponses>? = null
     private lateinit var companyAdapter: FindCompanyAdapter
-    private val viewModel by activityViewModels<FindCompanyViewModel>()
-
+    private val viewModel : FindCompanyViewModel by viewModels()
+    private lateinit var token : String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,6 +39,11 @@ class FindCompanyFragment : Fragment() {
     ): View {
         _binding = FragmentFindCompanyBinding.inflate(inflater, container, false)
         (requireActivity() as BottomControllable).setBottomNavVisibility(false)
+
+        lifecycleScope.launch {
+            token = viewModel.getToken()?.accessToken.toString()
+        }
+
         binding.backButton.setOnClickListener {
             findNavController().navigate(R.id.action_findCompanyFragment_to_mainFragment)
         }
@@ -83,8 +91,6 @@ class FindCompanyFragment : Fragment() {
     private fun findName() {
         lifecycleScope.launch() {
             kotlin.runCatching {
-                val token =
-                    BabyaDB.getInstance(requireContext())?.tokenDao()?.getMembers()?.accessToken
                 RetrofitBuilder.getProfileService().getProfile(
                     accessToken = "Bearer $token",
                     email = "my"

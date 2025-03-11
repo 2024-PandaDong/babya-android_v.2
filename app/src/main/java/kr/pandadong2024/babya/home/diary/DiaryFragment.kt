@@ -9,10 +9,14 @@ import android.view.inputmethod.InputMethodManager
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.tabs.TabLayout
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentDiaryBinding
 import kr.pandadong2024.babya.home.diary.diaryadapters.DiaryViewAdapter
@@ -22,11 +26,11 @@ import kr.pandadong2024.babya.server.local.DAO.TokenDAO
 import kr.pandadong2024.babya.util.BottomControllable
 import kr.pandadong2024.babya.util.setOnSingleClickListener
 
+@AndroidEntryPoint
 class DiaryFragment : Fragment() {
     private var _binding: FragmentDiaryBinding? = null
     private val binding get() = _binding!!
-    private val viewModel by activityViewModels<DiaryViewModel>()
-    private lateinit var tokenDao: TokenDAO
+    private val viewModel : DiaryViewModel by viewModels()
     private lateinit var diaryMainGridViewAdapter: DiaryViewAdapter
     private var myEmail: String = ""
 
@@ -185,8 +189,6 @@ class DiaryFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        tokenDao = BabyaDB.getInstance(requireContext().applicationContext)?.tokenDao()!!
-
     }
 
     override fun onDestroy() {

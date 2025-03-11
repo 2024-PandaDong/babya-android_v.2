@@ -6,20 +6,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.FragmentQuizResultBinding
 import kr.pandadong2024.babya.server.remote.responses.quiz.QuizResponses
 import kr.pandadong2024.babya.util.BottomControllable
 import kr.pandadong2024.babya.util.shortToast
 
+@AndroidEntryPoint
 class QuizResultFragment : Fragment() {
 
     private var _binding: FragmentQuizResultBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel : QuizViewModel by activityViewModels<QuizViewModel>()
+    private val viewModel : QuizViewModel by viewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,

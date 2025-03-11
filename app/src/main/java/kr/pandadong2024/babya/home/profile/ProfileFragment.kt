@@ -9,10 +9,12 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.SwitchCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import coil.load
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -25,30 +27,29 @@ import kr.pandadong2024.babya.home.profile.profileviewmodle.ProfileViewModel
 import kr.pandadong2024.babya.home.viewmodel.CommonViewModel
 import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.server.local.BabyaDB
+import kr.pandadong2024.babya.server.local.DatabaseModule
 import kr.pandadong2024.babya.start.signup.Policy
 import kr.pandadong2024.babya.start.signup.PolicyTextBottomSheet
 import kr.pandadong2024.babya.util.BottomControllable
 import kr.pandadong2024.babya.util.setOnSingleClickListener
 import kr.pandadong2024.babya.util.shortToast
 
+@AndroidEntryPoint
 class ProfileFragment : Fragment() {
 
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
     private val TAG = "ProfileFragment"
     private lateinit var token: String
-    private val commonViewModel by activityViewModels<CommonViewModel>()
-    private val userViewModel by activityViewModels<ProfileViewModel>()
+    private val commonViewModel : CommonViewModel by viewModels()
+    private val profileViewModel : ProfileViewModel by viewModels()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // 메인 스레드가 아닌 IO 스레드에서 데이터베이스에 접근하도록 수정
-        runBlocking {
-            lifecycleScope.launch(Dispatchers.IO) {
-                token = BabyaDB.getInstance(requireContext())?.tokenDao()
-                    ?.getMembers()?.accessToken.toString()
-            }
+        lifecycleScope.launch {
+            token = profileViewModel.getToken()?.accessToken.toString()
         }
     }
 
@@ -71,9 +72,9 @@ class ProfileFragment : Fragment() {
                 }
                 .setPositiveButton("로그아웃") { dialog, which ->
                     lifecycleScope.launch(Dispatchers.IO) {
-                        BabyaDB.getInstance(requireContext())?.tokenDao()?.getMembers()
+                        DatabaseModule.provideDatabase(requireContext())?.tokenDao()?.getMembers()
                             ?.let { tokenEntity ->
-                                BabyaDB.getInstance(requireContext())?.tokenDao()
+                                DatabaseModule.provideDatabase(requireContext())?.tokenDao()
                                     ?.deleteMember(tokenEntity)
                             }
                         MyApplication.prefs.remove()
@@ -84,7 +85,7 @@ class ProfileFragment : Fragment() {
                 }.show()
         }
 
-        userViewModel.toastMessage.observe(viewLifecycleOwner){ message ->
+        profileViewModel.toastMessage.observe(viewLifecycleOwner){ message ->
             if (message != ""){
                 requireContext().shortToast(message)
             }
@@ -98,11 +99,11 @@ class ProfileFragment : Fragment() {
                     dialog.dismiss()
                 }
                 .setPositiveButton("탈퇴") { dialog, which ->
-                    userViewModel.deleteUser {
+                    profileViewModel.deleteUser {
                         lifecycleScope.launch(Dispatchers.IO) {
-                            BabyaDB.getInstance(requireContext())?.tokenDao()?.getMembers()
+                            DatabaseModule.provideDatabase(requireContext())?.tokenDao()?.getMembers()
                                 ?.let { tokenEntity ->
-                                    BabyaDB.getInstance(requireContext())?.tokenDao()
+                                    DatabaseModule.provideDatabase(requireContext())?.tokenDao()
                                         ?.deleteMember(tokenEntity)
                                 }
                             MyApplication.prefs.remove()
@@ -134,16 +135,16 @@ class ProfileFragment : Fragment() {
     ): View {
         (requireActivity() as BottomControllable).setBottomNavVisibility(false)
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
-        userViewModel.getUserLocalCode()
+        profileViewModel.getUserLocalCode()
         binding.profileBackButton.setOnClickListener {
             findNavController().navigate(R.id.action_profileFragment_to_mainFragment)
         }
 
 
 
-        userViewModel.userData.observe(viewLifecycleOwner){ userData ->
+        profileViewModel.userData.observe(viewLifecycleOwner){ userData ->
             if (userData.nickname.isNullOrEmpty()){
-                userViewModel.getUserData()
+                profileViewModel.getUserData()
             }
                 else {
                 binding.welcomeText.text = "${userData.nickname}님 반가워요!"

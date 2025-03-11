@@ -6,6 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -14,16 +15,36 @@ import kotlinx.coroutines.withContext
 import kr.pandadong2024.babya.home.policy.getMemberLocalCode
 import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.server.local.BabyaDB
+import kr.pandadong2024.babya.server.local.DAO.TokenDAO
+import kr.pandadong2024.babya.server.local.DatabaseModule
+import kr.pandadong2024.babya.server.local.entity.TokenEntity
 import kr.pandadong2024.babya.server.local.entity.UserEntity
 import kr.pandadong2024.babya.server.remote.request.UserEditRequest
 import kr.pandadong2024.babya.server.remote.responses.ProfileData
 import retrofit2.HttpException
+import javax.inject.Inject
 
-class ProfileViewModel(private val application: Application) : AndroidViewModel(application) {
+@HiltViewModel
+class ProfileViewModel @Inject constructor(
+    private val application: Application,
+    private val tokenDao: TokenDAO
+) : AndroidViewModel(application) {
+
+    fun getToken() : TokenEntity?{
+        return tokenDao.getMembers()
+    }
+
+    fun insertToken(tokenEntity: TokenEntity){
+        viewModelScope.launch(Dispatchers.IO){
+            tokenDao.insertMember(tokenEntity)
+        }
+    }
+
+
     val id = MutableLiveData<Int>().apply { value = -1 }
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            setAccessToken(BabyaDB.getInstance(application)?.tokenDao()
+            setAccessToken(DatabaseModule.provideDatabase(application)?.tokenDao()
                 ?.getMembers()?.accessToken.toString())
         }
     }
@@ -78,7 +99,7 @@ class ProfileViewModel(private val application: Application) : AndroidViewModel(
                     localCode = "",
                 )
 
-                BabyaDB.getInstance(application)?.userDao()?.updateMember(userEntity)
+                DatabaseModule.provideDatabase(application)?.userDao()?.updateMember(userEntity)
             }
             launch(Dispatchers.Main) {
                 _userData.postValue(result.data)
@@ -99,7 +120,7 @@ class ProfileViewModel(private val application: Application) : AndroidViewModel(
     fun getUserLocalData(): UserEntity? {
         val userData = runBlocking {
             val user = viewModelScope.async(Dispatchers.IO) {
-                BabyaDB.getInstance(application)?.userDao()
+                DatabaseModule.provideDatabase(application)?.userDao()
                     ?.getMembers()
             }.await()
 

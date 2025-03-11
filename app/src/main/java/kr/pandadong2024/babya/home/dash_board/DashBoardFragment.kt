@@ -7,8 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kr.pandadong2024.babya.R
@@ -19,16 +21,19 @@ import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.server.local.BabyaDB
 import kr.pandadong2024.babya.server.remote.responses.BaseResponse
 import kr.pandadong2024.babya.server.remote.responses.dash_board.DashBoardResponses
+import kr.pandadong2024.babya.start.viewmodel.SignupViewModel
 import kr.pandadong2024.babya.util.BottomControllable
 import retrofit2.HttpException
 
-
+@AndroidEntryPoint
 class DashBoardFragment : Fragment() {
 
     private var _binding: FragmentDashBoardBinding? = null
     private var dashBoardList: List<DashBoardResponses>? = null
     private lateinit var dashBoardAdapter: DashBoardAdapter
-    private val viewModel by activityViewModels<DashBoardViewModel>()
+    private val viewModel : DashBoardViewModel by viewModels()
+
+    private lateinit var token : String
 
     private val binding get() = _binding!!
     private val TAG = "DashBoardFragment"
@@ -43,6 +48,10 @@ class DashBoardFragment : Fragment() {
         (requireActivity() as BottomControllable).setBottomNavVisibility(false)
         _binding = FragmentDashBoardBinding.inflate(inflater, container, false)
         TypeValue.init(requireContext())
+
+        lifecycleScope.launch {
+            token = viewModel.getToken().toString()
+        }
 
 
         binding.boardEditFloatingActionButton.setOnClickListener{
@@ -133,7 +142,6 @@ class DashBoardFragment : Fragment() {
         lifecycleScope.launch(Dispatchers.IO){
             kotlin.runCatching {
                 var DashBoardData : BaseResponse<List<DashBoardResponses>>? = null
-                val token = BabyaDB.getInstance(requireContext())?.tokenDao()?.getMembers()?.accessToken.toString()
 
                 Log.d(TAG, "getDashBoardData: start token : ${token}")
                 when(type){

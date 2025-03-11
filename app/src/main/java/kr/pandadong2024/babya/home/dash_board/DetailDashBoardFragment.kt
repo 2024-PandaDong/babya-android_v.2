@@ -1,5 +1,6 @@
 package kr.pandadong2024.babya.home.dash_board
 
+import android.app.WallpaperManager.getInstance
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,8 +9,10 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import coil.load
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -26,13 +29,16 @@ import kr.pandadong2024.babya.server.remote.responses.SubCommentResponses
 import kr.pandadong2024.babya.util.BottomControllable
 import kotlin.properties.Delegates
 
+@AndroidEntryPoint
 class DetailDashBoardFragment : Fragment() {
     private var _binding : FragmentDetailDashBoardBinding? = null
     private val binding get() = _binding!!
-    private lateinit var tokenDao: TokenDAO
-    private val viewModel by activityViewModels<DashBoardViewModel>()
+    private val viewModel : DashBoardViewModel by viewModels()
     private lateinit var  commentsAdapter : DashBoardCommentsAdapter
     private val TAG = "DetailDashBoardFragment"
+
+    private lateinit var token : String
+    private lateinit var email : String
 
     private var postId by Delegates.notNull<Int>()
     private var selectedCommentId : Int? = null
@@ -48,7 +54,12 @@ class DetailDashBoardFragment : Fragment() {
         // Inflate the layout for this fragment
         (requireActivity() as BottomControllable).setBottomNavVisibility(false)
         _binding = FragmentDetailDashBoardBinding.inflate(inflater, container, false)
-        tokenDao = BabyaDB.getInstance(requireContext().applicationContext)?.tokenDao()!!
+
+        lifecycleScope.launch {
+            token = viewModel.getToken()?.accessToken.toString()
+            email = viewModel.getToken()?.email.toString()
+        }
+
         initView()
         initCommentRecyclerView(1, 100, viewModel.id.value!!)
 
@@ -95,7 +106,7 @@ class DetailDashBoardFragment : Fragment() {
         lifecycleScope.launch(Dispatchers.IO){
             kotlin.runCatching {
                 RetrofitBuilder.getDashBoardService().postComment(
-                    accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
+                    accessToken = "Bearer ${token}",
                     body = DashBoardCommentRequest(
                         comment = binding.editCommentEditText.text.toString(),
                         postId = postId,
@@ -116,7 +127,7 @@ class DetailDashBoardFragment : Fragment() {
         lifecycleScope.launch(Dispatchers.IO){
             kotlin.runCatching {
                 RetrofitBuilder.getDashBoardService().postComment(
-                    accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
+                    accessToken = "Bearer ${token}",
                     body = DashBoardCommentRequest(
                         comment = binding.editCommentEditText.text.toString(),
                         postId = postId,
@@ -138,7 +149,7 @@ class DetailDashBoardFragment : Fragment() {
         lifecycleScope.launch(Dispatchers.IO){
             kotlin.runCatching {
                 RetrofitBuilder.getDashBoardService().getComment(
-                    accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
+                    accessToken = "Bearer ${token}",
                     page = page,
                     size = size,
                     postId = postId
@@ -176,7 +187,7 @@ class DetailDashBoardFragment : Fragment() {
             launch {
                 kotlin.runCatching {
                     RetrofitBuilder.getDiaryService().getSubComment(
-                        accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
+                        accessToken = "Bearer ${token}",
                         parentId = commentId,
                         page = page,
                         size = size
@@ -214,8 +225,8 @@ class DetailDashBoardFragment : Fragment() {
             launch(Dispatchers.IO){
                 kotlin.runCatching {
                     RetrofitBuilder.getCommonService().getProfile(
-                        accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
-                        email = BabyaDB.getInstance(requireContext())?.tokenDao()?.getMembers()?.email.toString()
+                        accessToken = "Bearer ${token}",
+                        email = email
                     )
                 }.onSuccess { result ->
                     launch(Dispatchers.Main) {
@@ -226,7 +237,7 @@ class DetailDashBoardFragment : Fragment() {
                 }
                 kotlin.runCatching {
                     RetrofitBuilder.getDashBoardService().getDashBoard(
-                        accessToken = "Bearer ${tokenDao.getMembers().accessToken}",
+                        accessToken = "Bearer ${token}",
                         id = viewModel.id.value!!
                     )
                 }.onSuccess {result ->

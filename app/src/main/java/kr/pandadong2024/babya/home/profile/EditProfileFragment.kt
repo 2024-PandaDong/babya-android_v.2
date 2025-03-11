@@ -13,10 +13,12 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import coil.load
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -29,6 +31,7 @@ import kr.pandadong2024.babya.home.policy.viewmdole.PolicyViewModel
 import kr.pandadong2024.babya.home.profile.profileviewmodle.ProfileViewModel
 import kr.pandadong2024.babya.home.viewmodel.CommonViewModel
 import kr.pandadong2024.babya.server.local.BabyaDB
+import kr.pandadong2024.babya.server.local.DatabaseModule
 import kr.pandadong2024.babya.server.remote.request.UserEditRequest
 import kr.pandadong2024.babya.start.signup.SignupBottomSheet
 import kr.pandadong2024.babya.util.setOnSingleClickListener
@@ -39,12 +42,13 @@ import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 import java.io.FileOutputStream
 
+@AndroidEntryPoint
 class EditProfileFragment : Fragment() {
     private var _binding: FragmentEditProfileBinding? = null
     private val binding get() = _binding!!
-    private val userViewModel by activityViewModels<ProfileViewModel>()
-    private val policyViewModel by activityViewModels<PolicyViewModel>()
-    private val commonViewModel by activityViewModels<CommonViewModel>()
+    private val userViewModel : ProfileViewModel by viewModels()
+    private val policyViewModel : PolicyViewModel by viewModels()
+    private val commonViewModel : CommonViewModel by viewModels()
     private var accessToken: String = ""
     private var selectedImageUri: Uri? = null
     private val userData: UserEditRequest = UserEditRequest()
@@ -53,11 +57,8 @@ class EditProfileFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // 메인 스레드가 아닌 IO 스레드에서 데이터베이스에 접근하도록 수정
-        runBlocking {
-            lifecycleScope.launch(Dispatchers.IO) {
-                accessToken = BabyaDB.getInstance(requireContext())?.tokenDao()
-                    ?.getMembers()?.accessToken.toString()
-            }
+        lifecycleScope.launch {
+            accessToken = policyViewModel.getToken()?.accessToken.toString()
         }
 
         getImage = registerForActivityResult(

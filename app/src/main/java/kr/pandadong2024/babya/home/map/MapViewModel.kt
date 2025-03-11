@@ -4,10 +4,29 @@ import android.app.Application
 import android.location.Location
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kr.pandadong2024.babya.server.local.DAO.TokenDAO
+import kr.pandadong2024.babya.server.local.entity.TokenEntity
+import javax.inject.Inject
 
-class MapViewModel(application: Application) : AndroidViewModel(application) {
+class MapViewModel @Inject constructor(
+    application: Application,
+    private val tokenDAO: TokenDAO
+) : AndroidViewModel(application) {
+
+    fun getToken(): TokenEntity?{
+        return tokenDAO.getMembers()
+    }
+
+    fun insertToken(tokenEntity: TokenEntity){
+        viewModelScope.launch(Dispatchers.IO){
+            tokenDAO.insertMember(tokenEntity)
+        }
+    }
 
     private val fusedLocationClient: FusedLocationProviderClient =
         LocationServices.getFusedLocationProviderClient(application)

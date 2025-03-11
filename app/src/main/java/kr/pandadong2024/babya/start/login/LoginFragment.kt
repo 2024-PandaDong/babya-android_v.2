@@ -8,8 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -21,6 +23,7 @@ import kr.pandadong2024.babya.home.viewmodel.CommonViewModel
 import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.server.local.BabyaDB
 import kr.pandadong2024.babya.server.local.DAO.TokenDAO
+import kr.pandadong2024.babya.server.local.DatabaseModule
 import kr.pandadong2024.babya.server.local.entity.TokenEntity
 import kr.pandadong2024.babya.server.remote.request.LoginRequest
 import kr.pandadong2024.babya.util.Pattern
@@ -28,9 +31,9 @@ import retrofit2.HttpException
 
 private const val DATA_STORE_FILE_NAME = "user.pb"
 
-
+@AndroidEntryPoint
 class LoginFragment : Fragment() {
-    private val commonViewModel by activityViewModels<CommonViewModel>()
+    private val commonViewModel : CommonViewModel by viewModels()
     private var bottomSheetDialog: LoginBottomSheet? = null
     private lateinit var token: String
     private lateinit var tokenDao: TokenDAO
@@ -126,7 +129,7 @@ class LoginFragment : Fragment() {
 
     private fun saveToken(accessToken: String, refreshToken: String, emailText: String) {
         CoroutineScope(Dispatchers.IO).launch {
-            BabyaDB.getInstance(requireContext().applicationContext)?.tokenDao()?.insertMember(
+            DatabaseModule.provideDatabase(requireContext().applicationContext)?.tokenDao()?.insertMember(
                 TokenEntity(
                     id = 1,
                     accessToken = accessToken,

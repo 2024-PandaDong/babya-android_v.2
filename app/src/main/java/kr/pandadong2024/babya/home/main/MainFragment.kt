@@ -14,6 +14,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
@@ -68,14 +69,11 @@ class MainFragment : Fragment() {
     private lateinit var rankAdapter: CompanyRankAdapter
     private lateinit var policyAdapter: PolicyRecyclerView
     private lateinit var infiniteViewPager: ViewPager2
-    private val findCompanyViewModel by activityViewModels<FindCompanyViewModel>()
-    private val mainViewModel by activityViewModels<MainViewModel>()
-    private val policyViewModel by activityViewModels<PolicyViewModel>()
-    private val profileViewModel by activityViewModels<ProfileViewModel>()
-    private val commonViewModel by activityViewModels<CommonViewModel>()
-    private val mapViewModel by activityViewModels<MapViewModel>()
+    private val findCompanyViewModel : FindCompanyViewModel by viewModels()
+    private val mainViewModel : MainViewModel by viewModels()
+    private val policyViewModel : PolicyViewModel by viewModels()
 
-    private lateinit var accessToken: String
+    private lateinit var token : String
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
     private var bannerPosition = 0
@@ -99,7 +97,7 @@ class MainFragment : Fragment() {
 
     private suspend fun getBanner(): List<BannerResponses> {
         val response = RetrofitBuilder.getHttpMainService().getBanner(
-            accessToken = "Bearer $accessToken",
+            accessToken = "Bearer $token",
             lc = "my",
             type = "$form"
         )
@@ -133,14 +131,13 @@ class MainFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // 메인 스레드가 아닌 IO 스레드에서 데이터베이스에 접근하도록 수정
-        runBlocking {
-            lifecycleScope.launch(Dispatchers.IO) {
-                if(isAdded && activity != null) {
-                    accessToken = BabyaDB.getInstance(requireContext())?.tokenDao()
-                        ?.getMembers()?.accessToken.toString()
-                }
+
+        lifecycleScope.launch {
+            if(isAdded && activity != null) {
+                token = mainViewModel.getToken()?.accessToken.toString()
             }
         }
+
     }
 
     override fun onCreateView(
@@ -303,7 +300,6 @@ class MainFragment : Fragment() {
     private fun findName() {
         lifecycleScope.launch(Dispatchers.IO){
             kotlin.runCatching {
-                val token = BabyaDB.getInstance(requireContext())?.tokenDao()?.getMembers()?.accessToken
                 RetrofitBuilder.getProfileService().getProfile(
                     accessToken = "Bearer $token",
                     email = "my"

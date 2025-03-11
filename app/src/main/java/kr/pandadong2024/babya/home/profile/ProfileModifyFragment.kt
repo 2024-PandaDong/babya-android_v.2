@@ -7,9 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import coil.load
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kr.pandadong2024.babya.R
@@ -20,14 +22,14 @@ import kr.pandadong2024.babya.server.local.BabyaDB
 import kr.pandadong2024.babya.server.local.DAO.TokenDAO
 import kr.pandadong2024.babya.util.shortToast
 
-
+@AndroidEntryPoint
 class ProfileModifyFragment : Fragment() {
 
     private var _binding: FragmentProfileModifyBinding? = null
     private val binding get() = _binding!!
-    private lateinit var tokenDao: TokenDAO
-    private val userViewModel by activityViewModels<ProfileViewModel>()
-    var email: String = ""
+    private val profileViewModel : ProfileViewModel by viewModels()
+    private lateinit var email: String
+
 
 
     val TAG = "ProfileModifyFragment"
@@ -49,13 +51,13 @@ class ProfileModifyFragment : Fragment() {
 
 
 
-        userViewModel.toastMessage.observe(viewLifecycleOwner) { message ->
+        profileViewModel.toastMessage.observe(viewLifecycleOwner) { message ->
             if (message != "") {
                 requireContext().shortToast(message)
             }
         }
 
-        userViewModel.userData.observe(viewLifecycleOwner) { userData ->
+        profileViewModel.userData.observe(viewLifecycleOwner) { userData ->
             binding.nameText.text = userData.nickname
             binding.marriageDayText.text = userData.marriedYears?.replace("-", ".") ?: "0000.00.00"
             binding.birthDateText.text =
@@ -86,7 +88,7 @@ class ProfileModifyFragment : Fragment() {
             }
         }
 
-        userViewModel.userLocalCode.observe(viewLifecycleOwner) {
+        profileViewModel.userLocalCode.observe(viewLifecycleOwner) {
             Log.d(TAG, "code : $it")
             if (it.length >= 3) {
                 binding.localText.text = getLocalByCode(it)
@@ -99,9 +101,8 @@ class ProfileModifyFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        lifecycleScope.launch(Dispatchers.IO) {
-            tokenDao = BabyaDB.getInstance(requireContext())?.tokenDao()!!
-            email = tokenDao.getMembers().email
+        lifecycleScope.launch{
+            email = profileViewModel.getToken()?.email.toString()
         }
     }
 }

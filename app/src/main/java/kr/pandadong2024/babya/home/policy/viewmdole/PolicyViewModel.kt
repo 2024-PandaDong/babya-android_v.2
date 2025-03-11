@@ -15,15 +15,34 @@ import kr.pandadong2024.babya.home.policy.getLocalByCode
 import kr.pandadong2024.babya.home.policy.getRegionByCode
 import kr.pandadong2024.babya.server.RetrofitBuilder
 import kr.pandadong2024.babya.server.local.BabyaDB
+import kr.pandadong2024.babya.server.local.DAO.TokenDAO
+import kr.pandadong2024.babya.server.local.DatabaseModule
+import kr.pandadong2024.babya.server.local.entity.TokenEntity
 import kr.pandadong2024.babya.server.local.entity.UserEntity
 import kr.pandadong2024.babya.server.remote.responses.Policy.PolicyListResponse
 import retrofit2.HttpException
+import javax.inject.Inject
 
-class PolicyViewModel(private val application: Application) : AndroidViewModel(application) {
+class PolicyViewModel @Inject constructor(
+    private val application: Application,
+    private val tokenDao: TokenDAO
+) : AndroidViewModel(application) {
     // 항상 0번째가 기초자치단체( 시, 군, 구 ) 1번째가 행정구 or 행정 군
+
+    fun getToken() : TokenEntity? {
+        return tokenDao.getMembers()
+    }
+
+    fun insertToken(tokenEntity: TokenEntity){
+        viewModelScope.launch(Dispatchers.IO){
+            tokenDao.insertMember(tokenEntity)
+        }
+    }
+
+
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            setAccessToken(BabyaDB.getInstance(application)?.tokenDao()
+            setAccessToken(DatabaseModule.provideDatabase(application)?.tokenDao()
                 ?.getMembers()?.accessToken.toString())
         }
     }
@@ -98,14 +117,14 @@ class PolicyViewModel(private val application: Application) : AndroidViewModel(a
     fun getLocalUserData() : UserEntity? {
         val userData = runBlocking {
             val user = viewModelScope.async(Dispatchers.IO) {
-                BabyaDB.getInstance(application)?.userDao()
+                DatabaseModule.provideDatabase(application)?.userDao()
                     ?.getMembers()
             }.await()
             return@runBlocking user
         }
         Log.d("dbTest", "name : ${userData}")
         if (userData != null) {
-            _localUserData.value = userData
+            _localUserData.value = userData!!
         }
         return userData
     }

@@ -10,10 +10,12 @@ import android.view.inputmethod.InputMethodManager
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kr.pandadong2024.babya.R
 import kr.pandadong2024.babya.databinding.SubCommentBottomSheetBinding
@@ -24,14 +26,15 @@ import kr.pandadong2024.babya.server.local.DAO.TokenDAO
 import kr.pandadong2024.babya.util.setOnSingleClickListener
 import kotlin.properties.Delegates
 
+@AndroidEntryPoint
 class CommentBottomSheet(
     private val parentCommentId: Int,
 ) : BottomSheetDialogFragment() {
     private var diaryId by Delegates.notNull<Int>()
-    private lateinit var tokenDao: TokenDAO
     private var _binding: SubCommentBottomSheetBinding? = null
     private val binding get() = _binding!!
-    private val viewModel by activityViewModels<DiaryViewModel>()
+    private val viewModel : DiaryViewModel by viewModels()
+    private lateinit var token : String
 
     override fun onStart() {
         super.onStart()
@@ -57,7 +60,10 @@ class CommentBottomSheet(
         savedInstanceState: Bundle?,
     ): View {
         _binding = SubCommentBottomSheetBinding.inflate(inflater, container, false)
-        tokenDao = BabyaDB.getInstance(requireContext().applicationContext)?.tokenDao()!!
+
+        lifecycleScope.launch {
+            token = viewModel.getToken()?.accessToken.toString()
+        }
 
         lifecycleScope.launch {
             viewModel.getSubComment(commentId = parentCommentId)
