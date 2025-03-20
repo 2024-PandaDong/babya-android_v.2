@@ -22,7 +22,7 @@ abstract class BabyaDB : RoomDatabase() {
 
     companion object {
 
-//        private var instance: BabyaDB? = null
+        private var instance: BabyaDB? = null
 //
 //
 //        @Synchronized
@@ -87,8 +87,8 @@ abstract class BabyaDB : RoomDatabase() {
         }
 
 
-//        fun getInstanceOrNull(): BabyaDB? {
-//            return instance
-//        }
+        fun getInstanceOrNull(): BabyaDB? {
+            return instance
+        }
     }
 }
