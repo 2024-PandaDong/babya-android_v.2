@@ -105,7 +105,6 @@ class PolicyMainFragment : Fragment() {
         }
 
         profileViewModel.userData.observe(viewLifecycleOwner){ userData ->
-            Log.d("dbTest", "name : ${userData}")
             binding.titleText.text = "${userData.nickname}님을 위한 추천 정책"
             binding.tagTitleText.text = "${userData.nickname}님의 지역"
             binding.subTitleText.text = "지역에 따라 정책을 모았어요"

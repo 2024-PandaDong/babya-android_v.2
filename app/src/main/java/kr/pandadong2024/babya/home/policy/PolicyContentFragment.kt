@@ -86,26 +86,23 @@ class PolicyContentFragment : Fragment() {
             }.onSuccess { result ->
                 if (result.status == 200) {
                     withContext(Dispatchers.Main) {
-                        Log.d(TAG, "200,\nstatus : ${result.data}")
+                        val lastEditMonth = result.data?.editDate?.substring(
+                            startIndex = 5,
+                            endIndex = 7
+                        )
+                        val lastEditDate = result.data?.editDate?.substring(startIndex = 8, endIndex = 10)
                         binding.policyTitleText.text = result.data?.title
 
                         if (result.data?.editDate == null) {
                             binding.policyDateRangeText.visibility = View.GONE
                         } else {
-                            binding.policyDateRangeText.text = "최종수정일: ${
-                                result.data?.editDate.substring(
-                                    startIndex = 5,
-                                    endIndex = 7
-                                )
-                            }월 ${result.data?.editDate?.substring(startIndex = 8, endIndex = 10)}일"
+                            binding.policyDateRangeText.text = "최종수정일: ${lastEditMonth}월 ${lastEditDate}일"
                         }
-                        Log.d("policyLink", "policyLink : ${result.data?.link}")
                         if (result.data?.link != null || result.data?.link != ""){
                             policyLink = result.data?.link.toString()
                         }else{
                             binding.linkButton.visibility = View.GONE
                         }
-                        var tagSample = result.data?.content.toString().indexOf("<table ")
                         var tabRes = result.data?.content.toString()
                             .replace("<td", "<td style='border : 1px solid black '")
                         tabRes = tabRes
@@ -124,7 +121,7 @@ class PolicyContentFragment : Fragment() {
                         )
                     }
                 } else {
-                    Log.d(TAG, "200이 아닌 다른 상태,\nstatus : ${result.status}")
+                    Log.e(TAG, "200이 아닌 다른 상태,\nstatus : ${result.status}")
                 }
             }.onFailure { result ->
                 result.printStackTrace()

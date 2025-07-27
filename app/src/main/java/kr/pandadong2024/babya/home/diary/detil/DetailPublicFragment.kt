@@ -167,16 +167,12 @@ class DetailPublicFragment : Fragment() {
                     )
                 )
             }.onSuccess { result ->
-                Log.d(TAG, "message : ${result.message}")
-                Log.d(TAG, "status : ${result.status}")
-                Log.d(TAG, "data : ${result.data}")
                 delay(500)
                 viewModel.getCommentList()
             }.onFailure { result ->
                 Log.e(TAG, "result : ${result.message}")
                 result.printStackTrace()
             }
-
         }
     }
 
@@ -193,39 +189,17 @@ class DetailPublicFragment : Fragment() {
                     )
                 )
             }.onSuccess { result ->
-                Log.d(TAG, "message : ${result.message}")
-                Log.d(TAG, "status : ${result.status}")
-                Log.d(TAG, "data : ${result.data}")
                 delay(500)
                 viewModel.getCommentList()
             }.onFailure { result ->
                 Log.e(TAG, "result : ${result.message}")
                 result.printStackTrace()
             }
-
         }
     }
 
     private fun initView() {
         lifecycleScope.launch() {
-//                kotlin.runCatching {
-//                    RetrofitBuilder.getCommonService().getProfile(
-//                        accessToken = "Bearer ${viewModel.accessToken}",
-//                        email = "my"
-//                    )
-//                }.onSuccess { result ->
-//                    Log.e(TAG, "profile result : ${result.message}")
-//                    Log.e(TAG, "profile result : ${result.data}")
-//                    Log.e(TAG, "profile result : ${result.status}")
-//                    launch(Dispatchers.Main) {
-////                        binding.profileImage.load(result.data?.profileImg)
-//                    }
-//
-//                }.onFailure { result ->
-//                    Log.e(TAG, "result : ${result.message}")
-//                    result.printStackTrace()
-//                }
-            Log.d("token in diary", "token : ${viewModel.accessToken.value}")
             kotlin.runCatching {
                 RetrofitBuilder.getDiaryService().getDiaryData(
                     accessToken = "Bearer ${viewModel.accessToken.value}",
@@ -253,48 +227,6 @@ class DetailPublicFragment : Fragment() {
             }
         }
     }
-
-//    private fun initCommentRecyclerView(page: Int, size: Int, parentId: Int) {
-//        lifecycleScope.launch(Dispatchers.IO) {
-//            kotlin.runCatching {
-//                RetrofitBuilder.getDiaryService().getComment(
-//                    accessToken = "Bearer ${viewModel.accessToken}",
-//                    page = page,
-//                    size = size,
-//                    diaryId = parentId
-//                )
-//            }.onSuccess { result ->
-//                Log.d(TAG, "message : ${result.message}")
-//                Log.d(TAG, "status : ${result.status}")
-//                Log.d(TAG, "data : ${result.data}")
-//                launch(Dispatchers.Main) {
-//
-//                    commentsAdapter = result.data?.let {
-//                        CommentsAdapter(
-//                            commentsList = it.reversed(),
-//                        ) { id ->
-//                            val commentBottomSheet = CommentBottomSheet(id)
-//                            commentBottomSheet.show(
-//                                requireActivity().supportFragmentManager,
-//                                commentBottomSheet.tag
-//                            )
-//
-//                        }
-//                    }!!
-//                    commentsAdapter.notifyItemRemoved(0)
-//                    with(binding) {
-//                        commentRecyclerView.adapter = commentsAdapter
-//                    }
-//                }
-//
-//            }.onFailure { result ->
-//                result.printStackTrace()
-//                Log.d(TAG, "message : ${result.message}")
-//
-//            }
-//        }
-//    }
-
 
     override fun onPause() {
         super.onPause()

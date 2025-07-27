@@ -77,11 +77,11 @@ class MapFragment : Fragment() {
 
         binding.mapView.start(object : MapLifeCycleCallback() {
             override fun onMapDestroy() {
-                Log.d(TAG, "onMapDestroy: 종료")
+                // 카카오 맵 종료
             }
 
             override fun onMapError(p0: Exception?) {
-                Log.d(TAG, "onMapError: 오류")
+                Log.e(TAG, "onMapError: 오류")
             }
         }, object : KakaoMapReadyCallback() {
             override fun getZoomLevel() = 14
@@ -90,7 +90,6 @@ class MapFragment : Fragment() {
                 kakaoMap = map
                 moveToCurrentLocation()
                 setupMap()
-                Log.d(ContentValues.TAG, "getCurrentLocation: ${latitude} ${longitude}")
                 addLocationLabel(latitude, longitude)
             }
         })
@@ -140,14 +139,13 @@ class MapFragment : Fragment() {
                 latitude = it.latitude
                 longitude = it.longitude
                 // kakaoMap이 초기화되었는지 확인 후 마커 추가
-                Log.d(ContentValues.TAG, "getCurrentLocation: ${latitude} ${longitude}")
                 if (::kakaoMap.isInitialized) {
                     addLocationLabel(latitude, longitude)
                 } else {
-                    Log.d(TAG, "kakaoMap이 초기화되지 않았습니다.")
+                    Log.e(TAG, "kakaoMap이 초기화되지 않았습니다.")
                 }
             } ?: run {
-                Log.d(TAG, "위치를 가져올 수 없습니다.")
+                Log.e(TAG, "위치를 가져올 수 없습니다.")
             }
         }
     }
@@ -193,7 +191,7 @@ class MapFragment : Fragment() {
                     }
                 }
             }.onFailure { error ->
-                Log.d(TAG, "Error fetching markers: ${error.message}")
+                Log.e(TAG, "Error fetching markers: ${error.message}")
             }
         }
     }
@@ -224,7 +222,6 @@ class MapFragment : Fragment() {
 
     private fun clearAllMarkers() {
         kakaoMap.labelManager!!.layer!!.removeAll()
-        Log.d(TAG, "clearAllMarkers: 삭제")
     }
 
     override fun onDestroyView() {

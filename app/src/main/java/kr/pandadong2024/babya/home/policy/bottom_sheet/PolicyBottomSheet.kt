@@ -141,7 +141,6 @@ class PolicyBottomSheet(
 
         viewModel.saveList.observe(viewLifecycleOwner) {
             binding.searchButton.isEnabled = it.size > 1
-            Log.d("tag", "tag : $it")
             initZoneRecyclerview(it)
             if (it.isNotEmpty()) {
                 if (countyList.keys.contains(it[0])) {
@@ -182,15 +181,11 @@ class PolicyBottomSheet(
                     localText = it,
                     isCheckedTag = (it == keyWord)
                 ) {
-                    Log.d("test", "in fun1")
                     viewModel.removeAll()
                     if (keyWord != "") {
-                        Log.d("test", "in fun3")
                         if (it == keyWord) {
-                            Log.d("test", "in fun4")
                             viewModel.popLocal(keyWord)
                         } else {
-                            Log.d("test", "in fun5")
                             viewModel.inputLocal(it)
                         }
                     }else{
@@ -218,18 +213,13 @@ class PolicyBottomSheet(
                     localText = localTag,
                     isCheckedTag = localTag in selectedTags && selectedTags.size >= 2
                 ) {
-                    Log.d("test", "in fun6")
                     if (keyWord == "") {
-                        Log.d("test", "in fun7")
                         viewModel.inputLocal(localTag)
                     } else {
                         viewModel.removeSubTags()
-                        Log.d("test", "in fun8")
                         if (localTag == keyWord && (subTagList.size > 1)) {
-                            Log.d("test", "in fun9")
                             viewModel.popLocal(keyWord)
                         } else {
-                            Log.d("test", "in fun10")
                             viewModel.inputLocal(localTag)
                         }
                     }

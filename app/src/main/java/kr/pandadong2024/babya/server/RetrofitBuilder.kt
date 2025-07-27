@@ -82,7 +82,6 @@ class RetrofitBuilder {
                     .build()
             }
 
-            Log.d("retrofit", "getKakaoRetrofit: ${kakaoRetrofit?.baseUrl()}")
             return kakaoRetrofit!!
         }
 

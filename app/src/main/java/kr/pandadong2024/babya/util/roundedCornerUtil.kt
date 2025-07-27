@@ -21,7 +21,6 @@ fun roundLeft(iv: ImageView, curveRadius : Float)  : ImageView {
 fun roundAll(iv: ImageView, curveRadius : Float)  : ImageView {
 
     iv.outlineProvider = object : ViewOutlineProvider() {
-
         override fun getOutline(view: View?, outline: Outline?) {
             outline?.setRoundRect(0, 0, view!!.width, view.height, curveRadius)
         }

@@ -20,27 +20,14 @@ class DashBoardCommentsAdapter(
 ) : RecyclerView.Adapter<DashBoardCommentsAdapter.CommentsViewHolder>() {
     inner class CommentsViewHolder(private val binding : ItemCommentsBinding) : RecyclerView.ViewHolder(binding.root){
         fun setItemComments(commentData: DashBoardCommentResponses) {
-            if (commentData.subCommentCnt != 0){
-                Log.d("recycler", " test in sub")
-//                val subCommentList = getSubComment(commentData.commentId!!,  1, 100)
-//                val subCommentAdapter = SubCommentAdapter(
-//                    subCommentList = subCommentList,
-//                )
-//                subCommentAdapter.notifyItemRemoved(0)
-            }
             binding.commentNameText.text = commentData.nickname
-            if (commentData.profileImg == null){
-                binding.commentProfileImage.load(R.drawable.ic_basic_profile)
-            } else{
-                binding.commentProfileImage.load(commentData.profileImg)
-            }
+            binding.commentProfileImage.load(commentData.profileImg)
             binding.contentTextView.text = commentData.content
             binding.commentTimeText.text = commentData.createdAt.substring(5 until 10)
             binding.replayCommentText.setOnClickListener {
                 replayComment(commentData.commentId)
             }
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommentsViewHolder {
@@ -52,7 +39,6 @@ class DashBoardCommentsAdapter(
         return commentsList.size }
 
     override fun onBindViewHolder(holder: CommentsViewHolder, position: Int) {
-        Log.d("Test", "test")
         holder.setItemComments(commentsList[position])
     }
 }

@@ -58,7 +58,6 @@ class FindCompanyFragment : Fragment() {
         }
 
         viewModel.lastCompanyPosition.observe(viewLifecycleOwner) {
-            Log.d("test", "last : $it")
             binding.findCompanyRecyclerView.scrollToPosition(it)
         }
 

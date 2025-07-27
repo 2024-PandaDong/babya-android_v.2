@@ -14,39 +14,27 @@ class TodoItemAdapter(
     inner class TodoItemViewHolder(val binding: ItemTodoListContentBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(itemDate: TodoResponses) {
-            Log.d("itme adapte", "item data $itemDate")
             binding.todoCheckRadio.isChecked = itemDate.isChecked!!
             binding.todoContentText.text = itemDate.content
 
             binding.todoContentText.setOnClickListener {
-                Log.d("teat", "check : ${itemDate.isChecked}")
                 binding.todoCheckRadio.isChecked = !binding.todoCheckRadio.isChecked
                 itemDate.isChecked = binding.todoCheckRadio.isChecked
                 work(3, itemDate)
             }
             binding.todoCheckRadio.setOnClickListener {
-                Log.d("teat", "check : ${itemDate.isChecked}")
                 itemDate.isChecked = binding.todoCheckRadio.isChecked
-                Log.d("teat", "check : ${itemDate.isChecked}")
                 work(3, itemDate)
             }
 
-            binding.swipeView.setOnClickListener {
-                Log.d("tageg", "swipeView")
-            }
-
             binding.deleteButton.setOnClickListener {
-                Log.d("tageg", "deleteButton")
                 work(1, itemDate)
             }
 
             binding.modifyButton.setOnClickListener {
-                Log.d("tageg", "modifyButton")
                 work(2, itemDate)
             }
         }
-
-
     }
 
     override fun onCreateViewHolder(
@@ -63,5 +51,4 @@ class TodoItemAdapter(
     override fun onBindViewHolder(holder: TodoItemViewHolder, position: Int) {
         holder.bind(todoList[position])
     }
-
 }

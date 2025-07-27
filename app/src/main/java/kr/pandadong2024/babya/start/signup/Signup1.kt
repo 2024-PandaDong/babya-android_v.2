@@ -16,7 +16,6 @@ class Signup1 : Fragment() {
     private var _binding: FragmentSignup1Binding? = null
     private val binding get() = _binding!!
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -24,12 +23,9 @@ class Signup1 : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentSignup1Binding.inflate(inflater, container, false)
 
-
         // 처음에는 버튼을 비활성화
         binding.nextBtn.setOnClickListener {
-            Log.d(TAG, "onCreateView: dddd")
             findNavController().navigate(R.id.action_signup1_to_signup2)
-         //   findNavController().navigate(R.id.action_signup1_to_signup5)
         }
 
         binding.signUpBackButton.setOnClickListener {

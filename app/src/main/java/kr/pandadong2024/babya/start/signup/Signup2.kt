@@ -75,7 +75,6 @@ class Signup2 : Fragment() {
                 binding.emailCheckButton.isEnabled = emailText.isNotEmpty() && emailText.matches(Pattern.email)
             }
             binding.verificationCodeEditText.doAfterTextChanged { text ->
-                Log.d(TAG, "onCreateView: 12345")
                 val reemailText = text.toString()
                 binding.verificationCodeSendButton.isEnabled = reemailText.length == 6
             }
@@ -126,7 +125,6 @@ class Signup2 : Fragment() {
                     email = email
                 )
             }.onSuccess {
-                Log.d(TAG, "emailCheck: 성공")
                 binding.emailCheckButton.text = "재인증"
             }.onFailure {
                 it.printStackTrace()
@@ -144,11 +142,8 @@ class Signup2 : Fragment() {
                     code = verificationCode
                 )
             }.onSuccess {
-                Log.d(TAG, "verificationCodeSend: 성공")
                 emailCheckSuccess()
             }.onFailure {
-                Log.d(TAG, "email: $email")
-                Log.d(TAG, "code: $verificationCode")
                 it.printStackTrace()
             }
         }

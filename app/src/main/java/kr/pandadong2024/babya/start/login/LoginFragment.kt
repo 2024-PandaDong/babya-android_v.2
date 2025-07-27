@@ -102,14 +102,11 @@ class LoginFragment : Fragment() {
                     throwable.message
                     withContext(Dispatchers.Main) {
                         if (throwable is HttpException) {
-                            Log.d("in", " code : ${throwable.code()}")
                             if (throwable.code() == 500) {
                                 commonViewModel.setToastMessage("인터넷이 연결되어있는지 확인해 주십시오")
                             } else if (throwable.code() == 401) {
-                                Log.d("in", " in 401")
                                 commonViewModel.setToastMessage("유저정보가 일치하지 않습니다")
                             } else if (throwable.code() == 404) {
-                                Log.d("in", " in 404")
                                 commonViewModel.setToastMessage("유저정보가 존재하지 않습니다")
                             }
                         }

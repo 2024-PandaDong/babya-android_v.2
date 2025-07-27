@@ -20,7 +20,6 @@ class PolicyRecyclerView(
         fun policyBind(policyDate: PolicyListResponse, position: Int) {
             binding.apply {
                 root.setOnTouchListener { view, motionEvent ->
-                    Log.d("hover2", "onHover : "+ motionEvent.action)
                     when (motionEvent.action) {
                         MotionEvent.ACTION_MOVE -> root.setBackgroundColor(Color.parseColor("#F7F7F7"))
                         MotionEvent.ACTION_UP -> root.setBackgroundColor(Color.parseColor("#ffffff"))

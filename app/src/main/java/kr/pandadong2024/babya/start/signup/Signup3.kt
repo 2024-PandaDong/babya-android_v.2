@@ -82,17 +82,13 @@ class Signup3 : Fragment() {
                 }
 
             bottomSheetDialog.show(requireActivity().supportFragmentManager, bottomSheetDialog.tag)
-            Log.d(TAG, "show aaa")
         }
 
         binding.selectLocationLayout.setOnClickListener {
             val bottomSheetDialog =
-                PolicyBottomSheet() { tag ->
-
-                }
+                PolicyBottomSheet() { tag -> }
 
             bottomSheetDialog.show(requireActivity().supportFragmentManager, bottomSheetDialog.tag)
-            Log.d(TAG, "show aaa")
         }
 
 

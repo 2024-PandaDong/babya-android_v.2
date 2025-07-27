@@ -168,18 +168,16 @@ class MainFragment : Fragment() {
 
         binding.mapView.start(object : MapLifeCycleCallback() {
 
-            // 지도 API 가 정상적으로 종료될 때 호출됨
             override fun onMapDestroy() {
-                Log.d(TAG, "onMapDestroy: 종료")
+                // 지도 API 가 정상적으로 종료
             }
-            // 인증 실패 및 지도 사용 중 에러가 발생할 때 호출됨
             override fun onMapError(p0: Exception?) {
-                Log.d(TAG, "onMapError: 오류")
+                // 인증 실패 및 지도 사용 중 에러가 발생할 때 호출
+                Log.e(TAG, "onMapError: 오류")
             }
 
         },
             object : KakaoMapReadyCallback(){
-                // 지도 시작 시 확대/축소 줌 레벨 설정
                 override fun getZoomLevel(): Int {
                     return 14
                 }
@@ -187,13 +185,9 @@ class MainFragment : Fragment() {
                 override fun onMapReady(map: KakaoMap){
 
                     kakaoMap = map
-                    var cameraUpdate =
+                    val cameraUpdate =
                         CameraUpdateFactory.newCenterPosition(LatLng.from(latitude, longitude))
                     kakaoMap.moveCamera(cameraUpdate)
-
-                    Log.d(TAG, "onMapReady: ${kakaoMap.getZoomLevel()}")
-
-//                    myMarkersToMap("내 위치", latitude = latitude, longitude = longitude)
                     serverMarker()
 
                 }
@@ -207,32 +201,7 @@ class MainFragment : Fragment() {
             launch {
                 findCompanyViewModel.addCompany()
             }
-//            launch {
-//                policyViewModel.getPolicyList(
-//                    code = profileViewModel.userLocalCode.value.toString()
-//                )
-//            }
         }
-//        profileViewModel.userLocalCode.observe(viewLifecycleOwner) {
-//            if (it.isEmpty()) return@observe
-//            if (it.length == 2) {
-//                policyViewModel.setTagList(getMemberLocalCode(it))
-//                policyViewModel.setUserRegionList(
-//                    listOf(
-//                        getLocalByCode(
-//                            getMemberLocalCode(
-//                                it
-//                            ).toString()
-//                        ), getRegionByCode(getMemberLocalCode(it))
-//                    )
-//                )
-//                policyViewModel.getPolicyList(it)
-//
-//            } else {
-//                policyViewModel.setTagList(it.toInt())
-//                policyViewModel.getPolicyList(it)
-//            }
-//        }
 
         findCompanyViewModel.companyList.observe(viewLifecycleOwner) {
             if (it.isNotEmpty()) {
@@ -262,7 +231,8 @@ class MainFragment : Fragment() {
 
         binding.bannerViewPager.registerOnPageChangeCallback(object :
             ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {  //사용자가 스크롤 했을때 position 수정
+            override fun onPageSelected(position: Int) {
+                //사용자가 스크롤 했을때 position 수정
                 super.onPageSelected(position)
                 bannerPosition = position
             }
@@ -348,9 +318,7 @@ class MainFragment : Fragment() {
         }
         rankAdapter = CompanyRankAdapter() { position ->
             kotlin.runCatching {
-                Log.d("fixCompany", "company Test : ${position}")
                 findCompanyViewModel.id.value = list[position].companyId
-                Log.d("fixCompany", "company Test : ${findCompanyViewModel.id.value}")
                 findNavController().navigate(R.id.action_mainFragment_to_companyDetailsFragment)
             }
         }
@@ -367,10 +335,8 @@ class MainFragment : Fragment() {
         if (policyList.isNotEmpty()) {
             for (i in 0..2) {
                 if (policyList.size == i + 1) {
-                    Log.d("setPolicyRecyclerView", "list break")
                     break
                 } else {
-                    Log.d("setPolicyRecyclerView", "list add")
                     list.add(policyList[i])
                 }
             }
@@ -386,7 +352,6 @@ class MainFragment : Fragment() {
             findNavController().navigate(R.id.action_mainFragment_to_policyContentFragment)
         }
         policyAdapter.notifyItemRemoved(0)
-        Log.d("setPolicyRecyclerView", "list : $list")
         with(binding) {
             policyRecyclerView.adapter = policyAdapter
         }
@@ -404,11 +369,9 @@ class MainFragment : Fragment() {
                     query = "산부인과"
                 )
             }.onSuccess { result ->
-//                clearAllMarkers()
-                Log.d(TAG, "성공: ${result.body()?.documents}")
                 val documents = result.body()?.documents ?: emptyList()
                 documents.forEach{
-                    // it.category_name에 병원 이라는 키워드가 있으면
+                    // it.category_name에 병원 이라는 키워드가 있으면 검색
                     if (it.category_name.contains("병원")){
                         addMarkersToMap(it.place_name)
                     }
@@ -416,22 +379,12 @@ class MainFragment : Fragment() {
 
             }.onFailure { result->
                 result.printStackTrace()
-                Log.d(TAG, "onCreateView: ${result.message}")
+                Log.e(TAG, "onCreateView: ${result.message}")
             }
         }
     }
 
-    private fun clearAllMarkers() {
-        // 마커 레이어 가져오기
-        val layer = kakaoMap.labelManager!!.layer!!
-
-        // 레이어에서 모든 레이블 제거
-        layer.removeAll()
-        Log.d(TAG, "clearAllMarkers: 삭제")
-    }
-
     fun addMarkersToMap(id: String) {
-        Log.d(TAG, "addMarkersToMap: ${closest}")
         lifecycleScope.launch(Dispatchers.Main){
             if (closest == 0){
                 binding.locationLabelText.text = id
@@ -482,15 +435,14 @@ class MainFragment : Fragment() {
             location?.let {
                 latitude = it.latitude
                 longitude = it.longitude
-                Log.d(TAG, "getCurrentLocation: ${latitude} ${location}")
                 // kakaoMap이 초기화되었는지 확인 후 마커 추가
                 if (::kakaoMap.isInitialized) {
                     addLocationLabel(latitude, longitude)
                 } else {
-                    Log.d(TAG, "kakaoMap이 초기화되지 않았습니다.")
+                    Log.e(TAG, "kakaoMap이 초기화되지 않았습니다.")
                 }
             } ?: run {
-                Log.d(TAG, "위치를 가져올 수 없습니다.")
+                Log.e(TAG, "위치를 가져올 수 없습니다.")
             }
         }
     }

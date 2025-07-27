@@ -26,7 +26,6 @@ class TodoCategoryAdapter(
                 binding.itemTodoParent.setBackgroundResource(R.drawable.sp_item_category_select_background)
                 binding.tagText.setTextColor(context.resources.getColor(R.color.primaryLight))
             } else {
-                Log.d("isSelect", "test : $themeText")
                 binding.itemTodoParent.setBackgroundResource(R.drawable.sp_item_category_unselect_background)
                 binding.tagText.setTextColor(context.resources.getColor(R.color.labelDisable))
             }

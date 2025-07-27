@@ -59,7 +59,6 @@ class ProfileViewModel(private val application: Application) : AndroidViewModel(
 
     fun getUserData() = viewModelScope.launch() {
         kotlin.runCatching {
-            Log.d("dbTest", "_accessToken : ${_accessToken.value}")
             RetrofitBuilder.getProfileService().getProfile(
                 accessToken = "Bearer ${_accessToken.value}",
                 email = "my"
@@ -162,11 +161,9 @@ class ProfileViewModel(private val application: Application) : AndroidViewModel(
                 body = userData
             )
         }.onSuccess {
-//                _toastMessage.value = "성공적으로 프로필 수정이 완료되었습니다."
             _editUserResult.value = true
         }.onFailure { result ->
             if (result is HttpException) {
-                Log.d("editUser", "msg : ${result.response()}")
                 if (result.code() == 500) {
                     _toastMessage.value = "서버에서 문제가 발생했습니다."
                 }
@@ -185,7 +182,6 @@ class ProfileViewModel(private val application: Application) : AndroidViewModel(
                 _editUserImageResult.value = true
             }.onFailure { result ->
                 if (result is HttpException) {
-                    Log.d("editUser", "msg : ${result.response()}")
                     if (result.code() == 500) {
                         _toastMessage.value = "서버에서 문제가 발생했습니다."
                     }

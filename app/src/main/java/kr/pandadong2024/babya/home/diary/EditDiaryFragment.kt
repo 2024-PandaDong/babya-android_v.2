@@ -133,8 +133,6 @@ class EditDiaryFragment : Fragment() {
                 DatePickerDialog(
                     requireContext(),
                     { view, year, month, dayOfMonth -> //month는 +1 해야 함
-                        Log.d("MAIN", "${year}, ${month + 1}, ${dayOfMonth}")
-
                         binding.nextDaySelectedText.text = "$year.${month + 1}.$dayOfMonth"
                         binding.nextDaySelectedText.setTextColor(Color.BLACK)
                     }, year, month, date
@@ -143,15 +141,6 @@ class EditDiaryFragment : Fragment() {
         }
 
         binding.diaryEditSubmitButton.setOnClickListener {
-//            Log.d(TAG, "${!binding.editDiaryTitleEditText.text.isNullOrBlank()}\n"+
-//                            "&&${!binding.editDiaryMainContentEditText.text.isNullOrBlank()}\n"+
-//                            "&&${!binding.weightEditText.text.isNullOrBlank()}\n"+
-//                            "&&${!binding.editDiaryFetalFindingsEditText.text.isNullOrBlank()}\n"+
-//                            "&&${binding.editDiaryStatusRadioGroup.checkedRadioButtonId != -1}\n"+
-//                "=${!binding.editDiaryTitleEditText.text.isNullOrBlank() &&!binding.editDiaryMainContentEditText.text.isNullOrBlank()!binding.weightEditText.text.isNullOrBlank()!binding.editDiaryFetalFindingsEditText.text.isNullOrBlank()
-//                            binding.editDiaryStatusRadioGroup.checkedRadioButtonId != -1}"
-//            )
-
             // 조건을 반대로 수정: 모든 필드가 채워졌을 때만 submit() 호출
             if (
                 (!binding.editDiaryTitleEditText.text.isNullOrBlank()
@@ -160,24 +149,11 @@ class EditDiaryFragment : Fragment() {
                         && !binding.bloodPressureHeightInputText.text.isNullOrBlank()
                         && !binding.bloodPressureLowInputText.text.isNullOrBlank()
                         && !binding.weightEditText.text.isNullOrBlank()
-//                        && !binding.editDiaryFetalFindingsEditText.text.isNullOrBlank()
                         && binding.editDiaryStatusRadioGroup.checkedRadioButtonId != -1)
             ) {
                 submit()
             } else {
                 Toast.makeText(requireContext(), "전부 입력했는지 다시 확인해 주십시오.", Toast.LENGTH_SHORT).show()
-                Log.d(
-                    TAG, "${!binding.editDiaryTitleEditText.text.isNullOrBlank()}\n" +
-                            "&&${!binding.editDiaryMainContentEditText.text.isNullOrBlank()}\n" +
-                            "&&${!binding.weightEditText.text.isNullOrBlank()}\n" +
-//                            "&&${!binding.editDiaryFetalFindingsEditText.text.isNullOrBlank()}\n" +
-                            "&&${binding.editDiaryStatusRadioGroup.checkedRadioButtonId != -1}\n" +
-                            "=${
-                                !binding.editDiaryTitleEditText.text.isNullOrBlank() && !binding.editDiaryMainContentEditText.text.isNullOrBlank() && !binding.weightEditText.text.isNullOrBlank()
-//                                    && !binding.editDiaryFetalFindingsEditText.text.isNullOrBlank() 
-                                        && binding.editDiaryStatusRadioGroup.checkedRadioButtonId != -1
-                            }"
-                )
             }
         }
 
@@ -200,7 +176,6 @@ class EditDiaryFragment : Fragment() {
                     result.printStackTrace()
                 }
             }.await()
-            Log.d(TAG, "test :  ${test.onSuccess { it?.data }}")
             test.onSuccess { result ->
                 imageLinkList.add(result?.data ?: "")
             }
@@ -244,23 +219,14 @@ class EditDiaryFragment : Fragment() {
         val y = date.slice(0..<date.indexOf('-'))
         val m = date.slice(date.indexOf('-') + 1..<date.indexOf('-', date.indexOf('-') + 1))
         val d = date.slice(date.indexOf('-', date.indexOf('-') + 1) + 1..<date.length)
-        Log.d("submit", "y : $y m : $m d : $d")
         date = String.format(Locale.KOREA, "%4d-%02d-%02d", y.toInt(), m.toInt(), d.toInt())
-        val regex = Regex("^\\d{4}-\\d{2}-\\d{2}$")
-        Log.d(TAG, "regex test : ${regex.matches(date)}, $y, $m, $d")
-        Log.d(
-            "modify diary",
-            "diary : ${diaryViewModel.editDiaryData.value}, is null? ${diaryViewModel.editDiaryData.value != null}"
-        )
         if (diaryViewModel.editDiaryData.value != null) {
-            Log.d("modify diary", "in modify, ${diaryViewModel.editDiaryData.value != null}")
             modifyDiary(
                 diaryId = diaryViewModel.editDiaryData.value?.diaryId ?: -1,
                 emoji = emoji,
                 date = date
             )
         } else if (diaryViewModel.editDiaryData.value == null) {
-            Log.d("modify diary", "in post ${diaryViewModel.editDiaryData.value != null}")
             postDiary(emoji, date)
         }
     }
@@ -287,17 +253,6 @@ class EditDiaryFragment : Fragment() {
                         }
                     )
                 )
-//                Log.d(TAG, "title = ${diaryRequestBody.title!!::class.simpleName}, ${diaryRequestBody.title}\n" +
-//                        "content = ${diaryRequestBody.content!!::class.simpleName}, ${diaryRequestBody.content}\n" +
-//                        "pregnancyWeeks = ${diaryRequestBody.pregnancyWeeks!!.toInt()::class.simpleName}, ${diaryRequestBody.pregnancyWeeks!!.toInt()}\n" +
-//                        "weight = ${diaryRequestBody.weight!!::class.simpleName}, ${diaryRequestBody.weight}\n" +
-//                        "systolicPressure = ${diaryRequestBody.systolicPressure!!::class.simpleName}, ${diaryRequestBody.systolicPressure}\n"+
-//                        "diastolicPressure = ${diaryRequestBody.diastolicPressure!!::class.simpleName}, ${diaryRequestBody.diastolicPressure}\n"+
-//                        "nextAppointment = ${diaryRequestBody.nextAppointment!!::class.simpleName}, ${diaryRequestBody.nextAppointment}\n" +
-//                        "emoji = ${diaryRequestBody.emoji!!::class.simpleName}, ${diaryRequestBody.emoji}\n" +
-//                        "fetusComment = ${diaryRequestBody.fetusComment!!::class.simpleName}, ${diaryRequestBody.fetusComment}\n" +
-//                        "isPublic = ${diaryRequestBody.isPublic!!::class.simpleName}, ${diaryRequestBody.isPublic}\n"+
-//                        "url = ${diaryRequestBody.url!!::class.simpleName}, ${diaryRequestBody.url}")
                 Log.i(TAG, diaryRequestBody.toString())
                 kotlin.runCatching {
 
@@ -310,7 +265,6 @@ class EditDiaryFragment : Fragment() {
                     if (result.status in 200..299) {
                         lifecycleScope.launch(Dispatchers.Main) {
                             requireActivity().supportFragmentManager.popBackStack()
-//                            findNavController().navigate(R.id.action_editDiaryFragment_to_diaryFragment)
                         }
                     } else {
                         Log.i(TAG, "status : ${result.status}")
@@ -327,7 +281,6 @@ class EditDiaryFragment : Fragment() {
                     }
                 }
             }
-
         }
     }
 
@@ -348,17 +301,14 @@ class EditDiaryFragment : Fragment() {
                     binding.selectedImage.setImageURI(uri)
                     selectedImageUri = uri
                 }
-
             }
         )
-
     }
 
     private fun modifyDiary(diaryId: Int, emoji: String, date: String) {
         lifecycleScope.launch(Dispatchers.IO) {
             val urlList: List<String>
             runBlocking {
-                Log.d("modifyDiary", "$selectedImageUri")
                 urlList = if (selectedImageUri != null) {
                     uploadFile(listOf(selectedImageUri!!))
                 } else {
@@ -379,7 +329,6 @@ class EditDiaryFragment : Fragment() {
                 emoji = emoji,
                 systolicPressure = binding.bloodPressureHeightInputText.text.toString().toInt(),
                 diastolicPressure = binding.bloodPressureLowInputText.text.toString().toInt(),
-//                fetusComment = binding.editDiaryFetalFindingsEditText.text.toString(),
                 isPublic = !binding.SwitchCompat.isChecked,
                 url = urlList
             )
@@ -405,7 +354,6 @@ class EditDiaryFragment : Fragment() {
                             commonViewModel.setToastMessage("일기를 수정하는도중 문제가 발생했습니다 CODE : ${it.code()}")
                         }
                     }
-
                 }
             }
         }

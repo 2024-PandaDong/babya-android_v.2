@@ -62,17 +62,14 @@ class EditDashBoardFragment : Fragment() {
         }
 
         binding.questionCategory.setOnClickListener {
-            Log.d(TAG, "onCreateView: 1선택")
             selectCategory("1")
         }
 
         binding.communityCategory.setOnClickListener {
-            Log.d(TAG, "onCreateView: 2선택")
             selectCategory("2")
         }
 
         binding.diaryCategory.setOnClickListener {
-            Log.d(TAG, "onCreateView: 3선택")
             selectCategory("3")
         }
 
@@ -80,7 +77,6 @@ class EditDashBoardFragment : Fragment() {
             title = binding.title.text.toString()
             content = binding.content.text.toString()
 
-            Log.d(TAG, "onCreateView: 올리기")
             if (title != null && content != null && selectedCategory != null) {
                 createDashBoard()
             }
@@ -103,7 +99,6 @@ class EditDashBoardFragment : Fragment() {
                 }
             }
         }
-
         return binding.root
     }
 
@@ -124,10 +119,7 @@ class EditDashBoardFragment : Fragment() {
                     )
                 )
             }.onSuccess {
-                Log.d(TAG, "createDashBoard: 게시물 올리기 성공!!")
-                withContext(Dispatchers.Main) {
-//                    findNavController().navigate(R.id.action_editDashBoardFragment_to_dashBoardFragment)
-                }
+                // 대쉬보드 생성 성공
             }.onFailure {
                 it.printStackTrace()
             }
@@ -222,11 +214,6 @@ class EditDashBoardFragment : Fragment() {
             }
         )
     }
-
-//    override fun onPause() {
-//        super.onPause()
-//        (requireActivity() as BottomControllable).setBottomNavVisibility(true)
-//    }
 
     override fun onDestroy() {
         super.onDestroy()

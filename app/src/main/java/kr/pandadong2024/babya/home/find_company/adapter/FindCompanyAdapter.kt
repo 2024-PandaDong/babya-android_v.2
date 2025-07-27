@@ -1,21 +1,17 @@
 package kr.pandadong2024.babya.home.find_company.adapter
 
-import android.util.Log
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.compose.ui.graphics.colorspace.Rgb
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import kr.pandadong2024.babya.R
-import android.graphics.Color
 import kr.pandadong2024.babya.databinding.ItemFindCompanyRecyclerviewBinding
 import kr.pandadong2024.babya.server.remote.responses.company.CompanyListResponses
 
 class FindCompanyAdapter(
     private val items: List<CompanyListResponses>,
-    private val onItemClick: (postId: Int, position : Int) -> Unit
+    private val onItemClick: (postId: Int, position: Int) -> Unit
 ) : RecyclerView.Adapter<FindCompanyAdapter.Holder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
@@ -41,12 +37,7 @@ class FindCompanyAdapter(
                 companyName.text = companyListResponses.companyName
                 address.text = companyListResponses.address
                 logoImg.load(companyListResponses.logoImg?.get(0))
-
-//                address.setBackgroundColor(Color.parseColor("#123445"))
-
-
                 root.setOnTouchListener { view, motionEvent ->
-                    Log.d("hover2", "onHover : "+ motionEvent.action)
                     when (motionEvent.action) {
                         MotionEvent.ACTION_MOVE -> root.setBackgroundColor(Color.parseColor("#F7F7F7"))
                         MotionEvent.ACTION_UP -> root.setBackgroundColor(Color.parseColor("#ffffff"))
@@ -55,8 +46,6 @@ class FindCompanyAdapter(
                     }
                     false
                 }
-
-
                 root.setOnClickListener {
                     if (data.companyId != null) {
                         onItemClick(data.companyId, position)
@@ -65,5 +54,4 @@ class FindCompanyAdapter(
             }
         }
     }
-
 }

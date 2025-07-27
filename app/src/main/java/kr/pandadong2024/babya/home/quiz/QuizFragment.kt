@@ -98,23 +98,11 @@ class QuizFragment : Fragment() {
     ): View {
         _binding = FragmentQuizBinding.inflate(inflater, container, false)
         (requireActivity() as BottomControllable).setBottomNavVisibility(false)
-//        profileViewModel.getUserLocalCode()
         viewModel.accessToken.observe(viewLifecycleOwner){
             viewModel.getQuiz()
         }
-        profileViewModel.accessToken.observe(viewLifecycleOwner) {
-            if (it.isNotEmpty()) {
-                Log.d("dbTest", "toekn data : $it")
-//                profileViewModel.getUserLocalCode()
-//                if (profileViewModel.getUserLocalCode()?.nickname?.isNotEmpty() == true){
-//                    profileViewModel.getUserLocalCode()
-//                }else{
-//                    profileViewModel.getUserLocalCode()
-//                }
-            }
-        }
+
         profileViewModel.userData.observe(viewLifecycleOwner) {
-            Log.d("dbTest", "user data : $it")
             userEntity.email = userEntity.email
             userEntity.nickname = it.nickname
             userEntity.dDay = it.dDay
@@ -126,7 +114,6 @@ class QuizFragment : Fragment() {
         }
 
         profileViewModel.userLocalCode.observe(viewLifecycleOwner) {
-            Log.d("dbTest", "local data : $it")
             if (it.length >= 3) {
                 userEntity.localCode = it
                 policyViewModel.setTagList(it.toInt())
@@ -164,7 +151,6 @@ class QuizFragment : Fragment() {
 
 
     private fun saveUserData() {
-        Log.d("dbTest", "save data : $userEntity")
         lifecycleScope.launch(Dispatchers.IO) {
             BabyaDB.getInstance(requireContext())?.userDao()?.insertMember(userEntity)
         }

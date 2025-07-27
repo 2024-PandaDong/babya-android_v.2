@@ -29,9 +29,6 @@ class PolicyTextBottomSheet(
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentPolicyTextBottomSheetBinding.inflate(inflater, container, false)
-
-        Log.d(TAG, "onCreateView: ${type}")
-
         val vebView = binding.privacyText
 
         binding.privacyText.settings.apply {
@@ -45,22 +42,11 @@ class PolicyTextBottomSheet(
             Policy.SERVICE.name -> url = "https://synonymous-foundation-c30.notion.site/1279bbf0448c80eeba5fe9cfbca9b6d8"
             Policy.INFORMATION.name -> url = "https://synonymous-foundation-c30.notion.site/3-1279bbf0448c80be9767c7a189419f7b"
         }
-
         vebView.loadUrl(url)
-        Log.d(TAG, "onCreateView: ${url}")
-
-
-
-
-
-
         binding.checkBtn.setOnClickListener {
             url = ""
             this.dismiss()
         }
-
-
-
         return binding.root
     }
 }

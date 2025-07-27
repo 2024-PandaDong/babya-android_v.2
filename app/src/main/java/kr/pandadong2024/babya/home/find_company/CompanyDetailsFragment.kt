@@ -124,16 +124,12 @@ class CompanyDetailsFragment : Fragment() {
 
         val mpPieChart: PieChart = binding.Chart
 
-        Log.d(tag, "setCompany: ${male?.toFloat()} ${female?.toFloat()}")
-
         // 전체 인원 표시
         binding.entireCount.text = "$entire 명"
         // 남성 비율 표시
         binding.maleCount.text = String.format("%.2f%%", maleRatio)
         // 여성 비율 표시
         binding.femaleCount.text = String.format("%.2f%%", femaleRatio)
-
-        Log.d(tag, "setCompany: ${maleRatio} ${femaleRatio}")
 
         // 그래프에 나타낼 데이터
         val entries = ArrayList<PieEntry>()
@@ -180,7 +176,6 @@ class CompanyDetailsFragment : Fragment() {
                 binding.personnelLv.visibility = View.GONE
             }
 
-            Log.d(tag, "setCompany: ${result.data?.malePeople} ${result.data?.femalePeople}")
             people(result.data?.malePeople, result.data?.femalePeople)
 
             binding.ceo.text = result.data?.ceo
@@ -189,8 +184,6 @@ class CompanyDetailsFragment : Fragment() {
             binding.history.text = result.data?.historyYear
             binding.content.text = result.data?.businessContent
             binding.type.text = result.data?.companyType
-
-            Log.d(TAG, "setCompany: ${result.data?.description}")
 
             // 해택 및 복지 추가
             binding.mtrLvPeriod.text = result.data?.mtrLvPeriod.toString() // 육아 휴직 기간

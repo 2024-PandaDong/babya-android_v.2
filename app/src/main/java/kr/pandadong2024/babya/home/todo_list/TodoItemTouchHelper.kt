@@ -21,7 +21,6 @@ class TodoItemTouchHelper : ItemTouchHelper.Callback() {
         viewHolder: RecyclerView.ViewHolder,
     ): Int {
         clamp = 360f
-        Log.d("TAG", "clamp = $clamp")
         return makeMovementFlags(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT)
     }
 

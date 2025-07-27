@@ -2,7 +2,6 @@ package kr.pandadong2024.babya.home.diary.detil
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -48,7 +47,7 @@ class DetailWriterFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        diaryId = viewModel.diaryId.value?: -1
+        diaryId = viewModel.diaryId.value ?: -1
     }
 
     override fun onCreateView(
@@ -60,7 +59,7 @@ class DetailWriterFragment : Fragment() {
         _binding = FragmentDetailWriterBinding.inflate(inflater, container, false)
         tokenDao = BabyaDB.getInstance(requireContext().applicationContext)?.tokenDao()!!
         initView()
-        initCommentRecyclerView(1, 100, viewModel.diaryId.value?: -1)
+        initCommentRecyclerView(1, 100, viewModel.diaryId.value ?: -1)
         binding.writerBackButton.setOnClickListener {
             backScreen()
         }
@@ -135,7 +134,7 @@ class DetailWriterFragment : Fragment() {
                 )
             }.onSuccess { result ->
                 delay(500)
-                initCommentRecyclerView(1, 100, viewModel.diaryId.value?: -1)
+                initCommentRecyclerView(1, 100, viewModel.diaryId.value ?: -1)
             }.onFailure { result ->
                 result.printStackTrace()
             }
@@ -271,7 +270,6 @@ class DetailWriterFragment : Fragment() {
                         (diaryResult?.nextAppointment?.substring(5))?.replace('-', '/')
                     binding.writerDateText.text = diaryResult?.writtenDt?.replace('-', '/')
                     binding.writerContentContentText.text = diaryResult?.content
-                    Log.d("test", "${diaryResult?.emojiCode}")
                     binding.writerEmojiCode.text = diaryResult?.emojiCode
                     binding.writerText.text = diaryResult?.nickname
 
@@ -292,7 +290,6 @@ class DetailWriterFragment : Fragment() {
             }
         }
     }
-
 
 
     private fun deleteDiary(diaryId: Int) {
@@ -322,7 +319,7 @@ class DetailWriterFragment : Fragment() {
         }
     }
 
-    private fun backScreen(){
+    private fun backScreen() {
         requireActivity().supportFragmentManager.popBackStack()
     }
 

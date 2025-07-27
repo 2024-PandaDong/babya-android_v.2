@@ -65,7 +65,6 @@ class StartFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentStartBinding.inflate(inflater, container, false)
         profileViewModel.userData.observe(viewLifecycleOwner) {
-            Log.d("dbTest", "user data : $it")
             userEntity.email = userEntity.email
             userEntity.nickname = it.nickname
             userEntity.dDay = it.dDay
@@ -79,7 +78,6 @@ class StartFragment : Fragment() {
         }
 
         profileViewModel.userLocalCode.observe(viewLifecycleOwner) {
-            Log.d("dbTest", "local data : $it")
             if (it.length >= 3) {
                 userEntity.localCode = it
                 profileViewModel.getUserData()
@@ -89,7 +87,6 @@ class StartFragment : Fragment() {
         lifecycleScope.launch() {
             delay(1500)
             launch {
-                Log.d("StartFragment", "accessToken : ${accessToken}")
                 if ((accessToken != null) && accessToken!!.isNotEmpty()) {
                     updateUserData()
                 } else {
@@ -98,7 +95,6 @@ class StartFragment : Fragment() {
                 }
             }
         }
-
         return binding.root
     }
 

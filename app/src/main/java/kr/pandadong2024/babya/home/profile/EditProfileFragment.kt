@@ -165,7 +165,6 @@ class EditProfileFragment : Fragment() {
             if (it.size >= 2) {
                 val location = getCodeByRegion("${it[0]}_${it[1]}")
                 userData.lc = location
-                Log.d("tagsList", "it : $it")
                 binding.locationEditText.text = it[0]
             }
         }

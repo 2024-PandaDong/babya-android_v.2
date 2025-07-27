@@ -42,7 +42,6 @@ class TodoDayAdapter(
             }
 
             itemData = getData
-            Log.d("test", "date : ${formattedDate}, \n key : $key")
             if (formattedDate == key) {
                 isExpand = true
                 binding.todoDayText.text = "오늘"

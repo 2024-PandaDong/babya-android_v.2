@@ -68,7 +68,6 @@ class TodoBottomSheet(
             val dlg = DatePickerDialog(
                 requireContext(),
                 { _, year, month, dayOfMonth ->
-                    Log.d("MAIN", "${year}, ${month}, ${dayOfMonth}")
                     mainDate = dayOfMonth
                     mainMonth = month
                     mainYear = year

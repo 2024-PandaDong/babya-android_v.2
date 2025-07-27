@@ -1,8 +1,6 @@
 package kr.pandadong2024.babya.start.signup
 
-import android.content.ContentValues.TAG
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -72,7 +70,6 @@ class Signup9 : Fragment() {
         } catch (e: StringIndexOutOfBoundsException) {
             // 문자열의 길이를 초과할 경우 예외 처리
             e.printStackTrace()
-
         }
     }
 
@@ -95,23 +92,12 @@ class Signup9 : Fragment() {
                     )
                 )
             }.onSuccess {
-
-                Log.d(TAG, "Signup: 성공")
                 lifecycleScope.launch(Dispatchers.Main) {
                     Toast.makeText(requireContext(), "회원가입에 성공했습니다", Toast.LENGTH_SHORT).show()
-
-                    // 회원가입 -> 홈(quiz)
-                    // val intent = Intent(requireContext(), QuizFragment::class.java)
-                    // startActivity(intent)
-
-                    // 회원가입 -> 로그인
                     findNavController().navigate(R.id.action_signup9_to_loginFragment)
                 }
             }.onFailure {
-                Log.d(TAG, "Signup: ${it.message}")
                 it.printStackTrace()
-                Log.d(TAG, "Signup: 실패")
-                Log.d(TAG, "Signup: ${it.stackTrace}")
             }
         }
     }

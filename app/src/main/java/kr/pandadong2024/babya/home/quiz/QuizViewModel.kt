@@ -14,6 +14,7 @@ import kr.pandadong2024.babya.server.remote.responses.quiz.QuizResponses
 import retrofit2.HttpException
 
 class QuizViewModel(application: Application) : AndroidViewModel(application) {
+    private val TAG = "QuizViewModel"
     private var _quizData = MutableLiveData<QuizResponses>().apply { value = QuizResponses() }
     val quizData: LiveData<QuizResponses> = _quizData
 
@@ -40,7 +41,6 @@ class QuizViewModel(application: Application) : AndroidViewModel(application) {
 
 
     fun getQuiz() = viewModelScope.launch() {
-        Log.d("Test", "getQuiz _accessToken:${_accessToken.value}")
         if (_accessToken.value.isNullOrEmpty()){
             return@launch
         }
@@ -53,7 +53,7 @@ class QuizViewModel(application: Application) : AndroidViewModel(application) {
         }.onFailure { result ->
             result.printStackTrace()
             if (result is HttpException) {
-                Log.d("Test", "it : ${result.response()}")
+                Log.e(TAG, "서버통신 에러 : ${result.response()}")
                 if (result.code() == 500) {
                     _message.value = "인터넷이 연결되어있는지 확인해 주십시오"
                 } else {

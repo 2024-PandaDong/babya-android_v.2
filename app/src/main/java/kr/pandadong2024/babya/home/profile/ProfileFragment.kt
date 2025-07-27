@@ -181,7 +181,6 @@ class ProfileFragment : Fragment() {
     private fun getProfileData() {
         lifecycleScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                Log.d(TAG, "token : $token")
                 RetrofitBuilder.getProfileService().getProfile(
                     accessToken = "Bearer $token",
                     email = "my"
@@ -189,10 +188,6 @@ class ProfileFragment : Fragment() {
             }.onSuccess { result ->
                 launch(Dispatchers.Main) {
                     if (result.status == 200) {
-
-                        Log.d(TAG, "status : ${result.status}")
-                        Log.d(TAG, "message : ${result.message}")
-                        Log.d(TAG, "getProfileData: ${result.data}")
 
                         binding.welcomeText.text = "${result.data?.nickname}님 반가워요!"
 

@@ -68,14 +68,10 @@ class DashBoardFragment : Fragment() {
     }
 
     private fun dashBoardRecyclerView() {
-        Log.d(TAG, "dashBoardRecyclerView: ${dashBoardList}")
-
         dashBoardAdapter = DashBoardAdapter(dashBoardList!!){postId->
             lifecycleScope.launch(Dispatchers.Main){
-                Log.d(TAG, "dashBoardRecyclerView: ${postId}")
                 kotlin.runCatching {
                     viewModel.id.value = postId
-//                    findNavController().navigate(R.id.action_dashBoardFragment_to_detailDashBoardFragment)
                 }
             }
         }
@@ -100,14 +96,12 @@ class DashBoardFragment : Fragment() {
             when(item.itemId) {
 
                 R.id.question -> {
-                    Log.d(TAG, "onCreateView: 선택1")
                     type = "1"
                     TypeValue.setTypeValue(type)
                     getDashBoardData(1, 10, 1)
                     true
                 }
                 R.id.community -> {
-                    Log.d(TAG, "onCreateView: 선택2")
                     type = "2"
                     TypeValue.setTypeValue(type)
                     getDashBoardData(1, 10, 2)
@@ -116,7 +110,6 @@ class DashBoardFragment : Fragment() {
                 R.id.daily -> {
                     type = "3"
                     TypeValue.setTypeValue(type)
-                    Log.d(TAG, "onCreateView: 선택3")
                     getDashBoardData(1, 10, 3)
                     true
                 }
@@ -129,26 +122,13 @@ class DashBoardFragment : Fragment() {
 
     // type | 0 : all | 1 : question | 2 : community | 3 : daily
     private fun getDashBoardData(page: Int, size: Int, type : Int) {
-        Log.d(TAG, "getDashBoardData: pagd : ${page} size : ${size} type : ${type}")
         lifecycleScope.launch(Dispatchers.IO){
             kotlin.runCatching {
                 var DashBoardData : BaseResponse<List<DashBoardResponses>>? = null
                 val token = BabyaDB.getInstance(requireContext())?.tokenDao()?.getMembers()?.accessToken.toString()
 
-                Log.d(TAG, "getDashBoardData: start token : ${token}")
                 when(type){
                     1 -> {
-                        var dbs = RetrofitBuilder.getDashBoardService();
-                        Log.d(TAG, "getDashBoardData: dbs : ${dbs}")
-
-
-                        val dbsDt = dbs.getDashBoardList(
-                            accessToken = "Bearer ${token}",
-                            page = page,
-                            size = size,
-                            category = "1"
-                        )
-                        Log.d(TAG, "getDashBoardData: dbsDt : ${dbsDt}")
                         DashBoardData = RetrofitBuilder.getDashBoardService().getDashBoardList(
                             accessToken = "Bearer ${token}",
                             page = page,
@@ -187,14 +167,8 @@ class DashBoardFragment : Fragment() {
                         )
                     }
                 }
-                Log.d(TAG, "Test12123123213")
-                Log.e(TAG, "status : ${DashBoardData?.status}, message : ${DashBoardData?.message}")
-                dashBoardList = DashBoardData?.data
+                dashBoardList = DashBoardData.data
             }.onSuccess {
-
-                Log.d(TAG, "getDashBoardData: ${dashBoardList}")
-
-                Log.d(TAG, "getDashBoardData: 성공")
                 lifecycleScope.launch(Dispatchers.Main) {
                     dashBoardRecyclerView()
                 }
@@ -208,7 +182,6 @@ class DashBoardFragment : Fragment() {
                 dashBoardList = listOf(
                     DashBoardResponses()
                 )
-                Log.d(TAG, "getDashBoardData: 실패")
                 lifecycleScope.launch(Dispatchers.Main) {
                     dashBoardRecyclerView()
                 }

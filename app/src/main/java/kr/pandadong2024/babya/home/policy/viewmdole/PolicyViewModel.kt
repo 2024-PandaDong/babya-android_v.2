@@ -72,8 +72,6 @@ class PolicyViewModel(private val application: Application) : AndroidViewModel(a
         val list = saveList.value ?: return
         list.add(tagName)
         _saveList.value = list
-        Log.d("test", "_saveList ${_saveList.value}")
-        Log.d("test", "saveList ${saveList.value}")
     }
 
     fun setLocalTagList() {
@@ -103,7 +101,6 @@ class PolicyViewModel(private val application: Application) : AndroidViewModel(a
             }.await()
             return@runBlocking user
         }
-        Log.d("dbTest", "name : ${userData}")
         if (userData != null) {
             _localUserData.value = userData
         }
@@ -111,11 +108,6 @@ class PolicyViewModel(private val application: Application) : AndroidViewModel(a
     }
 
     fun popLocal(tagName: String) {
-//        val list = tagsList.value?.toMutableList() ?: return
-//        list.remove(tagName)
-//
-//        _tagsList.value = list
-        Log.d("test", "in list")
         val list = saveList.value ?: return
         list.remove(tagName)
         _saveList.value = list
